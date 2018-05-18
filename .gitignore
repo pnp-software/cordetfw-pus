@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/doc/pus/PusExtension.aux
+/doc/pus/PusExtension.lof
+/doc/pus/PusExtension.log
+/doc/pus/PusExtension.lot
+/doc/pus/PusExtension.synctex.gz
+/doc/pus/PusExtension.toc
