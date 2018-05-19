@@ -67,8 +67,8 @@ var|Mon|parMonEnbStatus|Enable state of parameter monitoring function|||NULL||NU
 var|Scd|firstTba|Identifier of next time-based activity due for release||0|NULL||NULL|Scd/NTba_t
 var|Scd|isGroupEnabled|Enabled flag for time-based schedule group||1|NULL||SCD_N_GROUP|Gen/Bool_t
 var|Scd|isGroupInUse|InUse flag for time-based schedule group||0|NULL||SCD_N_GROUP|Gen/Bool_t
-var|Scd|nOfGroup|Number of non-empty groups|||NULL||NULL|Scd/NSubSchedGroup
-var|Scd|nOfSubSched|Number of non-empty sub-schedules||0|NULL||NULL|Scd/NSubSchedGroup
+var|Scd|nOfGroup|Number of non-empty groups|||NULL||NULL|Scd/NSubSchedGroup_t
+var|Scd|nOfSubSched|Number of non-empty sub-schedules||0|NULL||NULL|Scd/NSubSchedGroup_t
 var|Scd|nOfTba|Number of currently defined time-based activities (TBAs)||0|NULL||NULL|Scd/NTba_t
 var|Tst|AreYouAliveSrc|Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command||0|NULL||NULL|Gen/DestSrc_t
 var|Tst|OnBoardConnectDest|Destination of the (17,1) triggered by a (17,3) command||0|NULL||NULL|Gen/DestSrc_t

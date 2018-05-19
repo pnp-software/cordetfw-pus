@@ -8,7 +8,7 @@ Hk|HK_MAX_N_GR|Maximum number of super-commutated groups in a housekeeping/diagn
 Hk|HK_MAX_REP|Maximum value of the repetition number of a super-commutated group in a housekeeping/diagnostic report|1
 Hk|HK_MAX_N_REP|Maximum number of data items in a super-commutated groups in a housekeeping/diagnostic report|1
 Hk|HK_MAX_ID|Maximum value of a data pool item identifier|1
-Hk|HK_N_SAMP_BUF|Number of service 3 Sampling Buffers|
+Hk|HK_N_SAMP_BUF|Number of service 3 Sampling Buffers|1
 Hk|HK_N_DEBUG_VAR|Number of debug variables|1
 Evt|EVT_N_ID|Number of event identifiers supported by the application|1
 Tst|TST_N_DEST|Number of destinations managed by test service|1

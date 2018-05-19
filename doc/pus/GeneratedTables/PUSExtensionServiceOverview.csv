@@ -29,22 +29,22 @@ TM(5,2)|EvtRep2|Low Severity Event Report (Level 2)|0x141
 TM(5,3)|EvtRep3|Medium Severity Event Report (Level 3)|0x141
 TM(5,4)|EvtRep4|High Severity Event Report (Level 4)|0x141
 TC(5,5)|EvtEnbId|Enable Generation of Event Identifiers|0x14c
-TC(5,6)|EvtDisId|Disable Generation of Event Identifiers|0x14c
-TC(5,7)|EvtRepDisId|Report the List of Disabled Event Identifiers|0x14c
+TC(5,6)|EvtDisIdCmd|Disable Generation of Event Identifiers|0x14c
+TC(5,7)|EvtRepDisIdCmd|Report the List of Disabled Event Identifiers|0x14c
 TM(5,8)|EvtDisIdRep|Disabled Event Identifier Report|0x141
-TC(11,1)|ScdEnbTbs|Enable Time-Based Schedule Execution Function|0x14c
-TC(11,2)|ScdDisTbs|Disable Time-Based Schedule Execution Function|0x14c
-TC(11,3)|ScdResTbs|Reset Time-Based Schedule|0x14c
-TC(11,4)|ScdInsTba|Insert Activities into Time-Based Schedule|0x14c
-TC(11,5)|ScdDelTba|Delete Activities from Time-Based Schedule|0x14c
-TC(11,20)|ScdEnbSubSched|Enable Time-Based Sub-Schedules|0x14c
-TC(11,21)|ScdDisSubSched|Disable Time-Based Sub-Schedules|0x14c
-TC(11,22)|ScdCreGrp|Create Time-Based Scheduling Groups|0x14c
-TC(11,23)|ScdDelGrp|Delete Time-Based Scheduling Groups|0x14c
-TC(11,24)|ScdEnbGrp|Enable Time-Based Scheduling Groups|0x14c
-TC(11,25)|ScdDisGrp|Disable Time-Based Scheduling Groups|0x14c
-TC(11,26)|ScdRepGrp|Report Status of Time-Based Scheduling Groups|0x14c
-TM(11,27)|ScdGrpRep|Time-Based Scheduling Group Status Report|0x14c
+TC(11,1)|ScdEnbTbsCmd|Enable Time-Based Schedule Execution Function|0x14c
+TC(11,2)|ScdDisTbsCmd|Disable Time-Based Schedule Execution Function|0x14c
+TC(11,3)|ScdResTbsCmd|Reset Time-Based Schedule|0x14c
+TC(11,4)|ScdInsTbaCmd|Insert Activities into Time-Based Schedule|0x14c
+TC(11,5)|ScdDelTbaCmd|Delete Activities from Time-Based Schedule|0x14c
+TC(11,20)|ScdEnbSubSchedCmd|Enable Time-Based Sub-Schedules|0x14c
+TC(11,21)|ScdDisSubSchedCmd|Disable Time-Based Sub-Schedules|0x14c
+TC(11,22)|ScdCreGrpCmd|Create Time-Based Scheduling Groups|0x14c
+TC(11,23)|ScdDelGrpCmd|Delete Time-Based Scheduling Groups|0x14c
+TC(11,24)|ScdEnbGrpCmd|Enable Time-Based Scheduling Groups|0x14c
+TC(11,25)|ScdDisGrpCmd|Disable Time-Based Scheduling Groups|0x14c
+TC(11,26)|ScdRepGrpCmd|Report Status of Time-Based Scheduling Groups|0x14c
+TM(11,27)|ScdGrpRep|Time-Based Scheduling Group Status Report|0x141
 TC(12,1)|MonEnbParMonDefCmd|Enable Parameter Monitoring Definitions|0x14c
 TC(12,2)|MonDisParMonDefCmd|Disable Parameter Monitoring Definitions|0x14c
 TC(12,3)|MonChgTransDelCmd|Change Maximum Transition Reporting Delay|0x14c
@@ -82,7 +82,7 @@ TC(13,11)|LptUpLastCmd|Last Uplink Part|0x14c
 TM(13,16)|LptUpAbortRep|Large Packet Uplink Abortion Report|0x141
 TC(13,129)|LptStartDownCmd|Trigger Large Packet Down-Transfer|0x14c
 TC(13,130)|LptAbortDownCmd|Abort Large Packet Down-Transfer|0x14c
-TC(17,1)|AreYouAliveCmd|Perform Are-You-Alive Connection Test|0x14c
-TM(17,2)|AreYouAliveRep|Are-You-Alive Connection Report|0x141
-TC(17,3)|OnBoardConnectCmd|Perform On-Board Connection Test|0x14c
-TM(17,4)|OnBoardConnectRep|On-Board Connection Repor|0x141
+TC(17,1)|TstAreYouAliveCmd|Perform Are-You-Alive Connection Test|0x14c
+TM(17,2)|TstAreYouAliveRep|Are-You-Alive Connection Report|0x141
+TC(17,3)|TstConnectCmd|Perform On-Board Connection Test|0x14c
+TM(17,4)|TstConnectRep|On-Board Connection Repor|0x141

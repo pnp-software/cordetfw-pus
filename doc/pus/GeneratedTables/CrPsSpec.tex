@@ -358,8 +358,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtDisIdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtDisId Component}{tab:EvtDisIdSpec}{Name & EvtDisId(5,6)}
+\def \printEvtDisIdCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtDisIdCmd Component}{tab:EvtDisIdCmdSpec}{Name & EvtDisIdCmd(5,6)}
 Description & Command to disable generation of a list of event identifiers \\\hline
 Parameters & List of event identifiers to be disabled  \\\hline
 Discriminant & None \\\hline
@@ -370,8 +370,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtRepDisIdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRepDisId Component}{tab:EvtRepDisIdSpec}{Name & EvtRepDisId(5,7)}
+\def \printEvtRepDisIdCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRepDisIdCmd Component}{tab:EvtRepDisIdCmdSpec}{Name & EvtRepDisIdCmd(5,7)}
 Description & This command triggers the generation of a (5,8) report holding the list of disabled event identifiers \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -394,8 +394,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Load the list of disabled event identifiers from arrays isEidEnabled1 to isEidEnabled4 \\\hline
 \end{pnptable}}
 
-\def \printScdEnbTbsSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdEnbTbs Component}{tab:ScdEnbTbsSpec}{Name & ScdEnbTbs(11,1)}
+\def \printScdEnbTbsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbTbsCmd Component}{tab:ScdEnbTbsCmdSpec}{Name & ScdEnbTbsCmd(11,1)}
 Description & Command to enable the time-based schedule execution function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -406,8 +406,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDisTbsSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDisTbs Component}{tab:ScdDisTbsSpec}{Name & ScdDisTbs(11,2)}
+\def \printScdDisTbsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisTbsCmd Component}{tab:ScdDisTbsCmdSpec}{Name & ScdDisTbsCmd(11,2)}
 Description & Command to disable the time-based schedule execution function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -418,8 +418,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdResTbsSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdResTbs Component}{tab:ScdResTbsSpec}{Name & ScdResTbs(11,3)}
+\def \printScdResTbsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdResTbsCmd Component}{tab:ScdResTbsCmdSpec}{Name & ScdResTbsCmd(11,3)}
 Description & Command to reset the time-based schedule \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -430,8 +430,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdInsTbaSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdInsTba Component}{tab:ScdInsTbaSpec}{Name & ScdInsTba(11,4)}
+\def \printScdInsTbaCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdInsTbaCmd Component}{tab:ScdInsTbaCmdSpec}{Name & ScdInsTbaCmd(11,4)}
 Description & Command to insert one or more time-based activities (TBAs) into the time-based schedule (TBS) \\\hline
 Parameters & The sub-schedule to which the TBAs must be added and, for each TBA, the group to which the TBA belongs, its release time and the command which implements the activity \\\hline
 Discriminant & None \\\hline
@@ -442,8 +442,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDelTbaSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDelTba Component}{tab:ScdDelTbaSpec}{Name & ScdDelTba(11,5)}
+\def \printScdDelTbaCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDelTbaCmd Component}{tab:ScdDelTbaCmdSpec}{Name & ScdDelTbaCmd(11,5)}
 Description & Command to delete one or more time-based activities (TBAs) from the time-based schedule (TBS) \\\hline
 Parameters & The number of activities to be deleted and the list of identifiers of the activities to be deleted. Each such identifier is made up of: the identifier of the source, the APID and the sequence count of the request embedded in the activity to be deleted. \\\hline
 Discriminant & None \\\hline
@@ -454,8 +454,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdEnbSubSchedSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdEnbSubSched Component}{tab:ScdEnbSubSchedSpec}{Name & ScdEnbSubSched(11,20)}
+\def \printScdEnbSubSchedCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbSubSchedCmd Component}{tab:ScdEnbSubSchedCmdSpec}{Name & ScdEnbSubSchedCmd(11,20)}
 Description & Command to enable one or more time-based sub-schedules \\\hline
 Parameters & The number of sub-schedules to be enabled followed by the list of identifiers of the sub-schedules to be enabled \\\hline
 Discriminant & None \\\hline
@@ -466,8 +466,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDisSubSchedSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDisSubSched Component}{tab:ScdDisSubSchedSpec}{Name & ScdDisSubSched(11,21)}
+\def \printScdDisSubSchedCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisSubSchedCmd Component}{tab:ScdDisSubSchedCmdSpec}{Name & ScdDisSubSchedCmd(11,21)}
 Description & Command to disable one or more time-based sub-schedules \\\hline
 Parameters & The number of sub-schedules to be disabled followed by the list of identifiers of the sub-schedules to be disabled \\\hline
 Discriminant & None \\\hline
@@ -478,8 +478,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdCreGrpSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdCreGrp Component}{tab:ScdCreGrpSpec}{Name & ScdCreGrp(11,22)}
+\def \printScdCreGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdCreGrpCmd Component}{tab:ScdCreGrpCmdSpec}{Name & ScdCreGrpCmd(11,22)}
 Description & Command to create one or more scheduling groups \\\hline
 Parameters & The number of groups to be created and, for each group to be created, its identifier and its initial enable status \\\hline
 Discriminant & None \\\hline
@@ -490,8 +490,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDelGrpSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDelGrp Component}{tab:ScdDelGrpSpec}{Name & ScdDelGrp(11,23)}
+\def \printScdDelGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDelGrpCmd Component}{tab:ScdDelGrpCmdSpec}{Name & ScdDelGrpCmd(11,23)}
 Description & Command to delete one or more scheduling groups \\\hline
 Parameters & The number of groups to be delete and the list of their identifiers \\\hline
 Discriminant & None \\\hline
@@ -502,8 +502,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdEnbGrpSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdEnbGrp Component}{tab:ScdEnbGrpSpec}{Name & ScdEnbGrp(11,24)}
+\def \printScdEnbGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbGrpCmd Component}{tab:ScdEnbGrpCmdSpec}{Name & ScdEnbGrpCmd(11,24)}
 Description & Command to enable one or more scheduling groups \\\hline
 Parameters & The number of groups to be enabled and the list of their identifiers \\\hline
 Discriminant & None \\\hline
@@ -514,8 +514,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDisGrpSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDisGrp Component}{tab:ScdDisGrpSpec}{Name & ScdDisGrp(11,25)}
+\def \printScdDisGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisGrpCmd Component}{tab:ScdDisGrpCmdSpec}{Name & ScdDisGrpCmd(11,25)}
 Description & Command to disable one or more scheduling groups \\\hline
 Parameters & The number of groups to be disabled and the list of their identifiers \\\hline
 Discriminant & None \\\hline
@@ -526,8 +526,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdRepGrpSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdRepGrp Component}{tab:ScdRepGrpSpec}{Name & ScdRepGrp(11,26)}
+\def \printScdRepGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdRepGrpCmd Component}{tab:ScdRepGrpCmdSpec}{Name & ScdRepGrpCmd(11,26)}
 Description & Command to trigger the generation of a (11,27) report carrying the status of the scheduling groups \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -994,8 +994,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printAreYouAliveCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of AreYouAliveCmd Component}{tab:AreYouAliveCmdSpec}{Name & AreYouAliveCmd(17,1)}
+\def \printTstAreYouAliveCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of TstAreYouAliveCmd Component}{tab:TstAreYouAliveCmdSpec}{Name & TstAreYouAliveCmd(17,1)}
 Description & Command to perform and Are-You-Alive Connection Test \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -1006,8 +1006,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printAreYouAliveRepSpec#1 {
-\begin{pnptable}{#1}{Specification of AreYouAliveRep Component}{tab:AreYouAliveRepSpec}{Name & AreYouAliveRep(17,2)}
+\def \printTstAreYouAliveRepSpec#1 {
+\begin{pnptable}{#1}{Specification of TstAreYouAliveRep Component}{tab:TstAreYouAliveRepSpec}{Name & TstAreYouAliveRep(17,2)}
 Description & Report generated in response to a (17,1) command requesting an Are-You-Alive Connection Test \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -1018,8 +1018,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printOnBoardConnectCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of OnBoardConnectCmd Component}{tab:OnBoardConnectCmdSpec}{Name & OnBoardConnectCmd(17,3)}
+\def \printTstConnectCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of TstConnectCmd Component}{tab:TstConnectCmdSpec}{Name & TstConnectCmd(17,3)}
 Description & Command to perform and On-Board Connection Test.  \\\hline
 Parameters & Identifier of application with which the connection test is done \\\hline
 Discriminant & None \\\hline
@@ -1030,8 +1030,8 @@ Termination Action & Set action outcome to 'success' if the (17,4) report was is
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printOnBoardConnectRepSpec#1 {
-\begin{pnptable}{#1}{Specification of OnBoardConnectRep Component}{tab:OnBoardConnectRepSpec}{Name & OnBoardConnectRep(17,4)}
+\def \printTstConnectRepSpec#1 {
+\begin{pnptable}{#1}{Specification of TstConnectRep Component}{tab:TstConnectRepSpec}{Name & TstConnectRep(17,4)}
 Description & Report generated in response to a (17,3) command requesting a On-Board Connection Test \\\hline
 Parameters & Identifier of application with which the connection test was done \\\hline
 Discriminant & None \\\hline
