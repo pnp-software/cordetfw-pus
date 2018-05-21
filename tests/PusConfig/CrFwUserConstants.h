@@ -7,15 +7,14 @@
  * Framework (the non-configurable constants and types are defined in
  * <code>CrFwConstants.h</code>).
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
- * @author Alessandro Pasetti <pasetti@pnp-software.com>
- * @copyright P&P Software GmbH, 2013, All Rights Reserved
+ * This header file was created by starting from the homonymous file provided by the
+ * CORDET Framework and adding to it items required for its PUS Extension.
+ * This version of the <code>CrFwUserConstants</code> is intended for the Test Suite
+ * Application of the PUS Extension of the CORDET Framework.
  *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- *
- * last modification: 22.01.2018
- *
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -86,9 +85,6 @@ typedef signed char CrFwCounterS1_t;
 /** Type used for unsigned integers with a "medium" range. */
 typedef unsigned short CrFwCounterU2_t;
 
-/** Type used for unsigned integers with a "long" range. */
-typedef uint32_t CrFwCounterU4_t;
-
 /** Type for the packet length. */
 typedef unsigned short int CrFwPcktLength_t;
 
@@ -104,6 +100,11 @@ typedef unsigned char CrFwPcktSeqFlags_t;
 /** Type for the TM/TC crc. The length of the crc is 16bits. */
 typedef unsigned short CrFwPcktCrc_t;
 
+/** Type used for the time stamp of a command or report. */
+typedef struct CrFwTimeStamp
+{
+  unsigned char t[6];
+} CrFwTimeStamp_t;
 
 /**
  * Identifier for the errors reported through the error reporting interface of <code>CrFwRepErr.h</code>.
@@ -113,8 +114,8 @@ typedef unsigned short CrFwPcktCrc_t;
  * Each error situation is characterized by an error code.
  * This enumerated type defines all the error codes.
  *
- * Users may need to extend this type with additional error codes to cover application-specific
- * error situations.
+ * The error report codes starting with "cr" were defined at CORDET Framework Level.
+ * The error report codes starting with "ps" have been defined for the PUS Extension of the CORDET Framework.
  */
 typedef enum {
 	/** The packet queue of an OutStream is full (see <code>CrFwOutStream.h</code>) */
@@ -141,8 +142,10 @@ typedef enum {
 	crOutStreamNoMorePckt =12,
 	/** An InReport cannot be created **/
 	crInLoaderCreFail = 13,
-	/** An InReport cannot be loaded **/
-	crInLoaderLdFail = 14
+	/** An InReport cannot be loaded in its InManager **/
+	crInLoaderLdFail = 14,
+	/** An attempt to create an OutComponent failed */
+	psOutFactoryFail = 202
 } CrFwRepErrCode_t;
 
 /**
@@ -229,41 +232,6 @@ typedef enum {
 /** The identifier of the host application */
 #define CR_FW_HOST_APP_ID 10
 
-/**
- * The identifier of the APP2 Application.
- */
-#define CR_FW_CLIENT_APP2 60
-
-/**
- * The identifier for the Ground software. This is the value that is written
- * into the PUS packet and is mapped to CR_FW_CLIENT_GRD in the IASW
- * application.
- */
-#define CR_FW_CLIENT_GRD_PUS 0
-
-/**
- * The identifier of the Ground (Grd) software. This is a service client to the
- * IASW.
- *
- * Note that the specified Id in the PUS packet for Ground is 0. However, the
- * Cordet framework does not recognize 0 as a valid number. For this
- * application, 1 is used instead, and it is mapped correctly in
- * CrFwPcktGetDest and CrFwPcktSetDest.
- */
-#define CR_FW_CLIENT_GRD 1
-
-/**
- * The identifier of the HK Storage. This is a dummy packet destination. It has
- * a dedicated OutStream allocated it.
- */
-#define CR_FW_CLIENT_HK_STRG 21
-
-/**
- * The identifier of the On-Board Computer (OBC) software. This is a service
- * client to the IASW.
- */
-#define CR_FW_CLIENT_OBC 12
-
 /** The number of bits reserved for the application identifier in a command or report identifier */
 #define CR_FW_NBITS_APP_ID 11
 
@@ -275,22 +243,5 @@ typedef enum {
 
 /** Maximum value of the discriminant attribute of InReports and InCommands */
 #define CR_FW_MAX_DISCRIMINANT 50
-
-/* PCAT values */
-#define CR_FW_PCAT_SEM_TC            0x0C
-#define CR_FW_PCAT_SEM_TM            0x01
-
-#define CR_FW_PCAT_DPU_TC            0x0C
-#define CR_FW_PCAT_DPU_TM_OTHER      0x02
-#define CR_FW_PCAT_DPU_TM_SERV1_5_6  0x01
-#define CR_FW_PCAT_DPU_TM_SERV13     0x04
-#define CR_FW_PCAT_DPU_TM_SERV196    0x03
-
-
-/** Type used for the time stamp of a command or report. */
-typedef struct CrFwTimeStamp
-{
-  unsigned char t[6];
-} CrFwTimeStamp_t;
 
 #endif /* CRFW_USERCONSTANTS_H_ */

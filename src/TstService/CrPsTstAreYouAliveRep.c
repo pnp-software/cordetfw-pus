@@ -8,5 +8,5 @@
  * \copyright P&P Software
  */
 
-#include "CrPsSpcTstAreYouAliveRep.h"
+#include "CrPsTstAreYouAliveRep.h"
 

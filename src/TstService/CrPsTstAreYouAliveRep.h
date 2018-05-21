@@ -13,8 +13,8 @@
 #include "CrPsConstants.h"
 #include "CrPsDpTypes.h"
 
-#include <FwSmCore.h>
-#include <CrFwConstants.h>
+#include "FwSmCore.h"
+#include "CrFwConstants.h"
 
 
 /*----------------------------------------------------------------------------*/

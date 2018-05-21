@@ -7,8 +7,7 @@
  *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- *
- * last modification: 22.01.2018
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
@@ -18,27 +17,26 @@
  *
  */
 
-#include "CrPsSpcTstAreYouAliveCmd.h"
+#include "CrPsTstAreYouAliveCmd.h"
 
 /* CrFramework includes */
-#include <Pckt/CrFwPckt.h>
-#include <OutFactory/CrFwOutFactory.h>
-#include <OutCmp/CrFwOutCmp.h>
-#include <OutLoader/CrFwOutLoader.h>
-#include <CrFwCmpData.h>
+#include "OutFactory/CrFwOutFactory.h"
+#include "OutCmp/CrFwOutCmp.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "CrFwCmpData.h"
+#include "CrFwRepErr.h"
 
-/* FwProfile includes */
-#include <FwSmConfig.h>
+/* FW Profile includes */
+#include "FwSmConfig.h"
 
-#include <CrPsUtilitiesServTest.h>
-#include <Services/General/CrPsConstants.h>
-
-/* Used for CrPsRepErr() -> OutFactoryFail  */
-#include <CrPsRepErr.h>
+/* Configuration files */
+#include "CrPsServTypeId.h"
+#include "CrFwUserConstants.h"
 
 static FwSmDesc_t rep;
 
 
+/* ------------------------------------------------------------------------------------ */
 void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t* inData;
@@ -48,26 +46,20 @@ void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc)
      error report OUTFACTORY FAILED and set outcome of Start
      Action to 'failed' */
 
-  /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 
-  /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_REP, 0, 0);
+  rep = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTAREYOUALIEVEREP, 0, 0);
 
-  if (rep != NULL)
-    {
+  if (rep != NULL) {
       inData->outcome = 1;
-    }
-  else
-    {
-      /* TM(17,2) OUTFACTORY_FAIL */
-      CrPsRepErr(crOutfactoryFail, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_REP, 0);
-
+  } else {
+      CrFwRepErrKind(psOutfactoryFail, inData->typeId, inData->instanceId, CR_PS_TST, CR_PS_TSTAREYOUALIEVEREP, 0);
       inData->outcome = 0;
-    }
+  }
 
   return;
 }
+
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsTstAreYouAliveCmdProgressAction(FwSmDesc_t smDesc)
@@ -81,7 +73,6 @@ void CrPsTstAreYouAliveCmdProgressAction(FwSmDesc_t smDesc)
      source of the (17,1) command, load it in the OutLoader, and
      set action outcome to 'completed' */
 
-  /* Get in packet */
   inData          = (CrFwCmpData_t*)FwSmGetData(smDesc);
   inSpecificData  = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt          = inSpecificData->pckt;
