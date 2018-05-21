@@ -48,12 +48,12 @@ void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc)
 
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 
-  rep = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTAREYOUALIEVEREP, 0, 0);
+  rep = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0, 0);
 
   if (rep != NULL) {
       inData->outcome = 1;
   } else {
-      CrFwRepErrKind(psOutfactoryFail, inData->typeId, inData->instanceId, CR_PS_TST, CR_PS_TSTAREYOUALIEVEREP, 0);
+      CrFwRepErrKind(psOutfactoryFail, inData->typeId, inData->instanceId, CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0);
       inData->outcome = 0;
   }
 

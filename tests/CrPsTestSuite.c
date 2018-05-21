@@ -32,7 +32,7 @@
 
 /* Include test suite files for the PUS extension */
 #include "CrPsPcktGetSetTestCases.h"
-#include "CrPsServiceTestCases.h"
+#include "CrPsTstTestCases.h"
 /*#include "CrPsDataPoolTestCases.h"	DEBUG
 #include "CrPsServiceVeriTestCases.h"
 #include "CrPsHkTestCases.h"

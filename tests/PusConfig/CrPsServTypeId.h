@@ -18,7 +18,7 @@
 #define CR_PS_TSTAREYOUALIVECMD 1
 
 /** Identifier for command/report sub-type (Are-You-Alive Connection Report) */
-#define CR_PS_TSTAREYOUALIEVEREP 2
+#define CR_PS_TSTAREYOUALIVEREP 2
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSSERVTYPEID_H_ */

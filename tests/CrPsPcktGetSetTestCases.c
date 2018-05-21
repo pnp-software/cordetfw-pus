@@ -6,9 +6,8 @@
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
- * last modification: 22.01.2018
- * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -43,15 +42,11 @@
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 #include <DataPool/CrPsDp.h>
-#include <DataPool/CrPsDpServTest.h>
-#include <DataPool/CrPsDpServReqVerif.h>
-#include <DataPool/CrPsDpServHk.h>
-#include <DataPool/CrPsDpServEvt.h>
-#include <DataPool/CrPsDpServLpt.h>
+#include <DataPool/CrPsDpTst.h>
 
+#include <Services/General/CrPsPktServTest.h>
 #include <Services/General/CrPsPktServReqVerif.h>
 #include <Services/General/CrPsPktServReqVerifSupp.h>
-#include <Services/General/CrPsPktServTest.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
 #include <Services/General/CrPsPktServEvt.h>
@@ -68,18 +63,15 @@
 
 /* ---------------------------------------------------------------------------------------------*/
 
-CrFwBool_t CrPsPcktGetSetTestCase1()
-{
+CrFwBool_t CrPsPcktGetSetTestCase1() {
 
-  CrFwPckt_t pckt, pckt2, pckt3, pckt4;
+  CrFwPckt_t pckt, pckt2, pckt3;
   uint8_t  tim[6], timi[6];
   char    *pstart;
   uint16_t pcktsize = 30;
   CrFwTimeStamp_t timstp,timstpi;
 
   CrFwSetAppErrCode(crNoAppErr);
-  if (CrFwGetAppErrCode() != 0)
-    return 0;
 
   /* Check if number of Allocated Packets = 0*/
   if (CrFwPcktGetNOfAllocated() != 0)
@@ -87,10 +79,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
   /* Allocate a Packet */
   pckt = CrFwPcktMake(pcktsize);
-
-  /* Check if there now one packet is allocated*/
-  if (CrFwPcktGetNOfAllocated() != 1)
-    return 0;
 
   /*test all TC header Getter and Setter*/
   setTcHeaderPcktVersionNmb(pckt, 0);
@@ -202,10 +190,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
   /*release packet and create a new one!*/
   CrFwPcktRelease(pckt);
-
-  /* Check if number of Allocated Packets = 0*/
-  if (CrFwPcktGetNOfAllocated() != 0)
-    return 0;
 
   /* Allocate a Packet */
   pckt2 = CrFwPcktMake(pcktsize);
@@ -325,26 +309,20 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
   /*release packet and create a new one!*/
   CrFwPcktRelease(pckt2);
-
-  /* Check if number of Allocated Packets = 0*/
-  if (CrFwPcktGetNOfAllocated() != 0)
-    return 0;
-
-  /* Allocate a Packet */
   pckt3 = CrFwPcktMake(pcktsize);
 
-  /* Check if there now one packet is allocated*/
-  if (CrFwPcktGetNOfAllocated() != 1)
-    return 0;
-
+  /* Check remaining getter and setter functions for header information */
   CrFwPcktSetCmdRepType(pckt3,crCmdType);
   if (CrFwPcktGetCmdRepType(pckt3) != crCmdType) 
+    return 0;
+
+  CrFwPcktSetCmdRepType(pckt4,crRepType);
+  if (CrFwPcktGetCmdRepType(pckt4) != crRepType)
     return 0;
 
   if (CrFwPcktGetLength(pckt3) != pcktsize) 
     return 0;
 
-  /*functions not used!!*/
   CrFwPcktSetCmdRepId(pckt3,1);
   if (CrFwPcktGetCmdRepId(pckt3) != 0) 
     return 0;
@@ -424,106 +402,39 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
   if (CrFwPcktGetApid(pckt3) != 0)
     return 0;
 
+  /*TBD remove if it works*/
+  pstart = CrFwPcktGetParStart(pckt3);
+  CRFW_UNUSED(pstart);
 
-
-  /*release packet and create a new one!*/
+  /*release packet */
   CrFwPcktRelease(pckt3);
 
   /* Check if number of Allocated Packets = 0*/
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
-  /* Allocate a Packet */
-  pckt4 = CrFwPcktMake(pcktsize);
-
-  /* Check if there now one packet is allocated*/
-  if (CrFwPcktGetNOfAllocated() != 1)
-    return 0;
-
-  CrFwPcktSetCmdRepType(pckt4,crRepType);
-  if (CrFwPcktGetCmdRepType(pckt4) != crRepType) 
-    return 0;
-
-  if (CrFwPcktGetLength(pckt4) != pcktsize) 
-    return 0;
-
-  /*functions not used!!*/
-  CrFwPcktSetCmdRepId(pckt4,1);
-  if (CrFwPcktGetCmdRepId(pckt4) != 0) 
-    return 0;
-
-  CrFwPcktSetSeqCnt(pckt4,0);
-  if (CrFwPcktGetSeqCnt(pckt4) != 0) 
-    return 0;
-
-  timstp.t[0] = MAX_CHAR;
-  timstp.t[1] = MAX_CHAR;
-  timstp.t[2] = MAX_CHAR;
-  timstp.t[3] = MAX_CHAR;
-  timstp.t[4] = MAX_CHAR;
-  timstp.t[5] = MAX_CHAR;
-  
-  CrFwPcktSetTimeStamp(pckt4,timstp);
-  timstpi = CrFwPcktGetTimeStamp(pckt4);
-
-  if (memcmp(&timstp, &timstpi, sizeof(timstp))) 
-    return 0; 
-
-  CrFwPcktSetServType(pckt4,17);
-  if (CrFwPcktGetServType(pckt4) != 17) 
-    return 0;
-
-  CrFwPcktSetServSubType(pckt4,2);
-  if (CrFwPcktGetServSubType(pckt4) != 2) 
-    return 0;
-
-  CrFwPcktSetDiscriminant(pckt4,44);
-  if (CrFwPcktGetDiscriminant(pckt4) != 0) 
-    return 0; 
-
-  CrFwPcktSetDest(pckt4,13);
-  if (CrFwPcktGetDest(pckt4) != 13) 
-    return 0;
-
-  CrFwPcktSetGroup(pckt4,2);
-  if (CrFwPcktGetGroup(pckt4) != 2) 
-    return 0;
-
-  CrFwPcktSetSeqCtrl(pckt4, 0);
-  if (CrFwPcktGetSeqCtrl(pckt4) != 0)
-    return 0;
-
-  CrFwPcktSetApid(pckt4, 0);
-  if (CrFwPcktGetApid(pckt4) != 0)
-    return 0;
-
-
-/*TBD remove if it works*/
-  pstart = CrFwPcktGetParStart(pckt4);
-  CRFW_UNUSED(pstart);
-  /*release packet and create a new one!*/
-  CrFwPcktRelease(pckt4);
-
-  /* Check if number of Allocated Packets = 0*/
-  if (CrFwPcktGetNOfAllocated() != 0)
-    return 0;
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+	return 0;
 
   return 1;   
 }
 
-CrFwBool_t CrPsPcktGetSetTestCase2()
-{
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsPcktGetSetTestCase2() {
   CrFwPckt_t pckt;
   unsigned int i, j, a;
   unsigned short pcktsize = 100;
 
   CrFwSetAppErrCode(crNoAppErr);
-  if (CrFwGetAppErrCode() != 0)
-    return 0;
 
   /* Check if number of Allocated Packets = 0*/
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
+
+  /* Create a (17,1) command */
+  cmd
+
 
   /* Allocate a Packet */
   pckt = CrFwPcktMake(pcktsize);
@@ -1816,12 +1727,8 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
 
 
 
-
-
-
-
-CrFwBool_t CrPsPcktGetSetTestCase3()
-{
+/*-------------------------------------------------------------------------------------*/
+CrFwBool_t CrPsPcktGetSetTestCase3() {
   CrFwPckt_t pckt;
   unsigned int i, a;
   unsigned short pcktsize = 100;

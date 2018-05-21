@@ -1,14 +1,13 @@
 /**
- * @file CrPsServiceTestCases.h
+ * @file CrPsTstTestCases.h
  * @ingroup PUSTestsuite
  *
  * @brief Declaration of the test cases for the Test Service Components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
- * last modification: 22.01.2018
- * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -17,13 +16,43 @@
  *
  */
 
-#ifndef CRPS_SERVICE_TESTCASES_H_
-#define CRPS_SERVICE_TESTCASES_H_
+#ifndef CRPS_TSTTESTCASES_H_
+#define CRPS_TSTTESTCASES_H_
 
 /* Include framework files */
 #include "CrFwConstants.h"
 /* Include FW Profile files */
 #include "FwSmConstants.h"
+
+/**
+ * Test the getter and setter functions for service 17.
+ * The following actions are performed:
+ * - An instance of each serice 17 command/report is created and the value of its attributes
+ *   is verified
+ * - The data pool attributes for service 17 are set and read back.
+ * .
+ */
+CrFwBool_t CrPsTstTestCase1();
+
+/**
+ * Test the Are-You-Alive Command and Reports (17,1) and (17,2) of the Test Service.
+ * This test performs the following actions:
+ * - It instantiates and configures the OutFactory, the InFactory and OutManager
+ * - It instantiates and executed a (17,1) command and it verifies that this results in a
+ *   a (17,2) report being instantiated and loaded in the OutManager
+ * - It executes again the (17,1) command and verifies that it terminates
+ * - It executes the (17,2) report and verifies that it terminates
+ * - It repeats the previous steps for the case where the OutFactory is full and verifies
+ *   that the (17,1) command fails its Start Action
+ * .
+ *
+ * @verify Are-You-Alive Command, Start Action, Nominal Branch
+ * @verify Are-You-Alive Command, Start Action, Failure Branch
+ * @verify Are-You-Alive Command, Progress Action
+ * @verify Are-You-Alive Report
+ */
+CrFwBool_t CrPsTstTestCase2();
+
 
 /**
  * Test the Service 17 Are-You-Alive Test Connection
@@ -79,7 +108,7 @@
  *
  * @return true if the test was successful, false otherwise.
  */
-CrFwBool_t CrPsServTestConnTestCase1();
+CrFwBool_t CrPsServTestConnTestCase2();
 
 /**
  * Test the Service 17 On-Board Connection Test
@@ -138,7 +167,7 @@ CrFwBool_t CrPsServTestConnTestCase1();
  * - Check that there are now two Pending and two Loaded Packets in the OutManager
  * - Terminate the InCommand
  * - Get the Information from the OutManager (there are two Component!)
- * - Check if there is a 17,1 Command waitig in the OutManager (loaded)
+ * - Check if there is a 17,1 Command waiting in the OutManager (loaded)
  * - Execute the OutComponent (17,1)
  * - Check if Repeatcheck always returns 0
  * - Check if there is a 17,4 Command waitig in the OutManager (loaded)
@@ -177,7 +206,7 @@ CrFwBool_t CrPsServTestConnTestCase1();
  *
  * @return true if the test was successful, false otherwise.
  */
-CrFwBool_t CrPsServTestConnTestCase2();
+CrFwBool_t CrPsServTestConnTestCase3();
 
 /**
  * Test the Service 17 exceptional cases
@@ -237,6 +266,6 @@ CrFwBool_t CrPsServTestConnTestCase2();
  *
  * @return true if the test was successful, false otherwise.
  */
-CrFwBool_t CrPsServTestConnTestCase3();
+CrFwBool_t CrPsServTestConnTestCase4();
 
-#endif /* CRPS_SERVICE_TESTCASES_H_ */
+#endif /* CRPS_TSTTESTCASES_H_ */

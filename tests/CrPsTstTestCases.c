@@ -1,14 +1,13 @@
 /**
- * @file CrPsServiceTestCases.c
+ * @file CrPsTstTestCases.c
  * @ingroup PUSTestsuite
  *
  * @brief Implementation of test cases for the Test Service Components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
- * last modification: 22.01.2018
- * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -17,14 +16,11 @@
  *
  */
 
+#include "CrPsTstTestCases.h"
+
 /* Include FW Profile files */
-#include "FwSmConstants.h"
-#include "FwSmConfig.h"
 #include "FwSmCore.h"
-#include "FwPrConfig.h"
-#include "FwPrCore.h"
-#include "FwPrConstants.h"
-#include "FwPrDCreate.h"
+
 /* Include framework files */
 #include "CrFwCmpData.h"
 #include "OutRegistry/CrFwOutRegistry.h"
@@ -38,27 +34,127 @@
 #include "InLoader/CrFwInLoader.h"
 #include "CrFwTime.h"
 
-#include "CrFwRepErr.h"
-#include "UtilityFunctions/CrFwUtilityFunctions.h"
-#include "Services/Test/InCmd/CrPsTestAreYouAliveConnection.h"
-#include "Services/Test/OutCmp/CrPsTestAreYouAliveConnectionRep.h"
-#include "Services/Test/InRep/CrPsTestAreYouAliveConnectInRep.h"
-#include "Services/Test/InCmd/CrPsTestOnBoardConnection.h"
-#include "Services/Test/Procedures/CrPsCmd17s3StartCreate.h"
-#include "Services/Test/Procedures/CrPsCmd17s3PrgrCreate.h"
-#include "DataPool/CrPsDpServTest.h"
-#include <Services/General/CrPsPktServTest.h>
-#include <CrPsUtilitiesServTest.h>
-#include <CrPsUtilitiesServReqVerif.h>
-#include "config/CrFwOutFactoryUserPar.h"
+#include "CrFwUserConstants.h"
+#include "CrFwOutFactoryUserPar.h"
+#include "CrPsServTypeId.h"
+
+#include "TstService/CrPsTstAreYouAliveCmd.h"
 
 /* Include system files */
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
 
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsPcktGetSetTestCase1() {
+  CrFwPckt_t pckt;
+  FwSmDesc_t cmd17s1, cmd17s3, rep17s2, rep17s4;
+  FwSmDesc_t inFactory, outFactory;
+  unsigned int nAllocatedCmd, nAllocatedRep;
+  unsigned short pcktsize = 100;
+
+  CrFwSetAppErrCode(crNoAppErr);
+  nAllocatedCmd = CrFwInFactoryGetNOfAllocatedInCmd();
+  nAllocatedRep = CrFwOutFactoryGetNOfAllocatedOutCmp();
+
+  /* Instantiate and configure OutFactory and InFactory */
+  outFactory = CrFwOutFactoryMake();
+  if (outFactory == NULL)
+    return 0;
+  if (FwSmCheckRec(outFactory) != smSuccess)
+    return 0;
+
+  inFactory = CrFwInFactoryMake();
+  if (inFactory == NULL)
+    return 0;
+  if (FwSmCheckRec(inFactory) != smSuccess)
+    return 0;
+
+  CrFwCmpInit(outFactory);
+  CrFwCmpReset(outFactory);
+  if (!CrFwCmpIsInConfigured(outFactory))
+    return 0;
+
+  CrFwCmpInit(inFactory);
+  CrFwCmpReset(inFactory);
+  if (!CrFwCmpIsInConfigured(inFactory))
+    return 0;
+
+  /* Create a (17,1) command and check its attributes */
+  cmd17s1 = CrFwInFactoryMakeInCmd(CR_PS_TST, CR_PS_TSTAREYOUALIVECMD, 0, 0);
+  if (cmd17s1 == NULL)
+	  return 0;
+
+  if (CrFwInCmdGetServType(cmd17s1) != 17)
+	  return 0;
+
+  if (CrFwInCmdGetServSubType(cmd17s1) != 1)
+	  return 0;
+
+  if (CrFwInCmdGetDiscriminant(cmd17s1) != 0)
+	  return 0;
+
+  /* Release (17,1) command */
+  CrFwInFactoryReleaseInCmd(cmd17s1);
+  if (CrFwInFactoryGetNOfAllocatedInCmd() != nAllocatedCmd)
+	  return 0;
+
+  /* Create a (17,2) report and check its attributes */
+  rep17s2 = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0, 0);
+  if (rep17s2 == NULL)
+	  return 0;
+
+  if (CrFwInCmdGetServType(rep17s2) != 17)
+	  return 0;
+
+  if (CrFwInCmdGetServSubType(rep17s2) != 2)
+	  return 0;
+
+  if (CrFwInCmdGetDiscriminant(rep17s2) != 0)
+	  return 0;
+
+  /* Release (17,2) report */
+  CrFwOutFactoryReleaseOutCmp(rep17s2);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedCmd)
+	  return 0;
+
+
+  /* Verify selected data pool items */
+  setDpAreYouAliveTimeOut(1);
+  if (getDpAreYouAliveTimeOut() != 1)
+	  return 0;
+
+  setDpAreYouAliveTimeOut(65537);
+  if (getDpAreYouAliveTimeOut() != 65537)
+	  return 0;
+
+  setDpOnBoardConnectDestLstItem(1, 255);
+  if (getDpOnBoardConnectDestLstItem(1) != 255)
+	  return 0;
+
+  setDpOnBoardConnectDestLstItem(1, 257);
+  if (getDpOnBoardConnectDestLstItem(1) != 257)
+	  return 0;
+
+
+
+  /* Check if number of Allocated Packets = 0*/
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+	return 0;
+
+  return 1;
+}
+
+
+
+
+
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrPsServTestConnTestCase1()
+CrFwBool_t CrPsServTestConnTestCase2()
 {
   /* Check 17,1 and 17,2 */
   FwSmDesc_t inFactory, outFactory, outManager, inCmd, outCmp, outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
@@ -178,7 +274,7 @@ CrFwBool_t CrPsServTestConnTestCase1()
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[0];
 
-  /*Check if there is a 17,2 Report waitig in the OutManager*/
+  /*Check if there is a 17,2 Report waiting in the OutManager*/
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
     return 0;
   if (CrFwOutCmpGetServType(outCmp) != 17)
@@ -288,7 +384,7 @@ CrFwBool_t CrPsServTestConnTestCase1()
 }
 
 /*--------------------------------------------------------------------------------*/
-CrFwBool_t CrPsServTestConnTestCase2()
+CrFwBool_t CrPsServTestConnTestCase3()
 {
   /* Check 17,3 and 17,4 */
   FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp, outCmp1, inRep1;

@@ -2,13 +2,12 @@
  * @file CrPsGetSetTestCases.h
  * @ingroup PUSTestsuite
  *
- * @brief Declaration of the test cases for all Getter and Setter components.
+ * @brief Declaration of the test cases for the Getter and Setter functions of the command/report packets.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
- * last modification: 22.01.2018
- * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -24,26 +23,12 @@
 #include "CrFwConstants.h"
 /* Include FW Profile files */
 #include "FwSmConstants.h"
-/* TODO hier header file gscheit beschreiben !!*/
+
 /**
- * Test the Getter and Setter for all Packet Headers (Tm and Tc Header)
+ * Test the Getter and Setter for all Packet Headers (Tm and Tc Header).
+ * The test case sets each header parameter and the reads it back and verifies its value.
+ * For each header parameter field, two different values are tried.
  *
- * The following actions are performed in this test:
- * - Setting all header fields to 0
- * - Get all header fields and confirm that they are 0
- * - Setting all Header Fields to its maximum value
- * - Get all header fields and confirm that they are set to the maximum value
- * - Set a specific TC Packet
- * - Try all Getters and Setters that may not work because they are for TM Packets
- * - Set a specific TM Packet
- * - Try all Getters and Setters that may not work because they are for TC Packets
- *
- *
- * @verify the functions to get and set values for TmHeader and TcHeader
- * @verify all Getters and Setters work properly 
- * @verify that all Getters return a Value
- * @verify that all Getter and Setter functions are called at least once with all possible if-paths
- * .
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsPcktGetSetTestCase1();
@@ -57,12 +42,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1();
  * - Get all packet fields and confirm that they are 0
  * - Setting all packet Fields to its maximum value
  * - Get all packet fields and confirm that they are set to the maximum value
- *
- * 
- * @verify the functions to get and set values for all Packets
- * @verify that for each packet all Getters and Setters work as they should do
- * @verify that all Getters return a Value
- * @verify that all Getter and Setter functions are called at least once
  * .
  * @return true if the test was successful, false otherwise.
  */
