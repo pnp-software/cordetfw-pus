@@ -57,8 +57,7 @@ static FwSmDesc_t cmd;
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N1. */
-void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc) {
   CrPsDestSrc_t areYouAliveSrc; 
 
   CRFW_UNUSED(prDesc);
@@ -73,8 +72,7 @@ void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N2. */
-void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
   /* Retrieve an OutComponent of type (17,1) from the OutFactory */
 
@@ -86,8 +84,7 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N3. */
-void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc) {
   CrPsRepErrCode_t errCode;
 
   CRFW_UNUSED(prDesc);
@@ -102,8 +99,7 @@ void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N4. */
-void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t prDesc) {
   CrFwDestSrc_t destId;
 
   CRFW_UNUSED(prDesc);
@@ -121,8 +117,7 @@ void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N5. */
-void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* Load OutComponent in OutLoader */
@@ -134,8 +129,7 @@ void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N7. */
-void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc) {
   FwSmDesc_t     smDesc;
   CrFwCmpData_t *cmpData;
 
@@ -153,8 +147,7 @@ void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N8. */
-void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc) {
   FwSmDesc_t     smDesc;
   CrFwCmpData_t *cmpData;
 
@@ -172,8 +165,7 @@ void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N9. */
-void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t prDesc) {
   FwSmDesc_t          rep;
   prDataPrgrAction_t *prDataPrgrActionPtr;
 
@@ -194,8 +186,7 @@ void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N10. */
-void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* Release (17,1) OutComponent */
@@ -210,8 +201,7 @@ void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t prDesc)
 /**************/
 
 /* Guard on the Control Flow from DECISION1 to N1. */
-FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc) {
   CrFwCounterU4_t i, pos;
   CrPsApid_t      appId;
   CrPsDestSrc_t   destId;
@@ -237,8 +227,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
@@ -256,8 +245,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION3 to N4. */
-FwPrBool_t CrPsTestOnBoardConnectionStartG3(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsTestOnBoardConnectionStartG3(FwPrDesc_t prDesc) {
   FwSmDesc_t          rep;
   prDataPrgrAction_t *prDataPrgrActionPtr;
 
