@@ -47,8 +47,7 @@
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N1. */
-void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc) {
   CrFwDestSrc_t       destId;
   CrPsApid_t          appId;
   FwSmDesc_t          rep;
@@ -93,8 +92,7 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N2. */
-void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc) {
   prDataPrgrAction_t *prDataPrgrActionPtr;
 
   /* Set action outcome to 'continue' */
@@ -109,8 +107,7 @@ void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N3. */
-void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc) {
   prDataPrgrAction_t *prDataPrgrActionPtr;
 
   /* Set action outcome to 'failed' */
@@ -125,8 +122,7 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N4. */
-void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t prDesc)
-{
+void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t prDesc) {
   FwSmDesc_t          rep;
   prDataPrgrAction_t *prDataPrgrActionPtr;
 
@@ -150,8 +146,7 @@ void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t prDesc)
 /**************/
 
 /* Guard on the Control Flow from DECISION1 to N1. */
-FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc) {
   CrPsApid_t    appId;
   CrPsTimeOut_t timeOut;
 
@@ -178,8 +173,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION1 to N2. */
-FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc) {
   CrPsApid_t    appId;
   CrPsTimeOut_t timeOut;
 
@@ -206,8 +200,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION1 to N3. */
-FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc) {
   CrPsTimeOut_t timeOut; 
 
   CRFW_UNUSED(prDesc);
@@ -217,12 +210,9 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  if (timeOut_cnt >= timeOut)
-    {
+  if (timeOut_cnt >= timeOut) {
       return 1;
-    }
-  else
-    {
+  } else
       return 0;
-    }
+
 }
