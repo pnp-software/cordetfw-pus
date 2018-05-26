@@ -57,18 +57,20 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
   inPckt          = cmpSpecificData->pckt;
 
   /* get identifier of application with which the connection test is done */
+  /* NB: If we pass smDesc to the 17s3Start procedure, then the procedure itself
+   * can retrieve the AppId when it needs it
+   */
   appId = getTstConnectCmdAppId(inPckt);
 
   /* store in data pool */
   setDpOnBoardConnectDest(appId);
 
   /* Load the descriptor of the (17,3) command in the Start Procedure */
+  /* The procedure writes its outcome to the 'outcome' field of the cmpData attached to smDesc */
   FwPrSetData(CrPsTstConfigGetStart17s3(), smDesc);
 
   /* Run the procedure */
   FwPrRun(CrPsTstConfigGetStart17s3());
-
-  cmpDataStart->outcome =
 
   return;
 }
