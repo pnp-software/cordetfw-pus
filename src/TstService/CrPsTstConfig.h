@@ -28,35 +28,49 @@
  * This function must be called before service 17 can be used in the host application.
  * The function should typically be called as part of the initialization of the host application.
  *
- * This function creates and configures the procedures which implement the Start Action and the
- * Progress Action of the On-Board Connection Command.
+ * This function: (a) creates and configures the procedures which implement the Start Action and the
+ * Progress Action of the On-Board Connection Command, and (b) it initializes the data pool parameters
+ * for the test service by calling function <code>::initDpTst</code>.
+ *
  * The initialization process is declared successful if it was possible to create the two procedure
  * instances.
  * The procedure instances can be retrieved using functions <code>::CrPsTstConfigGetStart17s3</code>
  * and <code>::CrPsTstConfigGetPrgr17s3</code>.
  *
- * Note that no configuration check (through function <code>::FwPrCheck</code> is done.
+ * The procedure instances are configured with the descriptor of the (17,3) command to which they
+ * are associated.
+ * This descriptor is passed as an argument to the initialization function.
+ *
+ * No configuration check (through function <code>::FwPrCheck</code> is done.
  * Such a check should not be part of the operational implementation of service 17.
  * If it is needed (as is typically the case during the development and debug phase of an application),
  * it can be done in a separate module.
  *
+ * @descCmd17s3 the descriptor of the (17,3) command instance to which the procedures created by this module
+ * are attached
  * @return 1 if the initialization was successful and 0 otherwise
  */
-CrFwBool_t CrPsTstConfigInit();
+CrFwBool_t CrPsTstConfigInit(FwSmDesc_t descCmd17s3);
 
 /**
  * Return the instance of the procedure implementing the Start Action for the (17,3) command.
  * This function should only be called after function <code>::CrPsTstConfigInit</code> (which
  * creates and configures the Start Action procedure) has been called.
+ * If the initialization failed, this function might return NULL.
+ *
+ * @return the descriptor of the procedure implementing the Stat Action of the (17,3) command
  */
-FwSmDesc_t CrPsTstConfigGetStart17s3();
+FwPrDesc_t CrPsTstConfigGetStart17s3();
 
 /**
  * Return the instance of the procedure implementing the Progress Action for the (17,3) command.
  * This function should only be called after function <code>::CrPsTstConfigInit</code> (which
  * creates and configures the Start Action procedure) has been called.
+ * If the initialization failed, this function might return NULL.
+ *
+ * @return the descriptor of the procedure implementing the Stat Action of the (17,3) command
  */
-FwSmDesc_t CrPsTstConfigGetPrgr17s3();
+FwPrDesc_t CrPsTstConfigGetPrgr17s3();
 
 
 #endif /* CRPSTSTCONFIG_H_ */

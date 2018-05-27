@@ -33,6 +33,8 @@
 #include "CrPsServTypeId.h"
 #include "CrFwUserConstants.h"
 
+#include <stdlib.h>
+
 static FwSmDesc_t rep;
 
 
@@ -53,7 +55,7 @@ void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc)
   if (rep != NULL) {
       inData->outcome = 1;
   } else {
-      CrFwRepErrKind(psOutfactoryFail, inData->typeId, inData->instanceId, CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0);
+      CrFwRepErrKind(psOutFactoryFail, inData->typeId, inData->instanceId, CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0);
       inData->outcome = 0;
   }
 
