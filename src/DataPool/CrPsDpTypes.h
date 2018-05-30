@@ -20,7 +20,7 @@ typedef uint32_t FailData_t;
 /**
  * Definition of type "DestSrc_t".
  */
-typedef uint8_t DestSrc_t;
+typedef uint8_t CrFwDestSrc_t;
 
 /**
  * Definition of type "TimeStamp_t".

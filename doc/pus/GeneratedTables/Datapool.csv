@@ -88,4 +88,5 @@ var|Ver|pcktIdReroutingFailed|Packet identifier of last command for which re-rou
 var|Ver|pcktIdStartFailed|Packet identifier of last command which failed its Start Check||0|NULL||NULL|Gen/ThirteenBit_t
 var|Ver|pcktIdTermFailed|Packet identifier of last command which failed its Termination||0|NULL||NULL|Gen/ThirteenBit_t
 var|Ver|stepPrgrFailed|Step identifier of last command which failed its Progress Check||0|NULL||NULL|Ver/PrgStep_t
-var|Ver|verFailData|Verification Failure Data (data item of fixed size but variable||0|NULL||NULL|Ver/FailData_t
+var|Ver|verFailCode|Verification Failure Code||0|NULL||NULL|Ver/FailCode_t
+var|Ver|verFailData|Verification Failure Data (data item of fixed size but variable meaning)||0|NULL||NULL|Ver/FailData_t

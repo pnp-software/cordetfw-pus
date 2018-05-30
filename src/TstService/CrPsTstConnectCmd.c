@@ -34,85 +34,39 @@
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
-#include "CrPsUtilitiesServTest.h"
-#include "Services/General/CrPsConstants.h"
-#include "Services/General/CrPsPktServTest.h"
 #include "DataPool/CrPsDp.h"
-#include "DataPool/CrPsDpServTest.h"
 
 #include <stdlib.h>
 
-void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
-{
-  CrFwCmpData_t       *cmpDataStart;
-  CrFwInCmdData_t     *cmpSpecificData;
-  CrFwPckt_t           inPckt;
-  DestSrc_t            appId;
+void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc) {
+  CrPsTstData_t* startPrData;
+  FwPrDesc_t startPr;
+
+  /* Load the descriptor of the (17,3) command in the data of the Start Action Procedure */
+  startPr = CrPsTstConfigGetStart17s3();
+  startPrData = FwPrGetData(startPr);
+  startPrData->cmd17s3 = smDesc;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command */
-
-  /* Get in packet */
-  cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(smDesc);
-  cmpSpecificData = (CrFwInCmdData_t *) cmpDataStart->cmpSpecificData;
-  inPckt          = cmpSpecificData->pckt;
-
-  /* get identifier of application with which the connection test is done */
-  /* NB: If we pass smDesc to the 17s3Start procedure, then the procedure itself
-   * can retrieve the AppId when it needs it
-   */
-  appId = getTstConnectCmdAppId(inPckt);
-
-  /* store in data pool */
-  setDpOnBoardConnectDest(appId);
-
-  /* Load the descriptor of the (17,3) command in the Start Procedure */
-  /* The procedure writes its outcome to the 'outcome' field of the cmpData attached to smDesc */
-  FwPrSetData(CrPsTstConfigGetStart17s3(), smDesc);
-
-  /* Run the procedure */
-  FwPrRun(CrPsTstConfigGetStart17s3());
+  FwPrRun(startPr);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
-void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc)
-{
-  CrFwCmpData_t      *cmpDataPrgr;
-  CrFwInCmdData_t    *cmpSpecificData;
-  CrFwPckt_t          inPckt;
-  CrFwDestSrc_t       srcId;
-  prDataPrgrAction_t *prDataPrgrActionPtr;
+void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc) {
+	  CrPsTstData_t* prgrPrData;
+	  FwPrDesc_t prgrPr;
 
-  /* Run the procedure Progress Action of OnBoardConnectCmd Command (see figure 13.2 in PP-DF-COR-003) */
+	  /* Load the descriptor of the (17,3) command in the data of the Start Action Procedure */
+	  prgrPr = CrPsTstConfigGetPrgr17s3();
+	  prgrPrData = FwPrGetData(prgrPr);
+	  prgrPrData->cmd17s3 = smDesc;
 
-  /* Get in packet */
-  cmpDataPrgr     = (CrFwCmpData_t   *) FwSmGetData(smDesc);
-  cmpSpecificData = (CrFwInCmdData_t *) cmpDataPrgr->cmpSpecificData;
-  inPckt          = cmpSpecificData->pckt;
+	  /* Run the procedure Start Action of OnBoardConnectCmd Command */
+	  FwPrRun(prgrPr);
 
-  /* Get the InCmd source and set it in the prData */
-  srcId = CrFwPcktGetSrc(inPckt);
-
-  /* Set prData of procedure */
-  prDataPrgrActionPtr = FwPrGetData(getPrDescServTestOnBoardConnPrgr());
-  prDataPrgrActionPtr->source = srcId;
-  prDataPrgrActionPtr->stepId = timeOut_cnt;
-  FwPrSetData(getPrDescServTestOnBoardConnPrgr(), prDataPrgrActionPtr);
-
-  /* Run the procedure */
-  FwPrRun(getPrDescServTestOnBoardConnPrgr());
-
-  /* Get procedure parameters */
-  prDataPrgrActionPtr = FwPrGetData(getPrDescServTestOnBoardConnPrgr());
-
-  /* Set the Outcome*/
-  cmpDataPrgr->outcome = prDataPrgrActionPtr->outcome;
-
-  /* Increment timeout counter */
-  timeOut_cnt++;
-
-  return;
+	  return;
 }
 
 /* ------------------------------------------------------------------------------------ */
