@@ -2,7 +2,7 @@
  * @file CrPsCmd17s3Prgr.c
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: May 19 2018 20:23:49
+ * @date Created on: Jun 7 2018 18:44:45
  */
 
 #include "CrPsCmd17s3Prgr.h"
@@ -14,6 +14,12 @@
 /** CrPsCmd17s3Prgr function definitions */
 #include <stdlib.h>
 
+/** Guard on the Control Flow from DECISION1 to N3. */
+FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
+{
+	return 1;
+}
+
 /* ----------------------------------------------------------------------------------------------------------------- */
 FwPrDesc_t CrPsCmd17s3PrgrCreate(void* prData)
 {
@@ -22,10 +28,10 @@ FwPrDesc_t CrPsCmd17s3PrgrCreate(void* prData)
 
 	/** Create the procedure */
 	FwPrDesc_t prDesc = FwPrCreate(
-		4,	/* N_ANODES - The number of action nodes */
+		3,	/* N_ANODES - The number of action nodes */
 		1,	/* N_DNODES - The number of decision nodes */
-		8,	/* N_FLOWS - The number of control flows */
-		4,	/* N_ACTIONS - The number of actions */
+		7,	/* N_FLOWS - The number of control flows */
+		3,	/* N_ACTIONS - The number of actions */
 		3	/* N_GUARDS - The number of guards */
 	);
 
@@ -35,15 +41,13 @@ FwPrDesc_t CrPsCmd17s3PrgrCreate(void* prData)
 	FwPrAddActionNode(prDesc, CrPsCmd17s3Prgr_N1, &CrPsTestOnBoardConnectionPrgrN1);
 	FwPrAddActionNode(prDesc, CrPsCmd17s3Prgr_N2, &CrPsTestOnBoardConnectionPrgrN2);
 	FwPrAddActionNode(prDesc, CrPsCmd17s3Prgr_N3, &CrPsTestOnBoardConnectionPrgrN3);
-	FwPrAddActionNode(prDesc, CrPsCmd17s3Prgr_N4, &CrPsTestOnBoardConnectionPrgrN4);
 	FwPrAddFlowDecToAct(prDesc, DECISION1, CrPsCmd17s3Prgr_N1, &CrPsTestOnBoardConnectionPrgrG11);
 	FwPrAddFlowDecToAct(prDesc, DECISION1, CrPsCmd17s3Prgr_N2, &CrPsTestOnBoardConnectionPrgrG12);
 	FwPrAddFlowDecToAct(prDesc, DECISION1, CrPsCmd17s3Prgr_N3, &CrPsTestOnBoardConnectionPrgrG13);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd17s3Prgr_N1, NULL);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd17s3Prgr_N2, NULL);
-	FwPrAddFlowActToAct(prDesc, CrPsCmd17s3Prgr_N3, CrPsCmd17s3Prgr_N4, NULL);
+	FwPrAddFlowActToFin(prDesc, CrPsCmd17s3Prgr_N3, NULL);
 	FwPrAddFlowIniToDec(prDesc, DECISION1, NULL);
-	FwPrAddFlowActToFin(prDesc, CrPsCmd17s3Prgr_N4, NULL);
 
 	return prDesc;
 }

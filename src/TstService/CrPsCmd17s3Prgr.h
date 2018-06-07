@@ -12,7 +12,7 @@
  * @image html CrPsCmd17s3Prgr.png
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: May 19 2018 20:23:49
+ * @date Created on: Jun 7 2018 18:44:45
  */
 
 /** Make sure to include this header file only once */
@@ -26,7 +26,6 @@
 #define CrPsCmd17s3Prgr_N1 (1)		/* The identifier of action node N1 in procedure CrPsCmd17s3Prgr */
 #define CrPsCmd17s3Prgr_N2 (2)		/* The identifier of action node N2 in procedure CrPsCmd17s3Prgr */
 #define CrPsCmd17s3Prgr_N3 (3)		/* The identifier of action node N3 in procedure CrPsCmd17s3Prgr */
-#define CrPsCmd17s3Prgr_N4 (4)		/* The identifier of action node N4 in procedure CrPsCmd17s3Prgr */
 
 /**
  * Create a new procedure descriptor.
@@ -62,17 +61,13 @@ void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc);
 
 /**
  * Action for node N3.
- * Set action outcome to 'completed'
+ * <pre>
+ * Set action outcome to 'failed'
+ * and release (17,4) report
+ * </pre>
  * @param smDesc the procedure descriptor
  */
 void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc);
-
-/**
- * Action for node N4.
- * Release (17,4) report 
- * @param smDesc the procedure descriptor
- */
-void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION1 to N1.
