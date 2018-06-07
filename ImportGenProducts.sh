@@ -12,7 +12,7 @@
 # The script makes certain assumptions about the structure of the cordetfw-pus
 # directory structure. If this changes, the script may have to be adapted.
 #
-# The script must be run from the top-level directory of the cordetfw=pus project
+# The script must be run from the top-level directory of the cordetfw-pus project
 # (e.g. /home/Projects/cordetfw-pus).
 #
 # Example: ./ImportCordetEditorOutput.sh -d="/home/ap/Downloads"
