@@ -15,7 +15,7 @@
 # The script must be run from the top-level directory of the cordetfw-pus project
 # (e.g. /home/Projects/cordetfw-pus).
 #
-# Example: ./ImportCordetEditorOutput.sh -d="/home/ap/Downloads"
+# Example: ./ImportCordetEditorOutput.sh -f -d="/home/ap/Downloads"
 #
 #====================================================================================
 
