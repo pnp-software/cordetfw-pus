@@ -31,7 +31,7 @@ static FwSmDesc_t Cmd17s3Prgr = NULL;
 /**
  * The data attached to the Start and Progress Action Procedures.
  */
-static CrFwTstData_t prTstData;
+static CrPsTstData_t prTstData;
 
 
 /*------------------------------------------------------------------------*/

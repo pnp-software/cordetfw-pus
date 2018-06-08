@@ -49,7 +49,7 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc) {
   /* Retrieve the data structure attached to the procedure */
   prTstData = (CrPsTstData_t*)FwPrGetData(prDesc);
 
-  /* Retrieve the (17,4) report has been retrieved from the OutFactory by the Start Action of the (17,3)
+  /* Retrieve the (17,4) report retrieved from the OutFactory by the Start Action of the (17,3)
    * and is available in the data structure attached to the Progress Action Procedure */
   rep17s4 = prTstData->rep17s4;
 
@@ -127,11 +127,13 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc) {
 /*** GUARDS ***/
 /**************/
 
+/* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc) {
-  DestSrc_t src;
-  TimeSec_t timeOut;
-  TimeSec_t curTime;
+  CrFwDestSrc_t src;
+  CrFwTime_t timeOut;
+  CrFwTime_t curTime;
+  CrFwTime_t startTime;
 
   CRFW_UNUSED(prDesc);
 
@@ -144,26 +146,28 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc) {
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
+  /* Get the time when command execution started from the data pool */
+  startTime = getDpAreYouAliveStart();
+
+  /* Get the current time */
+  curTime = CrFwGetCurrentTime();
+
   if (src == 0)
 	  return 0;
 
-  if (timeOut )
+  if ((curTime-startTime)>=timeOut )
+	  return 0;
 
-  if (appId > 0 && timeOut_cnt < timeOut)
-    {
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
+  return 1;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc) {
-  CrPsApid_t    appId;
-  CrPsTimeOut_t timeOut;
+  CrFwDestSrc_t src;
+  CrFwTime_t timeOut;
+  CrFwTime_t curTime;
+  CrFwTime_t startTime;
 
   CRFW_UNUSED(prDesc);
 
@@ -171,36 +175,22 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc) {
         (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
 
   /* Get areYouAliveSrc from data pool */
-  appId = getDpAreYouAliveSrc();
+  src = getDpAreYouAliveSrc();
 
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  if (appId == 0 && timeOut_cnt < timeOut)
-    {
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
-}
+  /* Get the time when command execution started from the data pool */
+  startTime = getDpAreYouAliveStart();
 
-/* ------------------------------------------------------------------------------------ */
-/* Guard on the Control Flow from DECISION1 to N3. */
-FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc) {
-  CrPsTimeOut_t timeOut; 
+  /* Get the current time */
+  curTime = CrFwGetCurrentTime();
 
-  CRFW_UNUSED(prDesc);
+  if (src != 0)
+	  return 0;
 
-  /* [ (time elapsed since command execution started equal or greater than areYouAliveTimeOut) ] */
+  if ((curTime-startTime)>=timeOut )
+	  return 0;
 
-  /* Get areYouAliveTimeOut from data pool */
-  timeOut = getDpAreYouAliveTimeOut();
-
-  if (timeOut_cnt >= timeOut) {
-      return 1;
-  } else
-      return 0;
-
+  return 1;
 }
