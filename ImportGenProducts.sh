@@ -103,6 +103,7 @@ fi
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files for the data pool--"
+    cp $EDITOR_PATH/dp/CrPsDpTypes.* ./src/DataPool
     cp $EDITOR_PATH/dp/CrPsDpVer.* ./src/DataPool
     cp $EDITOR_PATH/dp/CrPsDpTst.* ./src/DataPool
     cp $EDITOR_PATH/dp/CrPsDpLpt.* ./src/DataPool
