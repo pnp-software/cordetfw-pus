@@ -113,10 +113,10 @@ fi
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files which define the commands and reports--"
-    cp $EDITOR_PATH/cfw/spec/CrPsSpcVer*.h ./src/VerService
-    cp $EDITOR_PATH/cfw/spec/CrPsSpcTst*.h ./src/TstService
-    cp $EDITOR_PATH/cfw/spec/CrPsSpcLpt*.h ./src/LptService
-    cp $EDITOR_PATH/cfw/spec/CrPsSpcHk*.h ./src/HkService
+    cp $EDITOR_PATH/cfw/spec/CrPsVer*.h ./src/VerService
+    cp $EDITOR_PATH/cfw/spec/CrPsTst*.h ./src/TstService
+    cp $EDITOR_PATH/cfw/spec/CrPsLpt*.h ./src/LptService
+    cp $EDITOR_PATH/cfw/spec/CrPsHk*.h ./src/HkService
 fi
 
 # Copy the files which define the configuration of the CORDET Framework
