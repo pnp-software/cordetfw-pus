@@ -2,7 +2,12 @@
  * @file CrPsCmd17s3Start.c
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: May 19 2018 20:23:49
+ * @date Created on: Jun 8 2018 18:21:15
+ *
+ * This procedure must be attached to the InCommand component which implements the (17,3) command.
+ * The procedure reports an outcome. 
+ * For this purpose, the descriptor of the (17,3) command must be loaded as 'procedure data' in the procedure (this is done using function <code>::FwPrSetData</code>).
+ * The procedure therefore assumes its procedure data to be an object of type <code>FwSmDesc_t</code> representing an InCommand and it deposits its outcome in the 'outcome' field of the InCommand descriptor. 
  */
 
 #include "CrPsCmd17s3Start.h"
@@ -20,7 +25,7 @@
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-static FwPrBool_t code49846(FwPrDesc_t prDesc)
+static FwPrBool_t code65839(FwPrDesc_t prDesc)
 {
 	return 1;
 }
@@ -31,7 +36,7 @@ static FwPrBool_t code49846(FwPrDesc_t prDesc)
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-static FwPrBool_t code21420(FwPrDesc_t prDesc)
+static FwPrBool_t code95458(FwPrDesc_t prDesc)
 {
 	return 1;
 }
@@ -42,7 +47,7 @@ static FwPrBool_t code21420(FwPrDesc_t prDesc)
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-static FwPrBool_t code9374(FwPrDesc_t prDesc)
+static FwPrBool_t code79532(FwPrDesc_t prDesc)
 {
 	return 1;
 }
@@ -84,17 +89,17 @@ FwPrDesc_t CrPsCmd17s3StartCreate(void* prData)
 	FwPrAddFlowActToAct(prDesc, CrPsCmd17s3Start_N1, CrPsCmd17s3Start_N2, NULL);
 	FwPrAddFlowActToDec(prDesc, CrPsCmd17s3Start_N2, DECISION1, NULL);
 	FwPrAddFlowDecToAct(prDesc, DECISION1, CrPsCmd17s3Start_N3, &CrPsTestOnBoardConnectionStartG2);
-	FwPrAddFlowDecToAct(prDesc, DECISION1, CrPsCmd17s3Start_N9, &code49846);
+	FwPrAddFlowDecToAct(prDesc, DECISION1, CrPsCmd17s3Start_N9, &code65839);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd17s3Start_N3, CrPsCmd17s3Start_N8, NULL);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd17s3Start_N5, CrPsCmd17s3Start_N7, NULL);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd17s3Start_N8, NULL);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd17s3Start_N7, NULL);
 	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsCmd17s3Start_N1, &CrPsTestOnBoardConnectionStartG1);
-	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsCmd17s3Start_N8, &code21420);
+	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsCmd17s3Start_N8, &code95458);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd17s3Start_N4, CrPsCmd17s3Start_N5, NULL);
 	FwPrAddFlowActToDec(prDesc, CrPsCmd17s3Start_N9, DECISION3, NULL);
 	FwPrAddFlowDecToAct(prDesc, DECISION3, CrPsCmd17s3Start_N4, &CrPsTestOnBoardConnectionStartG3);
-	FwPrAddFlowDecToAct(prDesc, DECISION3, CrPsCmd17s3Start_N10, &code9374);
+	FwPrAddFlowDecToAct(prDesc, DECISION3, CrPsCmd17s3Start_N10, &code79532);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd17s3Start_N10, CrPsCmd17s3Start_N3, NULL);
 
 	return prDesc;

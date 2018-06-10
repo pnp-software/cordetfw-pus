@@ -100,9 +100,16 @@ typedef unsigned char CrFwPcktSeqFlags_t;
 /** Type for the TM/TC crc. The length of the crc is 16bits. */
 typedef unsigned short CrFwPcktCrc_t;
 
+/** Type used for the application time. */
+typedef float CrFwTime_t;
+
+/** Type used for the number of elapsed cycles.
+ * Many applications operate on a cyclical basis and this
+ * type is used for the number of elapsed execution cycles. */
+typedef unsigned int CrFwTimeCyc_t;
+
 /** Type used for the time stamp of a command or report. */
-typedef struct CrFwTimeStamp
-{
+typedef struct CrFwTimeStamp {
   unsigned char t[6];
 } CrFwTimeStamp_t;
 

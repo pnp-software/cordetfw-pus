@@ -47,12 +47,17 @@ static FwSmDesc_t rep;
 /* Action for node N1. */
 void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc) {
   CrFwDestSrc_t areYouAliveSrc;
+  CrFwTime_t curTime;
 
   CRFW_UNUSED(prDesc);
 
   /* Set areYouAliveSrc to zero */
   areYouAliveSrc = 0;
   setDpAreYouAliveSrc(areYouAliveSrc);
+
+  /* Set areYouAliveStart to the current time */
+  curTime = CrFwGetCurrentTime();
+  setDpAreYouAliveStart(curTime);
 
   return;
 }

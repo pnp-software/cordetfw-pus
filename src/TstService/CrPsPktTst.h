@@ -48,7 +48,7 @@ typedef struct __attribute__((packed)) _TstConnectCmd_t {
     * Identifier of the application with which the connection test must be
     * done
     */
-   CrFwDestSrc_t AppId;
+   DestSrc_t AppId;
    
 } TstConnectCmd_t ;
 
@@ -64,7 +64,7 @@ typedef struct __attribute__((packed)) _TstConnectRep_t {
    /**
     * Identifier of application with which the connection test was done
     */
-   CrFwDestSrc_t AppId;
+   DestSrc_t AppId;
    
 } TstConnectRep_t ;
 
@@ -73,7 +73,7 @@ typedef struct __attribute__((packed)) _TstConnectRep_t {
  * \param p Pointer to the packet.
  * \return Value of "AppId".
  */
-static inline CrFwDestSrc_t getTstConnectCmdAppId(void* p)
+static inline DestSrc_t getTstConnectCmdAppId(void* p)
 {
    TstConnectCmd_t* t;
    t = (TstConnectCmd_t*)p;
@@ -85,7 +85,7 @@ static inline CrFwDestSrc_t getTstConnectCmdAppId(void* p)
  * \param p Pointer to the packet.
  * \param AppId Value of "AppId" to be set in packet.
  */
-static inline void setTstConnectCmdAppId(void* p, CrFwDestSrc_t AppId)
+static inline void setTstConnectCmdAppId(void* p, DestSrc_t AppId)
 {
    TstConnectCmd_t* t;
    t = (TstConnectCmd_t*)p;
@@ -97,7 +97,7 @@ static inline void setTstConnectCmdAppId(void* p, CrFwDestSrc_t AppId)
  * \param p Pointer to the packet.
  * \return Value of "AppId".
  */
-static inline CrFwDestSrc_t getTstConnectRepAppId(void* p)
+static inline DestSrc_t getTstConnectRepAppId(void* p)
 {
    TstConnectRep_t* t;
    t = (TstConnectRep_t*)p;
@@ -109,7 +109,7 @@ static inline CrFwDestSrc_t getTstConnectRepAppId(void* p)
  * \param p Pointer to the packet.
  * \param AppId Value of "AppId" to be set in packet.
  */
-static inline void setTstConnectRepAppId(void* p, CrFwDestSrc_t AppId)
+static inline void setTstConnectRepAppId(void* p, DestSrc_t AppId)
 {
    TstConnectRep_t* t;
    t = (TstConnectRep_t*)p;
