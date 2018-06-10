@@ -8,14 +8,14 @@ TM(1,6)|VerFailedPrgrRep|Failed Progress of Execution Verification Report|0x141
 TM(1,7)|VerSuccTermRep|Successful Completion of Execution Verification Report|0x141
 TM(1,8)|VerFailedTermRep|Failed Completion of Execution Verification Report|0x141
 TM(1,10)|VerFailedRoutingRep|Failed Routing Verification Report|0x141
-TC(3,1)|HkCreateHkCmd|Create a Housekeeping Parameter Report Structure|0x14c
-TC(3,2)|HkCreateDiagCmd|Create a Diagnostic Parameter Report Structure|0x14c
+TC(3,1)|HkCreHkCmd|Create a Housekeeping Parameter Report Structure|0x14c
+TC(3,2)|HkCreDiagCmd|Create a Diagnostic Parameter Report Structure|0x14c
 TC(3,3)|HkDelHkCmd|Delete a Housekeeping Parameter Report Structure|0x14c
 TC(3,4)|HkDelDiagCmd|Delete a Diagnostic Parameter Report Structure|0x14c
-TC(3,5)|HkEnableHkCmd|Enable Periodic Generation of a Housekeeping Parameter Report Structure|0x14c
-TC(3,6)|HkDisableHkCmd|Disable Periodic Generation of a Housekeeping Parameter Report Structure|0x14c
-TC(3,7)|HkEnableDiagCmd|Enable Periodic Generation of a Diagnostic Parameter Report Structure|0x14c
-TC(3,8)|HkDisableDiagCmd|Disable Periodic Generation of a Diagnostic Parameter Report Structure|0x14c
+TC(3,5)|HkEnbHkCmd|Enable Periodic Generation of a Housekeeping Parameter Report Structure|0x14c
+TC(3,6)|HkDisHkCmd|Disable Periodic Generation of a Housekeeping Parameter Report Structure|0x14c
+TC(3,7)|HkEnbDiagCmd|Enable Periodic Generation of a Diagnostic Parameter Report Structure|0x14c
+TC(3,8)|HkDisDiagCmd|Disable Periodic Generation of a Diagnostic Parameter Report Structure|0x14c
 TC(3,9)|HkRepStructHkCmd|Report Housekeeping Parameter Report Structure|0x14c
 TM(3,10)|HkRepStructHkRep|Housekeeping Parameter Report Structure Report|0x141
 TC(3,11)|HkRepStructDiagCmd|Report Diagnostic Parameter Report Structure|0x14c

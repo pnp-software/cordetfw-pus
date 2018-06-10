@@ -106,8 +106,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printHkCreateHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkCreateHkCmd Component}{tab:HkCreateHkCmdSpec}{Name & HkCreateHkCmd(3,1)}
+\def \printHkCreHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkCreHkCmd Component}{tab:HkCreHkCmdSpec}{Name & HkCreHkCmd(3,1)}
 Description & Create a housekeeping report structure \\\hline
 Parameters & SID, collection interval and identifiers of parameters of the report to be created \\\hline
 Discriminant & The structure identifier (SID) of the packet to be created \\\hline
@@ -118,8 +118,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkCreateDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkCreateDiagCmd Component}{tab:HkCreateDiagCmdSpec}{Name & HkCreateDiagCmd(3,2)}
+\def \printHkCreDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkCreDiagCmd Component}{tab:HkCreDiagCmdSpec}{Name & HkCreDiagCmd(3,2)}
 Description & Create a diagnostic report structure \\\hline
 Parameters & SID, collection interval and identifiers of parameters of the\newline diagnostic report to be created \\\hline
 Discriminant & The structure identifier (SID) of the packet to be created \\\hline
@@ -154,8 +154,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkEnableHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkEnableHkCmd Component}{tab:HkEnableHkCmdSpec}{Name & HkEnableHkCmd(3,5)}
+\def \printHkEnbHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkEnbHkCmd Component}{tab:HkEnbHkCmdSpec}{Name & HkEnbHkCmd(3,5)}
 Description & Enable the periodic generation of one or more housekeeping report structures \\\hline
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
@@ -166,8 +166,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkDisableHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkDisableHkCmd Component}{tab:HkDisableHkCmdSpec}{Name & HkDisableHkCmd(3,6)}
+\def \printHkDisHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDisHkCmd Component}{tab:HkDisHkCmdSpec}{Name & HkDisHkCmd(3,6)}
 Description & Disable the periodic generation of one or more housekeeping report structures \\\hline
 Parameters & List of SIDs to be disabled \\\hline
 Discriminant & None \\\hline
@@ -178,8 +178,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkEnableDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkEnableDiagCmd Component}{tab:HkEnableDiagCmdSpec}{Name & HkEnableDiagCmd(3,7)}
+\def \printHkEnbDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkEnbDiagCmd Component}{tab:HkEnbDiagCmdSpec}{Name & HkEnbDiagCmd(3,7)}
 Description & Enable the periodic generation of one or more diagnostic report structures \\\hline
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
@@ -190,8 +190,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkDisableDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkDisableDiagCmd Component}{tab:HkDisableDiagCmdSpec}{Name & HkDisableDiagCmd(3,8)}
+\def \printHkDisDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDisDiagCmd Component}{tab:HkDisDiagCmdSpec}{Name & HkDisDiagCmd(3,8)}
 Description & Disable the periodic generation of one or more diagnostic report structures \\\hline
 Parameters & List of SIDs to be disabled  \\\hline
 Discriminant & None \\\hline
