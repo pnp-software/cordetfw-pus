@@ -20,6 +20,9 @@
 /** Identifier for command/report sub-type (Are-You-Alive Connection Report) */
 #define CR_PS_TSTAREYOUALIVEREP 2
 
+/** Identifier for command/report sub-type (On-Board Connection Command) */
+#define CR_PS_TSTCONNECTCMD 3
+
 /** Identifier for command/report sub-type (On-Board Connection Report) */
 #define CR_PS_TSTCONNECTREP 4
 

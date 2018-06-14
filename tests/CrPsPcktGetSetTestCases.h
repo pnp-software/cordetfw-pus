@@ -37,10 +37,10 @@ CrFwBool_t CrPsPcktGetSetTestCase1();
  * Test the Getter and Setter for all Packets (Service 17, Service 1, Service 3, Service 5)
  *
  * The following actions are performed in this test:
- * - Create a packet of each packettype for all services
+ * - Create a packet of each packet type for all services
  * - Setting all packet fields to 0
  * - Get all packet fields and confirm that they are 0
- * - Setting all packet Fields to its maximum value
+ * - Setting all packet Fields to their maximum value
  * - Get all packet fields and confirm that they are set to the maximum value
  * .
  * @return true if the test was successful, false otherwise.

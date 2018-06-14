@@ -28,6 +28,7 @@
 #include "FwPrCore.h"
 #include "FwPrConstants.h"
 /* Include configuration files */
+#include "CrFwUserConstants.h"
 
 /* Include framework files */
 #include "CrFwCmpData.h"
@@ -41,20 +42,8 @@
 #include "CrFwTime.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 
-#include <DataPool/CrPsDp.h>
-#include <DataPool/CrPsDpTst.h>
-
-#include <Services/General/CrPsPktServTest.h>
-#include <Services/General/CrPsPktServReqVerif.h>
-#include <Services/General/CrPsPktServReqVerifSupp.h>
-#include <Services/General/CrPsPktServHk.h>
-#include <Services/General/CrPsPktServHkSupp.h>
-#include <Services/General/CrPsPktServEvt.h>
-#include <Services/General/CrPsPktServEvtSupp.h>
-#include <Services/General/CrPsPktServLpt.h>
-#include <Services/General/CrPsPktServLptSupp.h>
-#include <Services/General/CrPsPktUtil.h>
-#include <Services/General/CrPsConstants.h>
+#include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpTst.h"
 
 #define MAX_CHAR 255
 #define MAX_SHORT 65535
@@ -194,7 +183,7 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   /* Allocate a Packet */
   pckt2 = CrFwPcktMake(pcktsize);
 
-  /* Check if there now one packet is allocated*/
+  /* Check that only one packet is allocated*/
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
@@ -316,8 +305,8 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   if (CrFwPcktGetCmdRepType(pckt3) != crCmdType) 
     return 0;
 
-  CrFwPcktSetCmdRepType(pckt4,crRepType);
-  if (CrFwPcktGetCmdRepType(pckt4) != crRepType)
+  CrFwPcktSetCmdRepType(pckt3,crRepType);
+  if (CrFwPcktGetCmdRepType(pckt3) != crRepType)
     return 0;
 
   if (CrFwPcktGetLength(pckt3) != pcktsize) 
