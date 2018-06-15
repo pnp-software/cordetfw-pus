@@ -78,13 +78,13 @@ int main() {
 	testCases[i] = &CrPsPcktGetSetTestCase1;
 	i+=1;
 	testNames[i] = "Pusext_PacketGetterSetter_TestCase2";
-	testCases[i] = &CrPsPcktGetSetTestCase2;
+	// testCases[i] = &CrPsPcktGetSetTestCase2;
 	i+=1;
 	testNames[i] = "Pusext_PacketGetterSetter_TestCase3";
-	testCases[i] = &CrPsPcktGetSetTestCase3;
+	// testCases[i] = &CrPsPcktGetSetTestCase3;
 	i+=1;
 	testNames[i] = "Pusext_PacketGetterSetter_TestCase4";
-	testCases[i] = &CrPsPcktGetSetTestCase4;
+	// testCases[i] = &CrPsPcktGetSetTestCase4;
 	i+=1;
 
 	/*Service 1*/
@@ -93,13 +93,13 @@ int main() {
 	i+=1;
 	/*Servuce 17*/
 	testNames[i] = "Pusext_ServTestConn_TestCase1";
-	testCases[i] = &CrPsServTestConnTestCase1;
+	// testCases[i] = &CrPsServTestConnTestCase1;
 	i+=1;
 	testNames[i] = "Pusext_ServTestConn_TestCase2";
-	testCases[i] = &CrPsServTestConnTestCase2;
+	// testCases[i] = &CrPsServTestConnTestCase2;
 	i+=1;
 	testNames[i] = "Pusext_ServTestConn_TestCase3";
-	testCases[i] = &CrPsServTestConnTestCase3;
+	// testCases[i] = &CrPsServTestConnTestCase3;
 	i+=1;
 	
 	/*DataPool*/
