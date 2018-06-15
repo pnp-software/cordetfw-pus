@@ -64,10 +64,11 @@ fi
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files holding the packet accessor functions--"
-    cp $EDITOR_PATH/pck/CrPsPktVer.h ./src/VerService
+    cp $EDITOR_PATH/pck/CrPsPkt.h ./src/PcktHeader
+    #cp $EDITOR_PATH/pck/CrPsPktVer.h ./src/VerService
     cp $EDITOR_PATH/pck/CrPsPktTst.h ./src/TstService
-    cp $EDITOR_PATH/pck/CrPsPktLpt.h ./src/LptService
-    cp $EDITOR_PATH/pck/CrPsPktHk.h ./src/HkService
+    #cp $EDITOR_PATH/pck/CrPsPktLpt.h ./src/LptService
+    #cp $EDITOR_PATH/pck/CrPsPktHk.h ./src/HkService
 fi
 
 # Copy the files with the definition of the types and of the constants
@@ -83,9 +84,9 @@ if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files for the PUS Definition Document--"
     cp $EDITOR_PATH/spec/CrPsSpec.tex ./doc/pus/GeneratedTables
-    cp $EDITOR_PATH/icd/PUSExtensionErrRepCodet.csv ./doc/pus/GeneratedTables
-    cp $EDITOR_PATH/icd/PUSExtensionEvtIdt.csv ./doc/pus/GeneratedTables
-    cp $EDITOR_PATH/icd/PUSExtensionFailCodet.csv ./doc/pus/GeneratedTables
+    cp $EDITOR_PATH/icd/PUSExtensionCrPsErrRepCodet.csv ./doc/pus/GeneratedTables
+    cp $EDITOR_PATH/icd/PUSExtensionCrPsEvtIdt.csv ./doc/pus/GeneratedTables
+    cp $EDITOR_PATH/icd/PUSExtensionCrPsFailCodet.csv ./doc/pus/GeneratedTables
     cp $EDITOR_PATH/icd/PUSExtensionServiceOverview.csv ./doc/pus/GeneratedTables
     cp $EDITOR_PATH/icd/PUSExtensionServices.csv ./doc/pus/GeneratedTables
 fi
@@ -103,7 +104,6 @@ fi
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files for the data pool--"
-    cp $EDITOR_PATH/dp/CrPsDpTypes.* ./src/DataPool
     cp $EDITOR_PATH/dp/CrPsDpVer.* ./src/DataPool
     cp $EDITOR_PATH/dp/CrPsDpTst.* ./src/DataPool
     cp $EDITOR_PATH/dp/CrPsDpLpt.* ./src/DataPool
