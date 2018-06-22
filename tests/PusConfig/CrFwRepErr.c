@@ -17,14 +17,9 @@
  * The array is managed as a ring-buffer.
  * Functions are provide to let external components access the error array.
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
- * @copyright P&P Software GmbH, 2013, All Rights Reserved
- *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- *
- * last modification: 22.01.2018
  *
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
@@ -110,11 +105,11 @@ void CrFwRepErrDestSrc(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstan
 
 	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
 }
-#if 0
-diese Funktion gibts bereits in der src CrPsRepErr.c
+
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
-                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwDestSrc_t dest) {
+                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId,
+								 CrFwDestSrc_t dest, CrFwPckt_t pckt) {
 	CrFwCounterU1_t i;
 
 	errRepArray[errRepPos].errCode = errCode;
@@ -124,11 +119,12 @@ void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
 	errRepArray[errRepPos].par[1] = (CrFwCounterU1_t)(secondaryInstanceId % 256);
 	errRepArray[errRepPos].par[2] = (CrFwCounterU1_t)(secondaryInstanceId >> 8);
 	for (i=3; i<CR_FW_ERR_REP_PAR_SIZE; i++)
-		errRepArray[errRepPos].par[i] = 255;
+		errRepArray[errRepPos].par[i] = pckt[i];
+
 
 	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
 }
-#endif
+
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepErrGroup(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanceId_t instanceId,
@@ -147,7 +143,7 @@ void CrFwRepErrGroup(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstance
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanceId_t instanceId,
-                      CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt) {
+                      CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt, CrFwPckt_t pckt) {
 	CrFwCounterU1_t i;
 	CrFwSeqCnt_t temp;
 
@@ -160,7 +156,36 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
 	errRepArray[errRepPos].par[1] = temp % 256;
 	temp = temp >> 8;
 	errRepArray[errRepPos].par[2] = temp % 256;
-	temp = temp >> 8;
+	temp = temp >> 8;void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanceId_t instanceId,
+            CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt) {
+CrFwCounterU1_t i;
+CrFwSeqCnt_t temp;
+
+errRepArray[errRepPos].errCode = errCode;
+errRepArray[errRepPos].instanceId = instanceId;
+errRepArray[errRepPos].typeId = typeId;
+temp = expSeqCnt;
+errRepArray[errRepPos].par[0] = temp % 256;
+temp = temp >> 8;
+errRepArray[errRepPos].par[1] = temp % 256;
+temp = temp >> 8;
+errRepArray[errRepPos].par[2] = temp % 256;
+temp = temp >> 8;
+errRepArray[errRepPos].par[3] = temp % 256;
+temp = actSeqCnt;
+errRepArray[errRepPos].par[4] = temp % 256;
+temp = temp >> 8;
+errRepArray[errRepPos].par[5] = temp % 256;
+temp = temp >> 8;
+errRepArray[errRepPos].par[6] = temp % 256;
+temp = temp >> 8;
+errRepArray[errRepPos].par[7] = temp % 256;
+
+for (i=8; i<CR_FW_ERR_REP_PAR_SIZE; i++)
+errRepArray[errRepPos].par[i] = 255;
+
+errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
+}
 	errRepArray[errRepPos].par[3] = temp % 256;
 	temp = actSeqCnt;
 	errRepArray[errRepPos].par[4] = temp % 256;
@@ -172,7 +197,7 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
 	errRepArray[errRepPos].par[7] = temp % 256;
 
 	for (i=8; i<CR_FW_ERR_REP_PAR_SIZE; i++)
-		errRepArray[errRepPos].par[i] = 255;
+		errRepArray[errRepPos].par[i] = pckt[i];
 
 	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
 }

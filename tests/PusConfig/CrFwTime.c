@@ -54,14 +54,14 @@ CrFwTime_t CrFwGetCurrentTime() {
 /*-----------------------------------------------------------------------------------------*/
 CrFwTimeStamp_t CrFwGetCurrentTimeStamp() {
   CrFwTimeStamp_t ts;
-  unsigned int* curTimeSec;
-  unsigned short* curTimeFrac;
-
-  curTimeSec = &ts.t[0];
-  curTimeFrac = &ts.t[4];
+  unsigned int curTimeSec;
+  unsigned short curTimeFrac;
 
   curTimeSec = (unsigned int)curTime;
   curTimeFrac = (unsigned short)((curTime-curTimeSec)*65535);
+
+  memcpy(&ts.t[0],&curTimeSec,4);
+  memcpy(&ts.t[4],&curTimeFrac,2);
 
   return ts;
 }
@@ -73,7 +73,8 @@ CrFwTimeCyc_t CrFwGetCurrentCycTime() {
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwTimeStamp_t CrFwStdTimeToTimeStamp(CrFwTime_t stdTime) {
-	return 0;
+	static CrFwTimeStamp_t zeroTime;
+	return zeroTime;
 }
 
 /*-----------------------------------------------------------------------------------------*/

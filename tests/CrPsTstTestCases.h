@@ -27,9 +27,10 @@
 /**
  * Test the getter and setter functions for service 17.
  * The following actions are performed:
- * - An instance of each serice 17 command/report is created and the value of its attributes
- *   is verified
- * - The data pool attributes for service 17 are set and read back.
+ * - Create a (17,2) report and check its header parameters
+ * - Create a (17,3) command and check its application parameters
+ * - Create a (17,4) report and check its header parameters
+ * - Check the service 17 data pool parameters
  * .
  */
 CrFwBool_t CrPsTstTestCase1();
@@ -37,12 +38,13 @@ CrFwBool_t CrPsTstTestCase1();
 /**
  * Test the Are-You-Alive Command and Reports (17,1) and (17,2) of the Test Service.
  * This test performs the following actions:
- * - It instantiates and configures the OutFactory, the InFactory and OutManager
- * - It instantiates and executed a (17,1) command and it verifies that this results in a
+ * - Initialize service 17
+ * - Instantiate and configure the OutFactory, the InFactory and OutManager
+ * - Instantiate and execute a (17,1) command and it verifies that this results in a
  *   a (17,2) report being instantiated and loaded in the OutManager
- * - It executes again the (17,1) command and verifies that it terminates
- * - It executes the (17,2) report and verifies that it terminates
- * - It repeats the previous steps for the case where the OutFactory is full and verifies
+ * - Execute again the (17,1) command and verifies that it terminates
+ * - Execute the (17,2) report and verifies that it terminates
+ * - Repeat the previous steps for the case where the OutFactory is full and verifies
  *   that the (17,1) command fails its Start Action
  * .
  *
@@ -55,9 +57,9 @@ CrFwBool_t CrPsTstTestCase2();
 
 
 /**
- * Test the Service 17 Are-You-Alive Test Connection
- *
- * The following actions are performed in this test:
+ * Test the Test Connection Service of service 17.
+ * This test case must be run after <code>::CrPsTstTestCase2</code>.
+ * It performs the following actions:
  *
  * - run all getters for the procedure descriptors
  * - Initializing OutFactory, InFactory and OutManager

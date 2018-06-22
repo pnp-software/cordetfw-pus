@@ -104,10 +104,14 @@ fi
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files for the data pool--"
-    cp $EDITOR_PATH/dp/CrPsDpVer.* ./src/DataPool
-    cp $EDITOR_PATH/dp/CrPsDpTst.* ./src/DataPool
-    cp $EDITOR_PATH/dp/CrPsDpLpt.* ./src/DataPool
-    cp $EDITOR_PATH/dp/CrPsDpHk.* ./src/DataPool
+    cp $EDITOR_PATH/dp/*.h ./src/DataPool
+    cp $EDITOR_PATH/dp/*.c ./src/DataPool
+    #cp $EDITOR_PATH/dp/CrPsDpVer.* ./src/DataPool
+    #cp $EDITOR_PATH/dp/CrPsDpTst.* ./src/DataPool
+    #cp $EDITOR_PATH/dp/CrPsDpLpt.* ./src/DataPool
+    #cp $EDITOR_PATH/dp/CrPsDpHk.* ./src/DataPool
+    #cp $EDITOR_PATH/dp/CrPsDpTypes.h ./src/DataPool
+    #cp $EDITOR_PATH/dp/CrPsDp.* ./src/DataPool
 fi
 
 # Copy the files which define the commands and reports

@@ -25,33 +25,12 @@
 #include "FwSmConstants.h"
 
 /**
- * Test the Getter and Setter for all Packet Headers (Tm and Tc Header).
+ * Test the Getter and Setter functions for all Packet Header parameters (Tm and Tc Header).
  * The test case sets each header parameter and the reads it back and verifies its value.
  * For each header parameter field, two different values are tried.
  *
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsPcktGetSetTestCase1();
-
-/**
- * Test the Getter and Setter for all Packets (Service 17, Service 1, Service 3, Service 5)
- *
- * The following actions are performed in this test:
- * - Create a packet of each packet type for all services
- * - Setting all packet fields to 0
- * - Get all packet fields and confirm that they are 0
- * - Setting all packet Fields to their maximum value
- * - Get all packet fields and confirm that they are set to the maximum value
- * .
- * @return true if the test was successful, false otherwise.
- */
-CrFwBool_t CrPsPcktGetSetTestCase2();
-
-/* TODO either include this into testcase 2 or make a testcase for every service*/
-CrFwBool_t CrPsPcktGetSetTestCase3();
-
-/* TODO either include this into testcase 2 or make a testcase for every service*/
-CrFwBool_t CrPsPcktGetSetTestCase4();
-
 
 #endif /* CRPS_PCKTGETSET_TESTCASES_H_ */

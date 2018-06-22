@@ -38,7 +38,7 @@
 #include "CrFwOutFactoryUserPar.h"
 #include "CrPsServTypeId.h"
 
-#include "TstService/CrPsTstAreYouAliveCmd.h"
+#include "TstService/CrPsTstConfig.h"
 
 /* Include system files */
 #include <stdlib.h>
@@ -80,26 +80,7 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   if (!CrFwCmpIsInConfigured(inFactory))
     return 0;
 
-  /* Create a (17,1) command and check its attributes */
-  cmd17s1 = CrFwInFactoryMakeInCmd(CR_PS_TST, CR_PS_TSTAREYOUALIVECMD, 0, 0);
-  if (cmd17s1 == NULL)
-	  return 0;
-
-  if (CrFwInCmdGetServType(cmd17s1) != 17)
-	  return 0;
-
-  if (CrFwInCmdGetServSubType(cmd17s1) != 1)
-	  return 0;
-
-  if (CrFwInCmdGetDiscriminant(cmd17s1) != 0)
-	  return 0;
-
-  /* Release (17,1) command */
-  CrFwInFactoryReleaseInCmd(cmd17s1);
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != nAllocatedCmd)
-	  return 0;
-
-  /* Create a (17,2) report and check its attributes */
+   /* Create a (17,2) report and check its attributes */
   rep17s2 = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0, 0);
   if (rep17s2 == NULL)
 	  return 0;
@@ -118,6 +99,43 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedCmd)
 	  return 0;
 
+  /* Check getter and setter functions for (17,3) command */
+  pckt = CrFwPcktMake(20);
+  cmd17s3 = CrFwInFactoryMakeInCmd(pckt);
+  if (cmd17s3 == NULL)
+	  return 0;
+
+  setTstConnectCmdAppId(cmd17s3,1);
+  if (getTstConnectCmdAppId(cmd17s3) != 1)
+	  return 0;
+
+  /* Release (17,3) command */
+  CrFwInFactoryReleaseInCmd(cmd17s3);
+  if (CrFwInFactoryGetNOfAllocatedInCmd() != nAllocatedCmd)
+	  return 0;
+
+  /* Create a (17,4) report and check its attributes */
+  rep17s4 = CrFwInFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTCONNECTREP, 0, 0);
+  if (rep17s4 == NULL)
+	  return 0;
+
+  if (CrFwInCmdGetServType(rep17s4) != 17)
+	  return 0;
+
+  if (CrFwInCmdGetServSubType(rep17s4) != 4)
+	  return 0;
+
+  if (CrFwInCmdGetDiscriminant(rep17s4) != 0)
+	  return 0;
+
+  setTstConnectRepAppId(rep17s4,255);
+  if (getTstConnectRepAppId(rep17s4) != 255)
+	  return 0;
+
+  /* Release (17,4) report */
+  CrFwInFactoryReleaseOutCmp(rep17s4);
+  if (CrFwInFactoryGetNOfAllocatedInCmd() != nAllocatedCmd)
+	  return 0;
 
   /* Verify selected data pool items */
   setDpAreYouAliveTimeOut(1);
@@ -136,7 +154,13 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   if (getDpOnBoardConnectDestLstItem(1) != 257)
 	  return 0;
 
+  setDpAreYouAliveSrc(255);
+  if (getDpAreYouAliveSrc() != 255)
+	  return 0;
 
+  setDpAreYouAliveStart(1);
+  if (getDpAreYouAliveStart() != 1)
+	  return 0;
 
   /* Check if number of Allocated Packets = 0*/
   if (CrFwPcktGetNOfAllocated() != 0)
@@ -148,10 +172,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
 
   return 1;
 }
-
-
-
-
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrPsServTestConnTestCase2()
@@ -205,7 +225,10 @@ CrFwBool_t CrPsServTestConnTestCase2()
   if (!CrFwCmpIsInConfigured(outManager))
     return 0; 
 
-  /* Check if number of Allocated Packets = 0*/
+  /* Initialize service 17 */
+  CrPsTstConfigInit();
+
+  /* Check if number of Allocated Packets = 0 */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
@@ -269,7 +292,7 @@ CrFwBool_t CrPsServTestConnTestCase2()
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
     return 0;
 
-  /*Get the Data from the out Manager (there is only one Component)*/
+  /*Get the Data from the out Manager (there is only one Component) */
   outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[0];
@@ -394,65 +417,26 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrPsApid_t appId;
   appId = 60;
 
-  /* Instantiate all relevant CORDET Framework PUS Extension components, e.g. all the procedures and state machines */
-  CrPsInitServTest();
-  CrPsInitServReqVerif();
-  /*Initialize Applications  */
-  CrPsInitServTestApp(appId);
-  CrPsInitServTestApp(200);
+  /*Initialize the test applications  */
+  //CrPsInitServTestApp(appId);
+  //CrPsInitServTestApp(200);
 
-  /* Instantiate the OutFactory, InFactory, OutManager and inManager */
+  /* Instantiate and configure the OutFactory, InFactory, OutManager and inManager */
   outFactory = CrFwOutFactoryMake();
-  if (outFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(outFactory) != smSuccess)
-    return 0;
-
-  inFactory = CrFwInFactoryMake();
-  if (inFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(inFactory) != smSuccess)
-    return 0;
-
-  outManager = CrFwOutManagerMake(0);
-  if (outManager == NULL)
-    return 0;
-  if (FwSmCheckRec(outManager) != smSuccess)
-    return 0;
-
-  inManager = CrFwInManagerMake(0);
-  if (inManager == NULL)
-    return 0;
-  if (FwSmCheckRec(inManager) != smSuccess)
-    return 0;
-  
-  /* Initialize and Configure OutFactory and check success */
   CrFwCmpInit(outFactory);
   CrFwCmpReset(outFactory);
-  if (!CrFwCmpIsInConfigured(outFactory))
-    return 0;
-  
-  /* Initialize and Configure InFactory and check success */
+
+  inFactory = CrFwInFactoryMake();
   CrFwCmpInit(inFactory);
   CrFwCmpReset(inFactory);
-  if (!CrFwCmpIsInConfigured(inFactory))
-    return 0;
 
-  /* Initialize and Configure OutManager and check success */
+  outManager = CrFwOutManagerMake(0);
   CrFwCmpInit(outManager);
   CrFwCmpReset(outManager);
-  if (!CrFwCmpIsInConfigured(outManager))
-    return 0; 
 
-  /* Initialize and Configure InManager and check success */
+  inManager = CrFwInManagerMake(0);
   CrFwCmpInit(inManager);
   CrFwCmpReset(inManager);
-  if (!CrFwCmpIsInConfigured(inManager))
-    return 0; 
-
-  /* Check if number of Allocated Packets = 0*/
-  if (CrFwPcktGetNOfAllocated() != 0)
-    return 0;
 
   /* Allocate a 17,3 Packet with a wrong AppId*/
   pckt = CrFwPcktMake(20);
