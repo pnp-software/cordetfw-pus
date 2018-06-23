@@ -10,9 +10,9 @@
 #ifndef CRPSPKTTST_H_
 #define CRPSPKTTST_H_
 
+#include <CrPsPkt.h>
 #include "CrPsTypes.h"
 
-#include "CrPsPkt.h"
 /**
  * Structure for TstAreYouAliveCmd
  */

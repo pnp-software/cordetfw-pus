@@ -11,7 +11,7 @@
 #define CRPSTSTCONNECTCMD_H_
 
 #include "CrPsConstants.h"
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 
 #include "FwSmCore.h"
 #include "CrFwConstants.h"

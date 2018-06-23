@@ -17,6 +17,7 @@
  */
 
 /* Include system files */
+#include <CrPsPkt.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -44,7 +45,6 @@
 
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpTst.h"
-#include "PcktHeader/CrPsPkt.h"
 
 #define MAX_CHAR 255
 #define MAX_SHORT 65535

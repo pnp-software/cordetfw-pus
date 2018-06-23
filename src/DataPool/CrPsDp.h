@@ -10,7 +10,7 @@
 #ifndef CRPSDP_H_
 #define CRPSDP_H_
 
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 #include "CrPsConstants.h"
 
 enum {

@@ -22,7 +22,7 @@
 #include "CrPsServTypeId.h"
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpTst.h"
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 
 /** FW Profile function definitions */
 #include "FwSmConstants.h"
