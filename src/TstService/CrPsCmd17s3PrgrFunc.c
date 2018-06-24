@@ -28,6 +28,8 @@
 /** FW Profile function definitions */
 #include "FwSmConstants.h"
 #include "FwPrConstants.h"
+#include "FwPrConfig.h"
+#include "FwSmConfig.h"
 
 /* Framework function definitions */
 #include "OutFactory/CrFwOutFactory.h"
