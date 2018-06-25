@@ -105,7 +105,7 @@
  * Definition of constant "TST_N_DEST".
  * Number of destinations managed by test service
  */
-#define TST_N_DEST (1)
+#define TST_N_DEST (4)
 /**
  * Definition of constant "EVT_N_ID".
  * Number of event identifiers supported by the application

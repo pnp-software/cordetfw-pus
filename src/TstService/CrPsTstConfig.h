@@ -23,6 +23,12 @@
 #ifndef CRPSTSTCONFIG_H_
 #define CRPSTSTCONFIG_H_
 
+/** FW Profile function definitions */
+#include "FwSmConstants.h"
+
+/** CORDET Framework type definitions */
+#include "CrFwConstants.h"
+
 /**
  * Type for the Component Data attached to the procedures which implement the
  * the Start and Progress actions of the (17,3) command.

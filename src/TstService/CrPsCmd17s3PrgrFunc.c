@@ -19,19 +19,24 @@
 
 /** CrPsCmd17s3Start function definitions */
 #include "CrPsCmd17s3Start.h"
+#include "CrPsTstConfig.h"
 #include "CrPsServTypeId.h"
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpTst.h"
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 
 /** FW Profile function definitions */
 #include "FwSmConstants.h"
 #include "FwPrConstants.h"
+#include "FwPrConfig.h"
+#include "FwSmConfig.h"
 
 /* Framework function definitions */
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutCmp/CrFwOutCmp.h"
 #include "OutLoader/CrFwOutLoader.h"
+#include "CrFwTime.h"
+#include "CrFwCmpData.h"
 
 #include <stdlib.h>
 
@@ -42,7 +47,6 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc) {
   FwSmDesc_t rep17s4;
   FwSmDesc_t cmd17s3;
   CrPsTstData_t* prTstData;
-  CrFwDestSrc_t destId;
   CrFwDestSrc_t srcId;
   CrFwCmpData_t* cmpData;
 

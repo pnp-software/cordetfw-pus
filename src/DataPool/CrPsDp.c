@@ -19,6 +19,8 @@
 #include "CrPsDpTst.h"
 #include "CrPsDpEvt.h"
 
+#include <stdlib.h>		/* Needed for size_t */
+
 /**
  * Structure to hold the location and size information of a datapool entry.
  */
@@ -144,7 +146,7 @@ static DpMetaInfoEntry_t dpMetaInfoVars[] = {
    {(void*)&dpVerVars.verFailData, sizeof(dpVerVars.verFailData), 1, sizeof(dpVerVars.verFailData)}
 };
 
-static DpMetaInfoEntry_t* getMetaInfoParam(ParameterId_t id)
+static DpMetaInfoEntry_t* getMetaInfoParam(CrPsParId_t id)
 {
    DpMetaInfoEntry_t* p;
    p = NULL;
@@ -155,7 +157,7 @@ static DpMetaInfoEntry_t* getMetaInfoParam(ParameterId_t id)
    return p;
 }
 
-static DpMetaInfoEntry_t* getMetaInfoVar(ParameterId_t id)
+static DpMetaInfoEntry_t* getMetaInfoVar(CrPsParId_t id)
 {
    DpMetaInfoEntry_t* p;
    p = NULL;
@@ -166,7 +168,7 @@ static DpMetaInfoEntry_t* getMetaInfoVar(ParameterId_t id)
    return p;
 }
 
-static DpMetaInfoEntry_t* getMetaInfo(ParameterId_t id)
+static DpMetaInfoEntry_t* getMetaInfo(CrPsParId_t id)
 {
    DpMetaInfoEntry_t* p;
    p = getMetaInfoParam(id);
@@ -184,7 +186,7 @@ static DpMetaInfoEntry_t* getMetaInfo(ParameterId_t id)
  * to.
  * \return Number of bytes copied. 0 if id is invalid.
  */
-size_t getDpValue(ParameterId_t id, void* dest)
+size_t getDpValue(CrPsParId_t id, void* dest)
 {
    DpMetaInfoEntry_t* entry;
    entry = getMetaInfo(id);
@@ -205,7 +207,7 @@ size_t getDpValue(ParameterId_t id, void* dest)
  * \param pNElements Pointer to where the number of elements is copied
  * to.\return Number of bytes copied. 0 if id is invalid.
  */
-size_t getDpValueEx(ParameterId_t id, void* dest, size_t* pElementLength, unsigned int* pNElements)
+size_t getDpValueEx(CrPsParId_t id, void* dest, size_t* pElementLength, unsigned int* pNElements)
 {
    DpMetaInfoEntry_t* entry;
    entry = getMetaInfo(id);
@@ -226,7 +228,7 @@ size_t getDpValueEx(ParameterId_t id, void* dest, size_t* pElementLength, unsign
  * from.
  * \return Number of bytes copied. 0 if id is invalid.
  */
-int setDpValue(ParameterId_t id, const void* src)
+int setDpValue(CrPsParId_t id, const void* src)
 {
    DpMetaInfoEntry_t* entry;
    entry = getMetaInfo(id);
@@ -248,7 +250,7 @@ int setDpValue(ParameterId_t id, const void* src)
  * \param pNElements Pointer to where the number of elements is copied
  * to.\return Number of bytes copied. 0 if id is invalid.
  */
-int setDpValueEx(ParameterId_t id, const void* src, void** dest, size_t* pElementLength, unsigned int* pNElements)
+int setDpValueEx(CrPsParId_t id, const void* src, void** dest, size_t* pElementLength, unsigned int* pNElements)
 {
    DpMetaInfoEntry_t* entry;
    entry = getMetaInfo(id);
@@ -268,7 +270,7 @@ int setDpValueEx(ParameterId_t id, const void* src, void** dest, size_t* pElemen
  * \param id The datapool item identifier
  * \return The size of the datapool parameter. 0 if id is invalid.
  */
-size_t getDpSize(ParameterId_t id)
+size_t getDpSize(CrPsParId_t id)
 {
    DpMetaInfoEntry_t* entry;
    entry = getMetaInfo(id);
@@ -284,7 +286,7 @@ size_t getDpSize(ParameterId_t id)
  * \param id The datapool parameter identifier
  * \return The size of the datapool parameter. 0 if id is invalid.
  */
-size_t getDpParamSize(ParameterId_t id)
+size_t getDpParamSize(CrPsParId_t id)
 {
    DpMetaInfoEntry_t* entry;
    entry = getMetaInfoParam(id);
@@ -300,7 +302,7 @@ size_t getDpParamSize(ParameterId_t id)
  * \param id The datapool variable identifier
  * \return The size of the datapool variable. 0 if id is invalid.
  */
-size_t getDpVarSize(ParameterId_t id)
+size_t getDpVarSize(CrPsParId_t id)
 {
    DpMetaInfoEntry_t* entry;
    entry = getMetaInfoVar(id);

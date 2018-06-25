@@ -32,26 +32,30 @@
 #include "InLoader/CrFwInLoader.h"
 #include "OutLoader/CrFwOutLoader.h"
 #include "InLoader/CrFwInLoader.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "CrFwTime.h"
 
 #include "CrFwUserConstants.h"
 #include "CrFwOutFactoryUserPar.h"
-#include "CrPsServTypeId.h"
 
 #include "TstService/CrPsTstConfig.h"
+#include "TstService/CrPsPktTst.h"
+#include "DataPool/CrPsConstants.h"
+#include "CrPsServTypeId.h"
 
 /* Include system files */
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
 
+CrFwTime_t cmd7s3TimeOut = 2;
+
 /*-----------------------------------------------------------------------------*/
-CrFwBool_t CrPsPcktGetSetTestCase1() {
+CrFwBool_t CrPsTstTestCase1() {
   CrFwPckt_t pckt;
-  FwSmDesc_t cmd17s1, cmd17s3, rep17s2, rep17s4;
+  FwSmDesc_t cmd17s3, rep17s2, rep17s4;
   FwSmDesc_t inFactory, outFactory;
   unsigned int nAllocatedCmd, nAllocatedRep;
-  unsigned short pcktsize = 100;
 
   CrFwSetAppErrCode(crNoAppErr);
   nAllocatedCmd = CrFwInFactoryGetNOfAllocatedInCmd();
@@ -59,16 +63,7 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
 
   /* Instantiate and configure OutFactory and InFactory */
   outFactory = CrFwOutFactoryMake();
-  if (outFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(outFactory) != smSuccess)
-    return 0;
-
   inFactory = CrFwInFactoryMake();
-  if (inFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(inFactory) != smSuccess)
-    return 0;
 
   CrFwCmpInit(outFactory);
   CrFwCmpReset(outFactory);
@@ -84,19 +79,16 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   rep17s2 = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0, 0);
   if (rep17s2 == NULL)
 	  return 0;
-
   if (CrFwInCmdGetServType(rep17s2) != 17)
 	  return 0;
-
   if (CrFwInCmdGetServSubType(rep17s2) != 2)
 	  return 0;
-
   if (CrFwInCmdGetDiscriminant(rep17s2) != 0)
 	  return 0;
 
   /* Release (17,2) report */
   CrFwOutFactoryReleaseOutCmp(rep17s2);
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedCmd)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
 	  return 0;
 
   /* Check getter and setter functions for (17,3) command */
@@ -118,13 +110,10 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   rep17s4 = CrFwInFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTCONNECTREP, 0, 0);
   if (rep17s4 == NULL)
 	  return 0;
-
   if (CrFwInCmdGetServType(rep17s4) != 17)
 	  return 0;
-
   if (CrFwInCmdGetServSubType(rep17s4) != 4)
 	  return 0;
-
   if (CrFwInCmdGetDiscriminant(rep17s4) != 0)
 	  return 0;
 
@@ -174,10 +163,8 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrPsServTestConnTestCase2()
-{
-  /* Check 17,1 and 17,2 */
-  FwSmDesc_t inFactory, outFactory, outManager, inCmd, outCmp, outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
+CrFwBool_t CrPsTstTestCase2() {
+ FwSmDesc_t inFactory, outFactory, outManager, inCmd, outCmp, outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
   CrFwPckt_t pckt;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
@@ -188,51 +175,27 @@ CrFwBool_t CrPsServTestConnTestCase2()
   CrPsExecServTest();
   CrPsInitServReqVerif();
 
-  /* Instantiate the OutFactory, InFactory and OutManager*/
+  /* Instantiate the OutFactory, InFactory and OutManager */
   outFactory = CrFwOutFactoryMake();
-  if (outFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(outFactory) != smSuccess)
-    return 0;
-
   inFactory = CrFwInFactoryMake();
-  if (inFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(inFactory) != smSuccess)
-    return 0;
-
   outManager = CrFwOutManagerMake(0);
-  if (outManager == NULL)
-    return 0;
-  if (FwSmCheckRec(outManager) != smSuccess)
-    return 0;
 
-  /* Initialize and Configure OutFactory and check success */
+  /* Initialize and Configure OutFactory, InFactory and OutManager */
   CrFwCmpInit(outFactory);
   CrFwCmpReset(outFactory);
-  if (!CrFwCmpIsInConfigured(outFactory))
-    return 0;
-  
-  /* Initialize and Configure InFactory and check success */
   CrFwCmpInit(inFactory);
   CrFwCmpReset(inFactory);
-  if (!CrFwCmpIsInConfigured(inFactory))
-    return 0;
-
-  /* Initialize and Configure OutManager and check success */
   CrFwCmpInit(outManager);
   CrFwCmpReset(outManager);
-  if (!CrFwCmpIsInConfigured(outManager))
-    return 0; 
 
   /* Initialize service 17 */
   CrPsTstConfigInit();
 
-  /* Check if number of Allocated Packets = 0 */
+  /* Check number of Allocated Packets */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
-  /* Allocate a 17,1 Packet */
+  /* Create a 17,1 Packet */
   pckt = CrFwPcktMake(20);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,1);
@@ -358,9 +321,7 @@ CrFwBool_t CrPsServTestConnTestCase2()
 
   /* Fill the outfactory so that an Error could occur (leave one free slot) */
   for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
-  {
     outCmpArr[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
-  }
 
   /* Execute the InCommand  */
   CrFwCmpExecute(inCmd); 
@@ -374,9 +335,7 @@ CrFwBool_t CrPsServTestConnTestCase2()
 
   /* Release all outcomponents, that have been created to fill the outfactory */
   for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
-  { 
     CrFwOutFactoryReleaseOutCmp(outCmpArr[i]);
-  }
 
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
@@ -407,21 +366,23 @@ CrFwBool_t CrPsServTestConnTestCase2()
 }
 
 /*--------------------------------------------------------------------------------*/
-CrFwBool_t CrPsServTestConnTestCase3()
-{
+CrFwBool_t CrPsTstTestCase3() {
   /* Check 17,3 and 17,4 */
   FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp, outCmp1, inRep1;
   CrFwPckt_t pckt, pckt2;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
-  CrPsApid_t appId;
-  appId = 60;
+  int i;
 
-  /*Initialize the test applications  */
-  //CrPsInitServTestApp(appId);
-  //CrPsInitServTestApp(200);
+  /* Initialize the set of destination addresses for command (17,3).
+   * The legal destinations are: 1, 2, 3, etc */
+  for (i=0;i<TST_N_DEST;i++)
+	  setDpOnBoardConnectDestLstItem(i,i+1);
 
-  /* Instantiate and configure the OutFactory, InFactory, OutManager and inManager */
+  /* Initialize the time-out for the (17,3) command */
+  setDpAreYouAliveTimeOut(cmd7s3TimeOut);
+
+   /* Instantiate and configure the OutFactory, InFactory, OutManager and inManager */
   outFactory = CrFwOutFactoryMake();
   CrFwCmpInit(outFactory);
   CrFwCmpReset(outFactory);
@@ -438,7 +399,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrFwCmpInit(inManager);
   CrFwCmpReset(inManager);
 
-  /* Allocate a 17,3 Packet with a wrong AppId*/
+  /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
@@ -450,49 +411,14 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
 
-  /*give the Packet a wrong appId so the process fails*/
-  appId = 88;
-  setOnBoardConnectCmdAppId(pckt, appId);
-  appId = 60;
+  /*Give the Packet a wrong appId so the start action of the command fails*/
+  setOnBoardConnectCmdAppId(pckt, TST_N_DEST+1);
 
-  /* Check if number of Allocated Packets now is 1*/
-  if (CrFwPcktGetNOfAllocated() != 1)
-    return 0;
-
-  /* Check if number of Allocated InCommands = 0*/
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
-    return 0;
-
-  /*Creating an InCommand out of the 17,3 packet*/
+  /*Create an InCommand out of the 17,3 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-  /*Check if number of Allocated InCommands is now 1*/
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
-    return 0;
-
-  /* Check the type identifier */
-  if (CrFwCmpGetTypeId(inCmd) != CR_FW_INCOMMAND_TYPE)
-    return 0;
-
-  /* Check type and sub-type of the InCommand*/
-  if (CrFwInCmdGetServType(inCmd) != 17)
-    return 0;
-  if (CrFwInCmdGetServSubType(inCmd) != 3)
-    return 0; 
-
-  /*check that the InCommand is in ACCEPTED state*/
-  if (!CrFwInCmdIsInAccepted(inCmd))
-    return 0; 
-
-  /* Check if number of Allocated OutComponents = 0*/
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
-    return 0;
-
-  /* Execute the InCommand  */
-  /* The inCommand has no Parameter for the Destination set so it should abort!*/
+  /* Execute the InCommand and check that it is aborted  */
   CrFwCmpExecute(inCmd); 
-
-  /*Check that the InCommand is in the State ABORTED*/
   if (!CrFwInCmdIsInAborted(inCmd))
     return 0; 
 
@@ -516,13 +442,15 @@ CrFwBool_t CrPsServTestConnTestCase3()
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[0];
 
-  /* Check if there is a 1,4 Command waitig in the OutManager (loaded) */
-  if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
+  /* Check if there is a 1,4 Command waiting in the OutManager (loaded) */
+  /*if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)							TO BE ADDED!
     return 0;
   if (CrFwOutCmpGetServType(outCmp) != 1)
     return 0;
   if (CrFwOutCmpGetServSubType(outCmp) != 4)
     return 0;
+  if (getVerFailedStartRepTcFailCode(outCmp) != VER_REP_CR_FD)
+	  return 0;  */
 
   /*Release the OutComponent*/
   CrFwOutFactoryReleaseOutCmp(outCmp);
@@ -532,7 +460,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
 
   /* Check and reset application error code */
   if (CrFwGetAppErrCode() != crOutCmpRelErr)
-   return 0;
+    return 0;
   CrFwSetAppErrCode(crNoAppErr);
   if (!CrFwCmpIsInConfigured(outManager))
     return 0;
@@ -549,7 +477,8 @@ CrFwBool_t CrPsServTestConnTestCase3()
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
-  /* Allocate a 17,3 Packet */
+  /* ----------------------------------------------------------------------------------- */
+  /* Create a 17,3 Packet with a correct connection test destination */
   pckt = CrFwPcktMake(20);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
@@ -560,60 +489,37 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
+  setOnBoardConnectCmdAppId(pckt, 1);
 
-  /*give the Packet a correct appId so the process should success*/
-  setOnBoardConnectCmdAppId(pckt, appId);
-
-  /* Check if number of Allocated Packets now is 1*/
+  /* Check if number of Allocated Packets and commands */
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
-
-  /* Check if number of Allocated InCommands = 0*/
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
 
-  /*Creating an InCommand out of the 17,3 packet*/
+  /* Create an InCommand out of the 17,3 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-  /* Check if number of Allocated InCommands now in the InFactory is 1*/
+  /* Check number of Allocated InCommands and OutComponents */
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
     return 0;
-  
-  /* Check the type identifier */
-  if (CrFwCmpGetTypeId(inCmd) != CR_FW_INCOMMAND_TYPE)
-    return 0;
-
-  /* Check type and sub-type of the InCommand*/
-  if (CrFwInCmdGetServType(inCmd) != 17)
-    return 0;
-  if (CrFwInCmdGetServSubType(inCmd) != 3)
-    return 0; 
-
-  /*check that the InCommand is in ACCEPTED state*/
-  if (!CrFwInCmdIsInAccepted(inCmd))
-    return 0; 
-
-  /* Check if number of Allocated OutComponents = 0*/
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
 
   /* Execute the InCommand  */
-  /* The inCommand has now a correct Parameter for the Destination */
   CrFwCmpExecute(inCmd); 
 
-  /* Check if now 3 Packets are Allocated
-   * one InCommand we just created and executed
-   * one InCommand (17,1) to the application that was specified in the parameter of the 17,3 packet
-   * and a Packet holding the 17,4 Report is allocated (outManager Pending)
+  /* Check if now 3 Packets are Allocated:
+   * - one InCommand we just created and executed
+   * - one OutCommand (17,1) to the application that was specified in the parameter of the 17,3 packet
+   * - and OutComponent holding the 17,4 Report is allocated (outManager Pending)
    */
   if (CrFwPcktGetNOfAllocated() != 3)
     return 0;
 
-  /* Check if number of Allocated InCommands in the InFactory stays at 1 */
+  /* Check if number of Allocated InCommands and OutComponents */
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
     return 0;
-
-  /* Check if number of loaded OutComponents in the OutManager is 1 */
   if (CrFwOutManagerGetNOfLoadedOutCmp(outManager) != 1)
     return 0;
 
@@ -634,19 +540,17 @@ CrFwBool_t CrPsServTestConnTestCase3()
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 1)
     return 0;
 
-  /* allocate an 17,2 in Report */
+  /* Create a 17,2 in Report */
   pckt2 = CrFwPcktMake(20);
   CrFwPcktSetServType(pckt2,17);
   CrFwPcktSetServSubType(pckt2,2);
   CrFwPcktSetDiscriminant(pckt2,0);
   CrFwPcktSetDest(pckt2,10);
-  CrFwPcktSetSrc(pckt2,appId);
+  CrFwPcktSetSrc(pckt2,1);	/* Same source as the destination of the connection test */
 
-  /* Check if number of Allocated Packets now is 4*/
+  /* Check number of Allocated Packets and Components */
   if (CrFwPcktGetNOfAllocated() != 4)
     return 0;
-  
-  /* Check that there are no InReports in the InFactory*/
   if (CrFwInFactoryGetNOfAllocatedInRep() != 0)
     return 0;
 
@@ -666,7 +570,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
   /*Load the InReport into the InManager*/
   CrFwInManagerLoad(inManager, inRep1);
 
-  /* Check is now one Pending (inCmd)(17,3) and one Loaded (inRep)(17,2) Packets in the InManager*/
+  /* Check if now one Pending (inCmd)(17,3) and one Loaded (inRep)(17,2) Packets in the InManager*/
   if (CrFwInManagerGetNOfPendingInCmp(inManager) != 1)
     return 0;
   if (CrFwInManagerGetNOfLoadedInCmp(inManager) != 1)
@@ -706,7 +610,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
   outCmp = outManagerCSData->pocl[0];
   outCmp1 = outManagerCSData->pocl[1];
 
-  /*Check if there is a 17,1 Command waitig in the OutManager (loaded)*/
+  /*Check if there is a 17,1 Command waiting in the OutManager (loaded)*/
   if (CrFwOutManagerGetNOfLoadedOutCmp(outManager) != 2)
     return 0;
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
@@ -715,6 +619,8 @@ CrFwBool_t CrPsServTestConnTestCase3()
     return 0;
   if (CrFwOutCmpGetServSubType(outCmp) != 1)
     return 0;
+  if (CrFwOutCmpGetDest(outCmp) != 1)	/* Destination taken from (17,3) parameter */
+	  return 0;
 
   /* Execute the OutComponent (17,1) */
   CrFwCmpExecute(outCmp); 
@@ -776,24 +682,19 @@ CrFwBool_t CrPsServTestConnTestCase3()
   if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
 
-  /* Reset OutManager and check that all OutComponents are unloaded and released */
+  /* Reset framework components and check that all OutComponents are unloaded and released */
   CrFwCmpReset(outManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
     return 0;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Reset InManager and check that all InComponents are unloaded and released */
   CrFwCmpReset(inManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(inManager) != 0)
     return 0;
   
-  /* Reset the OutFactory and check that no OutComponents are allocated */
   CrFwCmpReset(outFactory);  
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
   
-  /* Reset the InFactory and check that no InCommands are allocated */
   CrFwCmpReset(inFactory);
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
@@ -806,7 +707,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
 }
 
 /*--------------------------------------------------------------------------------*/
-CrFwBool_t CrPsServTestConnTestCase3()
+CrFwBool_t CrPsTstTestCase4()
 {
   /* Service 17 exceptional cases */
   FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp1, outCmp[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
@@ -814,79 +715,14 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrFwPckt_t pckt;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
-  CrPsApid_t appId;
-  unsigned short timeout;
-  CrFwCounterU4_t i;
+  CrFwTime_t initTime;
+  int i;
   
-  appId=60;
-  prDesc = NULL;
-  
-  /*Initialize Applications Applications (10 are Available) */
-  /*To test the whole Code i will try to initialize 11 Aplications*/
-  CrPsInitServTestApp(201);
-  CrPsInitServTestApp(202);
-  CrPsInitServTestApp(203);
-  CrPsInitServTestApp(204);
-  CrPsInitServTestApp(205);
-  CrPsInitServTestApp(206);
-  CrPsInitServTestApp(207);
-  CrPsInitServTestApp(208);
-  CrPsInitServTestApp(209);
-
-  /* Instantiate the OutFactory, InFactory, OutManager and inManager */
-  outFactory = CrFwOutFactoryMake();
-  if (outFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(outFactory) != smSuccess)
-    return 0;
-
-  inFactory = CrFwInFactoryMake();
-  if (inFactory == NULL)
-    return 0;
-  if (FwSmCheckRec(inFactory) != smSuccess)
-    return 0;
-
-  outManager = CrFwOutManagerMake(0);
-  if (outManager == NULL)
-    return 0;
-  if (FwSmCheckRec(outManager) != smSuccess)
-    return 0;
-
-  inManager = CrFwInManagerMake(0);
-  if (inManager == NULL)
-    return 0;
-  if (FwSmCheckRec(inManager) != smSuccess)
-    return 0;
-  
-  /* Initialize and Configure OutFactory and check success */
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
-  if (!CrFwCmpIsInConfigured(outFactory))
-    return 0;
-  
-  /* Initialize and Configure InFactory and check success */
-  CrFwCmpInit(inFactory);
-  CrFwCmpReset(inFactory);
-  if (!CrFwCmpIsInConfigured(inFactory))
-    return 0;
-
-  /* Initialize and Configure OutManager and check success */
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  if (!CrFwCmpIsInConfigured(outManager))
-    return 0; 
-
-  /* Initialize and Configure InManager and check success */
-  CrFwCmpInit(inManager);
-  CrFwCmpReset(inManager);
-  if (!CrFwCmpIsInConfigured(inManager))
-    return 0; 
-
-  /* Check if number of Allocated Packets = 0*/
+  /* Check number of Allocated Packets */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
-  /* Allocate a 17,3 Packet */
+  /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
@@ -897,46 +733,24 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
-  setOnBoardConnectCmdAppId(pckt, appId);
+  setOnBoardConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
 
   /* make an inCommand out of the packet */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-  /* Check if number of Allocated InCommands now in the InFactory is 1*/
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
-    return 0;
-
-  /* Check if number of Allocated Packets now is 1*/
-  if (CrFwPcktGetNOfAllocated() != 1)
-    return 0;
-
-  /* Check type and sub-type of the InCommand*/
-  if (CrFwInCmdGetServType(inCmd) != 17)
-    return 0;
-  if (CrFwInCmdGetServSubType(inCmd) != 3)
-    return 0; 
-
-  /*check that the InCommand is in ACCEPTED state*/
-  if (!CrFwInCmdIsInAccepted(inCmd))
-    return 0;
-
   /* Fill the outfactory so that an Error could occur (leave one free slot) */
-  for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-2;i++)
-  {
+  for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
     outCmp[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
-  }
   
   /* Execute the InCommand  */
   /* If the OutFactory is full it should fail !!!*/
   CrFwCmpExecute(inCmd); 
 
   /* Release all outcomponents, that have been created to fill the outfactory */
-  for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-2;i++)
-  { 
+  for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
     CrFwOutFactoryReleaseOutCmp(outCmp[i]);
-  }
 
-  /* Here the ErrorCode gets 10*/
+  /* The Error Code has been set by the OutFactory */
   CrFwSetAppErrCode(crNoAppErr);
 
   /* Release the original inCmd */
@@ -947,7 +761,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp1 = outManagerCSData->pocl[0];
   
-  /* Check if there is a 1,4 Command waitig in the OutManager */
+  /* Check if there is a 1,4 Command waiting in the OutManager */
   if (CrFwCmpGetTypeId(outCmp1) != CR_FW_OUTCMP_TYPE)
     return 0;
   if (CrFwOutCmpGetServType(outCmp1) != 1)
@@ -967,7 +781,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
-  /* Allocating a 17,3 Packet */
+  /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
@@ -979,14 +793,12 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
 
-  setOnBoardConnectCmdAppId(pckt, appId);
+  setOnBoardConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
   /* Fill the outfactory so that an Error could occur */
-  for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
-  {
+  for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP;i++)
     outCmp[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
-  }
 
   /* Execute the InCommand  */
   /* If the OutFactory is full it should fail, there is also no place for a 1,4 to be generated !!!*/
@@ -994,11 +806,9 @@ CrFwBool_t CrPsServTestConnTestCase3()
 
   /* Release all outcomponents, that have been created to fill the outfactory */
   for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
-  {
     CrFwOutFactoryReleaseOutCmp(outCmp[i]);
-  }
 
-  /*Here the ErrorCode gets 10*/
+  /* The error code has been set by the OutFactory and must be reset */
   CrFwSetAppErrCode(crNoAppErr);
 
   /* Release the original inCmd */
@@ -1008,7 +818,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
-  /* Allocating a 17,3 Packet */
+  /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3); 
@@ -1016,12 +826,13 @@ CrFwBool_t CrPsServTestConnTestCase3()
   CrFwPcktSetSrc(pckt,1);
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
-  setOnBoardConnectCmdAppId(pckt, appId);
+  setOnBoardConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
 
   /* make an inCommand out of the packet */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
   
   /* Execute the InCommand  */
+  initTime = CrFwGetCurrentTime();	/* Time when execution of (17,3) command starts */
   CrFwCmpExecute(inCmd); 
 
   /*Check if now 3 Packets are Allocated
@@ -1036,42 +847,24 @@ CrFwBool_t CrPsServTestConnTestCase3()
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
     return 0;
 
-  /*Trigger a Timeout by executing the incommand as often as the value in the datapool specifies*/
-  for (i=1;i<=getDpAreYouAliveTimeOut();i++)
-  {
-    CrFwCmpExecute(inCmd);
-  }
+  /* Advance time to the point where the (17,3) time-out is exceeded
+   * NB: Time is advanced every time */
+  while (CrFwGetCurrentTime()<(initTime+getDpAreYouAliveTimeOut()))
+		CrFwGetCurrentTime();
 
-  /* for coverace call - CrPsTestOnBoardConnectionTerminationAction so the else will be executed*/  
-  CrPsTestOnBoardConnectionTerminationAction(inCmd);
-  
-  /* for coverage call - CrPsTestOnBoardConnectionStartN3 */
-  CrPsTestOnBoardConnectionStartN3(prDesc);
+  /* Execute (17,3) command which now should be terminated with a failure */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+  if (!CrFwInCmdIsInAborted(inCmd))
+	  return 0;
 
-  /* Set the Timeout Variable in the Datapool to 100 to trigger an error */
-  timeout = getDpAreYouAliveTimeOut();
-  setDpAreYouAliveTimeOut(100);
-
-  /* for coverage call - CrPsTestOnBoardConnectionPrgrG13 */
-  if(CrPsTestOnBoardConnectionPrgrG13(prDesc) == 1)
-      return 0;
-
-  setDpAreYouAliveTimeOut(timeout);
-
-  FwPrExecute(getPrDescServTestOnBoardConnStart());
-
-  /* call the N10 release function for coverage (an error 11 is created) */
-  CrPsTestOnBoardConnectionStartN10(prDesc);
-
-    /* Release the original inCmd */
+  /* Release the original inCmd */
   CrFwInFactoryReleaseInCmd(inCmd);
 
   /* Reset OutManager and check that all OutComponents are unloaded and released */
   CrFwCmpReset(outManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
     return 0;
-
-  CrFwSetAppErrCode(crNoAppErr);
 
   /* Reset InManager and check that all InComponents are unloaded and released */
   CrFwCmpReset(inManager);
@@ -1089,7 +882,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
     return 0;
 
   /* Here the ErrorCode gets 6*/
-  CrFwSetAppErrCode(crNoAppErr);
+  // CrFwSetAppErrCode(crNoAppErr);			WHY?
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
