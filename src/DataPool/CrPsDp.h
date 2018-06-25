@@ -13,6 +13,8 @@
 #include "CrPsTypes.h"
 #include "CrPsConstants.h"
 
+#include <stdlib.h>		/* Needed for size_t */
+
 enum {
    /* Parameters */
    DpIdParamsLowest = 1,
