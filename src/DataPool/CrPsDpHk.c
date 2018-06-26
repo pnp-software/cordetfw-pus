@@ -18,14 +18,14 @@ DpHkVars_t dpHkVars ;
  */
 void initDpHk(void)
 {
-   static const CrPsThirtytwoBit_t initdebugVarAddr[HK_N_DEBUG_VAR] = 0;
-   static const CrFwDestSrc_t initdest[HK_N_REP_DEF] = ;
-   static const CrFwBool_t initisEnabled[HK_N_REP_DEF] = ;
-   static const CrPsCycleCnt_t initperiod[HK_N_REP_DEF] = ;
-   static const CrPsSID_t initsid[HK_N_REP_DEF] = ;
-   static const CrPsCycleCnt_t initcycleCnt[HK_N_REP_DEF] = 0;
-   static const CrPsThirtytwoBit_t initdebugVar[HK_N_DEBUG_VAR] = 0;
-   static const CrPsSampleBufId_t initsampleBufId[HK_N_REP_DEF] = 0;
+   static const CrPsThirtytwoBit_t initdebugVarAddr[HK_N_DEBUG_VAR] = {0};
+   static const CrFwDestSrc_t initdest[HK_N_REP_DEF] = {0};
+   static const CrFwBool_t initisEnabled[HK_N_REP_DEF] = {0};
+   static const CrPsCycleCnt_t initperiod[HK_N_REP_DEF] = {0};
+   static const CrPsSID_t initsid[HK_N_REP_DEF] = {0};
+   static const CrPsCycleCnt_t initcycleCnt[HK_N_REP_DEF] = {0};
+   static const CrPsThirtytwoBit_t initdebugVar[HK_N_DEBUG_VAR] = {0};
+   static const CrPsSampleBufId_t initsampleBufId[HK_N_REP_DEF] = {0};
 
    memcpy(dpHkParams.debugVarAddr, initdebugVarAddr, sizeof(dpHkParams.debugVarAddr));
    memcpy(dpHkParams.dest, initdest, sizeof(dpHkParams.dest));

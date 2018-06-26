@@ -181,6 +181,7 @@ void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t prDesc) {
    */
   prTstData = (CrPsTstData_t*)FwPrGetData(prDesc);
   prTstData->rep17s4 = rep17s4;
+  prTstData->isRep17s4Alive = 1;
 
   return;
 }

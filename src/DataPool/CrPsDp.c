@@ -20,6 +20,7 @@
 #include "CrPsDpEvt.h"
 
 #include <stdlib.h>		/* Needed for size_t */
+#include <string.h>		/* Needed for memcpy */
 
 /**
  * Structure to hold the location and size information of a datapool entry.
@@ -111,12 +112,10 @@ static DpMetaInfoEntry_t dpMetaInfoVars[] = {
    {(void*)&dpLptVars.partSeqNmb, sizeof(dpLptVars.partSeqNmb), LPT_N_BUF, sizeof(dpLptVars.partSeqNmb[0])},
    {(void*)&dpMonVars.ctlRepDelay, sizeof(dpMonVars.ctlRepDelay), 1, sizeof(dpMonVars.ctlRepDelay)},
    {(void*)&dpMonVars.ctlTimeFirstEntry, sizeof(dpMonVars.ctlTimeFirstEntry), 1, sizeof(dpMonVars.ctlTimeFirstEntry)},
-   {(void*)&dpMonVars.funcMonEnbStatus, sizeof(dpMonVars.funcMonEnbStatus), 1, sizeof(dpMonVars.funcMonEnbStatus)},
    {(void*)&dpMonVars.nmbAvailFuncMon, sizeof(dpMonVars.nmbAvailFuncMon), 1, sizeof(dpMonVars.nmbAvailFuncMon)},
    {(void*)&dpMonVars.nmbAvailParMon, sizeof(dpMonVars.nmbAvailParMon), 1, sizeof(dpMonVars.nmbAvailParMon)},
    {(void*)&dpMonVars.nmbEnbFuncMon, sizeof(dpMonVars.nmbEnbFuncMon), 1, sizeof(dpMonVars.nmbEnbFuncMon)},
    {(void*)&dpMonVars.nmbEnbParMon, sizeof(dpMonVars.nmbEnbParMon), 1, sizeof(dpMonVars.nmbEnbParMon)},
-   {(void*)&dpMonVars.parMonEnbStatus, sizeof(dpMonVars.parMonEnbStatus), 1, sizeof(dpMonVars.parMonEnbStatus)},
    {(void*)&dpScdVars.firstTba, sizeof(dpScdVars.firstTba), 1, sizeof(dpScdVars.firstTba)},
    {(void*)&dpScdVars.isGroupEnabled, sizeof(dpScdVars.isGroupEnabled), SCD_N_GROUP, sizeof(dpScdVars.isGroupEnabled[0])},
    {(void*)&dpScdVars.isGroupInUse, sizeof(dpScdVars.isGroupInUse), SCD_N_GROUP, sizeof(dpScdVars.isGroupInUse[0])},

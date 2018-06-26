@@ -10,7 +10,7 @@
 #ifndef CRPSDPMON_H_
 #define CRPSDPMON_H_
 
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 #include "CrPsConstants.h"
 
 /**
@@ -40,10 +40,6 @@ typedef struct {
     */
    CrFwTimeStamp_t ctlTimeFirstEntry;
    /**
-    * Functional monitoring enable status
-    */
-   CrPsEnableStatus_t funcMonEnbStatus;
-   /**
     * Number of available functional monitors in the FMDL
     */
    CrPsFuncMonId_t nmbAvailFuncMon;
@@ -59,10 +55,6 @@ typedef struct {
     * Number of enabled parameter monitors in the PMDL
     */
    CrPsParMonId_t nmbEnbParMon;
-   /**
-    * Enable state of parameter monitoring function
-    */
-   CrPsEnableStatus_t parMonEnbStatus;
 } DpMonVars_t;
 
 extern DpMonParams_t dpMonParams;
@@ -148,24 +140,6 @@ static inline void setDpctlTimeFirstEntry(CrFwTimeStamp_t ctlTimeFirstEntry)
    dpMonVars.ctlTimeFirstEntry = ctlTimeFirstEntry;
 }
 
-/**
- * Gets the value of the datapool item funcMonEnbStatus
- * \return The value of datapool item funcMonEnbStatus
- */
-static inline CrPsEnableStatus_t getDpfuncMonEnbStatus()
-{
-   return dpMonVars.funcMonEnbStatus;
-}
-
-/**
- * Sets the value of the datapool item funcMonEnbStatus
- * \param funcMonEnbStatus The value to be stored into the datapool item
- * funcMonEnbStatus.
- */
-static inline void setDpfuncMonEnbStatus(CrPsEnableStatus_t funcMonEnbStatus)
-{
-   dpMonVars.funcMonEnbStatus = funcMonEnbStatus;
-}
 
 /**
  * Gets the value of the datapool item nmbAvailFuncMon
@@ -243,24 +217,6 @@ static inline void setDpnmbEnbParMon(CrPsParMonId_t nmbEnbParMon)
    dpMonVars.nmbEnbParMon = nmbEnbParMon;
 }
 
-/**
- * Gets the value of the datapool item parMonEnbStatus
- * \return The value of datapool item parMonEnbStatus
- */
-static inline CrPsEnableStatus_t getDpparMonEnbStatus()
-{
-   return dpMonVars.parMonEnbStatus;
-}
-
-/**
- * Sets the value of the datapool item parMonEnbStatus
- * \param parMonEnbStatus The value to be stored into the datapool item
- * parMonEnbStatus.
- */
-static inline void setDpparMonEnbStatus(CrPsEnableStatus_t parMonEnbStatus)
-{
-   dpMonVars.parMonEnbStatus = parMonEnbStatus;
-}
 
 
 /*----------------------------------------------------------------------------*/

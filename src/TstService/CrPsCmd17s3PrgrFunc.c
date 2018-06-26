@@ -112,16 +112,17 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc) {
    * (this is part of the data structure attached to the Progress Action Procedure) */
   cmd17s3 = prTstData->cmd17s3;
 
-  /* Set action outcome in the (17,3) command to 'failed' */
+  /* Set action outcome in the (17,3) command to 'success' */
   cmpData = (CrFwCmpData_t*) FwSmGetData(cmd17s3);
-  cmpData->outcome = 0;
+  cmpData->outcome = 1;
 
-  /* Retrieve the (17,4) report has been retrieved from the OutFactory by the Start Action of the (17,3)
-   * and is available in the data structure attached to the Progress Action Procedure */
+  /* Retrieve the (17,4) report which was created by the Start Action of the (17,3) and
+   * which is available in the data structure attached to the Progress Action Procedure */
   rep17s4 = prTstData->rep17s4;
 
   /* Release the (17,4) report */
   CrFwOutFactoryReleaseOutCmp(rep17s4);
+  prTstData->isRep17s4Alive = 0;
 
   return;
 }

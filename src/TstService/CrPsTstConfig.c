@@ -14,6 +14,8 @@
 #include <stdlib.h>
 
 #include "CrPsTstConfig.h"
+#include "CrPsCmd17s3Prgr.h"
+#include "CrPsCmd17s3Start.h"
 #include "DataPool/CrPsDpTst.h"
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -23,10 +25,10 @@
 #include "CrFwCmpData.h"
 
 /** Singleton instance of Procedure for Start Action of Command (17,3). */
-static FwSmDesc_t Cmd17s3Start = NULL;
+static FwPrDesc_t Cmd17s3Start = NULL;
 
 /** Singleton instance of Procedure for Progress Action of Command (17,3). */
-static FwSmDesc_t Cmd17s3Prgr = NULL;
+static FwPrDesc_t Cmd17s3Prgr = NULL;
 
 /**
  * The data attached to the Start and Progress Action Procedures.
@@ -36,7 +38,6 @@ static CrPsTstData_t prTstData;
 
 /*------------------------------------------------------------------------*/
 CrFwBool_t CrPsTstConfigInit() {
-	CrFwCmpData_t* inCmdData;
 
 	/* Create the two procedure instances */
 	Cmd17s3Prgr = CrPsCmd17s3PrgrCreate(&prTstData);

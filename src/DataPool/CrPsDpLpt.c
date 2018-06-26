@@ -18,14 +18,14 @@ DpLptVars_t dpLptVars ;
  */
 void initDpLpt(void)
 {
-   static const CrFwDestSrc_t initlptDest[LPT_N_BUF] = 0;
-   static const CrPsTimeSec_t initlptTimeOut[LPT_N_BUF] = 0;
-   static const CrPsSize_t initpartSize[LPT_N_BUF] = ;
-   static const CrPsSize_t initlptRemSize[LPT_N_BUF] = 0;
-   static const CrPsSize_t initlptSize[LPT_N_BUF] = 0;
-   static const CrFwDestSrc_t initlptSrc[LPT_N_BUF] = 0;
-   static const CrPsTimeSec_t initlptTime[LPT_N_BUF] = 0;
-   static const CrPsPartSeqNmb_t initpartSeqNmb[LPT_N_BUF] = 0;
+   static const CrFwDestSrc_t initlptDest[LPT_N_BUF] = {0};
+   static const CrPsTimeSec_t initlptTimeOut[LPT_N_BUF] = {0};
+   static const CrPsSize_t initpartSize[LPT_N_BUF] = {0};
+   static const CrPsSize_t initlptRemSize[LPT_N_BUF] = {0};
+   static const CrPsSize_t initlptSize[LPT_N_BUF] = {0};
+   static const CrFwDestSrc_t initlptSrc[LPT_N_BUF] = {0};
+   static const CrPsTimeSec_t initlptTime[LPT_N_BUF] = {0};
+   static const CrPsPartSeqNmb_t initpartSeqNmb[LPT_N_BUF] = {0};
 
    memcpy(dpLptParams.lptDest, initlptDest, sizeof(dpLptParams.lptDest));
    memcpy(dpLptParams.lptTimeOut, initlptTimeOut, sizeof(dpLptParams.lptTimeOut));

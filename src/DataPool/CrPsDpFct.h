@@ -10,7 +10,7 @@
 #ifndef CRPSDPFCT_H_
 #define CRPSDPFCT_H_
 
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 #include "CrPsConstants.h"
 
 /**

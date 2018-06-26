@@ -9,6 +9,7 @@
  */
 
 #include "CrPsDpEvt.h"
+#include <string.h>
 
 DpEvtVars_t dpEvtVars ;
 
@@ -17,7 +18,7 @@ DpEvtVars_t dpEvtVars ;
  */
 void initDpEvt(void)
 {
-   static const CrFwBool_t initisEidEnabled[EVT_N_ID] = 1;
+   static const CrFwBool_t initisEidEnabled[EVT_N_ID] = {1};
 
    memcpy(dpEvtVars.isEidEnabled, initisEidEnabled, sizeof(dpEvtVars.isEidEnabled));
    dpEvtVars.lastEvtEid_1 = 0;

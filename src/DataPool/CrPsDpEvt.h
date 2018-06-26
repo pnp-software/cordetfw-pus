@@ -10,8 +10,9 @@
 #ifndef CRPSDPEVT_H_
 #define CRPSDPEVT_H_
 
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 #include "CrPsConstants.h"
+#include "CrFwConstants.h"
 
 /**
  * Type description
@@ -40,19 +41,19 @@ typedef struct {
    /**
     * Time when the last level 1 event report was generated
     */
-   CrFwTimeStamp_t lastEvtTime_1;
+   CrFwTime_t lastEvtTime_1;
    /**
     * Time when the last level 2 event report was generated
     */
-   CrFwTimeStamp_t lastEvtTime_2;
+   CrFwTime_t lastEvtTime_2;
    /**
     * Time when the last level 3 event report was generated
     */
-   CrFwTimeStamp_t lastEvtTime_3;
+   CrFwTime_t lastEvtTime_3;
    /**
     * Time when the last level 4 event report was generated
     */
-   CrFwTimeStamp_t lastEvtTime_4;
+   CrFwTime_t lastEvtTime_4;
    /**
     * Number of detected occurrences of level 1 events
     */
@@ -220,7 +221,7 @@ static inline void setDplastEvtEid_4(CrPsEvtId_t lastEvtEid_4)
  * Gets the value of the datapool item lastEvtTime_1
  * \return The value of datapool item lastEvtTime_1
  */
-static inline CrFwTimeStamp_t getDplastEvtTime_1()
+static inline CrFwTime_t getDplastEvtTime_1()
 {
    return dpEvtVars.lastEvtTime_1;
 }
@@ -230,7 +231,7 @@ static inline CrFwTimeStamp_t getDplastEvtTime_1()
  * \param lastEvtTime_1 The value to be stored into the datapool item
  * lastEvtTime_1.
  */
-static inline void setDplastEvtTime_1(CrFwTimeStamp_t lastEvtTime_1)
+static inline void setDplastEvtTime_1(CrFwTime_t lastEvtTime_1)
 {
    dpEvtVars.lastEvtTime_1 = lastEvtTime_1;
 }
@@ -239,7 +240,7 @@ static inline void setDplastEvtTime_1(CrFwTimeStamp_t lastEvtTime_1)
  * Gets the value of the datapool item lastEvtTime_2
  * \return The value of datapool item lastEvtTime_2
  */
-static inline CrFwTimeStamp_t getDplastEvtTime_2()
+static inline CrFwTime_t getDplastEvtTime_2()
 {
    return dpEvtVars.lastEvtTime_2;
 }
@@ -249,7 +250,7 @@ static inline CrFwTimeStamp_t getDplastEvtTime_2()
  * \param lastEvtTime_2 The value to be stored into the datapool item
  * lastEvtTime_2.
  */
-static inline void setDplastEvtTime_2(CrFwTimeStamp_t lastEvtTime_2)
+static inline void setDplastEvtTime_2(CrFwTime_t lastEvtTime_2)
 {
    dpEvtVars.lastEvtTime_2 = lastEvtTime_2;
 }
@@ -258,7 +259,7 @@ static inline void setDplastEvtTime_2(CrFwTimeStamp_t lastEvtTime_2)
  * Gets the value of the datapool item lastEvtTime_3
  * \return The value of datapool item lastEvtTime_3
  */
-static inline CrFwTimeStamp_t getDplastEvtTime_3()
+static inline CrFwTime_t getDplastEvtTime_3()
 {
    return dpEvtVars.lastEvtTime_3;
 }
@@ -268,7 +269,7 @@ static inline CrFwTimeStamp_t getDplastEvtTime_3()
  * \param lastEvtTime_3 The value to be stored into the datapool item
  * lastEvtTime_3.
  */
-static inline void setDplastEvtTime_3(CrFwTimeStamp_t lastEvtTime_3)
+static inline void setDplastEvtTime_3(CrFwTime_t lastEvtTime_3)
 {
    dpEvtVars.lastEvtTime_3 = lastEvtTime_3;
 }
@@ -277,7 +278,7 @@ static inline void setDplastEvtTime_3(CrFwTimeStamp_t lastEvtTime_3)
  * Gets the value of the datapool item lastEvtTime_4
  * \return The value of datapool item lastEvtTime_4
  */
-static inline CrFwTimeStamp_t getDplastEvtTime_4()
+static inline CrFwTime_t getDplastEvtTime_4()
 {
    return dpEvtVars.lastEvtTime_4;
 }
@@ -287,7 +288,7 @@ static inline CrFwTimeStamp_t getDplastEvtTime_4()
  * \param lastEvtTime_4 The value to be stored into the datapool item
  * lastEvtTime_4.
  */
-static inline void setDplastEvtTime_4(CrFwTimeStamp_t lastEvtTime_4)
+static inline void setDplastEvtTime_4(CrFwTime_t lastEvtTime_4)
 {
    dpEvtVars.lastEvtTime_4 = lastEvtTime_4;
 }

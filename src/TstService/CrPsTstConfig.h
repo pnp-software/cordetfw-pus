@@ -37,7 +37,7 @@ typedef struct CrPsTstData {
 	/** The descriptor of the (17,3) command to which the Start or Progress procedure is attached.
 	 * The Start and Progress procedures determine the outcome of the command to which they are
 	 * attached.
-	 * They need the command descriptor to access its 'outcome' field.
+	 * They therefore need the command descriptor to access its 'outcome' field.
 	 */
 	FwSmDesc_t cmd17s3;
 	/** The descriptor of the (17,4) report triggered by the (17,3) command.
@@ -47,6 +47,11 @@ typedef struct CrPsTstData {
 	 * Progress Action Procedure.
 	 */
 	FwSmDesc_t rep17s4;
+	/** This flag is set to 1 when the (17,4) report is created by the Start Action of the
+	 * (17,3) command and it is reset to 0 if the report is released by the Progress Action
+	 * of the (17,3) command.
+	 */
+	CrFwBool_t isRep17s4Alive;
 } CrPsTstData_t;
 
 /**

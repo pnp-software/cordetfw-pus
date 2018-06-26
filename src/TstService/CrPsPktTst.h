@@ -12,6 +12,8 @@
 
 #include <CrPsPkt.h>
 #include "CrPsTypes.h"
+#include "CrFwCmpData.h"
+#include "FwSmConfig.h"
 
 /**
  * Structure for TstAreYouAliveCmd

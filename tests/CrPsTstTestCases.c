@@ -41,6 +41,7 @@
 #include "TstService/CrPsTstConfig.h"
 #include "TstService/CrPsPktTst.h"
 #include "DataPool/CrPsConstants.h"
+#include "DataPool/CrPsDpTst.h"
 #include "CrPsServTypeId.h"
 
 /* Include system files */
@@ -107,7 +108,7 @@ CrFwBool_t CrPsTstTestCase1() {
 	  return 0;
 
   /* Create a (17,4) report and check its attributes */
-  rep17s4 = CrFwInFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTCONNECTREP, 0, 0);
+  rep17s4 = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTCONNECTREP, 0, 0);
   if (rep17s4 == NULL)
 	  return 0;
   if (CrFwInCmdGetServType(rep17s4) != 17)
@@ -122,7 +123,7 @@ CrFwBool_t CrPsTstTestCase1() {
 	  return 0;
 
   /* Release (17,4) report */
-  CrFwInFactoryReleaseOutCmp(rep17s4);
+  CrFwOutFactoryReleaseOutCmp(rep17s4);
   if (CrFwInFactoryGetNOfAllocatedInCmd() != nAllocatedCmd)
 	  return 0;
 
@@ -137,10 +138,6 @@ CrFwBool_t CrPsTstTestCase1() {
 
   setDpOnBoardConnectDestLstItem(1, 255);
   if (getDpOnBoardConnectDestLstItem(1) != 255)
-	  return 0;
-
-  setDpOnBoardConnectDestLstItem(1, 257);
-  if (getDpOnBoardConnectDestLstItem(1) != 257)
 	  return 0;
 
   setDpAreYouAliveSrc(255);
@@ -170,11 +167,6 @@ CrFwBool_t CrPsTstTestCase2() {
   CrFwOutManagerData_t* outManagerCSData;
   uint16_t i;
   
-  /* run all getters for the procedure descriptors*/
-  CrPsInitServTest();
-  CrPsExecServTest();
-  CrPsInitServReqVerif();
-
   /* Instantiate the OutFactory, InFactory and OutManager */
   outFactory = CrFwOutFactoryMake();
   inFactory = CrFwInFactoryMake();
@@ -411,11 +403,11 @@ CrFwBool_t CrPsTstTestCase3() {
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
 
-  /*Give the Packet a wrong appId so the start action of the command fails*/
-  setOnBoardConnectCmdAppId(pckt, TST_N_DEST+1);
-
   /*Create an InCommand out of the 17,3 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+  /*Give the Packet a wrong appId so the start action of the command fails*/
+  setTstConnectCmdAppId(inCmd, TST_N_DEST+1);
 
   /* Execute the InCommand and check that it is aborted  */
   CrFwCmpExecute(inCmd); 
@@ -711,7 +703,6 @@ CrFwBool_t CrPsTstTestCase4()
 {
   /* Service 17 exceptional cases */
   FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp1, outCmp[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
-  FwPrDesc_t prDesc;
   CrFwPckt_t pckt;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
@@ -757,6 +748,7 @@ CrFwBool_t CrPsTstTestCase4()
   CrFwInFactoryReleaseInCmd(inCmd);
 
   /* Get the Information from the OutManager (there are two Component!) */
+  outManager = CrFwOutManagerMake(0);
   outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp1 = outManagerCSData->pocl[0];

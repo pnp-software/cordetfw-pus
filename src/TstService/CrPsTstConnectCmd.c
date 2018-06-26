@@ -27,6 +27,7 @@
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutCmp/CrFwOutCmp.h"
 #include "OutLoader/CrFwOutLoader.h"
+#include "OutRegistry/CrFwOutRegistry.h"
 #include "CrFwCmpData.h"
 
 /* FwProfile includes */
@@ -55,46 +56,36 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc) {
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc) {
-	  CrPsTstData_t* prgrPrData;
-	  FwPrDesc_t prgrPr;
+  CrPsTstData_t* prgrPrData;
+  FwPrDesc_t prgrPr;
 
-	  /* Load the descriptor of the (17,3) command in the data of the Start Action Procedure */
-	  prgrPr = CrPsTstConfigGetPrgr17s3();
-	  prgrPrData = FwPrGetData(prgrPr);
-	  prgrPrData->cmd17s3 = smDesc;
+  /* Load the descriptor of the (17,3) command in the data of the Start Action Procedure */
+  prgrPr = CrPsTstConfigGetPrgr17s3();
+  prgrPrData = FwPrGetData(prgrPr);
+  prgrPrData->cmd17s3 = smDesc;
 
-	  /* Run the procedure Start Action of OnBoardConnectCmd Command */
-	  FwPrRun(prgrPr);
-
-	  return;
-}
-
-/* ------------------------------------------------------------------------------------ */
-void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc)
-{
-  CrFwCmpData_t      *inData;
-  prDataPrgrAction_t *prDataPrgrActionPtr;
-  uint16_t            outcome;
-
-  /* TODO: Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise */
-
-  /* Get in data */
-  inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-
-  /* Get procedure parameters */
-  prDataPrgrActionPtr = (prDataPrgrAction_t*) FwPrGetData(getPrDescServTestOnBoardConnPrgr());
-
-  /* Get the Outcome*/
-  outcome = prDataPrgrActionPtr->outcome;
-
-  if (outcome == 1)
-    {
-      inData->outcome = 1;
-    }
-  else if ((outcome == 0) || (outcome > 2))
-    {
-      inData->outcome = 0;
-    }
+  /* Run the procedure Start Action of OnBoardConnectCmd Command */
+  FwPrRun(prgrPr);
 
   return;
 }
+
+/* ------------------------------------------------------------------------------------ */
+void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc) {
+  FwPrDesc_t cmd17s3;
+  CrPsTstData_t* prTstData;
+
+  /* Get the data structure attached to the Start and Progress Procedures of the (17,3) command */
+  cmd17s3 = CrPsTstConfigGetStart17s3();
+  prTstData = (CrPsTstData_t*)FwPrGetData(cmd17s3);
+
+  /* Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise.
+   * If the (17,4) report was issued, then prTstData->isRep17s4Alive is equal to 1, otherwise
+   * it is equal to 0
+   */
+  CrFwSetSmOutcome(smDesc,prTstData->isRep17s4Alive);
+
+  return;
+}
+
+

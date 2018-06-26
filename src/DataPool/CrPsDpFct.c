@@ -17,13 +17,13 @@ DpFctVars_t dpFctVars ;
  */
 void initDpFct(void)
 {
-   dpFctVars.nOfAllocatedInCmd = ;
-   dpFctVars.nOfAllocatedInRep = ;
-   dpFctVars.nOfAllocatedOutCmp = ;
-   dpFctVars.nOfFailedInCmd = ;
-   dpFctVars.nOfFailedInRep = ;
-   dpFctVars.nOfFailedOutCmp = ;
-   dpFctVars.nOfTotAllocatedInCmd = ;
-   dpFctVars.nOfTotAllocatedInRep = ;
-   dpFctVars.nOfTotAllocatedOutCmp = ;
+   dpFctVars.nOfAllocatedInCmd = 0;
+   dpFctVars.nOfAllocatedInRep = 0;
+   dpFctVars.nOfAllocatedOutCmp = 0;
+   dpFctVars.nOfFailedInCmd = 0;
+   dpFctVars.nOfFailedInRep = 0;
+   dpFctVars.nOfFailedOutCmp = 0;
+   dpFctVars.nOfTotAllocatedInCmd = 0;
+   dpFctVars.nOfTotAllocatedInRep = 0;
+   dpFctVars.nOfTotAllocatedOutCmp = 0;
 }

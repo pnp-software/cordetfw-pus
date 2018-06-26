@@ -18,7 +18,7 @@ DpTstVars_t dpTstVars ;
  */
 void initDpTst(void)
 {
-   static const CrFwDestSrc_t initOnBoardConnectDestLst[TST_N_DEST] = 0;
+   static const CrFwDestSrc_t initOnBoardConnectDestLst[TST_N_DEST] = {0};
 
    dpTstParams.AreYouAliveTimeOut = 0;
    memcpy(dpTstParams.OnBoardConnectDestLst, initOnBoardConnectDestLst, sizeof(dpTstParams.OnBoardConnectDestLst));

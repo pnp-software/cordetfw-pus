@@ -18,14 +18,11 @@ DpMonVars_t dpMonVars ;
  */
 void initDpMon(void)
 {
-   dpMonParams.maxRepDelay = ;
+   dpMonParams.maxRepDelay = 0;
    dpMonParams.servUser = 0;
-   dpMonVars.ctlRepDelay = ;
-   dpMonVars.ctlTimeFirstEntry = ;
-   dpMonVars.funcMonEnbStatus = 0;
-   dpMonVars.nmbAvailFuncMon = ;
-   dpMonVars.nmbAvailParMon = ;
-   dpMonVars.nmbEnbFuncMon = ;
-   dpMonVars.nmbEnbParMon = ;
-   dpMonVars.parMonEnbStatus = ;
+   dpMonVars.ctlRepDelay = 0;
+   dpMonVars.nmbAvailFuncMon = 0;
+   dpMonVars.nmbAvailParMon = 0;
+   dpMonVars.nmbEnbFuncMon = 0;
+   dpMonVars.nmbEnbParMon = 0;
 }

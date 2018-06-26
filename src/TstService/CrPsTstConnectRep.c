@@ -8,5 +8,5 @@
  * \copyright P&P Software
  */
 
-#include "CrPsSpcTstConnectRep.h"
+#include "CrPsTstConnectRep.h"
 

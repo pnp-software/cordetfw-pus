@@ -10,8 +10,9 @@
 #ifndef CRPSDPHK_H_
 #define CRPSDPHK_H_
 
-#include "CrPsDpTypes.h"
+#include "CrPsTypes.h"
 #include "CrPsConstants.h"
+#include "CrFwConstants.h"
 
 /**
  * Type description
