@@ -55,7 +55,7 @@ TC(12,7)|MonModParMonDefCmd|Modify Parameter Monitoring Definitions|0x14c
 TC(12,8)|MonRepParMonDefCmd|Report Parameter Monitoring Definitions|0x14c
 TM(12,9)|MonRepParMonDefRep|Parameter Monitoring Definition Report|0x141
 TC(12,10)|MonRepOutOfLimitsCmd|Report Out Of Limit Monitors|0x14c
-TM(12,11)|MonRepOutOfLimitsRep|Report Out Of Limit Monitors|0x141
+TM(12,11)|MonRepOutOfLimitsRep|Out Of Limit Monitors Report|0x141
 TM(12,12)|MonCheckTransRep|Check Transition Report|0x141
 TC(12,13)|MonRepParMonStatCmd|Report Status of Parameter Monitors|0x14c
 TM(12,14)|MonRepParMonStatRep|Parameter Monitor Status Report|0x141
@@ -72,7 +72,7 @@ TC(12,24)|MonDelFuncMonDefCmd|Delete Functional Monitoring Definitions|0x14c
 TC(12,25)|MonRepFuncMonDefCmd|Report Functional Monitoring Definitions|0x14c
 TM(12,26)|MonRepFuncMonDefRep|Report Functional Monitoring Definitions|0x141
 TC(12,27)|MonRepFuncMonStatCmd|Report Status of Functional Monitors|0x14c
-TM(12,28)|MonRepFuncMonStatRep|Report Status of Functional Monitors|0x141
+TM(12,28)|MonRepFuncMonStatRep|Status of Functional Monitors Report|0x141
 TM(13,1)|LptDownFirstRep|First Downlink Part Report|0x141
 TM(13,2)|LptDownInterRep|Intermediate Downlink  Report|0x141
 TM(13,3)|LptDownLastRep|Last Downlink Part Report|0x141
@@ -85,4 +85,4 @@ TC(13,130)|LptAbortDownCmd|Abort Large Packet Down-Transfer|0x14c
 TC(17,1)|TstAreYouAliveCmd|Perform Are-You-Alive Connection Test|0x14c
 TM(17,2)|TstAreYouAliveRep|Are-You-Alive Connection Report|0x141
 TC(17,3)|TstConnectCmd|Perform On-Board Connection Test|0x14c
-TM(17,4)|TstConnectRep|On-Board Connection Repor|0x141
+TM(17,4)|TstConnectRep|On-Board Connection Test Report|0x141
