@@ -27,6 +27,7 @@
 #define CRFW_USERCONSTANTS_H_
 
 #include "FwPrConstants.h"
+#include <string.h>				/* Required for memcpy */
 
 /** Type used for instance identifiers. */
 typedef unsigned short CrFwInstanceId_t;

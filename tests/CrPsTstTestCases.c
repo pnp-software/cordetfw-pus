@@ -20,6 +20,8 @@
 
 /* Include FW Profile files */
 #include "FwSmCore.h"
+#include "FwSmConfig.h"
+
 
 /* Include framework files */
 #include "CrFwCmpData.h"
@@ -38,11 +40,11 @@
 #include "CrFwUserConstants.h"
 #include "CrFwOutFactoryUserPar.h"
 
-#include "TstService/CrPsTstConfig.h"
-#include "TstService/CrPsPktTst.h"
-#include "DataPool/CrPsConstants.h"
+#include "Tst/CrPsTstConfig.h"
+#include "PcktFunctions/CrPsPcktTst.h"
 #include "DataPool/CrPsDpTst.h"
 #include "CrPsServTypeId.h"
+#include "CrPsConstants.h"
 
 /* Include system files */
 #include <stdlib.h>
@@ -77,7 +79,7 @@ CrFwBool_t CrPsTstTestCase1() {
     return 0;
 
    /* Create a (17,2) report and check its attributes */
-  rep17s2 = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTAREYOUALIVEREP, 0, 0);
+  rep17s2 = CrFwOutFactoryMakeOutCmp(TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0, 0);
   if (rep17s2 == NULL)
 	  return 0;
   if (CrFwInCmdGetServType(rep17s2) != 17)
@@ -108,7 +110,7 @@ CrFwBool_t CrPsTstTestCase1() {
 	  return 0;
 
   /* Create a (17,4) report and check its attributes */
-  rep17s4 = CrFwOutFactoryMakeOutCmp(CR_PS_TST, CR_PS_TSTCONNECTREP, 0, 0);
+  rep17s4 = CrFwOutFactoryMakeOutCmp(TST_TYPE, TSTCONNECTREP_STYPE, 0, 0);
   if (rep17s4 == NULL)
 	  return 0;
   if (CrFwInCmdGetServType(rep17s4) != 17)
@@ -481,7 +483,7 @@ CrFwBool_t CrPsTstTestCase3() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
-  setOnBoardConnectCmdAppId(pckt, 1);
+  setTstConnectRepAppId(pckt, 1);
 
   /* Check if number of Allocated Packets and commands */
   if (CrFwPcktGetNOfAllocated() != 1)
