@@ -146,13 +146,13 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc) {
        (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
 
   /* Get areYouAliveSrc from data pool */
-  src = getDpAreYouAliveSrc();
+  src = getDpTstAreYouAliveSrc();
 
   /* Get areYouAliveTimeOut from data pool */
-  timeOut = getDpAreYouAliveTimeOut();
+  timeOut = getDpTstAreYouAliveTimeOut();
 
   /* Get the time when command execution started from the data pool */
-  startTime = getDpAreYouAliveStart();
+  startTime = getDpTstAreYouAliveStart();
 
   /* Get the current time */
   curTime = CrFwGetCurrentTime();
@@ -180,13 +180,13 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc) {
         (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
 
   /* Get areYouAliveSrc from data pool */
-  src = getDpAreYouAliveSrc();
+  src = getDpTstAreYouAliveSrc();
 
   /* Get areYouAliveTimeOut from data pool */
-  timeOut = getDpAreYouAliveTimeOut();
+  timeOut = getDpTstAreYouAliveTimeOut();
 
   /* Get the time when command execution started from the data pool */
-  startTime = getDpAreYouAliveStart();
+  startTime = getDpTstAreYouAliveStart();
 
   /* Get the current time */
   curTime = CrFwGetCurrentTime();

@@ -49,9 +49,6 @@ CrFwBool_t CrPsTstConfigInit() {
 	if (Cmd17s3Prgr == NULL)
 		return 0;
 
-	/* Initialize the data pool parameters for the Test Service */
-	initDpTst();
-
 	return 1;
 }
 

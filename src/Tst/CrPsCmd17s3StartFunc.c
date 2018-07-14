@@ -23,6 +23,7 @@
 #include "CrPsTstConfig.h"
 #include "PcktFunctions/CrPsPcktTst.h"
 #include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpVer.h"
 #include "DataPool/CrPsDpTst.h"
 #include "CrPsConstants.h"
 #include "CrPsTypes.h"
@@ -61,11 +62,11 @@ void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc) {
 
   /* Set areYouAliveSrc to zero */
   areYouAliveSrc = 0;
-  setDpAreYouAliveSrc(areYouAliveSrc);
+  setDpTstAreYouAliveSrc(areYouAliveSrc);
 
   /* Set areYouAliveStart to the current time */
   curTime = CrFwGetCurrentTime();
-  setDpAreYouAliveStart(curTime);
+  setDpTstAreYouAliveStart(curTime);
 
   return;
 }
@@ -111,11 +112,11 @@ void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t prDesc) {
   cmd17s3 = prDescData->cmd17s3;
   destId = getTstConnectCmdAppId(cmd17s3);
 
-  /* Set out component parameters */
+  /* Set OutComponent parameters */
   CrFwOutCmpSetDest(cmd17s1, destId);
 
   /* Copy the destination of the (17,1) to the data pool */
-  setDpOnBoardConnectDest(destId);
+  setDpTstOnBoardConnectDest(destId);
 
   return;
 }
@@ -163,7 +164,7 @@ void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc) {
   cmpData->outcome = 0;
 
   /* Set failure code to VER_REP_CR_FD */
-  setDpVerFailCode(VER_REP_CR_FD);
+  setDpVerVerFailCode(VER_REP_CR_FD);
 
   return;
 }
@@ -208,11 +209,11 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc) {
   /* [ Identifier of target application is legal ] */
 
   /* get requested target application ID */
-  appId = getDpOnBoardConnectDest();
+  appId = getDpTstOnBoardConnectDest();
 
   /* get all target application IDs and check them */
   for (i=0; i<TST_N_DEST; i++) {
-      destId = getDpOnBoardConnectDestLstItem(i);
+      destId = getDpTstOnBoardConnectDestLstItem(i);
       if (destId == appId)
         return 1;
   }

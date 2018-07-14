@@ -130,24 +130,24 @@ CrFwBool_t CrPsTstTestCase1() {
 	  return 0;
 
   /* Verify selected data pool items */
-  setDpAreYouAliveTimeOut(1);
-  if (getDpAreYouAliveTimeOut() != 1)
+  setDpTstAreYouAliveTimeOut(1);
+  if (getDpTstAreYouAliveTimeOut() != 1)
 	  return 0;
 
-  setDpAreYouAliveTimeOut(65537);
-  if (getDpAreYouAliveTimeOut() != 65537)
+  setDpTstAreYouAliveTimeOut(65537);
+  if (getDpTstAreYouAliveTimeOut() != 65537)
 	  return 0;
 
-  setDpOnBoardConnectDestLstItem(1, 255);
-  if (getDpOnBoardConnectDestLstItem(1) != 255)
+  setDpTstOnBoardConnectDestLstItem(1, 255);
+  if (getDpTstOnBoardConnectDestLstItem(1) != 255)
 	  return 0;
 
-  setDpAreYouAliveSrc(255);
-  if (getDpAreYouAliveSrc() != 255)
+  setDpTstAreYouAliveSrc(255);
+  if (getDpTstAreYouAliveSrc() != 255)
 	  return 0;
 
-  setDpAreYouAliveStart(1);
-  if (getDpAreYouAliveStart() != 1)
+  setDpTstAreYouAliveStart(1);
+  if (getDpTstAreYouAliveStart() != 1)
 	  return 0;
 
   /* Check if number of Allocated Packets = 0*/
@@ -371,10 +371,10 @@ CrFwBool_t CrPsTstTestCase3() {
   /* Initialize the set of destination addresses for command (17,3).
    * The legal destinations are: 1, 2, 3, etc */
   for (i=0;i<TST_N_DEST;i++)
-	  setDpOnBoardConnectDestLstItem(i,i+1);
+	  setDpTstOnBoardConnectDestLstItem(i,i+1);
 
   /* Initialize the time-out for the (17,3) command */
-  setDpAreYouAliveTimeOut(cmd7s3TimeOut);
+  setDpTstAreYouAliveTimeOut(cmd7s3TimeOut);
 
    /* Instantiate and configure the OutFactory, InFactory, OutManager and inManager */
   outFactory = CrFwOutFactoryMake();
@@ -726,7 +726,7 @@ CrFwBool_t CrPsTstTestCase4()
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
-  setOnBoardConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
+  setTstConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
 
   /* make an inCommand out of the packet */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -787,7 +787,7 @@ CrFwBool_t CrPsTstTestCase4()
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
 
-  setOnBoardConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
+  setTstConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
   /* Fill the outfactory so that an Error could occur */
@@ -798,7 +798,7 @@ CrFwBool_t CrPsTstTestCase4()
   /* If the OutFactory is full it should fail, there is also no place for a 1,4 to be generated !!!*/
   CrFwCmpExecute(inCmd); 
 
-  /* Release all outcomponents, that have been created to fill the outfactory */
+  /* Release all OutComponents, that have been created to fill the outfactory */
   for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
     CrFwOutFactoryReleaseOutCmp(outCmp[i]);
 
@@ -820,7 +820,7 @@ CrFwBool_t CrPsTstTestCase4()
   CrFwPcktSetSrc(pckt,1);
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
-  setOnBoardConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
+  setTstConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
 
   /* make an inCommand out of the packet */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -843,7 +843,7 @@ CrFwBool_t CrPsTstTestCase4()
 
   /* Advance time to the point where the (17,3) time-out is exceeded
    * NB: Time is advanced every time */
-  while (CrFwGetCurrentTime()<(initTime+getDpAreYouAliveTimeOut()))
+  while (CrFwGetCurrentTime()<(initTime+getDpTstAreYouAliveTimeOut()))
 		CrFwGetCurrentTime();
 
   /* Execute (17,3) command which now should be terminated with a failure */
@@ -861,16 +861,19 @@ CrFwBool_t CrPsTstTestCase4()
     return 0;
 
   /* Reset InManager and check that all InComponents are unloaded and released */
+  inManager = CrFwInManagerMake(0);
   CrFwCmpReset(inManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(inManager) != 0)
     return 0;
 
   /* Reset the OutFactory */
+  outFactory = CrFwOutFactoryMake();
   CrFwCmpReset(outFactory);  
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
 
   /* Reset the InFactory and check that no InCommands are allocated */
+  inFactory = CrFwInFactoryMake();
   CrFwCmpReset(inFactory);
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
