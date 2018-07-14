@@ -29,6 +29,9 @@
 #include "FwPrConstants.h"
 #include <string.h>				/* Required for memcpy */
 
+/** Macro required in generated code for command and report stubs */
+#define DBG(x) (void)(x);
+
 /** Type used for instance identifiers. */
 typedef unsigned short CrFwInstanceId_t;
 
