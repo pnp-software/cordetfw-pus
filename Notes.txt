@@ -34,3 +34,11 @@ Change the type of lastEvtTime_x from CrFwTimeStamp_t (a structure) to CrFwTime 
 
 -------------------------------------------
 In files like CrPsDpTst.h, why are data structures holding the variables and parameters declared as "extern"? This was probably requested by Markus but I think that it is wrong.
+
+
+24 July 2018
+============
+
+Exclude from build lib/cordetfw/tests and lib/cordetfw/lib/fwprofile/tests
+Add pthread as a link library 
+
