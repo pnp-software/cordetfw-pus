@@ -103,9 +103,7 @@ CrFwBool_t CrPsTstTestCase1() {
   CrFwPcktSetSrc(pckt,0);
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetGroup(pckt,1);
-  CrFwPcktSetServType(pckt,17);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
-  CrFwPcktSetServType(pckt,17);
   CrFwPcktSetSeqCnt(pckt,2);
 
   cmd17s3 = CrFwInFactoryMakeInCmd(pckt);
@@ -125,11 +123,11 @@ CrFwBool_t CrPsTstTestCase1() {
   rep17s4 = CrFwOutFactoryMakeOutCmp(TST_TYPE, TSTCONNECTREP_STYPE, 0, 0);
   if (rep17s4 == NULL)
 	  return 0;
-  if (CrFwInCmdGetServType(rep17s4) != 17)
+  if (CrFwOutCmpGetServType(rep17s4) != 17)
 	  return 0;
-  if (CrFwInCmdGetServSubType(rep17s4) != 4)
+  if (CrFwOutCmpGetServSubType(rep17s4) != 4)
 	  return 0;
-  if (CrFwInCmdGetDiscriminant(rep17s4) != 0)
+  if (CrFwOutCmpGetDiscriminant(rep17s4) != 0)
 	  return 0;
 
   setTstConnectRepAppId(rep17s4,255);
