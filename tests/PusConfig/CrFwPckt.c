@@ -56,7 +56,7 @@
  *
  */
 
-#include <CrPsPkt.h>
+#include "CrPsPckt.h"
 #include "/home/ap/Projects/cordetfw-pus/tests/PusConfig/CrFwUserConstants.h"
 #include "CrFwConstants.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
@@ -326,7 +326,7 @@ void CrFwPcktSetSrc(CrFwPckt_t pckt, CrFwDestSrc_t src) {
 		apid = getTmHeaderAPID(pckt);
 		apid = 0x000F & apid;   /* Remove PID part of APID */
 		apid = apid + src*16;	/* Set PID part of APID equal to destination */
-		setTmHeaderAPID(pckt, src);
+		setTmHeaderAPID(pckt, apid);
 	}
 }
 
