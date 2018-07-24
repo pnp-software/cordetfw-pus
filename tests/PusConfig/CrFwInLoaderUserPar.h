@@ -17,13 +17,6 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * @author Christian Reimers <christian.reimers@univie.ac.at>
- * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- *
- * last modification: 22.01.2018
- *
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
- *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
@@ -34,7 +27,7 @@
 #define CR_FW_INLOADER_USERPAR_H_
 
 #include "InLoader/CrFwInLoader.h"
-#include "CrFwInLoaderTestCases.h"
+#include "CrFwInLoaderStub.h"
 
 
 /**
@@ -42,7 +35,7 @@
  * This function must conform to the prototype defined by <code>::CrFwInLoaderGetReroutingDest_t</code>.
  * The function specified here is the re-routing destination function used for the Test Suite.
  */
-#define CR_FW_INLOADER_DET_REROUTING_DEST CrFwInLoaderTestCaseGetReroutingDestination
+#define CR_FW_INLOADER_DET_REROUTING_DEST CrFwInLoaderStubGetReroutingDestination
 
 /**
  * The function which determines the InManager into which an InReport or InCommand must be loaded.

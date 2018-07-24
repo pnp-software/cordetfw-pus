@@ -1,7 +1,6 @@
 /**
- * @file CrFwAppStartUpProc.c
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @file
+ * @ingroup CrTestSuiteGroup
  *
  * Default implementation of the Application Start-Up Procedure of <code>CrFwAppStartUpProc.h</code>.
  * The implementation of this procedure is one of the adaptation points of the
@@ -18,17 +17,13 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * @author Christian Reimers <christian.reimers@univie.ac.at>
- * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- *
- * last modification: 22.01.2018
- *
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ * This file is part of the CORDET Framework.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
+ * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #include <stdlib.h>

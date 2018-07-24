@@ -24,7 +24,7 @@
 #include <string.h>
 
 /** The number of tests in the test suite. */
-#define NOF_TESTS 23
+#define NOF_TESTS 5
 
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -65,7 +65,7 @@ int main() {
 		if (configCheckOutcome == crInFactoryInCmdConfigParInconsistent)
 			printf("Consistency check of InCommand parameters in InFactory failed\n");
 		if (configCheckOutcome == crInFactoryInRepConfigParInconsistent)
-			printf("Consistency check of InRepot parameters in InFactory failed\n");
+			printf("Consistency check of InReport parameters in InFactory failed\n");
 		return EXIT_SUCCESS;
 	}
 	printf("Consistency check of configuration parameters ran successfully...\n");
@@ -77,95 +77,26 @@ int main() {
 	testNames[i] = "Pusext_PacketGetterSetter_TestCase1";
 	testCases[i] = &CrPsPcktGetSetTestCase1;
 	i+=1;
-	testNames[i] = "Pusext_PacketGetterSetter_TestCase2";
-	// testCases[i] = &CrPsPcktGetSetTestCase2;
+	testNames[i] = "Pusext_CrPsTst_TestCase1";
+	testCases[i] = &CrPsTstTestCase1;
 	i+=1;
-	testNames[i] = "Pusext_PacketGetterSetter_TestCase3";
-	// testCases[i] = &CrPsPcktGetSetTestCase3;
+	testNames[i] = "Pusext_CrPsTst_TestCase2";
+	testCases[i] = &CrPsTstTestCase2;
 	i+=1;
-	testNames[i] = "Pusext_PacketGetterSetter_TestCase4";
-	// testCases[i] = &CrPsPcktGetSetTestCase4;
+	testNames[i] = "Pusext_CrPsTst_TestCase3";
+	testCases[i] = &CrPsTstTestCase3;
 	i+=1;
-
-	/*Service 1*/
-	testNames[i] = "Pusext_ServVeri_TestCase1";
-	//testCases[i] = &CrPsServVeriTestCase1;	DEBUG
-	i+=1;
-	/*Servuce 17*/
-	testNames[i] = "Pusext_ServTestConn_TestCase1";
-	// testCases[i] = &CrPsServTestConnTestCase1;
-	i+=1;
-	testNames[i] = "Pusext_ServTestConn_TestCase2";
-	// testCases[i] = &CrPsServTestConnTestCase2;
-	i+=1;
-	testNames[i] = "Pusext_ServTestConn_TestCase3";
-	// testCases[i] = &CrPsServTestConnTestCase3;
-	i+=1;
-	
-	/*DataPool*/
-	testNames[i] = "Pusext_DataPool_TestCase1";
-	// testCases[i] = &CrPsDataPoolTestCase1;
-	i+=1;
-	testNames[i] = "Pusext_DataPool_TestCase2";
-	// testCases[i] = &CrPsDataPoolTestCase2;
-	i+=1;
-	testNames[i] = "Pusext_DataPool_TestCase3";
-	// testCases[i] = &CrPsDataPoolTestCase3;
-	i+=1;
-    testNames[i] = "Pusext_DataPool_TestCase4";
-    // testCases[i] = &CrPsDataPoolTestCase4;
-	i+=1;
-	testNames[i] = "Pusext_DataPool_TestCase5";
-	// testCases[i] = &CrPsDataPoolTestCase5;
-	i+=1;
-	testNames[i] = "Pusext_DataPool_TestCase6";
-	// testCases[i] = &CrPsDataPoolTestCase6;
-	i+=1;
-	
-		/*Service 3*/
-	testNames[i] = "Pusext_Housekeeping_TestCase1";
-	// testCases[i] = &CrPsHkTestCase1;
-	i+=1;
-	testNames[i] = "Pusext_Housekeeping_TestCase2";
-	// testCases[i] = &CrPsHkTestCase2;
-	i+=1;
-	testNames[i] = "Pusext_Housekeeping_TestCase3";
-	// testCases[i] = &CrPsHkTestCase3;
-	i+=1;
-	testNames[i] = "Pusext_Housekeeping_TestCase4";
-	// testCases[i] = &CrPsHkTestCase4;
-	i+=1;
-
-	/*Service 5*/
-	testNames[i] = "Pusext_EventReporting_TestCase1";
-	// testCases[i] = &CrPsEvtTestCase1;
-	i+=1;
-
-	/*Service ¹3*/
-	testNames[i] = "Pusext_LargePacketTransfer_TestCase1";
-	// testCases[i] = &CrPsLptTestCase1;
-	i+=1;
-	testNames[i] = "Pusext_LargePacketTransfer_TestCase2";
-	// testCases[i] = &CrPsLptTestCase2;
-	i+=1;
-	testNames[i] = "Pusext_LargePacketTransfer_TestCase3";
-	// testCases[i] = &CrPsLptTestCase3;
-	i+=1;
-	testNames[i] = "Pusext_LargePacketTransfer_TestCase4";
-	// testCases[i] = &CrPsLptTestCase4;
+	testNames[i] = "Pusext_CrPsTst_TestCase4";
+	testCases[i] = &CrPsTstTestCase4;
 	i+=1;
 
 	/* Run test cases in sequence */
 	for (i=0; i<NOF_TESTS; i++) {
 		testOutcome = testCases[i]();
 		if (testOutcome == 1)
-		{
 			printf("Test case %s ran successfully ...\n", testNames[i]);
-		}
 		else
-		{
 			printf("Test case %s failed!\n", testNames[i]);
-		}
 	}
 
 	return EXIT_SUCCESS;

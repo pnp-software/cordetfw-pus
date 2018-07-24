@@ -1,7 +1,6 @@
 /**
- * @file CrFwRepInCmdOutCome.c
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @file
+ * @ingroup CrTestSuiteGroup
  *
  * Default implementation of the InCommand Outcome Reporting interface of
  * <code>CrFwRepInCmdOutcome.h</code>.
@@ -18,27 +17,29 @@
  * The array is managed as a ring-buffer.
  * Functions are provide to let external components access the InCommand Outcome Report array.
  *
+ * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
- * @author Christian Reimers <christian.reimers@univie.ac.at>
- * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ * This file is part of the CORDET Framework.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
+ * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #include <stdlib.h>
 /* Include Framework Files */
 #include "CrFwConstants.h"
 #include "CrFwRepInCmdOutcome.h"
+#include "Pckt/CrFwPckt.h"
 /* Include Configuration Files */
 #include "CrFwRepInCmdOutcomeStub.h"
 
 /** The size of the InCommand Outcome Report array */
-#define CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE 100
+#define CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE 10
 
 /** The structure for an InCommand Outcome Report. */
 typedef struct {
@@ -54,6 +55,8 @@ typedef struct {
 	CrFwDiscriminant_t discriminant;
 	/** The instance identifier of the InCommand whose outcome is being reported */
 	CrFwInstanceId_t instanceId;
+	/** The inCmd where the error occurred (NB: this is a pointer!) **/
+	FwSmDesc_t inCmd;
 } CrFwInCmdOutcomeRep_t;
 
 /** The InCommand Outcome Report array */
@@ -72,6 +75,37 @@ CrFwCounterU2_t CrFwRepInCmdOutcomeStubGetPos() {
 void CrFwRepInCmdOutcomeStubReset() {
 	inCmdOutcomeRepPos = 0;
 }
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanceId, CrFwServType_t servType,
+                         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd) {
+
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].outcome = outcome;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].instanceId = instanceId;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].failCode = failCode;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servType = servType;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servSubType = servSubType;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].discriminant = disc;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].inCmd = inCmd;
+
+	inCmdOutcomeRepPos = (CrFwCounterU2_t)((inCmdOutcomeRepPos + 1) % CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE);
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwRepInCmdOutcomeCreFail(CrFwRepInCmdOutcome_t outcome, CrFwOutcome_t failCode, CrFwPckt_t pckt) {
+
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].outcome = outcome;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].instanceId = CrFwPcktGetCmdRepId(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].failCode = failCode;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servType = CrFwPcktGetServType(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servSubType = CrFwPcktGetServSubType(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].discriminant = CrFwPcktGetDiscriminant(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].inCmd = NULL;
+
+	inCmdOutcomeRepPos = (CrFwCounterU2_t)((inCmdOutcomeRepPos + 1) % CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE);
+}
+
+
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwRepInCmdOutcome_t CrFwRepInCmdOutcomeStubGetOutcome(CrFwCounterU2_t repPos) {

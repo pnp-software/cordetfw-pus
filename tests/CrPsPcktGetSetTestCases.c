@@ -336,6 +336,10 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   if (CrFwPcktGetSrc(pckt3) != 12) 
     return 0;
   
+  /* Turn the packet into a command packet */
+  CrFwPcktSetCmdRepType(pckt3,crCmdType);
+
+  /* Check the command acknowledge bits */
   CrFwPcktSetAckLevel(pckt3,1,0,0,0);
   if (CrFwPcktIsAcceptAck(pckt3) != 1) 
     return 0;

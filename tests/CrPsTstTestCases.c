@@ -82,11 +82,11 @@ CrFwBool_t CrPsTstTestCase1() {
   rep17s2 = CrFwOutFactoryMakeOutCmp(TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0, 0);
   if (rep17s2 == NULL)
 	  return 0;
-  if (CrFwInCmdGetServType(rep17s2) != 17)
+  if (CrFwOutCmpGetServType(rep17s2) != 17)
 	  return 0;
-  if (CrFwInCmdGetServSubType(rep17s2) != 2)
+  if (CrFwOutCmpGetServSubType(rep17s2) != 2)
 	  return 0;
-  if (CrFwInCmdGetDiscriminant(rep17s2) != 0)
+  if (CrFwOutCmpGetDiscriminant(rep17s2) != 0)
 	  return 0;
 
   /* Release (17,2) report */
@@ -96,6 +96,18 @@ CrFwBool_t CrPsTstTestCase1() {
 
   /* Check getter and setter functions for (17,3) command */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,17);
+  CrFwPcktSetServSubType(pckt,3);
+  CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,10);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetServType(pckt,17);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetServType(pckt,17);
+  CrFwPcktSetSeqCnt(pckt,2);
+
   cmd17s3 = CrFwInFactoryMakeInCmd(pckt);
   if (cmd17s3 == NULL)
 	  return 0;
@@ -191,9 +203,9 @@ CrFwBool_t CrPsTstTestCase2() {
 
   /* Create a 17,1 Packet */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,1);
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetDiscriminant(pckt,0);
   CrFwPcktSetSrc(pckt,0);
   CrFwPcktSetDest(pckt,10);
@@ -296,9 +308,9 @@ CrFwBool_t CrPsTstTestCase2() {
 
   /* Allocate a 17,1 Packet */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,1);
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetDiscriminant(pckt,0);
   CrFwPcktSetSrc(pckt,0);
   CrFwPcktSetDest(pckt,10);
@@ -395,10 +407,10 @@ CrFwBool_t CrPsTstTestCase3() {
 
   /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
   CrFwPcktSetDiscriminant(pckt,0);  
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetSrc(pckt,3);
   CrFwPcktSetDest(pckt,3);
   CrFwPcktSetGroup(pckt,1);
@@ -474,10 +486,10 @@ CrFwBool_t CrPsTstTestCase3() {
   /* ----------------------------------------------------------------------------------- */
   /* Create a 17,3 Packet with a correct connection test destination */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
   CrFwPcktSetDiscriminant(pckt,0);  
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetSrc(pckt,0);
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetGroup(pckt,1);
@@ -536,6 +548,7 @@ CrFwBool_t CrPsTstTestCase3() {
 
   /* Create a 17,2 in Report */
   pckt2 = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt2,17);
   CrFwPcktSetServSubType(pckt2,2);
   CrFwPcktSetDiscriminant(pckt2,0);
@@ -717,10 +730,10 @@ CrFwBool_t CrPsTstTestCase4()
 
   /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
   CrFwPcktSetDiscriminant(pckt,0);  
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetSrc(pckt,1);
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetGroup(pckt,1);
@@ -777,10 +790,10 @@ CrFwBool_t CrPsTstTestCase4()
 
   /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3);
   CrFwPcktSetDiscriminant(pckt,0);  
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetSrc(pckt,1);
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetGroup(pckt,1);
@@ -814,9 +827,9 @@ CrFwBool_t CrPsTstTestCase4()
 
   /* Create a 17,3 Packet */
   pckt = CrFwPcktMake(20);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,3); 
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetSrc(pckt,1);
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  

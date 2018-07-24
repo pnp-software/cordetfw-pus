@@ -10,18 +10,11 @@
  * The value of these parameters cannot be changed dynamically.
  *
  * The default values defined in this file are those used for the testing of the
- * CORDET Framework.
+ * PUS Extension of the CORDET Framework.
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
- *
- * @author Christian Reimers <christian.reimers@univie.ac.at>
- * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- *
- * last modification: 22.01.2018
- *
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,9 +30,6 @@
 #include "BaseCmp/CrFwResetProc.h"
 /* Include test suite files */
 #include "CrFwOutStreamStub.h"
-#include "CrFwOutStreamSocket.h"
-#include "CrFwClientSocket.h"
-#include "CrFwServerSocket.h"
 
 /**
  * The number of OutStream components in the application.
@@ -48,7 +38,7 @@
  * The value of this constant must be smaller than the range of the <code>::CrFwCounterU1_t</code>
  * integer type.
  */
-#define CR_FW_NOF_OUTSTREAM 7
+#define CR_FW_NOF_OUTSTREAM 2
 
 /**
  * The sizes of the packet queues in the OutStream component.
@@ -58,11 +48,8 @@
  * may remain pending in the packet queue.
  * The size of a packet queue must be a positive integer (i.e. it is not legal
  * to define a zero-size packet queue).
- *
- * The packet sizes defined in this file are those used for the test cases
- * of <code>CrFwOutStreamTestCases.h</code>.
  */
-#define CR_FW_OUTSTREAM_PQSIZE {3,3,3,3,5,5,5}
+#define CR_FW_OUTSTREAM_PQSIZE {3,3}
 
 /**
  * The destinations of the OutStream components.
@@ -71,21 +58,15 @@
  * Each OutStream has one (and only one) destination associated to it.
  * A destination is defined by a non-negative integer.
  * This array defines the destination of the i-th OutStream.
- *
- * The destinations defined in this file are those used for the test cases
- * of <code>CrFwOutStreamTestCases.h</code>.
  */
-#define CR_FW_OUTSTREAM_DEST {1,2,3,4,5,6,7}
+#define CR_FW_OUTSTREAM_DEST {1,2}
 
 /**
  * The number of groups of the OutStream components.
  * The number of groups must be a positive integer.
  * This array defines the number of groups of the i-th OutStream.
- *
- * The number of groups defined in this file are those used for the test cases
- * of <code>CrFwOutStreamTestCases.h</code>.
  */
-#define CR_FW_OUTSTREAM_NOF_GROUPS {1,2,1,1,1,1,1}
+#define CR_FW_OUTSTREAM_NOF_GROUPS {1,2}
 
 /**
  * The functions implementing the packet hand-over operations of the OutStream components.
@@ -96,17 +77,9 @@
  * The items in the arrays must be function pointers of type:
  * <code>::CrFwPcktHandover_t</code>.
  * No default is defined at framework level for this function.
- *
- * The packet handover functions defined in this file are those used for the test cases
- * of <code>CrFwOutStreamTestCases.h</code>.
  */
 #define CR_FW_OUTSTREAM_PCKTHANDOVER {&CrFwOutStreamStubPcktHandover, \
-									  &CrFwOutStreamStubPcktHandover, \
-									  &CrFwOutStreamStubPcktHandover, \
-									  &CrFwOutStreamStubPcktHandover, \
-									  &CrFwOutStreamSocketPcktHandover, \
-									  &CrFwClientSocketPcktHandover, \
-									  &CrFwServerSocketPcktHandover}
+									  &CrFwOutStreamStubPcktHandover}
 
 /**
  * The functions implementing the Initialization Check of the OutStream components.
@@ -122,12 +95,7 @@
  * implementation for this function.
  */
 #define CR_FW_OUTSTREAM_INITCHECK {&CrFwBaseCmpDefInitCheck, \
-							 	   &CrFwBaseCmpDefInitCheck, \
-								   &CrFwBaseCmpDefInitCheck, \
-	                               &CrFwOutStreamStubDummyCheck, \
-	                               &CrFwOutStreamSocketInitCheck, \
-								   &CrFwClientSocketInitCheck, \
-								   &CrFwServerSocketInitCheck}
+							 	   &CrFwBaseCmpDefInitCheck}
 
 /**
  * The functions implementing the Initialization Action of the OutStream components.
@@ -147,12 +115,7 @@
  * to this function.
  */
 #define CR_FW_OUTSTREAM_INITACTION {&CrFwOutStreamDefInitAction, \
-								   &CrFwOutStreamDefInitAction, \
-								   &CrFwOutStreamDefInitAction, \
-	                               &CrFwOutStreamStubInitAction, \
-	                               &CrFwOutStreamSocketInitAction, \
-								   &CrFwClientSocketInitAction, \
-								   &CrFwServerSocketInitAction}
+								   &CrFwOutStreamDefInitAction}
 
 /**
  * The functions implementing the Configuration Check of the OutStream components.
@@ -168,12 +131,7 @@
  * implementation for this function.
  */
 #define CR_FW_OUTSTREAM_CONFIGCHECK {&CrFwBaseCmpDefConfigCheck, \
-								    &CrFwBaseCmpDefConfigCheck, \
-								    &CrFwBaseCmpDefConfigCheck, \
-	                                &CrFwOutStreamStubDummyCheck, \
-	                                &CrFwOutStreamSocketConfigCheck, \
-								    &CrFwBaseCmpDefConfigCheck, \
-								    &CrFwServerSocketConfigCheck}
+								    &CrFwBaseCmpDefConfigCheck}
 
 /**
  * The functions implementing the Configuration Action of the OutStream components.
@@ -193,12 +151,7 @@
  * to this function.
  */
 #define CR_FW_OUTSTREAM_CONFIGACTION {&CrFwOutStreamDefConfigAction, \
-								     &CrFwOutStreamDefConfigAction, \
-								     &CrFwOutStreamDefConfigAction, \
-	                                 &CrFwOutStreamStubConfigAction, \
-	                                 &CrFwOutStreamDefConfigAction, \
-								     &CrFwClientSocketConfigAction, \
-								     &CrFwServerSocketConfigAction}
+								     &CrFwOutStreamDefConfigAction}
 
 /**
  * The functions implementing the Shutdown Action of the OutStream components.
@@ -215,11 +168,6 @@
  * to this function.
  */
 #define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrFwOutStreamDefShutdownAction, \
-							     	   &CrFwOutStreamStubShutdown, \
-							     	   &CrFwOutStreamDefShutdownAction, \
-									   &CrFwOutStreamDefShutdownAction, \
-									   &CrFwOutStreamSocketShutdownAction, \
-								       &CrFwClientSocketShutdownAction, \
-								       &CrFwServerSocketShutdownAction}
+							     	   &CrFwOutStreamStubShutdown}
 
 #endif /* CR_FW_OUTSTREAM_USERPAR_H_ */
