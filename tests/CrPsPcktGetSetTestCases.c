@@ -17,7 +17,7 @@
  */
 
 /* Include system files */
-#include <CrPsPkt.h>
+#include "CrPsPckt.h"
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -58,6 +58,7 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   CrFwPckt_t pckt, pckt2, pckt3;
   uint8_t  tim[6], timi[6];
   char    *pstart;
+  int i;
   uint16_t pcktsize = 30;
 
   CrFwSetAppErrCode(crNoAppErr);
@@ -68,6 +69,8 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
 
   /* Allocate a Packet */
   pckt = CrFwPcktMake(pcktsize);
+  for (i=0; i<pcktsize; i++)
+	  pckt[i]=0;
 
   /*test all TC header Getter and Setter*/
   setTcHeaderPcktVersionNmb(pckt, 0);
