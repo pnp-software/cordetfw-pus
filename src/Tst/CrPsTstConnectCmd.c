@@ -56,7 +56,6 @@ void CrPsTstConnectCmdStartAction(FwSmDesc_t smDesc) {
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsTstConnectCmdProgressAction(FwSmDesc_t smDesc) {
-  CrPsTstData_t* prgrPrData;
   FwPrDesc_t prgrPr;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command */

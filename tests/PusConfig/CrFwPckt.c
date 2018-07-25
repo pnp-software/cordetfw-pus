@@ -56,7 +56,7 @@
  *
  */
 
-#include "CrPsPckt.h"
+#include "PcktFunctions/CrPsPckt.h"
 #include "/home/ap/Projects/cordetfw-pus/tests/PusConfig/CrFwUserConstants.h"
 #include "CrFwConstants.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
