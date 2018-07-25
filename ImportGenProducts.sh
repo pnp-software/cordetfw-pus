@@ -104,17 +104,17 @@ if [ "$EDITOR" == "YES" ]
     rsync $EDITOR_PATH/dp/*.* ./src/DataPool --exclude CrPsConstants.h --exclude CrPsTypes.h
 fi
 
-# Copy the files which define the commands and reports
+# Copy the headers of the files which define the commands and reports
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files which define the commands and reports--"
-    cp $EDITOR_PATH/cfw/Ver/*.* ./src/Ver
-    cp $EDITOR_PATH/cfw/Hk/*.* ./src/Hk
-    cp $EDITOR_PATH/cfw/Evt/*.* ./src/Evt
-    cp $EDITOR_PATH/cfw/Mon/*.* ./src/Mon
-    cp $EDITOR_PATH/cfw/Lpt/*.* ./src/Lpt
-    cp $EDITOR_PATH/cfw/Tst/*.* ./src/Tst
-    cp $EDITOR_PATH/cfw/Scd/*.* ./src/Scd
+    cp $EDITOR_PATH/cfw/Ver/*.h ./src/Ver
+    cp $EDITOR_PATH/cfw/Hk/*.h ./src/Hk
+    cp $EDITOR_PATH/cfw/Evt/*.h ./src/Evt
+    cp $EDITOR_PATH/cfw/Mon/*.h ./src/Mon
+    cp $EDITOR_PATH/cfw/Lpt/*.h ./src/Lpt
+    cp $EDITOR_PATH/cfw/Tst/*.h ./src/Tst
+    cp $EDITOR_PATH/cfw/Scd/*.h ./src/Scd
 fi
 
 # Copy the files which define the configuration of the CORDET Framework
