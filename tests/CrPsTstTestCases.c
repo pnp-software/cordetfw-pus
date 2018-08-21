@@ -455,27 +455,20 @@ CrFwBool_t CrPsTstTestCase3() {
   outCmp = outManagerCSData->pocl[0];
 
   /* Check if there is a 1,4 Command waiting in the OutManager (loaded) */
-  /*if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)							TO BE ADDED!
-    return 0;
-  if (CrFwOutCmpGetServType(outCmp) != 1)
-    return 0;
-  if (CrFwOutCmpGetServSubType(outCmp) != 4)
-    return 0;
-  if (getVerFailedStartRepTcFailCode(outCmp) != VER_REP_CR_FD)
-	  return 0;  */
+  /*if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)							TO BE ADDED! */
+  //  return 0;
+  //if (CrFwOutCmpGetServType(outCmp) != 1)
+  //  return 0;
+  //if (CrFwOutCmpGetServSubType(outCmp) != 4)
+  //  return 0;
+  //if (getVerFailedStartRepTcFailCode(outCmp) != VER_REP_CR_FD)
+  //	  return 0;  */
 
   /*Release the OutComponent*/
-  /*CrFwOutFactoryReleaseOutCmp(outCmp);
+  /*CrFwOutFactoryReleaseOutCmp(outCmp); */
 
   /* Reset the OutManager (this should clear the POCL and release all OutComponents) */
   CrFwCmpReset(outManager);
-
-  if (!CrFwCmpIsInConfigured(outManager))
-    return 0;
-  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
-    return 0;
-  if (CrFwOutManagerGetNOfLoadedOutCmp(outManager) != 0)
-    return 0;
 
   /* Check the application error code */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -497,12 +490,10 @@ CrFwBool_t CrPsTstTestCase3() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
-  setTstConnectCmdAppId(pckt, 1);
+  setTstConnectCmdAppId(pckt, 1);	/* destination of connection test */
 
-  /* Check if number of Allocated Packets and commands */
+  /* Check number of Allocated Packets and commands */
   if (CrFwPcktGetNOfAllocated() != 1)
-    return 0;
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
 
   /* Create an InCommand out of the 17,3 packet*/
@@ -510,8 +501,6 @@ CrFwBool_t CrPsTstTestCase3() {
 
   /* Check number of Allocated InCommands and OutComponents */
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
-    return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
 
   /* Check that newly created InCommand is in stated ACCEPTED */
@@ -564,8 +553,6 @@ CrFwBool_t CrPsTstTestCase3() {
   /* Check number of Allocated Packets and Components */
   if (CrFwPcktGetNOfAllocated() != 4)
     return 0;
-  if (CrFwInFactoryGetNOfAllocatedInRep() != 0)
-    return 0;
 
   /*Create an InReport from pckt2 (17.2)*/
   inRep1 = CrFwInFactoryMakeInRep(pckt2);
@@ -589,7 +576,7 @@ CrFwBool_t CrPsTstTestCase3() {
   if (CrFwInManagerGetNOfLoadedInCmp(inManager) != 1)
     return 0;
 
-  /*Execute the InManager*/
+  /*Execute the InManager (this will cause the 17,2 InReport to be released) */
   CrFwCmpExecute(inManager); 
 
   /* Check that there is now no Pending but one Loaded (inCmd)(17,3) Packets in the InManager*/
@@ -623,7 +610,7 @@ CrFwBool_t CrPsTstTestCase3() {
   outCmp = outManagerCSData->pocl[0];
   outCmp1 = outManagerCSData->pocl[1];
 
-  /*Check if there is a 17,1 Command waiting in the OutManager (loaded)*/
+  /*Check if there are a 17,1 Command and 17,4 reports waiting in the OutManager (loaded)*/
   if (CrFwOutManagerGetNOfLoadedOutCmp(outManager) != 2)
     return 0;
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
@@ -634,16 +621,6 @@ CrFwBool_t CrPsTstTestCase3() {
     return 0;
   if (CrFwOutCmpGetDest(outCmp) != 1)	/* Destination taken from (17,3) parameter */
 	  return 0;
-
-  /* Execute the OutComponent (17,1) */
-  CrFwCmpExecute(outCmp); 
-  
-  /* Check and reset application error code (i think because there is no outstream defined) */
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Check if there is a 17,4 Command waitig in the OutManager (loaded)*/
-  if (CrFwOutManagerGetNOfLoadedOutCmp(outManager) != 2)
-    return 0;
   if (CrFwCmpGetTypeId(outCmp1) != CR_FW_OUTCMP_TYPE)
     return 0;
   if (CrFwOutCmpGetServType(outCmp1) != 17)
@@ -651,8 +628,12 @@ CrFwBool_t CrPsTstTestCase3() {
   if (CrFwOutCmpGetServSubType(outCmp1) != 4)
     return 0;
 
-  /* Execute the OutComponent (17,4) */
+  /* Execute the OutComponent (17,1) and (17,4) */
+  CrFwCmpExecute(outCmp);
   CrFwCmpExecute(outCmp1); 
+
+  /* Check and reset application error code (i think because there is no outstream defined) */
+  CrFwSetAppErrCode(crNoAppErr);
 
   /* Check that there are 3 allocated packets */
   if (CrFwPcktGetNOfAllocated() != 3)
@@ -661,7 +642,7 @@ CrFwBool_t CrPsTstTestCase3() {
   /* Release the (17,3) InCommand*/
   CrFwInFactoryReleaseInCmd(inCmd);
 
-  /* Check that now there are only 2 allocated packets */
+  /* Check that now there are only 2 allocated packets (the 17,1 and 17,4) */
   if (CrFwPcktGetNOfAllocated() != 2)
     return 0;
 
@@ -669,47 +650,21 @@ CrFwBool_t CrPsTstTestCase3() {
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
 
-  /* Release the (17,2) InReport*/
-  CrFwInFactoryReleaseInRep(inRep1);
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Check that now there are only 2 allocated packets */
-  if (CrFwPcktGetNOfAllocated() != 2)
-    return 0;
-
-  /* Release the (17,1) Outcomponent*/
-  CrFwOutFactoryReleaseOutCmp(outCmp);
-
-  /* Check that now there is only 1 allocated packet */
-  if (CrFwPcktGetNOfAllocated() != 1)
-    return 0;
-
-  /* Release the (17,4) OutComponent*/
-  CrFwOutFactoryReleaseOutCmp(outCmp1);
-
-  /* Check that there are no allocated packets */
-  if (CrFwPcktGetNOfAllocated() != 0)
-    return 0;
-
-  /* Check application errors */
+  /* Reset framework components */
+  CrFwCmpReset(outManager);				/* This releases (17,1) and (17,4) */
   if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
 
-  /* Reset framework components and check that all OutComponents are unloaded and released */
-  CrFwCmpReset(outManager);
-  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
-    return 0;
-
   CrFwCmpReset(inManager);
-  if (CrFwOutManagerGetNOfPendingOutCmp(inManager) != 0)
+  if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
   
   CrFwCmpReset(outFactory);  
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
+  if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
   
   CrFwCmpReset(inFactory);
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
+  if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
 
   /* Check application errors */
@@ -720,8 +675,7 @@ CrFwBool_t CrPsTstTestCase3() {
 }
 
 /*--------------------------------------------------------------------------------*/
-CrFwBool_t CrPsTstTestCase4()
-{
+CrFwBool_t CrPsTstTestCase4() {
   /* Service 17 exceptional cases */
   FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp1, outCmp[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
   CrFwPckt_t pckt;
@@ -750,45 +704,36 @@ CrFwBool_t CrPsTstTestCase4()
   /* make an inCommand out of the packet */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-  /* Fill the outfactory so that an Error could occur (leave one free slot) */
+  /* Fill the outfactory leaving only one free slot */
   for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
     outCmp[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
   
   /* Execute the InCommand  */
-  /* If the OutFactory is full it should fail !!!*/
   CrFwCmpExecute(inCmd); 
+
+  /* The OUTFACTORY_FAIL error report and a (1,2) with VER_REP_CRFD should have been generated */
+  // TBD check
+
+  /* The InCommand should have been aborted */
+  if (CrFwInCmdIsInAborted(inCmd) != 1)
+	  return 0;
+
+  /* The Error Code has been set by the OutFactory and must be reset */
+  if (CrFwGetAppErrCode()!=crOutCmpAllocationFail)
+	  return 0;
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Check that no OutComponents were loaded in the OutLoader */
+  outManager = CrFwOutManagerMake(0);
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
+      return 0;
 
   /* Release all outcomponents, that have been created to fill the outfactory */
   for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
     CrFwOutFactoryReleaseOutCmp(outCmp[i]);
 
-  /* The Error Code has been set by the OutFactory */
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Release the original inCmd */
+  /* Release the original inCmd and reset the OutManager (where a (17,4) has been loaded by the */
   CrFwInFactoryReleaseInCmd(inCmd);
-
-  /* Get the Information from the OutManager (there are two Component!) */
-  outManager = CrFwOutManagerMake(0);
-  outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
-  outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
-  outCmp1 = outManagerCSData->pocl[0];
-  
-  /* Check if there is a 1,4 Command waiting in the OutManager */
-  if (CrFwCmpGetTypeId(outCmp1) != CR_FW_OUTCMP_TYPE)
-    return 0;
-  if (CrFwOutCmpGetServType(outCmp1) != 1)
-    return 0;
-  if (CrFwOutCmpGetServSubType(outCmp1) != 4)
-    return 0;
-
-  /*Release the (1,4) Outcomponent*/
-  CrFwOutFactoryReleaseOutCmp(outCmp1);
-
-  /* Reset OutManager and check that all OutComponents are unloaded and released */
-  CrFwCmpReset(outManager);
-  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
-    return 0;
 
  /* Check if number of Allocated Packets now is 0*/
   if (CrFwPcktGetNOfAllocated() != 0)

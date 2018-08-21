@@ -65,7 +65,7 @@ CrFwBool_t CrPsTstTestCase2();
  *   with failure code VER_REP_CR_FD
  * - Create a (17,3) command with a legal destination for the connection test
  * - Execute the (17,3) command and verify that a (17,1) command is issued to the correct destination
- * - Create a (17,2) report as a response to the (17,1)
+ * - Create a (17,2) report as a response to the (17,1) and execute it
  * - Execute again the (17,3) command and verify that it completes its execution
  * .
  * @verify Connection Test Command, Start Action, Illegal Destination Branch
