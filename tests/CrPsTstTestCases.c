@@ -708,15 +708,14 @@ CrFwBool_t CrPsTstTestCase4() {
   for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
     outCmp[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
   
-  /* Execute the InCommand  */
-  CrFwCmpExecute(inCmd); 
+  /* Execute the InCommand should have been aborted and */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+  if (CrFwInCmdIsInAborted(inCmd) != 1)
+	  return 0;
 
   /* The OUTFACTORY_FAIL error report and a (1,2) with VER_REP_CRFD should have been generated */
   // TBD check
-
-  /* The InCommand should have been aborted */
-  if (CrFwInCmdIsInAborted(inCmd) != 1)
-	  return 0;
 
   /* The Error Code has been set by the OutFactory and must be reset */
   if (CrFwGetAppErrCode()!=crOutCmpAllocationFail)
@@ -760,7 +759,8 @@ CrFwBool_t CrPsTstTestCase4() {
 
   /* Execute the InCommand  */
   /* If the OutFactory is full it should fail, there is also no place for a 1,4 to be generated !!!*/
-  CrFwCmpExecute(inCmd); 
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
 
   /* Release all OutComponents, that have been created to fill the outfactory */
   for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
@@ -789,39 +789,50 @@ CrFwBool_t CrPsTstTestCase4() {
   /* make an inCommand out of the packet */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
   
-  /* Execute the InCommand  */
-  initTime = CrFwGetCurrentTime();	/* Time when execution of (17,3) command starts */
-  CrFwCmpExecute(inCmd); 
+  /* Make sure the current time is non-zero */
+  CrFwGetCurrentTime();		/* This causes time to be advanced */
+  initTime = CrFwGetCurrentTime();
 
-  /*Check if now 3 Packets are Allocated
-   * one InCommand we just created and executed)
-   * one InCommand (17.1) to the application that was specified in the parameter of the 17.3 packet
-   * and a Packet holding the 17.4 Report is allocated (outManagerPending)
-   */
-  if (CrFwPcktGetNOfAllocated() != 3)
-    return 0;
+  /* Set the time-out for the (17,3) to a very high value */
+  setDpTstAreYouAliveTimeOut(100.0);
 
-  /* Check if number of Allocated InCommands in the InFactory stays at 1*/
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
-    return 0;
-
-  /* Advance time to the point where the (17,3) time-out is exceeded
-   * NB: Time is advanced every time */
-  while (CrFwGetCurrentTime()<(initTime+getDpTstAreYouAliveTimeOut()))
-		CrFwGetCurrentTime();
-
-  /* Execute (17,3) command which now should be terminated with a failure */
+  /* Execute the InCommand and verify that the start time is correctly loaded in the data pool */
   CrFwCmpExecute(inCmd);
   CrFwInCmdTerminate(inCmd);
-  if (!CrFwInCmdIsInAborted(inCmd))
+  if (abs(getDpTstAreYouAliveStart()-initTime)>0.0001)
+     return 0;
+
+  /* Execute the InCommand a few times and check that it remains in PROGRESS */
+  /* If the OutFactory is full it should fail, there is also no place for a 1,4 to be generated !!!*/
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+  if (CrFwInCmdIsInProgress(inCmd) != 1)
 	  return 0;
 
-  /* Release the original inCmd */
-  CrFwInFactoryReleaseInCmd(inCmd);
+  /* At this point in time there are two pending items in the OutManager: the (17,1) and the (17,4) */
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager)!=1)
+  	  return 0;
 
-  /* Reset OutManager and check that all OutComponents are unloaded and released */
+  /* Reset the time-out to a very small value and then execute again the InCommand and
+   * verify that it is now aborted and that the (17,4) is no longer loaded in the OutManager */
+  setDpTstAreYouAliveTimeOut(0.1);
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+  if (CrFwInCmdIsInAborted(inCmd) != 1)
+	  return 0;
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager)!=1)
+	  return 0;
+
+  /* Reset the OutManager and release the inCmd and check that all packets are released */
+  CrFwInFactoryReleaseInCmd(inCmd);
   CrFwCmpReset(outManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
+    return 0;
+  if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Reset InManager and check that all InComponents are unloaded and released */
@@ -841,9 +852,6 @@ CrFwBool_t CrPsTstTestCase4() {
   CrFwCmpReset(inFactory);
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
-
-  /* Here the ErrorCode gets 6*/
-  // CrFwSetAppErrCode(crNoAppErr);			WHY?
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
