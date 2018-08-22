@@ -91,7 +91,7 @@ CrFwBool_t CrPsTstTestCase3();
  *   in the OutFactory and then execute it once. This causes a (17,1) to be created and loaded into
  *   its OutManager
  * - Execute the (17,3) a few more times and verify that it remains pending waiting for the (17,2)
- * - Advance  time to the point where the time-out for the reception of the (17,2) is exceeded
+ * - Set the time-out to a very small value such that the time-out is exceeded
  *   and then execute again the (17,3) and verify that it is aborted because the time-out has expired
  * .
  * @verify Connection Test Command, Start Action, Retrieval of Second OutComponent Fails

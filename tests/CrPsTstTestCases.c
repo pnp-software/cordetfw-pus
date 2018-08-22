@@ -57,7 +57,7 @@ CrFwTime_t cmd7s3TimeOut = 2;
 CrFwBool_t CrPsTstTestCase1() {
   CrFwPckt_t pckt;
   FwSmDesc_t cmd17s3, rep17s2, rep17s4;
-  CrFwPckt_t pcktCmd17s3, pcktRep17s2, pcktRep17s4;
+  CrFwPckt_t pcktCmd17s3, pcktRep17s4;
   FwSmDesc_t inFactory, outFactory;
   unsigned int nAllocatedCmd, nAllocatedRep;
 
@@ -677,11 +677,9 @@ CrFwBool_t CrPsTstTestCase3() {
 /*--------------------------------------------------------------------------------*/
 CrFwBool_t CrPsTstTestCase4() {
   /* Service 17 exceptional cases */
-  FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp1, outCmp[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
+  FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
   CrFwPckt_t pckt;
-  CrFwCmpData_t* outManagerData;
-  CrFwOutManagerData_t* outManagerCSData;
-  CrFwTime_t initTime;
+   CrFwTime_t initTime;
   int i;
   
   /* Check number of Allocated Packets */
