@@ -86,102 +86,174 @@ CrFwBool_t CrPsTstTestCase1() {
 	  return 0;
 
   /* Create a (1,2) report and check its attributes */
- rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 7, 0);
- if (rep == NULL)
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 7, 0);
+  if (rep == NULL)
 	  return 0;
- if (CrFwOutCmpGetServType(rep) != 1)
+  if (CrFwOutCmpGetServType(rep) != 1)
 	  return 0;
- if (CrFwOutCmpGetServSubType(rep) != 2)
+  if (CrFwOutCmpGetServSubType(rep) != 2)
 	  return 0;
- if (CrFwOutCmpGetDiscriminant(rep) != 7)
-	  return 0;
-
- pckt = CrFwOutCmpGetPckt(rep);
- if (getVerFailedAccRepTcFailCode(pckt) != 7)
+  if (CrFwOutCmpGetDiscriminant(rep) != 7)
 	  return 0;
 
- CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
- if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
+  pckt = CrFwOutCmpGetPckt(rep);
+  if (getVerFailedAccRepTcFailCode(pckt) != 7)
 	  return 0;
 
-
-
-  /* Release (17,2) report */
-  CrFwOutFactoryReleaseOutCmp(rep17s2);
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
 	  return 0;
 
-  /* Check getter and setter functions for (17,3) command */
-  pckt = CrFwPcktMake(20);
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
-  CrFwPcktSetServType(pckt,17);
-  CrFwPcktSetServSubType(pckt,3);
-  CrFwPcktSetDiscriminant(pckt,0);
-  CrFwPcktSetSrc(pckt,0);
-  CrFwPcktSetDest(pckt,10);
-  CrFwPcktSetGroup(pckt,1);
-  CrFwPcktSetAckLevel(pckt,0,0,0,0);
-  CrFwPcktSetSeqCnt(pckt,2);
-
-  cmd17s3 = CrFwInFactoryMakeInCmd(pckt);
-  if (cmd17s3 == NULL)
+  /* Create a (1,3) report and check its attributes */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCSTARTREP_STYPE, 0, 0);
+  if (rep == NULL)
+	  return 0;
+  if (CrFwOutCmpGetServType(rep) != 1)
+	  return 0;
+  if (CrFwOutCmpGetServSubType(rep) != 3)
+	  return 0;
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
 	  return 0;
 
-  pcktCmd17s3 = CrFwInCmdGetPckt(cmd17s3);
-  setTstConnectCmdAppId(pcktCmd17s3,1);
-  if (getTstConnectCmdAppId(pcktCmd17s3) != 1)
+  pckt = CrFwOutCmpGetPckt(rep);
+  setVerSuccStartRepPckttVersNumber(pckt,7);
+  if (getVerSuccStartRepPckttVersNumber(pckt) != 7)
 	  return 0;
 
-  /* Release (17,3) command */
-  CrFwInFactoryReleaseInCmd(cmd17s3);
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != nAllocatedCmd)
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
 	  return 0;
 
-  /* Create a (17,4) report and check its attributes */
-  rep17s4 = CrFwOutFactoryMakeOutCmp(TST_TYPE, TSTCONNECTREP_STYPE, 0, 0);
-  if (rep17s4 == NULL)
+  /* Create a (1,4) report and check its attributes */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDSTARTREP_STYPE, 0, 0);
+  if (rep == NULL)
 	  return 0;
-  if (CrFwOutCmpGetServType(rep17s4) != 17)
+  if (CrFwOutCmpGetServType(rep) != 1)
 	  return 0;
-  if (CrFwOutCmpGetServSubType(rep17s4) != 4)
+  if (CrFwOutCmpGetServSubType(rep) != 4)
 	  return 0;
-  if (CrFwOutCmpGetDiscriminant(rep17s4) != 0)
-	  return 0;
-
-  pcktRep17s4 = CrFwOutCmpGetPckt(rep17s4);
-  setTstConnectRepAppId(pcktRep17s4,255);
-  if (getTstConnectRepAppId(pcktRep17s4) != 255)
+  if (CrFwOutCmpGetDiscriminant(rep) != 9)
 	  return 0;
 
-  /* Release (17,4) report */
-  CrFwOutFactoryReleaseOutCmp(rep17s4);
-  if (CrFwInFactoryGetNOfAllocatedInCmd() != nAllocatedCmd)
+  pckt = CrFwOutCmpGetPckt(rep);
+  if (getVerFailedStartRepTcFailCode(pckt) != 9)
+	  return 0;
+  setVerFailedStartRepTcPcktSeqCtrl(pckt,257);
+  if (getVerFailedStartRepTcPcktSeqCtrl(pckt) != 257)
 	  return 0;
 
-  /* Verify selected data pool items */
-  setDpTstAreYouAliveTimeOut(1);
-  if (getDpTstAreYouAliveTimeOut() != 1)
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
 	  return 0;
 
-  setDpTstAreYouAliveTimeOut(65537);
-  if (getDpTstAreYouAliveTimeOut() != 65537)
+  /* Create a (1,5) report and check its attributes */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCPRGRREP_STYPE, 0, 0);
+  if (rep == NULL)
+	  return 0;
+  if (CrFwOutCmpGetServType(rep) != 1)
+	  return 0;
+  if (CrFwOutCmpGetServSubType(rep) != 5)
+	  return 0;
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
 	  return 0;
 
-  setDpTstOnBoardConnectDestLstItem(1, 255);
-  if (getDpTstOnBoardConnectDestLstItem(1) != 255)
+  pckt = CrFwOutCmpGetPckt(rep);
+  setVerSuccPrgrRepPckttVersNumber(pckt,1);
+  if (getVerSuccPrgrRepPckttVersNumber(pckt) != 1)
 	  return 0;
 
-  setDpTstAreYouAliveSrc(255);
-  if (getDpTstAreYouAliveSrc() != 255)
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
 	  return 0;
 
-  setDpTstAreYouAliveStart(1);
-  if (getDpTstAreYouAliveStart() != 1)
+  /* Create a (1,6) report and check its attributes */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDPRGRREP_STYPE, 0, 0);
+  if (rep == NULL)
+	  return 0;
+  if (CrFwOutCmpGetServType(rep) != 1)
+	  return 0;
+  if (CrFwOutCmpGetServSubType(rep) != 6)
+	  return 0;
+  if (CrFwOutCmpGetDiscriminant(rep) != 33)
 	  return 0;
 
-  /* Check if number of Allocated Packets = 0*/
-  if (CrFwPcktGetNOfAllocated() != 0)
-    return 0;
+  pckt = CrFwOutCmpGetPckt(rep);
+  if (getVerFailedPrgrRepTcFailCode(pckt) != 33)
+	  return 0;
+  setVerFailedPrgrRepTcPcktSeqCtrl(pckt,257);
+  if (getVerFailedPrgrRepTcPcktSeqCtrl(pckt) != 257)
+	  return 0;
+
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
+	  return 0;
+
+  /* Create a (1,7) report and check its attributes */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCTERMREP_STYPE, 0, 0);
+  if (rep == NULL)
+	  return 0;
+  if (CrFwOutCmpGetServType(rep) != 1)
+	  return 0;
+  if (CrFwOutCmpGetServSubType(rep) != 7)
+	  return 0;
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
+	  return 0;
+
+  pckt = CrFwOutCmpGetPckt(rep);
+  setVerSuccTermRepPckttVersNumber(pckt,4);
+  if (getVerSuccTermRepPckttVersNumber(pckt) != 4)
+	  return 0;
+
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
+	  return 0;
+
+  /* Create a (1,8) report and check its attributes */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, 31, 0);
+  if (rep == NULL)
+	  return 0;
+  if (CrFwOutCmpGetServType(rep) != 1)
+	  return 0;
+  if (CrFwOutCmpGetServSubType(rep) != 8)
+	  return 0;
+  if (CrFwOutCmpGetDiscriminant(rep) != 31)
+	  return 0;
+
+  pckt = CrFwOutCmpGetPckt(rep);
+  if (getVerFailedTermrRepTcFailCode(pckt) != 31)
+	  return 0;
+  setVerFailedTermRepTcPcktId(pckt,4096);
+  if (getVerFailedTermRepTcPcktId(pckt) != 4096)
+	  return 0;
+
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
+	  return 0;
+
+  /* Create a (1,10) report and check its attributes */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDROUTINGREP_STYPE, 255, 0);
+  if (rep == NULL)
+	  return 0;
+  if (CrFwOutCmpGetServType(rep) != 1)
+	  return 0;
+  if (CrFwOutCmpGetServSubType(rep) != 10)
+	  return 0;
+  if (CrFwOutCmpGetDiscriminant(rep) != 255)
+	  return 0;
+
+  pckt = CrFwOutCmpGetPckt(rep);
+  if (getVerFailedTermrRepTcFailCode(pckt) != 31)
+	  return 0;
+  setVerFailedRoutingRepInvDest(pckt,10);
+  if (getVerFailedRoutingRepInvDest(pckt) != 10)
+	  return 0;
+  setVerFailedRoutingRepTcType(pckt,31);
+  if (getVerFailedRoutingRepTcType(pckt) != 31)
+	  return 0;
+
+  CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nAllocatedRep)
+	  return 0;
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -190,8 +262,9 @@ CrFwBool_t CrPsTstTestCase1() {
   return 1;
 }
 
+
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrPsServVeriTestCase1()
+CrFwBool_t CrPsServVeriTestCase2()
 {
   /* Check Service 1 */
   unsigned short i;

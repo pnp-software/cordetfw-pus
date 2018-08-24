@@ -35,6 +35,36 @@
  */
 CrFwBool_t CrPsVerTestCase1();
 
+/**
+ * Test the generation of a (1,10) report.
+ * The following actions are performed:
+ * - Load a report with an invalid destination into the InLoader and verify that
+ *   an error report of type INLOADER_INV_DEST is generated
+ * - Load a command with an invalid destination into the InLoader and verify that
+ *   a (1,10) report is loaded into the OutLoader and that it carries the illegal
+ *   destination as a parameter
+ * - Verify that data pool variable nOfReroutingFailed has been incremented by 1
+ * - Verify that data pool variables pcktIdReroutingFailed has the same value as the
+ *   pcktId of the command with the invalid destination
+ *   Verify that data pool variable invDestRerouting is equal to the invalid
+ *   destination
+ * - Fill up the OutFactory to the point where there are no more free slot and
+ *   load a command with an invalid destination into the InLoader and verify that
+ *   error report OUTFACTORY_FAIL is generated
+ * - Check selected service 1 data pool parameters
+ * .
+ *
+ * @verify Packet Rerouting Failure Procedure, Report handling branch
+ * @verify Packet Rerouting Failure Procedure, Nominal command handling branch
+ * @verify Packet Rerouting Failure Procedure, Non-Nominal command handling branch
+ * @errRep INLOADER_INV_DEST
+ * @errRep OUTFACTORY_FAIL
+ * @obs nOfReroutingFailed
+ * @obs invDestRerouting
+ * @obs pcktIdReroutingFailed
+ */
+CrFwBool_t CrPsVerTestCase2();
+
 
 /**
  * Test the Service 1 Request Verification
