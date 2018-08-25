@@ -22,7 +22,7 @@
  */
 
 /** CrPsCmdPrgrFail function definitions */
-#include "CrPsCmdPrgrFailCreate.h"
+#include "CrPsOutCmpVerFailedPrgrRep.h"
 
 /** FW Profile function definitions */
 #include "FwPrConstants.h"
@@ -37,55 +37,41 @@
 #include <OutLoader/CrFwOutLoader.h>
 #include <OutCmp/CrFwOutCmp.h>
 
-#include <CrPsRepErr.h>
-#include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsPktServReqVerif.h>
-#include <Services/General/CrPsPktServReqVerifSupp.h>
-#include <Services/General/CrPsPktUtil.h>
-#include <DataPool/CrPsDpServReqVerif.h>
+#include "CrPsConstants.h"
 
 #include <stdlib.h>
 #include <time.h>
 
 static FwSmDesc_t rep;
 
-
-/* ----------------------------------------------------------------------------------------------------------------- */
-
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
-void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc)
-{
+void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* Retrieve an OutComponent of type (1,6) from the OutFactory */
-  
-  /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0, 0);
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDPRGRREP_STYPE, 0, 0);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
-void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc)
-{
-  CrPsRepErrCode_t errCode;
-
+void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc) {
+  CrFwCmpData_t* inData;
   CRFW_UNUSED(prDesc);
 
-  /* Generate error report OUTFACTORY_FAIL */
+  inData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 
-  errCode = crOutfactoryFail;
-  CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0);
+  /* Generate error report OUTFACTORY_FAIL */
+  CrFwRepErrKind(psOutFactoryFail, inData->typeId, inData->instanceId, TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
-void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc)
-{
+void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   CrFwDestSrc_t     source;
   CrPsFailData_t    VerFailData;
   CrFwCmpData_t    *inData;

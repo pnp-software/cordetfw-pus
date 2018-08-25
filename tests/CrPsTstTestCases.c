@@ -437,6 +437,13 @@ CrFwBool_t CrPsTstTestCase3() {
   /* Release the inCommand*/
   CrFwInFactoryReleaseInCmd(inCmd);
 
+  /* Check that a (1,4) report has been generated and is loaded in the OurManager
+   * and that the failure code is correctly reported in the data pool  */
+  if (getDpVerFailCodeStartFailed() != VER_REP_CR_FD)
+	  return 0;
+
+
+
   /* Check if number of Allocated Packets now is 1 - a Request Verification (1,4) should be in the Outmanager */
   /* if (CrFwPcktGetNOfAllocated() != 1)										TO BE ADDED
     return 0;

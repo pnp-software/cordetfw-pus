@@ -57,11 +57,11 @@ CrFwBool_t CrPsVerTestCase1();
  * @verify Packet Rerouting Failure Procedure, Report handling branch
  * @verify Packet Rerouting Failure Procedure, Nominal command handling branch
  * @verify Packet Rerouting Failure Procedure, Non-Nominal command handling branch
- * @errRep INLOADER_INV_DEST
- * @errRep OUTFACTORY_FAIL
- * @obs nOfReroutingFailed
- * @obs invDestRerouting
- * @obs pcktIdReroutingFailed
+ * @verify Error Report, INLOADER_INV_DEST
+ * @errRep Error Report, OUTFACTORY_FAIL
+ * @verify Observable, nOfReroutingFailed
+ * @verify Observable, invDestRerouting
+ * @verify Observable, pcktIdReroutingFailed
  */
 CrFwBool_t CrPsVerTestCase2();
 

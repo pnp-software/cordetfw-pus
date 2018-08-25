@@ -671,7 +671,7 @@ The Request Verification Service is implemented by nine reports which are issued
 
 \begin{itemize}
 \item The report (1,10) is triggered in response to notifications of a routing failure for an incoming command (Routing and Reporting Sub-Service)
-\item The reports (1,1) and (1,2) are triggered in response to notifications of the failure or success of the acceptance of an incoming command (Acceptance and Reporting Sub-Service)
+\item The report (1,1) and (1,2) are triggered in response to notifications of the failure or success of the acceptance of an incoming command (Acceptance and Reporting Sub-Service) 
 \item The reports (1,3) to (1,8) are triggered in response to notifications of the failure or success of execution of an incoming command (Execution and Reporting Sub-Service)
 \end{itemize}
 
@@ -698,7 +698,7 @@ By way of summary, table \ref{tab:sourcesNotif} lists the sources of all notific
 \endhead
 Routing Failure Notification & This notification is issued by the \textit{Report Packet Destination Invalid Operation} which is called by the InLoader Execution Procedure when an application has received a command or report with a destination which is neither the application itself nor some other known application. & ILD-12 \\
 \hline
-Acceptance Failure Notification & This notification is issued by the \textit{Report Acceptance Failure Operation} which is called by the InLoader Load Command/Report Procedure when an incoming command has failed its acceptance check. & ILD-14 \\
+Acceptance Failure Notification & This notification is issued by the \textit{Report Acceptance Failure Operation} which is called by the InLoader Load Command/Report Procedure when: (a) an incoming command has failed its acceptance check, or (b) the InCommand component could not be created either to a lack or resources or to the triplet [type,sub-type,discriminant] being illegal, or (c) the InCommand component could not be loaded into its InManager due to the InManager Pending Command/Report List (PCRL) being full. & ILD-14 \\
 \hline
 Acceptance Success Notification & This notification is issued by the \textit{Report Acceptance Success Operation} which is called by the InLoader Load Command/Report Procedure when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance. & ILD-15 \\
 \hline

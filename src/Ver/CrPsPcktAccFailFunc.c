@@ -3,15 +3,14 @@
  * @ingroup Serv1
  * @ingroup procedures
  *
- * @brief This procedure is run when the InLoader has found a packet which failed its acceptance check.
+ * @brief This procedure is run when the InLoader has found a packet which has failed its acceptance check.
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jul 11 2017 18:24:51
  *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * 
- * last modification: 22.01.2018
+ * @author Alessandro Pasrtti <pasetti@pnp-software.com>
  * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
@@ -22,7 +21,7 @@
  */
 
 /** CrPsPcktAccFail function definitions */
-#include "CrPsPcktAccFailCreate.h"
+#include "CrPsPcktAccFail.h"
 
 /** FW Profile function definitions */
 #include "FwPrConstants.h"
@@ -50,13 +49,9 @@
 
 static FwSmDesc_t rep;
 
-
-/* ----------------------------------------------------------------------------------------------------------------- */
-
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N1. */
-void CrPsPcktAccFailN1(FwPrDesc_t prDesc)
-{
+void CrPsPcktAccFailN1(FwPrDesc_t prDesc) {
   CrFwCmpData_t   *inData;
   CrFwInRepData_t *inSpecificData;
   CrFwPckt_t       inPckt;

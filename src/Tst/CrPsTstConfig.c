@@ -4,7 +4,7 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * This file is part of the :US Extension of the CORDET Framework.
+ * This file is part of the PUS Extension of the CORDET Framework.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -37,19 +37,10 @@ static CrPsTstData_t prTstData;
 
 
 /*------------------------------------------------------------------------*/
-CrFwBool_t CrPsTstConfigInit() {
-
+void CrPsTstConfigInit() {
 	/* Create the two procedure instances */
 	Cmd17s3Prgr = CrPsCmd17s3PrgrCreate(&prTstData);
 	Cmd17s3Start = CrPsCmd17s3StartCreate(&prTstData);
-
-	if (Cmd17s3Start == NULL)
-		return 0;
-
-	if (Cmd17s3Prgr == NULL)
-		return 0;
-
-	return 1;
 }
 
 /*------------------------------------------------------------------------*/
