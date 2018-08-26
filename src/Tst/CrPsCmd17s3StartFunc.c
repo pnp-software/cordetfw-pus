@@ -83,13 +83,10 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N3. */
 void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc) {
-  CrFwCmpData_t* inData;
   CRFW_UNUSED(prDesc);
 
-  inData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-
   /* Generate error report OUTFACTORY_FAIL */
-  CrFwRepErrKind(psOutFactoryFail, inData->typeId, inData->instanceId, TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0);
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0);
 
   return;
 }

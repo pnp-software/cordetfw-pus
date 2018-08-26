@@ -30,69 +30,47 @@
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
-#include "Pckt/CrFwPckt.h" /* --- interface to adaptation point CrFwPckt --- */
-#include <CrFwCmpData.h>
-#include <BaseCmp/CrFwBaseCmp.h>
-#include <OutFactory/CrFwOutFactory.h>
-#include <OutLoader/CrFwOutLoader.h>
-#include <OutCmp/CrFwOutCmp.h>
+#include "Pckt/CrFwPckt.h"
+#include "CrPsConstants.h"
+#include "CrPsTypes.h"
 
-#include <CrPsRepErr.h>
-#include <DataPool/CrPsDpServReqVerif.h>
-#include <Services/General/CrPsPktServReqVerif.h>
-#include <Services/General/CrPsPktServReqVerifSupp.h>
-#include <Services/General/CrPsPktUtil.h>
-#include <Services/General/CrPsConstants.h>
+/* Framework function definitions */
+#include "OutFactory/CrFwOutFactory.h"
+#include "OutCmp/CrFwOutCmp.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "CrFwTime.h"
+#include "CrFwCmpData.h"
 
 #include <stdlib.h>
-#include <time.h>
 
 static FwSmDesc_t rep;
+static CrPsVerData_t* repData;
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N1. */
 void CrPsPcktAccFailN1(FwPrDesc_t prDesc) {
-  CrFwCmpData_t   *inData;
-  CrFwInRepData_t *inSpecificData;
-  CrFwPckt_t       inPckt;
-  FwSmDesc_t       smDesc;
-  prData_t        *prData;
-  CrPsRepErrCode_t errCode;
+   CrPsVerData_t* repData = (CrPsVerData_t*)FwPrGetData(prDesc);
 
   /* Generate error report INLOADER_ACC_FAIL */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInRepData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  errCode = crInloaderAccFail;
-  CrPsRepErr(errCode, CrFwPcktGetServType(inPckt), CrFwPcktGetServSubType(inPckt), CrFwPcktGetDiscriminant(inPckt));
+  CrFwRepErrKind(crInLoaderAccFail, 0, 0, repData->servType, repData->servSubType, repData->disc);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
-void CrPsPcktAccFailN2(FwPrDesc_t prDesc)
-{
+void CrPsPcktAccFailN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
-  /* Retrieve an OutComponent of type (1,2) from the OutFactory */
 
-  /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_ACC_FAIL, 0, 0);
+  /* Retrieve an OutComponent of type (1,2) from the OutFactory */
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
-void CrPsPcktAccFailN3(FwPrDesc_t prDesc)
-{
+void CrPsPcktAccFailN3(FwPrDesc_t prDesc) {
   CrPsRepErrCode_t errCode;
 
   CRFW_UNUSED(prDesc);

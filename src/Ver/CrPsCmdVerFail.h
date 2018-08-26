@@ -12,7 +12,7 @@
  * @image html CrPsCmdVerFail.png
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Aug 22 2018 19:50:3
+ * @date Created on: Aug 26 2018 1:44:38
  */
 
 /** Make sure to include this header file only once */
@@ -43,7 +43,7 @@ FwPrDesc_t CrPsCmdVerFailCreate(void* prData);
  * Action for node N2.
  * <pre>
  * Retrieve an OutComponent of
- * type (1,4) or (1,8) from OutFactory
+ * type (1,2), (1,4) or (1,8) from OutFactory
  * </pre>
  * @param smDesc the procedure descriptor
  */

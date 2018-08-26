@@ -319,6 +319,9 @@ Point 3 of clause 5.4.11.2.3a implies that a Progress-of-Execution failure for a
 \subsubsection{Time-Tagging of Reports}
 Clause 5.4.2.1 of the PUS leaves applications the option to generate the time-tag of a report either before or after the time the report collects its data. In the CORDET Framework, the time-stamp of a report represents the time when an application makes a request to issue that report (this is after the report data have been collected). 
 
+\subsubsection{Reporting Successful Progress of Execution}
+A Successful Progress of Execution Report (1,5) is generated when the progress action of an incoming command has completed one "progress step". In the CORDET Framework, a "progress step" corresponds to the execution of an InCommand in state PROGRESS. It is recognized that, in a PUS context, a "progress step" should have a higher granularity. For this reason, an adaptation point is defined (adaptation point ICM-15, "Operation to Report Progress Success for InCommand") which allows applications to specify the conditions under which a (1,5) report should be generated. 
+
 \newpage
 \begin{longtable}{|l|>{\raggedright\arraybackslash}p{10cm}|}
 \caption{Terminological Mapping PUS-CORDET}\label{tab:termPusCr} \\
@@ -341,7 +344,7 @@ Notification & In the PUS, a report contains one or more notifications. The noti
 \hline
 Parameter & In a generic sense, PUS parameters are mapped to command and report parameters. In the specific context of service 3, parameters are mapped to data items. \\
 \hline
-Progress Step & In the PUS, the Progress Step is an enumerated type. In the CORDET Framework it is a positive integer which is equal to the number of times that the Progress Action has been executed since the execution of the command started. \\
+Progress Step & In the PUS, the Progress Step is an enumerated type. In the CORDET Framework it is a positive integer which, by default, is equal to the number of times that the Progress Action has been executed since the execution of the command started. Applications can define a different granularity by overriding adaptation point ICM-15 (Operation to Report Progress Success for InCommand) \\
 \hline
 Request & The PUS Request is the same as the CORDET Command \\
 \hline

@@ -17,7 +17,6 @@
 #include "CrPsCmdPrgrFail.h"
 #include "CrPsCmdPrgrSucc.h"
 #include "CrPsCmdVerFail.h"
-#include "CrPsPcktAccFail.h"
 #include "CrPsPcktReroutingFail.h"
 
 #include "DataPool/CrPsDpVer.h"
@@ -40,9 +39,6 @@ static FwPrDesc_t CmdVerFail = NULL;
 /** Singleton instance of Procedure for Command Verification Success */
 static FwPrDesc_t CmdVerSucc = NULL;
 
-/** Singleton instance of Procedure for Packet Acceptance Failure */
-static FwPrDesc_t PcktAccFail = NULL;
-
 /** Singleton instance of Procedure for Packet Acceptance Success */
 static FwPrDesc_t PcktReroutingFail = NULL;
 
@@ -57,7 +53,6 @@ void CrPsVerConfigInit() {
 	CmdPrgrSucc = CrPsCmdPrgrSuccCreate(&prVerData);
 	CmdVerFail = CrPsCmdVerFailCreate(&prVerData);
 	CmdVerSucc = CrPsCmdVerSuccCreate(&prVerData);
-	PcktAccFail = CrPsPcktAccFailCreate(&prVerData);
 	PcktReroutingFail = CrPsPcktReroutingFailCreate(&prVerData);
 }
 
@@ -89,11 +84,6 @@ FwPrDesc_t CrPsVerConfigGetCmdVerFail() {
 /*------------------------------------------------------------------------*/
 FwPrDesc_t CrPsVerConfigGetCmdVerSucc() {
 	return CmdVerSucc;
-}
-
-/*------------------------------------------------------------------------*/
-FwPrDesc_t CrPsVerConfigGetPcktAccFail() {
-	return PcktAccFail;
 }
 
 /*------------------------------------------------------------------------*/

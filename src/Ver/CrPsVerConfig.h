@@ -136,16 +136,6 @@ FwPrDesc_t CrPsVerConfigGetCmdVerFail();
 FwPrDesc_t CrPsVerConfigGetCmdVerSucc();
 
 /**
- * Return the instance of the procedure implementing the Packet Acceptance Failure Procedure.
- * This function should only be called after function <code>::CrPsVerConfigInit</code> (which
- * creates and configures the procedure instance) has been called.
- * If the initialization failed, this function might return NULL.
- *
- * @return the descriptor of the Packet Acceptance Failure Procedure
- */
-FwPrDesc_t CrPsVerConfigGetPcktAccFail();
-
-/**
  * Return the instance of the procedure implementing the Packet Rerouting Failure Procedure.
  * This function should only be called after function <code>::CrPsVerConfigInit</code> (which
  * creates and configures the procedure instance) has been called.

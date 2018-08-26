@@ -27,8 +27,13 @@
 #include <stdlib.h>
 /* Include Framework Files */
 #include "CrFwConstants.h"
+#include "CrFwUserConstants.h"
 #include "CrFwRepInCmdOutcome.h"
 #include "Pckt/CrFwPckt.h"
+#include "CrFwVerServUserPar.h"
+
+/** Pointer to function which determines whether an execution step has been completed (see <code>::CR_PS_STEP_COMPLETED</code>. */
+static CrPsStepCompleted_t isStepCompleted = CR_PS_STEP_COMPLETED;
 
 /*-----------------------------------------------------------------------------------------*/
 /**
@@ -43,7 +48,7 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
   switch (outcome) {
     case crCmdAckAccFail:		/* Report an acceptance failure */
     	 CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
-         serv1Pr = CrPsVerConfigGetPcktAccFail();
+         serv1Pr = CrPsVerConfigGetCmdVerFail();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckAccSucc:		/* Report an acceptance success */
@@ -67,9 +72,11 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
          FwPrRun(serv1Pr);
          break;
     case crCmdAckPrgSucc:		/* Report a progress success */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
-         serv1Pr = CrPsVerConfigGetCmdPrgrSucc();
-         FwPrRun(serv1Pr);
+         if (isStepCompleted(inCmd) == 1) {
+             CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+             serv1Pr = CrPsVerConfigGetCmdPrgrSucc();
+             FwPrRun(serv1Pr);
+         }
          break;
     case crCmdAckTrmFail:		/* Report a termination failure */
          CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
@@ -94,7 +101,7 @@ void CrFwRepInCmdOutcomeCreFail(CrFwRepInCmdOutcome_t outcome, CrFwOutcome_t fai
     FwPrDesc_t serv1Pr;
     CrPsVerConfigSetPrData(outcome, CrFwPcktGetServType(pckt), CrFwPcktGetServSubType(pckt),
                                                    CrFwPcktGetDiscriminant(pckt), VER_CRE_FD, NULL);
-     serv1Pr = CrPsVerConfigGetCmdVerFail();
-     FwPrRun(serv1Pr);
+    serv1Pr = CrPsVerConfigGetCmdVerFail();
+    FwPrRun(serv1Pr);
 }
 
