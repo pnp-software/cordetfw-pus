@@ -22,7 +22,7 @@
  */
 
 /** CrPsCmdVerSucc function definitions */
-#include "CrPsCmdVerSuccCreate.h"
+#include "CrPsCmdVerSucc.h"
 
 /** FW Profile function definitions */
 #include "FwPrConstants.h"
@@ -31,117 +31,90 @@
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
-#include "Pckt/CrFwPckt.h" /* --- interface to adaptation point CrFwPckt --- */
-#include <CrFwCmpData.h>
-#include <OutFactory/CrFwOutFactory.h>
-#include <OutLoader/CrFwOutLoader.h>
-#include <OutCmp/CrFwOutCmp.h>
+/** CORDET FW function definitions */
+#include "Pckt/CrFwPckt.h"
+#include "CrFwCmpData.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "OutCmp/CrFwOutCmp.h"
 
-#include <CrPsRepErr.h>
-#include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsPktServReqVerif.h>
-#include <Services/General/CrPsPktServReqVerifSupp.h>
-#include <Services/General/CrPsPktUtil.h>
+#include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpTst.h"
+#include "CrPsTypes.h"
+#include "CrPsServTypeId.h"
 
 #include <stdlib.h>
-#include <time.h>
+#include <assert.h>
 
 static FwSmDesc_t rep;
 
-/* ----------------------------------------------------------------------------------------------------------------- */
-
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
-void CrPsCmdVerSuccN2(FwPrDesc_t prDesc)
-{
-  prData_t* prData;
+void CrPsCmdVerSuccN2(FwPrDesc_t prDesc) {
+  CrFwRepInCmdOutcome_t outcome = CrPsVerConfigGetOutcome();
 
   /* Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-  rep = NULL;
-
-  /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, prData->ushortParam1, 0, 0);
+  if (outcome == crCmdAckAccSucc)
+      rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCACCREP_STYPE, 0, 0);
+  else if (outcome == crCmdAckStrSucc)
+      rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCSTARTREP_STYPE, 0, 0);
+  else
+      rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCTERMREP_STYPE, 0, 0);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
-void CrPsCmdVerSuccN3(FwPrDesc_t prDesc)
-{
-  CrPsRepErrCode_t errCode;
-
+void CrPsCmdVerSuccN3(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
-  
-  /* Generate error report OUTFACTORY_FAIL */
 
-  errCode = crOutfactoryFail;
-  CrPsRepErr(errCode, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0);
+  /* Generate error report OUTFACTORY_FAIL */
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, CrPsVerConfigGetServType(), CrPsVerConfigGetServSubType, CrPsVerConfigGetDisc());
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
-void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
-{
-  CrFwDestSrc_t     source;
-  CrFwCmpData_t    *inData;
-  CrFwInCmdData_t  *inSpecificData;
-  CrFwPckt_t        inPckt;
-  FwSmDesc_t        smDesc;
-  prData_t         *prData;
-  CrFwCmpData_t    *cmpDataStart;
-  CrFwOutCmpData_t *cmpSpecificData;
-  CrFwPckt_t        pckt;
-  CrPsRid_t         Rid; /* The request ID containing the packet version number the packet id and the packet sequence control */
-
-  cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
-  cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
-  pckt            = cmpSpecificData->pckt;
+void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
+  FwSmDesc_t inCmd;
+  CrFwDestSrc_t inCmdSrc;
+  CrFwPckt_t inPckt;
+  CrFwRepInCmdOutcome_t outcome;
+  CrPsSixteenBit_t tcPcktSeqCtrl;
+  CrPsThirteenBit_t tcPcktId;
 
   /* Configure report and load it in the OutLoader */
+  outcome = CrPsVerConfigGetOutcome();
+  inCmd = CrPsVerConfigGetInCmd();
+  inPckt = CrFwInCmdGetPckt(inCmd);
+  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*2^13+getTcHeaderAPID(inPckt);
 
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  /*smDesc = prData[0];*/
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  Rid = getPcktRid(inPckt);
-
-  if (prData->ushortParam1 == CRPS_REQVERIF_ACC_SUCC)
-  {
-    /* 1,1 */
-    /* Set pcktIdAccFailed */
-    setVerSuccessAccRepRid(pckt, Rid);
-  }
-
-  if (prData->ushortParam1 == CRPS_REQVERIF_START_SUCC)
-  {
-    /* 1,3 */
-    /* Set pcktIdAccFailed */
-    setVerSuccessStartRepRid(pckt, Rid);
-  }
-
-  if (prData->ushortParam1 == CRPS_REQVERIF_TERM_SUCC)
-  {
-    /* 1,7 */
-    /* Set pcktIdAccFailed */
-    setVerSuccessTermRepRid(pckt, Rid);
+  switch (outcome) {
+    case crCmdAckAccSucc:
+        setVerSuccAccRepPckttVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccAccRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
+        setVerSuccAccRepTcPcktId(inPckt, tcPcktId);
+        break;
+    case crCmdAckStrSucc:
+        setVerSuccStartRepPckttVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccStartRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
+        setVerSuccStartRepTcPcktId(inPckt, tcPcktId);
+        break;
+    case crCmdAckTrmSucc:
+        setVerSuccTermRepPckttVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccTermRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
+        setVerSuccTermRepTcPcktId(inPckt, tcPcktId);
+        break;
+    default:
+        assert(0);
   }
 
   /* Set the destination of the report to the source of the in-coming packet */
-  source = CrFwPcktGetSrc(inPckt);
-  CrFwOutCmpSetDest(rep, source);
+  inCmdSrc = CrFwInCmdGetSrc(inCmd);
+  CrFwOutCmpSetDest(rep, inCmdSrc);
 
   /* Load report in the Outloader */
   CrFwOutLoaderLoad(rep);
@@ -155,21 +128,14 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
 /**************/
 
 /** Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
-  /* [ OutFactory fails to generate OutComponent ] */  
-  
+  /* [ OutFactory fails to generate OutComponent ] */
   if (rep == NULL)
-    {
       return 1;
-    }
   else
-    {
       return 0;
-    }
-
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */

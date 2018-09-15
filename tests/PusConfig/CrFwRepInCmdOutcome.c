@@ -32,9 +32,6 @@
 #include "Pckt/CrFwPckt.h"
 #include "CrFwVerServUserPar.h"
 
-/** Pointer to function which determines whether an execution step has been completed (see <code>::CR_PS_STEP_COMPLETED</code>. */
-static CrPsStepCompleted_t isStepCompleted = CR_PS_STEP_COMPLETED;
-
 /*-----------------------------------------------------------------------------------------*/
 /**
  * This functions handles the processing outcome of an InCommand.
@@ -72,11 +69,9 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
          FwPrRun(serv1Pr);
          break;
     case crCmdAckPrgSucc:		/* Report a progress success */
-         if (isStepCompleted(inCmd) == 1) {
-             CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
-             serv1Pr = CrPsVerConfigGetCmdPrgrSucc();
-             FwPrRun(serv1Pr);
-         }
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         serv1Pr = CrPsVerConfigGetCmdPrgrSucc();
+         FwPrRun(serv1Pr);
          break;
     case crCmdAckTrmFail:		/* Report a termination failure */
          CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);

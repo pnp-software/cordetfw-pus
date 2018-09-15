@@ -62,12 +62,12 @@ typedef struct CrPsVerData {
  * the outcome of the processing of an incoming command.
  * They generate the service 1 reports.
  *
- * No check is performed on the successful creation of the service 1 procedures is done.
+ * No check is performed on the successful creation of the service 1 procedures.
  * This is acceptable because this function is only called during the application initialization
  * phase.
  * Its success or failure can therefore be determined statically.
  *
- * No configuration check (through function <code>::FwPrCheck</code> is done.
+ * No configuration check (through function <code>::FwPrCheck</code>) is done.
  * Such a check should not be part of the operational implementation of service 17.
  * If it is needed (as is typically the case during the development and debug phase of an application),
  * it should be done in a separate module.
@@ -94,6 +94,56 @@ void CrPsVerConfigInit();
  */
 void CrPsVerConfigSetPrData(CrFwRepInCmdOutcome_t outcome, CrFwServType_t servType,
         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd);
+
+/**
+ * Get the processing outcome of the command for which the service 1 report is generated.
+ * This function returns the value loaded with function <code>::CrPsVerConfigSetPrData</code>.
+ *
+ * @return the processing outcome of the command for which the service 1 report is generated.
+ */
+CrFwRepInCmdOutcome_t CrPsVerConfigGetOutcome();
+
+/**
+ * Get the service type of the command for which the service 1 report is generated.
+ * This function returns the value loaded with function <code>::CrPsVerConfigSetPrData</code>.
+ *
+ * @return the service type of command for which the service 1 report is generated.
+ */
+CrFwServType_t CrPsVerConfigGetServType();
+
+/**
+ * Get the service sub-type of the command for which the service 1 report is generated.
+ * This function returns the value loaded with function <code>::CrPsVerConfigSetPrData</code>.
+ *
+ * @return the service sub-type of command for which the service 1 report is generated.
+ */
+CrFwServSubType_t CrPsVerConfigGetServSubType();
+
+/**
+ * Get the discriminant of the command for which the service 1 report is generated.
+ * This function returns the value loaded with function <code>::CrPsVerConfigSetPrData</code>.
+ *
+ * @return the discriminant of command for which the service 1 report is generated.
+ */
+CrFwDiscriminant_t CrPsVerConfigGetDisc();
+
+/**
+ * Get the failure code of the command for which the service 1 report is generated.
+ * This function returns the value loaded with function <code>::CrPsVerConfigSetPrData</code>.
+ * The return code is meaningful when a command has a failed one of its checks.
+ * The function returns the value of the failure code.
+ *
+ * @return the failure code of command for which the service 1 report is generated.
+ */
+CrFwOutcome_t CrPsVerConfigGetFailCode();
+
+/**
+ * Get the InCommand for which the service 1 report is generated.
+ * This function returns the value loaded with function <code>::CrPsVerConfigSetPrData</code>.
+ *
+ * @return the descriptor of the InCommand for which the service 1 report is generated.
+ */
+FwSmDesc_t CrPsVerConfigGetInCmd();
 
 /**
  * Return the instance of the procedure implementing the Command Progress Failure Procedure.

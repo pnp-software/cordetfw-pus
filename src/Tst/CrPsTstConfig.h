@@ -62,12 +62,12 @@ typedef struct CrPsTstData {
  * This function creates and configures the procedures which implement the Start Action and the
  * Progress Action of the On-Board Connection Command.
  *
- * No check is performed on the successful creation of the test service procedures is done.
+ * No check is performed on the successful creation of the test service procedures.
  * This is acceptable because this function is only called during the application initialization
  * phase.
  * Its success or failure can therefore be determined statically.
  *
- * No configuration check (through function <code>::FwPrCheck</code> is done.
+ * No configuration check (through function <code>::FwPrCheck</code>) is done.
  * Such a check should not be part of the operational implementation of service 17.
  * If it is needed (as is typically the case during the development and debug phase of an application),
  * it should be done in a separate module.

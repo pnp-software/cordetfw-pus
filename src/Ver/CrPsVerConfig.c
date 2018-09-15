@@ -56,6 +56,7 @@ void CrPsVerConfigInit() {
 	PcktReroutingFail = CrPsPcktReroutingFailCreate(&prVerData);
 }
 
+/*------------------------------------------------------------------------*/
 void CrPsVerConfigSetPrData(CrFwRepInCmdOutcome_t outcome, CrFwServType_t servType,
         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd) {
 	prVerData->disc = disc;
@@ -64,6 +65,36 @@ void CrPsVerConfigSetPrData(CrFwRepInCmdOutcome_t outcome, CrFwServType_t servTy
 	prVerData->outcome = outcome;
 	prVerData->servSubType = servSubType;
 	prVerData->servType = servType;
+}
+
+/*------------------------------------------------------------------------*/
+CrFwRepInCmdOutcome_t CrPsVerConfigGetOutcome() {
+    return prVerData->outcome;
+}
+
+/*------------------------------------------------------------------------*/
+CrFwServType_t CrPsVerConfigGetServType() {
+    return prVerData->servType;
+}
+
+/*------------------------------------------------------------------------*/
+CrFwServSubType_t CrPsVerConfigGetServSubType() {
+    return prVerData->servSubType;
+}
+
+/*------------------------------------------------------------------------*/
+CrFwDiscriminant_t CrPsVerConfigGetDisc() {
+    return prVerData->disc;
+}
+
+/*------------------------------------------------------------------------*/
+CrFwOutcome_t CrPsVerConfigGetFailCode() {
+    return prVerData->failCode;
+}
+
+/*------------------------------------------------------------------------*/
+FwSmDesc_t CrPsVerConfigGetInCmd() {
+    return prVerData->inCmd;
 }
 
 /*------------------------------------------------------------------------*/
