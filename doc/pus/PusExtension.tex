@@ -723,15 +723,6 @@ The framework extension closes the adaptation points in table \ref{tab:sourcesNo
 
 The close-out behaviour for the adaptation points is defined in table \ref{tab:AP-S1}. It consists of running a procedure which creates the service 1 report, configures it, and then loads it into the OutLoader. The report is created by calling the \texttt{Make} operation of the OutFactory. This may fail if the OutFactory has run out of resources for new reports. In that case, error report OUTFACTORY\_FAIL is generated. Procedures which report failures also update the relevant observables (see section \ref{sec:serv1Obs}).
 
-The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Framework has the concept of 'Progress Step' which is a counter which counts the number of times an InCommand has been executed since it was 'in progress' (i.e. since it entered state PROGRESS). It is recognized that this mechanism may result in a step granularity which is too fine for some applications. The default logic for the generation of the (1,5) and (1,6) reports is then as follows:
-
-\begin{itemize}
-\item A return value of 'failed' for the Progress Action of the InCommand is interpreted as a progress step failure which triggers a (1,6) report. 
-\item A return value of 'continue' for the Progress Action of the InCommand may be interpreted as a progress step success which triggers a (1,5) report according to an application-specific logic to be inserted in adaptation point ICM-15 (Operation to Report Progress Success for InCommand). 
-\end{itemize}
-
-Note that the second bullet implies that the adaptation point ICM-15 cannot be closed at framework level but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
-
 The failure code of failure reports in service 1 is treated as a discriminant. This allows applications to selectively disable certain failure reports by using the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discriminant]. 
 
 
