@@ -1,0 +1,848 @@
+{
+     "editorVersion": "5.01",
+     "states": [
+          {
+               "id": 1,
+               "attrs": {
+                    "x": 374,
+                    "y": 44,
+                    "width": 278,
+                    "height": 66,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "note",
+                    "note": "This procedure is run by the Progress Action of the\ncommand (17,3) to perform a connection test to a\ntarget application. The identifier of the target application\nis a parameter of the (17,3) command.",
+                    "stateSelect": 0
+               },
+               "selected": false
+          },
+          {
+               "id": 3,
+               "attrs": {
+                    "x": 653,
+                    "y": 156,
+                    "width": 24,
+                    "height": 24,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "DECISION1"
+               },
+               "selected": false
+          },
+          {
+               "id": 4,
+               "attrs": {
+                    "x": 311,
+                    "y": 249,
+                    "width": 206,
+                    "height": 66,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N1",
+                    "entryFunc": "CrPsTestOnBoardConnectionPrgrN1",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Configure the (17,4) report with\na destination equal to the source of \nthe (17,3), load it in the OutLoader, and\nset action outcome to 'completed'",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 6,
+               "attrs": {
+                    "x": 597,
+                    "y": 261,
+                    "width": 138,
+                    "height": 42,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N2",
+                    "entryFunc": "CrPsTestOnBoardConnectionPrgrN2",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Set action outcome\n to 'continue'",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 8,
+               "attrs": {
+                    "x": 821,
+                    "y": 261,
+                    "width": 200,
+                    "height": 42,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N3",
+                    "entryFunc": "CrPsTestOnBoardConnectionPrgrN3",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Set action outcome to 'success'\nand release (17,4) report",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 10,
+               "attrs": {
+                    "x": 740,
+                    "y": 72,
+                    "width": 30,
+                    "height": 30,
+                    "r": 15,
+                    "rx": 15,
+                    "ry": 15,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "init",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 11,
+               "attrs": {
+                    "x": 653,
+                    "y": 349,
+                    "width": 26,
+                    "height": 26,
+                    "r": 13,
+                    "rx": 13,
+                    "ry": 13,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "final",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 12,
+               "attrs": {
+                    "x": 511,
+                    "y": 389,
+                    "width": 238,
+                    "height": 42,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "note",
+                    "note": "The (17,4) report has been retrieved from the\nOutFactory by the Start Action of the (17,3)"
+               },
+               "selected": false
+          },
+          {
+               "id": 14,
+               "attrs": {
+                    "x": 330,
+                    "y": 316,
+                    "width": 6,
+                    "height": 6,
+                    "r": 6,
+                    "rx": 6,
+                    "ry": 6,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "notedot",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 15,
+               "attrs": {
+                    "x": 969,
+                    "y": 304,
+                    "width": 6,
+                    "height": 6,
+                    "r": 6,
+                    "rx": 6,
+                    "ry": 6,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "notedot",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 16,
+               "attrs": {
+                    "x": 271,
+                    "y": 118,
+                    "width": 124,
+                    "height": 54,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 4,
+                    "type": "note",
+                    "note": "Time when command\nexecution started is in\nAreYouAliveStart"
+               },
+               "selected": false
+          }
+     ],
+     "connections": [
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              638,
+                              168
+                         ],
+                         [
+                              "L",
+                              414,
+                              168
+                         ],
+                         [
+                              "L",
+                              414,
+                              241
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "CrPsTestOnBoardConnectionPrgrG11",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": " (areYouAliveSrc > 0) &&\n(time elapsed since command execution\nstarted smaller than areYouAliveTimeOut) ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 41,
+               "shifty": -15,
+               "vertexes": [
+                    {
+                         "x": 414,
+                         "y": 168,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 3,
+               "stateToID": 4,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              665,
+                              195
+                         ],
+                         [
+                              "L",
+                              665,
+                              217
+                         ],
+                         [
+                              "L",
+                              665.5538461538462,
+                              253
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "CrPsTestOnBoardConnectionPrgrG12",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": " (areYouAliveSrc == 0) &&\n(time elapsed since command execution\nstarted smaller than areYouAliveTimeOut) ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -105,
+               "shifty": -1,
+               "vertexes": [
+                    {
+                         "x": 665,
+                         "y": 217,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 3,
+               "stateToID": 6,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              692,
+                              168
+                         ],
+                         [
+                              "L",
+                              840,
+                              168
+                         ],
+                         [
+                              "L",
+                              921,
+                              168
+                         ],
+                         [
+                              "L",
+                              921,
+                              253
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "3",
+                    "identifier": "",
+                    "guardFunc": "CrPsTestOnBoardConnectionPrgrG13",
+                    "actionFunc": "",
+                    "guardType": "run code",
+                    "actionType": "call function",
+                    "guardCode": "return 1;",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": "time elapsed since command execution\nstarted equal or greater than areYouAliveTimeOut ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -36,
+               "shifty": -13,
+               "vertexes": [
+                    {
+                         "x": 840,
+                         "y": 168,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 921,
+                         "y": 168,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 3,
+               "stateToID": 8,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              735,
+                              87
+                         ],
+                         [
+                              "L",
+                              665,
+                              87
+                         ],
+                         [
+                              "L",
+                              665,
+                              138
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 665,
+                         "y": 87,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 10,
+               "stateToID": 3,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              414,
+                              320
+                         ],
+                         [
+                              "L",
+                              414,
+                              362
+                         ],
+                         [
+                              "L",
+                              501,
+                              362
+                         ],
+                         [
+                              "L",
+                              645,
+                              362
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 414,
+                         "y": 362,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 501,
+                         "y": 362,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 4,
+               "stateToID": 11,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              666,
+                              308
+                         ],
+                         [
+                              "L",
+                              666,
+                              341
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 6,
+               "stateToID": 11,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              506,
+                              410
+                         ],
+                         [
+                              "L",
+                              333,
+                              410
+                         ],
+                         [
+                              "L",
+                              333,
+                              330
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": "-"
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 333,
+                         "y": 410,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 12,
+               "stateToID": 14,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              754,
+                              410
+                         ],
+                         [
+                              "L",
+                              972,
+                              410
+                         ],
+                         [
+                              "L",
+                              972,
+                              318
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": "-"
+               },
+               "fwprop": {
+                    "order": 2,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 972,
+                         "y": 410,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 12,
+               "stateToID": 15,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              921,
+                              308
+                         ],
+                         [
+                              "L",
+                              921,
+                              362
+                         ],
+                         [
+                              "L",
+                              687,
+                              362
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 921,
+                         "y": 362,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 8,
+               "stateToID": 11,
+               "selected": false
+          }
+     ],
+     "globals": {
+          "paperPanX": 0,
+          "paperPanY": -60,
+          "attrs": {
+               "x": 0,
+               "y": -60,
+               "width": 1662,
+               "height": 954,
+               "r": 0,
+               "rx": 0,
+               "ry": 0,
+               "fill": "#eee",
+               "stroke": "#000",
+               "stroke-width": 0
+          },
+          "fwprop": {
+               "smName": "CrPsCmd17s3Prgr",
+               "editorType": "Pr",
+               "globalvar": [
+                    {
+                         "type": "int",
+                         "name": "",
+                         "value": ""
+                    }
+               ],
+               "smIncludes": "",
+               "smNotes": "",
+               "memalloc": "dynamic",
+               "displayInfo": 0,
+               "displayOrder": 1,
+               "derived": [],
+               "smTags": "PUS"
+          }
+     }
+}

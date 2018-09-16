@@ -1,0 +1,1109 @@
+{
+     "editorVersion": "5.01",
+     "states": [
+          {
+               "id": 1,
+               "attrs": {
+                    "x": 242,
+                    "y": -2,
+                    "width": 30,
+                    "height": 30,
+                    "r": 15,
+                    "rx": 15,
+                    "ry": 15,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "init",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 2,
+               "attrs": {
+                    "x": 206,
+                    "y": 529,
+                    "width": 102,
+                    "height": 32,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N4",
+                    "entryFunc": "CrPsCmd3s3StartN4",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Increment i",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 4,
+               "attrs": {
+                    "x": 334,
+                    "y": 2,
+                    "width": 474,
+                    "height": 42,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "note",
+                    "note": "Start Action for Commands (11,20) and (11,21) to enable and disable one or more time-based\nsub-schedule. The command carries a list of identifiers of sub-schedules to be enabeld or disabled",
+                    "stateSelect": 0
+               },
+               "selected": false
+          },
+          {
+               "id": 6,
+               "attrs": {
+                    "x": 198,
+                    "y": 72,
+                    "width": 118,
+                    "height": 30,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N1",
+                    "entryFunc": "CrPsCmd3s3StartN1",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Set i equal to 1 ",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 8,
+               "attrs": {
+                    "x": 245,
+                    "y": 158,
+                    "width": 24,
+                    "height": 24,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "DECISION1"
+               },
+               "selected": false
+          },
+          {
+               "id": 9,
+               "attrs": {
+                    "x": 353,
+                    "y": 245,
+                    "width": 156,
+                    "height": 42,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 5,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N5",
+                    "entryFunc": "CrPsCmd3s3StartN5",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Load the sub-schedule\nID in data pool verFailData",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 11,
+               "attrs": {
+                    "x": 566,
+                    "y": 239,
+                    "width": 220,
+                    "height": 54,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 6,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N6",
+                    "entryFunc": "CrPsCmd3s3StartN6",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Run Command Verification\nFailure Procedure to generate (1,4)\nreport with failure code VER_SCD_ILL_SS",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 13,
+               "attrs": {
+                    "x": 245,
+                    "y": 442,
+                    "width": 24,
+                    "height": 24,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "DECISION3"
+               },
+               "selected": false
+          },
+          {
+               "id": 14,
+               "attrs": {
+                    "x": 433,
+                    "y": 442,
+                    "width": 24,
+                    "height": 24,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 4,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "DECISION4"
+               },
+               "selected": false
+          },
+          {
+               "id": 15,
+               "attrs": {
+                    "x": 385,
+                    "y": 523,
+                    "width": 122,
+                    "height": 44,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 7,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N7",
+                    "entryFunc": "CrPsCmd3s3StartN7",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Set action\noutcome to 'success'",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 17,
+               "attrs": {
+                    "x": 623,
+                    "y": 433,
+                    "width": 188,
+                    "height": 42,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 8,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N8",
+                    "entryFunc": "CrPsCmd3s3StartN8",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Set action outcome to 'failure'\nwith failure code VER_SCD_ST_FD",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "derived": [],
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
+          },
+          {
+               "id": 19,
+               "attrs": {
+                    "x": 704,
+                    "y": 532,
+                    "width": 26,
+                    "height": 26,
+                    "r": 13,
+                    "rx": 13,
+                    "ry": 13,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "final",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 20,
+               "attrs": {
+                    "x": 353,
+                    "y": 60,
+                    "width": 458,
+                    "height": 54,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "note",
+                    "note": "This procedure generates a (1,4) report for each invalid sub-schedule ID in the command. \nThe (1,4) reports are generated by the Command Verification Failure Procedure. The start\naction is declared successful as long as at least one valid sub-schedule ID is found.",
+                    "stateSelect": 0
+               },
+               "selected": false
+          },
+          {
+               "id": 136,
+               "attrs": {
+                    "x": 355,
+                    "y": 138,
+                    "width": 382,
+                    "height": 42,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "note",
+                    "note": "A sub-schedule ID is invalid if it is outside the range: 1..SCD_N_SUB_TBS,\nor if it corresponds to an empry sub-schedule"
+               },
+               "selected": false
+          }
+     ],
+     "connections": [
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              257,
+                              33
+                         ],
+                         [
+                              "L",
+                              257,
+                              64
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1,
+               "stateToID": 6,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              257,
+                              107
+                         ],
+                         [
+                              "L",
+                              257,
+                              140
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 6,
+               "stateToID": 8,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              514,
+                              266
+                         ],
+                         [
+                              "L",
+                              558,
+                              266
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 9,
+               "stateToID": 11,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              266.01934901332913,
+                              185.57887556847757
+                         ],
+                         [
+                              "L",
+                              312,
+                              265
+                         ],
+                         [
+                              "L",
+                              345,
+                              265.27731092436983
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "CrPsCmd3s3StartG2",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": "The i-th sub-schedule\nID is invalid ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 53,
+               "shifty": -20,
+               "vertexes": [
+                    {
+                         "x": 312,
+                         "y": 265,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 8,
+               "stateToID": 9,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              257,
+                              481
+                         ],
+                         [
+                              "L",
+                              257,
+                              521
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "CrPsCmd3s3StartG3E",
+                    "actionFunc": "",
+                    "guardType": "run code",
+                    "actionType": "call function",
+                    "guardCode": "return 1;",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": " Else ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -31,
+               "shifty": 8,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 13,
+               "stateToID": 2,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              201,
+                              544.3253012048193
+                         ],
+                         [
+                              "L",
+                              174,
+                              544
+                         ],
+                         [
+                              "L",
+                              174,
+                              170
+                         ],
+                         [
+                              "L",
+                              227,
+                              170
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 174,
+                         "y": 544,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 174,
+                         "y": 170,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 2,
+               "stateToID": 8,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              284,
+                              454
+                         ],
+                         [
+                              "L",
+                              415,
+                              454
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "CrPsCmd3s3StartG3",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": " The i-th Sub-Schedule ID was the\nlast ID in the command ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 4,
+               "shifty": -7,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 13,
+               "stateToID": 14,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              676,
+                              298
+                         ],
+                         [
+                              "L",
+                              676,
+                              357
+                         ],
+                         [
+                              "L",
+                              312,
+                              357
+                         ],
+                         [
+                              "L",
+                              267.63595367439524,
+                              435.24204533788475
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 676,
+                         "y": 357,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 312,
+                         "y": 357,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 11,
+               "stateToID": 13,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              445.2961970317684,
+                              480.9539298909169
+                         ],
+                         [
+                              "L",
+                              445.67032967032964,
+                              515
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "CrPsCmd3s3StartG4E",
+                    "actionFunc": "",
+                    "guardType": "run code",
+                    "actionType": "call function",
+                    "guardCode": "return 1;",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": " Else ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -30,
+               "shifty": 9,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 14,
+               "stateToID": 15,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              472,
+                              454
+                         ],
+                         [
+                              "L",
+                              615,
+                              454
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "CrPsCmd3s3StartG4",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": [],
+                    "guardDesc": " All Sub-Schedule IDs in the\ncommand are invalid ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -2,
+               "shifty": -6,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 14,
+               "stateToID": 17,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              512,
+                              545
+                         ],
+                         [
+                              "L",
+                              696,
+                              545
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 15,
+               "stateToID": 19,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              717,
+                              480
+                         ],
+                         [
+                              "L",
+                              717,
+                              524
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "derived": []
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 17,
+               "stateToID": 19,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              257,
+                              197
+                         ],
+                         [
+                              "L",
+                              257,
+                              424
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "Else ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -29,
+               "shifty": -92,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 8,
+               "stateToID": 13,
+               "selected": false
+          }
+     ],
+     "globals": {
+          "paperPanX": 0,
+          "paperPanY": -60,
+          "attrs": {
+               "x": 0,
+               "y": -60,
+               "width": 1855,
+               "height": 982,
+               "r": 0,
+               "rx": 0,
+               "ry": 0,
+               "fill": "#eee",
+               "stroke": "#000",
+               "stroke-width": 0
+          },
+          "fwprop": {
+               "smName": "CrPsCmd11s20And21Start",
+               "editorType": "Pr",
+               "globalvar": [
+                    {
+                         "type": "int",
+                         "name": "",
+                         "value": ""
+                    }
+               ],
+               "smIncludes": "",
+               "smNotes": "",
+               "memalloc": "dynamic",
+               "displayInfo": 0,
+               "displayOrder": 1,
+               "derived": [],
+               "smTags": "PUS"
+          }
+     }
+}
