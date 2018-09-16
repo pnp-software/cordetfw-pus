@@ -50,6 +50,10 @@ typedef struct CrPsVerData {
 	 * of processing failure
 	 */
 	CrFwOutcome_t failCode;
+	/** The InCommand encapsulating the command whose processing triggers the service 1 report */
+	FwSmDesc_t inCmd;
+	/** The packet encapsulating the command whose processing triggers the service 1 report */
+	CrFwPckt_t inPckt;
 } CrPsVerData_t;
 
 /**
@@ -83,17 +87,24 @@ void CrPsVerConfigInit();
  * Set the data attached to the service 1 procedure instance.
  * The input for a service 1 procedure are stored in a data structure of type <code>::CrPsVerData_t</code>.
  * This function configures this data structure.
- * This function should therefore be called before a service 1 procedure is run.
+ * This function should be called before a service 1 procedure is run.
+ *
+ * The command which triggers the service 1 report may be represented either as an InCommand object or
+ * as a raw packet.
+ * In the former case, the InCommand object is passed through parameter inCmd.
+ * In the latter case, the packet is passed through parameter inPckt.
+ * The latter case only applies when the InCommand object could not be created (outcome <code>::crCmdAckCreFail</code>).
  *
  * @param outcome the command processing outcome for which the service 1 report is generated
  * @param servType the type of the command whose processing triggers the service 1 report
  * @param servSubType the sub-type of the command whose processing triggers the service 1 report
  * @param discriminant the discriminant of the command whose processing triggers the service 1 report
  * @param failCode the failure code for which the service 1 failure report is being generated
- * @param inCmd the incoming command whose processing triggers the service 1 report
+ * @param inCmd the incoming command whose processing triggers the service 1 report (non-NULL only if inPckt is NULL)
+ * @param inPckt the packet holding the incoming command (non-NULL only if inCmd is NULL)
  */
-void CrPsVerConfigSetPrData(CrFwRepInCmdOutcome_t outcome, CrFwServType_t servType,
-        CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd);
+void CrPsVerConfigSetPrData(CrFwRepInCmdOutcome_t outcome, CrFwServType_t servType, CrFwServSubType_t servSubType,
+        CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd, CrFwPckt_t inPckt);
 
 /**
  * Get the processing outcome of the command for which the service 1 report is generated.
@@ -144,6 +155,14 @@ CrFwOutcome_t CrPsVerConfigGetFailCode();
  * @return the descriptor of the InCommand for which the service 1 report is generated.
  */
 FwSmDesc_t CrPsVerConfigGetInCmd();
+
+/**
+ * Get the packet holding the command for which the service 1 report is generated.
+ * This function returns the value loaded with function <code>::CrPsVerConfigSetPrData</code>.
+ *
+ * @return the source of command for which the service 1 report is generated.
+ */
+CrFwPckt_t CrPsVerConfigGetInPckt();
 
 /**
  * Return the instance of the procedure implementing the Command Progress Failure Procedure.

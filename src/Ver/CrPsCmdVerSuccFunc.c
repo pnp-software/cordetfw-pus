@@ -54,12 +54,17 @@ void CrPsCmdVerSuccN2(FwPrDesc_t prDesc) {
   CrFwRepInCmdOutcome_t outcome = CrPsVerConfigGetOutcome();
 
   /* Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory */
-  if (outcome == crCmdAckAccSucc)
-      rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCACCREP_STYPE, 0, 0);
-  else if (outcome == crCmdAckStrSucc)
-      rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCSTARTREP_STYPE, 0, 0);
-  else
-      rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCTERMREP_STYPE, 0, 0);
+  switch (outcome) {
+    case crCmdAckAccSucc:   /* Acceptance check was passed */
+        rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCACCREP_STYPE, 0, 0);
+        break;
+    case crCmdAckStrSucc:   /* Start action was successful */
+        rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCSTARTREP_STYPE, 0, 0);
+        break;
+    default:                /* Termination action was successful */
+        rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCTERMREP_STYPE, 0, 0);
+        assert(outcome == crCmdAckTrmSucc);
+  }
 
   return;
 }
@@ -94,22 +99,20 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
 
   switch (outcome) {
     case crCmdAckAccSucc:
-        setVerSuccAccRepPckttVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccAccRepPcktVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
         setVerSuccAccRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
         setVerSuccAccRepTcPcktId(inPckt, tcPcktId);
         break;
     case crCmdAckStrSucc:
-        setVerSuccStartRepPckttVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccStartRepPcktVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
         setVerSuccStartRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
         setVerSuccStartRepTcPcktId(inPckt, tcPcktId);
         break;
-    case crCmdAckTrmSucc:
-        setVerSuccTermRepPckttVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
+    default:
+        setVerSuccTermRepPcktVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
         setVerSuccTermRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
         setVerSuccTermRepTcPcktId(inPckt, tcPcktId);
-        break;
-    default:
-        assert(0);
+        assert (outcome == crCmdAckTrmSucc);
   }
 
   /* Set the destination of the report to the source of the in-coming packet */

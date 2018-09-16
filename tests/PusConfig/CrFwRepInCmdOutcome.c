@@ -44,50 +44,50 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
 
   switch (outcome) {
     case crCmdAckAccFail:		/* Report an acceptance failure */
-    	 CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+    	 CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
          serv1Pr = CrPsVerConfigGetCmdVerFail();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckAccSucc:		/* Report an acceptance success */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
     	 serv1Pr = CrPsVerConfigGetCmdVerSucc();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckStrFail:		/* Report a start failure */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
     	 serv1Pr = CrPsVerConfigGetCmdVerFail();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckStrSucc:		/* Report a start success */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
          serv1Pr = CrPsVerConfigGetCmdVerSucc();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckPrgFail:		/* Report a progress failure */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
     	 serv1Pr = CrPsVerConfigGetCmdPrgrFail();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckPrgSucc:		/* Report a progress success */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
          serv1Pr = CrPsVerConfigGetCmdPrgrSucc();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckTrmFail:		/* Report a termination failure */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
          serv1Pr = CrPsVerConfigGetCmdVerFail();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckTrmSucc:		/* Report a termination success */
-         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd);
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, failCode, inCmd, NULL);
          serv1Pr = CrPsVerConfigGetCmdVerSucc();
          FwPrRun(serv1Pr);
          break;
     case crCmdAckLdFail:		/* Report a failure to load the InCommand in its InManager */
-        CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, VER_CMD_LD_FD, inCmd);
-        serv1Pr = CrPsVerConfigGetCmdVerFail();
-        FwPrRun(serv1Pr);
-        break;
+         CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, VER_CMD_LD_FD, inCmd, NULL);
+         serv1Pr = CrPsVerConfigGetCmdVerFail();
+         FwPrRun(serv1Pr);
+         break;
     }
 }
 
@@ -95,7 +95,7 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
 void CrFwRepInCmdOutcomeCreFail(CrFwRepInCmdOutcome_t outcome, CrFwOutcome_t failCode, CrFwPckt_t pckt) {
     FwPrDesc_t serv1Pr;
     CrPsVerConfigSetPrData(outcome, CrFwPcktGetServType(pckt), CrFwPcktGetServSubType(pckt),
-                                                   CrFwPcktGetDiscriminant(pckt), VER_CRE_FD, NULL);
+                                                   CrFwPcktGetDiscriminant(pckt), VER_CRE_FD, NULL, pckt);
     serv1Pr = CrPsVerConfigGetCmdVerFail();
     FwPrRun(serv1Pr);
 }

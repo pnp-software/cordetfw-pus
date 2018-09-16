@@ -97,6 +97,10 @@ FwSmDesc_t CrPsVerConfigGetInCmd() {
     return prVerData->inCmd;
 }
 
+CrFwPckt_t CrPsVerConfigGetInPckt() {
+    return prVerData->inPckt;
+}
+
 /*------------------------------------------------------------------------*/
 FwPrDesc_t CrPsVerConfigGetCmdPrgrFail() {
 	return CmdPrgrFail;

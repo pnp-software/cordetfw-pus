@@ -10,8 +10,7 @@
  *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * 
- * last modification: 22.01.2018
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
@@ -22,7 +21,7 @@
  */
  
 /** CrPsCmdVerFail function definitions */
-#include "CrPsCmdVerFailCreate.h"
+#include "CrPsCmdVerFail.h"
 
 /** FW Profile function definitions */
 #include "FwPrConstants.h"
@@ -31,204 +30,179 @@
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
-#include "Pckt/CrFwPckt.h" /* --- interface to adaptation point CrFwPckt --- */
-#include <CrFwCmpData.h>
-#include <OutFactory/CrFwOutFactory.h>
-#include <OutLoader/CrFwOutLoader.h>
-#include <OutCmp/CrFwOutCmp.h>
+/** CORDET FW function definitions */
+#include "Pckt/CrFwPckt.h"
+#include "CrFwCmpData.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "OutCmp/CrFwOutCmp.h"
 
-#include <CrPsRepErr.h>
-#include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsPktServReqVerif.h>
-#include <Services/General/CrPsPktServReqVerifSupp.h>
-#include <Services/General/CrPsPktUtil.h>
-#include <DataPool/CrPsDpServReqVerif.h>
+#include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpTst.h"
+#include "CrPsTypes.h"
+#include "CrPsServTypeId.h"
 
 #include <stdlib.h>
-#include <time.h>
+#include <assert.h>
 
 static FwSmDesc_t rep;
 
-
-/* ----------------------------------------------------------------------------------------------------------------- */
-
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
-void CrPsCmdVerFailN2(FwPrDesc_t prDesc)
-{
-  prData_t* prData;
+void CrPsCmdVerFailN2(FwPrDesc_t prDesc) {
+  CrFwRepInCmdOutcome_t outcome = CrPsVerConfigGetOutcome();
 
-  /* Retrieve an OutComponent of type (1,4) or (1,8) from the OutFactory */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, prData->ushortParam2, 0, 0);
+  /* Retrieve an OutComponent of type (1,2), (1,4) or (1,8) from the OutFactory */
+  switch (outcome) {
+    case crCmdAckAccFail:   /* InCommand failed its validity check */
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
+         break;
+    case crCmdAckStrFail:   /* InCommand Start Action has failed */
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDSTARTREP_STYPE, 0, 0);
+         break;
+    case crCmdAckTrmFail:    /* InCommand Termination Action failed */
+        rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, 0, 0);
+        break;
+    case crCmdAckLdFail:    /* InCommand could not be loaded in its InManager */
+        rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
+        break;
+    default:                /* InCommand component could not be created (crCmdAckCreFail) */
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
+         assert(outcome == crCmdAckCreFail);
+  }
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
-void CrPsCmdVerFailN3(FwPrDesc_t prDesc)
-{
-  prData_t        *prData;
-  CrPsRepErrCode_t errCode;
+void CrPsCmdVerFailN3(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  errCode = crOutfactoryFail;
-  CrPsRepErr(errCode, CRPS_REQVERIF, prData->ushortParam2, 0);
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, CrPsVerConfigGetServType(), CrPsVerConfigGetServSubType, CrPsVerConfigGetDisc());
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
-void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
-{
-  CrFwDestSrc_t source;
-  CrPsFailData_t    VerFailData;
-  CrFwCmpData_t    *inData;
-  CrFwInCmdData_t  *inSpecificData;
-  CrFwPckt_t        inPckt;
-  FwSmDesc_t        smDesc;
-  prData_t         *prData;
-  CrFwCmpData_t    *cmpDataStart;
-  CrFwOutCmpData_t *cmpSpecificData;
-  CrFwPckt_t        pckt;
-  CrPsRid_t         Rid;
-
-  cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
-  cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
-  pckt            = cmpSpecificData->pckt;
+void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
+  FwSmDesc_t inCmd;
+  CrFwDestSrc_t inCmdSrc;
+  CrFwPckt_t inPckt, outPckt;
+  CrFwRepInCmdOutcome_t outcome;
+  CrPsSixteenBit_t tcPcktSeqCtrl;
+  CrPsThirteenBit_t tcPcktId;
+  CrFwOutcome_t failCode;
+  CrPsFailData_t failData;
+  CrFwServType_t type;
+  CrFwServSubType_t subType;
+  CrFwDiscriminant_t disc;
+  CrPsThreeBit_t tcPcktVersNmb;
+  CrPsNOfCmd_t nOfCmds;
 
   /* Configure report and load it in the OutLoader */
+  outPckt = CrFwOutCmpGetPckt(rep);
+  outcome = CrPsVerConfigGetOutcome();
+  failCode = CrPsVerConfigGetFailCode();
+  type = CrPsVerConfigGetServType();
+  subType = CrPsVerConfigGetServSubType();
+  disc = CrPsVerConfigGetDisc();
+  failData = getDpVerFailData();
+  inCmd = CrPsVerConfigGetInCmd();
+  if (inCmd != NULL)      /* If the InCommand creation failed, InCmd is NULL */
+    inPckt = CrFwInCmdGetPckt(inCmd);
+  else
+    inPckt = CrPsVerConfigGetInPckt();
+  tcPcktVersNmb = getTcHeaderPcktVersionNmb(inPckt);
+  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*2^13+getTcHeaderAPID(inPckt);
 
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  Rid = getPcktRid(inPckt);
-
-  if (prData->ushortParam2 == 4)
-  {
-    /* 1,4 */
-    /* set Packet request ID */
-    setVerFailedStartRepRid(pckt, Rid);
-
-    /* Set failCodeAccFailed */
-    setVerFailedStartRepFailureCode(pckt, (CrPsFailCode_t)prData->ushortParam1);
-
-    /* Set verFailData */
-    VerFailData = getDpverFailData();
-    setVerFailedStartRepFailureData(pckt, VerFailData);
-  }
-
-  if (prData->ushortParam2 == 8)
-  {
-    /* 1,8 */
-    /* set Packet request ID */
-    setVerFailedTermRepRid(pckt, Rid);
-
-    /* Set failCodeAccFailed */
-    setVerFailedTermRepFailureCode(pckt, (CrPsFailCode_t)prData->ushortParam1);
-  
-    /* Set verFailData */
-    VerFailData = getDpverFailData();
-    setVerFailedTermRepFailureData(pckt, VerFailData);
+  switch (outcome) {
+    case crCmdAckAccFail:   /* InCommand failed its validity check */
+        setVerFailedAccRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedAccRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+        setVerFailedAccRepTcPcktId(outPckt, tcPcktId);
+        setVerFailedAccRepTcFailCode(outPckt, failCode);
+        setVerFailedAccRepTcFailData(outPckt, failData);
+        setVerFailedAccRepTcType(outPckt, type);
+        setVerFailedAccRepTcSubType(outPckt, subType);
+        setVerFailedAccRepTcDisc(outPckt, disc);
+        /* Update data pool variables related to acceptance failure */
+        setDpVerFailCodeAccFailed(failCode);
+        nOfCmds = getDpVerNOfAccFailed();
+        setDpVerNOfAccFailed(nOfCmds+1);
+        setDpVerPcktIdAccFailed(tcPcktId);
+        break;
+    case crCmdAckStrFail:   /* InCommand Start Action has failed */
+        setVerFailedStartRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedStartRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+        setVerFailedSytartRepTcPcktId(outPckt, tcPcktId);
+        setVerFailedStartRepTcFailCode(outPckt, failCode);
+        setVerFailedStartRepTcFailData(outPckt, failData);
+        setVerFailedStartRepTcType(outPckt, type);
+        setVerFailedStartRepTcSubType(outPckt, subType);
+        setVerFailedStartRepTcDisc(outPckt, disc);
+        /* Update data pool variables related to start failure */
+        setDpVerFailCodeStartFailed(failCode);
+        nOfCmds = getDpVerNOfStartFailed();
+        setDpVerNOfStartFailed(nOfCmds+1);
+        setDpVerPcktIdStartFailed(tcPcktId);
+        break;
+    case crCmdAckTrmFail:    /* InCommand Termination Action failed */
+        setVerFailedTermRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedTermRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+        setVerFailedTermtRepTcPcktId(outPckt, tcPcktId);
+        setVerFailedTermRepTcFailCode(outPckt, failCode);
+        setVerFailedTermRepTcFailData(outPckt, failData);
+        setVerFailedTermRepTcType(outPckt, type);
+        setVerFailedTermRepTcSubType(outPckt, subType);
+        setVerFailedTermRepTcDisc(outPckt, disc);
+        /* Update data pool variables related to termination failure */
+        setDpVerFailCodeTermFailed(failCode);
+        nOfCmds = getDpVerNOfTermFailed();
+        setDpVerNOfTermFailed(nOfCmds+1);
+        setDpVerPcktIdTermFailed(tcPcktId);
+        break;
+    case crCmdAckLdFail:    /* InCommand could not be loaded in its InManager */
+        setVerFailedAccRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedAccRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+        setVerFailedAccRepTcPcktId(outPckt, tcPcktId);
+        setVerFailedAccRepTcFailCode(outPckt, failCode);
+        setVerFailedAccRepTcFailData(outPckt, failData);
+        setVerFailedAccRepTcType(outPckt, type);
+        setVerFailedAccRepTcSubType(outPckt, subType);
+        setVerFailedAccRepTcDisc(outPckt, disc);
+        /* Update data pool variables related to start failure */
+        setDpVerFailCodeStartFailed(failCode);
+        nOfCmds = getDpVerNOfStartFailed();
+        setDpVerNOfStartFailed(nOfCmds+1);
+        setDpVerPcktIdStartFailed(tcPcktId);
+        break;
+    default:                /* InCommand component could not be created (crCmdAckCreFail) */
+        setVerFailedAccRepPcktVersNumber(outPckt, 0);
+        setVerFailedAccRepTcPcktSeqCtrl(outPckt, 0);
+        setVerFailedAccRepTcPcktId(outPckt, 0);
+        setVerFailedAccRepTcFailCode(outPckt, failCode);
+        setVerFailedAccRepTcFailData(outPckt, 0);
+        setVerFailedAccRepTcType(outPckt, type);
+        setVerFailedAccRepTcSubType(outPckt, subType);
+        setVerFailedAccRepTcDisc(outPckt, disc);
+        /* Update data pool variables related to start failure */
+        setDpVerFailCodeStartFailed(failCode);
+        nOfCmds = getDpVerNOfStartFailed();
+        setDpVerNOfStartFailed(nOfCmds+1);
+        setDpVerPcktIdStartFailed(tcPcktId);
+        assert(outcome == crCmdAckCreFail);
   }
 
   /* Set the destination of the report to the source of the in-coming packet */
-  source = CrFwPcktGetSrc(inPckt);
-  CrFwOutCmpSetDest(rep, source);
+  inCmdSrc = CrFwPcktGetSrc(inPckt);
+  CrFwOutCmpSetDest(rep, inCmdSrc);
 
   /* Load report in the Outloader */
   CrFwOutLoaderLoad(rep);
-
-  return;
-}
-
-/* ------------------------------------------------------------------------------------ */
-/** Action for node N5. */
-void CrPsCmdVerFailN5(FwPrDesc_t prDesc)
-{
-  prData_t        *prData;
-  CrFwCounterU4_t  nOfStartFailed, nOfTermFailed;
-
-  /* Increment data pool variable nOfXyFailed */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  if (prData->ushortParam2 == CRPS_REQVERIF_START_FAIL)
-    {
-      nOfStartFailed = getDpnOfStartFailed();
-      nOfStartFailed += 1;
-      setDpnOfStartFailed(nOfStartFailed);
-    }
-  else if (prData->ushortParam2 == CRPS_REQVERIF_TERM_FAIL)
-    {
-      nOfTermFailed = getDpnOfTermFailed();
-      nOfTermFailed += 1;
-      setDpnOfTermFailed(nOfTermFailed);
-    }
-
-  return;
-}
-
-/* ------------------------------------------------------------------------------------ */
-/** Action for node N6. */
-void CrPsCmdVerFailN6(FwPrDesc_t prDesc)
-{
-  CrFwTypeId_t     PacketId;
-  CrFwCmpData_t   *inData;
-  CrFwInCmdData_t *inSpecificData;
-  CrFwPckt_t       inPckt;
-  FwSmDesc_t       smDesc;
-  prData_t        *prData;
-
-  /* Update data pool variable pcktIdXyFailed and failCodeXyFailed */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  /* Set pcktIdAccFailed */
-  PacketId = (CrFwTypeId_t)CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-
-  if (prData->ushortParam2 == CRPS_REQVERIF_START_FAIL)
-    {
-      /* Set pcktIdStartFailed */
-      setDppcktIdStartFailed(PacketId);
-
-      /* Set failCodeStartFailed */
-      setDpfailCodeStartFailed(prData->ushortParam1);
-    }
-  else if (prData->ushortParam2 == CRPS_REQVERIF_TERM_FAIL)
-    {
-      /* Set pcktIdTermFailed */
-      setDppcktIdTermFailed(PacketId);
-
-      /* Set failCodeTermFailed */
-      setDpfailCodeTermFailed(prData->ushortParam1);
-    }
 
   return;
 }
@@ -239,22 +213,12 @@ void CrPsCmdVerFailN6(FwPrDesc_t prDesc)
 /**************/
 
 /** Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsCmdVerFailG1(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsCmdVerFailG1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
-  
   if (rep == NULL)
-    {
-      return 1;
-    }
+     return 1;
   else
-    {
-      return 0;
-    }
-
+     return 0;
 }
-
-/* ----------------------------------------------------------------------------------------------------------------- */
-
