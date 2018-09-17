@@ -10,8 +10,7 @@
  *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * 
- * last modification: 22.01.2018
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
@@ -22,7 +21,7 @@
  */
 
 /** CrPsPcktReroutingFail function definitions */
-#include "CrPsPcktReroutingFailCreate.h"
+#include "CrPsPcktReroutingFail.h"
 
 /** FW Profile function definitions */
 #include "FwPrConstants.h"
@@ -31,133 +30,97 @@
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
-#include "Pckt/CrFwPckt.h" /* --- interface to adaptation point CrFwPckt --- */
-#include <CrFwCmpData.h>
-#include <BaseCmp/CrFwBaseCmp.h>
-#include <OutFactory/CrFwOutFactory.h>
-#include <OutLoader/CrFwOutLoader.h>
-#include <OutCmp/CrFwOutCmp.h>
+/** CORDET FW function definitions */
+#include "Pckt/CrFwPckt.h"
+#include "CrFwCmpData.h"
+#include "CrFwUserConstants.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "OutCmp/CrFwOutCmp.h"
 
-#include <CrPsUserConstants.h>
-#include <CrPsRepErr.h>
-#include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsPktServReqVerif.h>
-#include <Services/General/CrPsPktServReqVerifSupp.h>
-#include <Services/General/CrPsPktUtil.h>
-#include <DataPool/CrPsDpServReqVerif.h>
+#include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpTst.h"
+#include "CrPsTypes.h"
+#include "CrPsServTypeId.h"
 
 #include <stdlib.h>
-#include <time.h>
+#include <assert.h>
 
 static FwSmDesc_t rep;
-
-
-/* ----------------------------------------------------------------------------------------------------------------- */
+static CrFwDestSrc_t invDest;
+static CrPsThirteenBit_t tcPcktId;
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N1. */
-void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc)
-{
-  CrFwCmpData_t   *inData;
-  CrFwInRepData_t *inSpecificData;
-  CrFwPckt_t       inPckt;
-  FwSmDesc_t       smDesc;
-  prData_t        *prData;
-  CrPsRepErrCode_t errCode;
+void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
+  FwPrDesc_t inPckt;
 
   /* Generate error report INLOADER_INV_DEST */
+  inPckt = CrPsVerConfigGetInPckt();
+  CrFwRepErrPckt(crInLoaderInvDest, 0, 0, inPckt);
 
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInRepData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  errCode = crInloaderInvDest;
-  CrPsRepErr(errCode, CrFwPcktGetServType(inPckt), CrFwPcktGetServSubType(inPckt), CrFwPcktGetDiscriminant(inPckt));
-  
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
-void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc)
-{
+void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* Retrieve an OutComponent of type (1,10) from the OutFactory */
-
-  /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_REROUT_FAIL, 0, 0);
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDROUTINGREP_STYPE, 0, 0);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
-void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc)
-{
-  CrPsRepErrCode_t errCode;
-
+void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
-
-  errCode = crOutfactoryFail;
-  CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_SUCC, 0);
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, VER_TYPE, VERFAILEDROUTINGREP_STYPE, 0);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
-void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
-{
-  CrFwDestSrc_t     source;
-  CrPsFailData_t    VerFailData;
-  CrFwCmpData_t*    inData;
-  CrFwInCmdData_t*  inSpecificData;
-  CrFwPckt_t        inPckt;
-  CrPsRid_t         Rid;
-  FwSmDesc_t        smDesc;
-  prData_t*         prData;
-  CrFwCmpData_t*    cmpDataStart;
-  CrFwOutCmpData_t* cmpSpecificData;
-  CrFwPckt_t        pckt;
+void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {  FwSmDesc_t inCmd;
+  CrFwDestSrc_t inPcktSrc;
+  CrFwPckt_t inPckt, outPckt;
+  CrPsSixteenBit_t tcPcktSeqCtrl;
+  CrFwOutcome_t failCode;
+  CrPsFailData_t failData;
+  CrFwServType_t type;
+  CrFwServSubType_t subType;
+  CrFwDiscriminant_t disc;
+  CrPsThreeBit_t tcPcktVersNmb;
+  CrPsNOfCmd_t nOfCmds;
 
-  cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
-  cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
-  pckt            = cmpSpecificData->pckt;
+  /* Configure report (1,10) */
+  inPckt = CrPsVerConfigGetInPckt();
+  outPckt = CrFwOutCmpGetPckt(rep);
+  type = CrPsVerConfigGetServType();
+  subType = CrPsVerConfigGetServSubType();
+  disc = CrPsVerConfigGetDisc();
+  invDest = CrFwPcktGetDest(inPckt);
+  tcPcktVersNmb = getTcHeaderPcktVersionNmb(inPckt);
+  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*2^13+getTcHeaderAPID(inPckt);
 
-  /* Configure report (1,10) and load it in the OutLoader */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData          = FwSmGetData(smDesc);
-  inSpecificData  = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt          = inSpecificData->pckt;
-
-  /* set Packet request ID */
-  Rid = getPcktRid(inPckt);
-  setVerFailedRoutingRepRid(pckt, Rid);
-
-  /* Set failCodeAccFailed */
-  setVerFailedRoutingRepFailureCode(pckt, (CrPsFailCode_t)INLOADER_INV_DEST); 
-
-  /* Set verFailData */
-  VerFailData = getDpverFailData(); /* get it from data pool */
-  setVerFailedRoutingRepFailureData(pckt, VerFailData); 
+  setVerFailedRoutingRepPcktVersNumber(outPckt,tcPcktVersNmb);
+  setVerFailedRoutingRepTcPcktId(outPckt, tcPcktId);
+  setVerFailedRoutingRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+  setVerFailedRoutingRepInvDest(outPckt, invDest);
+  setVerFailedRoutingRepTcType(outPckt, type);
+  setVerFailedRoutingRepTcSubtype(outPckt, subType);
+  setVerFailedRoutingRepTcDisc(outPckt, disc);
 
   /* Set the destination of the report to the source of the in-coming packet */
-  source = CrFwPcktGetSrc(inPckt);
-  CrFwOutCmpSetDest(rep, source);
+  inPcktSrc = CrFwPcktGetSrc(inPckt);
+  CrFwOutCmpSetDest(rep, inPcktSrc);
 
   /* Load report in the Outloader */
   CrFwOutLoaderLoad(rep);
@@ -167,49 +130,25 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N5. */
-void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc)
-{
-  CrFwCounterU4_t nOfReroutingFailed;
-
+void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc) {
+  CrPsNOfCmd_t nOfReroutingFailed;
   CRFW_UNUSED(prDesc);
 
   /* Increment data pool variable nOfReroutingFailed */
-
-  nOfReroutingFailed = getDpnOfReroutingFailed();
-  nOfReroutingFailed += 1;
-  setDpnOfReroutingFailed(nOfReroutingFailed);
+  nOfReroutingFailed = getDpVerNOfReroutingFailed();
+  setDpVerNOfReroutingFailed(nOfReroutingFailed+1);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N6. */
-void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc)
-{
-  CrFwTypeId_t     PacketId;
-  CrFwCmpData_t   *inData;
-  CrFwInCmdData_t *inSpecificData;
-  CrFwPckt_t       inPckt;
-  FwSmDesc_t       smDesc;
-  prData_t        *prData;
+void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
 
   /* Update data pool variable pcktIdRerouting, invDestRerouting */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  /* Set pcktIdRerouting */
-  PacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setDppcktIdReroutingFailed(PacketId);
-
-  /* Set invDestRerouting */
-  setDpinvDestRerouting(prData->ushortParam1);
+  setDpVerPcktIdReroutingFailed(tcPcktId);
+  setDpVerInvDestRerouting(invDest);
 
   return;
 }
@@ -220,65 +159,27 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc)
 /**************/
 
 /** Guard on the Control Flow from DECISION1 to N1. */
-FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc)
-{
-  FwSmDesc_t smDesc;
-  prData_t  *prData;
+FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc) {
+  FwPrDesc_t inPckt;
 
   /* [ Packet encapsulates a report ] */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-  smDesc = prData->smDesc;
-
-  if (CrFwCmpGetTypeId(smDesc) == CR_FW_INREPORT_TYPE)
-    {
+  inPckt = CrPsVerConfigGetInPckt();
+  if (CrFwPcktGetCmdRepType(inPckt) == crRepType)
       return 1;
-    }
   else
-    {
       return 0;
-    }
 }
 
-/** Guard on the Control Flow from DECISION1 to N2. */
-FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t prDesc)
-{
-  FwSmDesc_t smDesc;
-  prData_t  *prData;
-
-  /* [ Packet encapsulates a command ] */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-  smDesc = prData->smDesc;
-
-  if (CrFwCmpGetTypeId(smDesc) == CR_FW_INCOMMAND_TYPE)
-    {
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
-}
 
 /** Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
-  
   if (rep == NULL)
-    {
       return 1;
-    }
   else
-    {
       return 0;
-    }
-
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */

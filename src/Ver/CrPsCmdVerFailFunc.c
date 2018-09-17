@@ -46,6 +46,9 @@
 #include <assert.h>
 
 static FwSmDesc_t rep;
+static CrFwServSubType_t repSubType;
+static CrFwDiscriminant_t disc;
+
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
@@ -55,19 +58,24 @@ void CrPsCmdVerFailN2(FwPrDesc_t prDesc) {
   /* Retrieve an OutComponent of type (1,2), (1,4) or (1,8) from the OutFactory */
   switch (outcome) {
     case crCmdAckAccFail:   /* InCommand failed its validity check */
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
+         repSubType = VERFAILEDACCREP_STYPE;
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, CrPsVerConfigGetFailCode(), 0);
          break;
     case crCmdAckStrFail:   /* InCommand Start Action has failed */
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDSTARTREP_STYPE, 0, 0);
+         repSubType = VERFAILEDSTARTREP_STYPE;
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDSTARTREP_STYPE, CrPsVerConfigGetFailCode(), 0);
          break;
     case crCmdAckTrmFail:    /* InCommand Termination Action failed */
-        rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, 0, 0);
-        break;
+         repSubType = VERFAILEDTERMREP_STYPE;
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, CrPsVerConfigGetFailCode(), 0);
+         break;
     case crCmdAckLdFail:    /* InCommand could not be loaded in its InManager */
-        rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
-        break;
+         repSubType = VERFAILEDACCREP_STYPE;
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, CrPsVerConfigGetFailCode(), 0);
+         break;
     default:                /* InCommand component could not be created (crCmdAckCreFail) */
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
+         repSubType = VERFAILEDACCREP_STYPE;
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, CrPsVerConfigGetFailCode(), 0);
          assert(outcome == crCmdAckCreFail);
   }
 
@@ -80,7 +88,7 @@ void CrPsCmdVerFailN3(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
-  CrFwRepErrKind(psOutFactoryFail, 0, 0, CrPsVerConfigGetServType(), CrPsVerConfigGetServSubType, CrPsVerConfigGetDisc());
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, VER_TYPE, repSubType, CrPsVerConfigGetFailCode());
 
   return;
 }

@@ -47,6 +47,7 @@
 #include <assert.h>
 
 static FwSmDesc_t rep;
+static CrFwServSubType_t repSubType;
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
@@ -56,12 +57,15 @@ void CrPsCmdVerSuccN2(FwPrDesc_t prDesc) {
   /* Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory */
   switch (outcome) {
     case crCmdAckAccSucc:   /* Acceptance check was passed */
+        repSubType = VERSUCCACCREP_STYPE;
         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCACCREP_STYPE, 0, 0);
         break;
     case crCmdAckStrSucc:   /* Start action was successful */
+        repSubType = VERSUCCSTARTREP_STYPE;
         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCSTARTREP_STYPE, 0, 0);
         break;
     default:                /* Termination action was successful */
+        repSubType = VERSUCCTERMREP_STYPE;
         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERSUCCTERMREP_STYPE, 0, 0);
         assert(outcome == crCmdAckTrmSucc);
   }
@@ -75,7 +79,7 @@ void CrPsCmdVerSuccN3(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
-  CrFwRepErrKind(psOutFactoryFail, 0, 0, CrPsVerConfigGetServType(), CrPsVerConfigGetServSubType, CrPsVerConfigGetDisc());
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, VER_TYPE, repSubType, 0);
 
   return;
 }
