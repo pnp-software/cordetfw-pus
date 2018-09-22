@@ -2,7 +2,7 @@
  * @file CrPsCmdVerFail.c
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Aug 22 2018 19:50:4
+ * @date Created on: Sep 22 2018 18:8:45
  */
 
 #include "CrPsCmdVerFail.h"
@@ -28,10 +28,10 @@ FwPrDesc_t CrPsCmdVerFailCreate(void* prData)
 
 	/** Create the procedure */
 	FwPrDesc_t prDesc = FwPrCreate(
-		5,	/* N_ANODES - The number of action nodes */
+		3,	/* N_ANODES - The number of action nodes */
 		1,	/* N_DNODES - The number of decision nodes */
-		8,	/* N_FLOWS - The number of control flows */
-		5,	/* N_ACTIONS - The number of actions */
+		6,	/* N_FLOWS - The number of control flows */
+		3,	/* N_ACTIONS - The number of actions */
 		2	/* N_GUARDS - The number of guards */
 	);
 
@@ -41,16 +41,12 @@ FwPrDesc_t CrPsCmdVerFailCreate(void* prData)
 	FwPrAddDecisionNode(prDesc, DECISION2, N_OUT_OF_DECISION2);
 	FwPrAddActionNode(prDesc, CrPsCmdVerFail_N3, &CrPsCmdVerFailN3);
 	FwPrAddActionNode(prDesc, CrPsCmdVerFail_N4, &CrPsCmdVerFailN4);
-	FwPrAddActionNode(prDesc, CrPsCmdVerFail_N5, &CrPsCmdVerFailN5);
-	FwPrAddActionNode(prDesc, CrPsCmdVerFail_N6, &CrPsCmdVerFailN6);
 	FwPrAddFlowIniToAct(prDesc, CrPsCmdVerFail_N2, NULL);
 	FwPrAddFlowActToDec(prDesc, CrPsCmdVerFail_N2, DECISION2, NULL);
 	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsCmdVerFail_N3, &CrPsCmdVerFailG1);
 	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsCmdVerFail_N4, &CrPsCmdVerFailG1E);
 	FwPrAddFlowActToFin(prDesc, CrPsCmdVerFail_N3, NULL);
-	FwPrAddFlowActToAct(prDesc, CrPsCmdVerFail_N4, CrPsCmdVerFail_N5, NULL);
-	FwPrAddFlowActToAct(prDesc, CrPsCmdVerFail_N5, CrPsCmdVerFail_N6, NULL);
-	FwPrAddFlowActToFin(prDesc, CrPsCmdVerFail_N6, NULL);
+	FwPrAddFlowActToFin(prDesc, CrPsCmdVerFail_N4, NULL);
 
 	return prDesc;
 }

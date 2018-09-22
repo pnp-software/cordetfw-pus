@@ -5,9 +5,6 @@
  *
  * @brief This procedure is run when a command has failed its start check or its termination check
  *
- * @author FW Profile code generator version 5.01
- * @date Created on: Jul 11 2017 18:1:13
- *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
@@ -36,18 +33,25 @@
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutLoader/CrFwOutLoader.h"
 #include "OutCmp/CrFwOutCmp.h"
+#include "CrFwRepErr.h"
+#include "CrFwRepInCmdOutcome.h"
+#include "InCmd/CrFwInCmd.h"
 
+/** PUS Extension function definitions */
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpTst.h"
 #include "CrPsTypes.h"
 #include "CrPsServTypeId.h"
+#include "DataPool/CrPsDpVer.h"
+#include "Ver/CrPsVerConfig.h"
+#include "PcktFunctions/CrPsPckt.h"
+#include "PcktFunctions/CrPsPcktVer.h"
 
 #include <stdlib.h>
 #include <assert.h>
 
 static FwSmDesc_t rep;
-static CrFwServSubType_t repSubType;
-static CrFwDiscriminant_t disc;
+CrFwServSubType_t repSubType;
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -59,23 +63,23 @@ void CrPsCmdVerFailN2(FwPrDesc_t prDesc) {
   switch (outcome) {
     case crCmdAckAccFail:   /* InCommand failed its validity check */
          repSubType = VERFAILEDACCREP_STYPE;
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, CrPsVerConfigGetFailCode(), 0);
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
          break;
     case crCmdAckStrFail:   /* InCommand Start Action has failed */
          repSubType = VERFAILEDSTARTREP_STYPE;
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDSTARTREP_STYPE, CrPsVerConfigGetFailCode(), 0);
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDSTARTREP_STYPE, 0, 0);
          break;
     case crCmdAckTrmFail:    /* InCommand Termination Action failed */
          repSubType = VERFAILEDTERMREP_STYPE;
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, CrPsVerConfigGetFailCode(), 0);
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, 0, 0);
          break;
     case crCmdAckLdFail:    /* InCommand could not be loaded in its InManager */
          repSubType = VERFAILEDACCREP_STYPE;
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, CrPsVerConfigGetFailCode(), 0);
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
          break;
     default:                /* InCommand component could not be created (crCmdAckCreFail) */
          repSubType = VERFAILEDACCREP_STYPE;
-         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, CrPsVerConfigGetFailCode(), 0);
+         rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
          assert(outcome == crCmdAckCreFail);
   }
 
@@ -125,7 +129,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
     inPckt = CrPsVerConfigGetInPckt();
   tcPcktVersNmb = getTcHeaderPcktVersionNmb(inPckt);
   tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
-  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*2^13+getTcHeaderAPID(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*(2^13)+getTcHeaderAPID(inPckt);
 
   switch (outcome) {
     case crCmdAckAccFail:   /* InCommand failed its validity check */
@@ -146,7 +150,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
     case crCmdAckStrFail:   /* InCommand Start Action has failed */
         setVerFailedStartRepPcktVersNumber(outPckt, tcPcktVersNmb);
         setVerFailedStartRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerFailedSytartRepTcPcktId(outPckt, tcPcktId);
+        setVerFailedStartRepTcPcktId(outPckt, tcPcktId);
         setVerFailedStartRepTcFailCode(outPckt, failCode);
         setVerFailedStartRepTcFailData(outPckt, failData);
         setVerFailedStartRepTcType(outPckt, type);
@@ -161,7 +165,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
     case crCmdAckTrmFail:    /* InCommand Termination Action failed */
         setVerFailedTermRepPcktVersNumber(outPckt, tcPcktVersNmb);
         setVerFailedTermRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerFailedTermtRepTcPcktId(outPckt, tcPcktId);
+        setVerFailedTermRepTcPcktId(outPckt, tcPcktId);
         setVerFailedTermRepTcFailCode(outPckt, failCode);
         setVerFailedTermRepTcFailData(outPckt, failData);
         setVerFailedTermRepTcType(outPckt, type);
@@ -197,11 +201,11 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
         setVerFailedAccRepTcType(outPckt, type);
         setVerFailedAccRepTcSubType(outPckt, subType);
         setVerFailedAccRepTcDisc(outPckt, disc);
-        /* Update data pool variables related to start failure */
-        setDpVerFailCodeStartFailed(failCode);
-        nOfCmds = getDpVerNOfStartFailed();
-        setDpVerNOfStartFailed(nOfCmds+1);
-        setDpVerPcktIdStartFailed(tcPcktId);
+        /* Update data pool variables related to acceptance failure */
+        setDpVerFailCodeAccFailed(failCode);
+        nOfCmds = getDpVerNOfAccFailed();
+        setDpVerNOfAccFailed(nOfCmds+1);
+        setDpVerPcktIdAccFailed(tcPcktId);
         assert(outcome == crCmdAckCreFail);
   }
 

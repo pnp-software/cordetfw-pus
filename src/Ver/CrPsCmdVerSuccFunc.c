@@ -5,11 +5,9 @@
  *
  * @brief This procedure is run when a command has passed its acceptance, start or termination check
  *
- * @author FW Profile code generator version 5.01
- * @date Created on: Jul 11 2017 18:2:22
- *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * 
  * last modification: 22.01.2018
  * 
@@ -37,11 +35,18 @@
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutLoader/CrFwOutLoader.h"
 #include "OutCmp/CrFwOutCmp.h"
+#include "CrFwRepInCmdOutcome.h"
+#include "InCmd/CrFwInCmd.h"
 
+/** PUS Extension function definitions */
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpTst.h"
 #include "CrPsTypes.h"
 #include "CrPsServTypeId.h"
+#include "DataPool/CrPsDpVer.h"
+#include "Ver/CrPsVerConfig.h"
+#include "PcktFunctions/CrPsPckt.h"
+#include "PcktFunctions/CrPsPcktVer.h"
 
 #include <stdlib.h>
 #include <assert.h>
@@ -89,33 +94,34 @@ void CrPsCmdVerSuccN3(FwPrDesc_t prDesc) {
 void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
   FwSmDesc_t inCmd;
   CrFwDestSrc_t inCmdSrc;
-  CrFwPckt_t inPckt;
+  CrFwPckt_t inPckt, outPckt;
   CrFwRepInCmdOutcome_t outcome;
   CrPsSixteenBit_t tcPcktSeqCtrl;
   CrPsThirteenBit_t tcPcktId;
 
   /* Configure report and load it in the OutLoader */
+  outPckt = CrFwOutCmpGetPckt(rep);
   outcome = CrPsVerConfigGetOutcome();
   inCmd = CrPsVerConfigGetInCmd();
   inPckt = CrFwInCmdGetPckt(inCmd);
   tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
-  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*2^13+getTcHeaderAPID(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*(2^13)+getTcHeaderAPID(inPckt);
 
   switch (outcome) {
     case crCmdAckAccSucc:
-        setVerSuccAccRepPcktVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
-        setVerSuccAccRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
-        setVerSuccAccRepTcPcktId(inPckt, tcPcktId);
+        setVerSuccAccRepPcktVersNumber(outPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccAccRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+        setVerSuccAccRepTcPcktId(outPckt, tcPcktId);
         break;
     case crCmdAckStrSucc:
-        setVerSuccStartRepPcktVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
-        setVerSuccStartRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
-        setVerSuccStartRepTcPcktId(inPckt, tcPcktId);
+        setVerSuccStartRepPcktVersNumber(outPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccStartRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+        setVerSuccStartRepTcPcktId(outPckt, tcPcktId);
         break;
     default:
-        setVerSuccTermRepPcktVersNumber(inPckt, getTcHeaderPcktVersionNmb(inCmd));
-        setVerSuccTermRepTcPcktSeqCtrl(inPckt, tcPcktSeqCtrl);
-        setVerSuccTermRepTcPcktId(inPckt, tcPcktId);
+        setVerSuccTermRepPcktVersNumber(outPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccTermRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+        setVerSuccTermRepTcPcktId(outPckt, tcPcktId);
         assert (outcome == crCmdAckTrmSucc);
   }
 

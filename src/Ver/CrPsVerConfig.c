@@ -17,6 +17,7 @@
 #include "CrPsCmdPrgrFail.h"
 #include "CrPsCmdPrgrSucc.h"
 #include "CrPsCmdVerFail.h"
+#include "CrPsCmdVerSucc.h"
 #include "CrPsPcktReroutingFail.h"
 
 #include "DataPool/CrPsDpVer.h"
@@ -58,47 +59,48 @@ void CrPsVerConfigInit() {
 
 /*------------------------------------------------------------------------*/
 void CrPsVerConfigSetPrData(CrFwRepInCmdOutcome_t outcome, CrFwServType_t servType,
-        CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd) {
-	prVerData->disc = disc;
-	prVerData->failCode = failCode;
-	prVerData->inCmd = inCmd;
-	prVerData->outcome = outcome;
-	prVerData->servSubType = servSubType;
-	prVerData->servType = servType;
+        CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd, CrFwPckt_t inPckt) {
+	prVerData.disc = disc;
+	prVerData.failCode = failCode;
+	prVerData.inCmd = inCmd;
+	prVerData.outcome = outcome;
+	prVerData.servSubType = servSubType;
+	prVerData.servType = servType;
+	prVerData.inPckt = inPckt;
 }
 
 /*------------------------------------------------------------------------*/
 CrFwRepInCmdOutcome_t CrPsVerConfigGetOutcome() {
-    return prVerData->outcome;
+    return prVerData.outcome;
 }
 
 /*------------------------------------------------------------------------*/
 CrFwServType_t CrPsVerConfigGetServType() {
-    return prVerData->servType;
+    return prVerData.servType;
 }
 
 /*------------------------------------------------------------------------*/
 CrFwServSubType_t CrPsVerConfigGetServSubType() {
-    return prVerData->servSubType;
+    return prVerData.servSubType;
 }
 
 /*------------------------------------------------------------------------*/
 CrFwDiscriminant_t CrPsVerConfigGetDisc() {
-    return prVerData->disc;
+    return prVerData.disc;
 }
 
 /*------------------------------------------------------------------------*/
 CrFwOutcome_t CrPsVerConfigGetFailCode() {
-    return prVerData->failCode;
+    return prVerData.failCode;
 }
 
 /*------------------------------------------------------------------------*/
 FwSmDesc_t CrPsVerConfigGetInCmd() {
-    return prVerData->inCmd;
+    return prVerData.inCmd;
 }
 
 CrFwPckt_t CrPsVerConfigGetInPckt() {
-    return prVerData->inPckt;
+    return prVerData.inPckt;
 }
 
 /*------------------------------------------------------------------------*/

@@ -28,6 +28,7 @@
 
 /** CORDET Framework type definitions */
 #include "CrFwConstants.h"
+#include "CrFwRepInCmdOutcome.h"
 
 /**
  * Type for the Component Data attached to the service 1 procedures.
@@ -50,8 +51,6 @@ typedef struct CrPsVerData {
 	 * of processing failure
 	 */
 	CrFwOutcome_t failCode;
-	/** The InCommand encapsulating the command whose processing triggers the service 1 report */
-	FwSmDesc_t inCmd;
 	/** The packet encapsulating the command whose processing triggers the service 1 report */
 	CrFwPckt_t inPckt;
 } CrPsVerData_t;
@@ -78,8 +77,6 @@ typedef struct CrPsVerData {
  *
  * The procedure instances can be retrieved using functions with names like <code>CrPsVerConfigGetXyz</code>
  * where 'Xyz' is the name of the procedure.
- *
- * @return 1 if the initialization was successful and 0 otherwise
  */
 void CrPsVerConfigInit();
 

@@ -154,14 +154,10 @@ void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc) {
 
   /* Set outcome of Start Action to 'failure' with failure code VER_REP_CR_FD */
 
-  /* Set outcome in InCmd prData to 'failure' */
+  /* Set outcome in InCmd prData to 'failure' (failure code to VER_REP_CR_FD) */
   prTstData = (CrPsTstData_t*)FwPrGetData(prDesc);
   cmd17s3 = prTstData->cmd17s3;
-  cmpData = (CrFwCmpData_t*) FwSmGetData(cmd17s3);
-  cmpData->outcome = 0;
-
-  /* Set failure code to VER_REP_CR_FD */
-  setDpVerVerFailCode(VER_REP_CR_FD);
+  CrFwSetSmOutcome(cmd17s3, VER_REP_CR_FD);
 
   return;
 }

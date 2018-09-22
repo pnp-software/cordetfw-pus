@@ -43,6 +43,8 @@
 #include "Tst/CrPsTstConfig.h"
 #include "PcktFunctions/CrPsPcktTst.h"
 #include "DataPool/CrPsDpTst.h"
+#include "DataPool/CrPsDpVer.h"
+#include "PcktFunctions/CrPsPcktVer.h"
 #include "CrPsServTypeId.h"
 #include "CrPsConstants.h"
 
@@ -194,9 +196,6 @@ CrFwBool_t CrPsTstTestCase2() {
   CrFwCmpReset(inFactory);
   CrFwCmpInit(outManager);
   CrFwCmpReset(outManager);
-
-  /* Initialize service 17 */
-  CrPsTstConfigInit();
 
   /* Check number of Allocated Packets */
   if (CrFwPcktGetNOfAllocated() != 0)
@@ -376,7 +375,7 @@ CrFwBool_t CrPsTstTestCase2() {
 CrFwBool_t CrPsTstTestCase3() {
   /* Check 17,3 and 17,4 */
   FwSmDesc_t inFactory, inManager, outFactory, outManager, inCmd, outCmp, outCmp1, inRep1;
-  CrFwPckt_t pckt, pckt2;
+  CrFwPckt_t pckt, pckt2, outPckt;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
   int i;
@@ -421,7 +420,7 @@ CrFwBool_t CrPsTstTestCase3() {
   /*Create an InCommand out of the 17,3 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-  /*Give the Packet a wrong appId so the start action of the command fails*/
+  /*Give the Packet a wrong appId so that the start action of the command fails*/
   pckt = CrFwInCmdGetPckt(inCmd);
   setTstConnectCmdAppId(pckt, TST_N_DEST+1);
 
@@ -430,49 +429,35 @@ CrFwBool_t CrPsTstTestCase3() {
   if (!CrFwInCmdIsInAborted(inCmd))
     return 0; 
 
-  /* Check that no OutComponent has been allocated  */
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
+  /* Check that one OutComponent has been allocated (the (1,4) report) and that
+   * it is pending in the OutManager and check that it carries the expected failure code */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 1)
+    return 0;
+  if (CrFwOutManagerGetNOfLoadedOutCmp(outManager) != 1)
     return 0;
 
-  /* Release the inCommand*/
-  CrFwInFactoryReleaseInCmd(inCmd);
-
-  /* Check that a (1,4) report has been generated and is loaded in the OurManager
-   * and that the failure code is correctly reported in the data pool  */
   if (getDpVerFailCodeStartFailed() != VER_REP_CR_FD)
-	  return 0;
+      return 0;
 
-
-
-  /* Check if number of Allocated Packets now is 1 - a Request Verification (1,4) should be in the Outmanager */
-  /* if (CrFwPcktGetNOfAllocated() != 1)										TO BE ADDED
-    return 0;
-
-  /* Check that there is one Packet Pending in the OutManager - Request Verification (1,4) */
-  /*if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 1)
-    return 0;
-
-  /* Check if number of loaded OutComponents in the OutManager is 1 - Request Verification (1,4)*/
-  /*if (CrFwOutManagerGetNOfLoadedOutCmp(outManager) != 1)
-    return 0;
-
-  /* Get the Data from the out Manager (there is only one Component) */
-  /*outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
+  outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[0];
+  outPckt = CrFwOutCmpGetPckt(outCmp);
 
-  /* Check if there is a 1,4 Command waiting in the OutManager (loaded) */
-  /*if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)							TO BE ADDED! */
-  //  return 0;
-  //if (CrFwOutCmpGetServType(outCmp) != 1)
-  //  return 0;
-  //if (CrFwOutCmpGetServSubType(outCmp) != 4)
-  //  return 0;
-  //if (getVerFailedStartRepTcFailCode(outCmp) != VER_REP_CR_FD)
-  //	  return 0;  */
+  if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
+    return 0;
+  if (CrFwOutCmpGetServType(outCmp) != 1)
+    return 0;
+  if (CrFwOutCmpGetServSubType(outCmp) != 4)
+    return 0;
+  if (getVerFailedStartRepTcFailCode(outPckt) != VER_REP_CR_FD)
+      return 0;
 
-  /*Release the OutComponent*/
-  /*CrFwOutFactoryReleaseOutCmp(outCmp); */
+  /* Release the (17,1) InCommand and the (1,4) OutComponent */
+  CrFwInFactoryReleaseInCmd(inCmd);
+  CrFwOutFactoryReleaseOutCmp(outCmp);
 
   /* Reset the OutManager (this should clear the POCL and release all OutComponents) */
   CrFwCmpReset(outManager);
@@ -713,7 +698,7 @@ CrFwBool_t CrPsTstTestCase4() {
   for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
     outCmp[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
   
-  /* Execute the InCommand should have been aborted and */
+  /* Execute the InCommand and verify that it is aborted */
   CrFwCmpExecute(inCmd);
   CrFwInCmdTerminate(inCmd);
   if (CrFwInCmdIsInAborted(inCmd) != 1)

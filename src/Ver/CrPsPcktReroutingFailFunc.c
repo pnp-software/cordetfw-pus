@@ -5,9 +5,6 @@
  *
  * @brief This procedure is run when the InLoader has found a packet with invalid destination
  *
- * @author FW Profile code generator version 5.01
- * @date Created on: Jul 11 2017 18:26:2
- *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
@@ -37,11 +34,18 @@
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutLoader/CrFwOutLoader.h"
 #include "OutCmp/CrFwOutCmp.h"
+#include "CrFwRepInCmdOutcome.h"
+#include "InCmd/CrFwInCmd.h"
 
+/** PUS Extension function definitions */
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpTst.h"
 #include "CrPsTypes.h"
 #include "CrPsServTypeId.h"
+#include "DataPool/CrPsDpVer.h"
+#include "Ver/CrPsVerConfig.h"
+#include "PcktFunctions/CrPsPckt.h"
+#include "PcktFunctions/CrPsPcktVer.h"
 
 #include <stdlib.h>
 #include <assert.h>
@@ -108,14 +112,14 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {  FwSmDesc_t inCmd;
   invDest = CrFwPcktGetDest(inPckt);
   tcPcktVersNmb = getTcHeaderPcktVersionNmb(inPckt);
   tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
-  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*2^13+getTcHeaderAPID(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*(2^13)+getTcHeaderAPID(inPckt);
 
   setVerFailedRoutingRepPcktVersNumber(outPckt,tcPcktVersNmb);
   setVerFailedRoutingRepTcPcktId(outPckt, tcPcktId);
   setVerFailedRoutingRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
   setVerFailedRoutingRepInvDest(outPckt, invDest);
   setVerFailedRoutingRepTcType(outPckt, type);
-  setVerFailedRoutingRepTcSubtype(outPckt, subType);
+  setVerFailedRoutingRepTcSubType(outPckt, subType);
   setVerFailedRoutingRepTcDisc(outPckt, disc);
 
   /* Set the destination of the report to the source of the in-coming packet */

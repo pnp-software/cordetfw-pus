@@ -45,7 +45,7 @@ void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc) {
   /* Retrieve (17,2) report from OutFactory and set action outcome
      to \success' if retrieval succeeds. If the retrieval fails, generate
      error report OUTFACTORY FAILED and set outcome of Start
-     Action to 'failed' */
+     Action to 'failed' with failure code VER_REP_CR_FD */
 
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 
@@ -55,32 +55,28 @@ void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc) {
       inData->outcome = 1;
   } else {
       CrFwRepErrKind(psOutFactoryFail, inData->typeId, inData->instanceId, TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0);
-      inData->outcome = 0;
+      inData->outcome = VER_REP_CR_FD;
   }
 
   return;
 }
 
-
 /* ------------------------------------------------------------------------------------ */
 void CrPsTstAreYouAliveCmdProgressAction(FwSmDesc_t smDesc) {
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
   CrFwDestSrc_t    source;
 
   /* Configure the (17,2) report with a destination equal to the
      source of the (17,1) command, load it in the OutLoader, and
      set action outcome to 'completed' */
 
-  source = CrFwInCmdGetSrc(inPckt);
+  source = CrFwInCmdGetSrc(smDesc);
   CrFwOutCmpSetDest(rep, source);
 
   /* load the report in the OutLoader */
   CrFwOutLoaderLoad(rep);
 
-  inData          = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inData->outcome = 1;
+  /* Set the outcome to 'success' */
+  CrFwSetSmOutcome(smDesc, 1);
 
   return;
 }

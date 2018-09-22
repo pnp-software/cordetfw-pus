@@ -25,12 +25,19 @@
  */
 
 #include <stdlib.h>
+#include <assert.h>
+
 /* Include Framework Files */
+#include "FwPrCore.h"
 #include "CrFwConstants.h"
 #include "CrFwUserConstants.h"
 #include "CrFwRepInCmdOutcome.h"
 #include "Pckt/CrFwPckt.h"
 #include "CrFwVerServUserPar.h"
+
+/* Include PUS Extension files */
+#include "CrPsTypes.h"
+#include "Ver/CrPsVerConfig.h"
 
 /*-----------------------------------------------------------------------------------------*/
 /**
@@ -83,10 +90,11 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
          serv1Pr = CrPsVerConfigGetCmdVerSucc();
          FwPrRun(serv1Pr);
          break;
-    case crCmdAckLdFail:		/* Report a failure to load the InCommand in its InManager */
+    default:		/* Must be crCmdAckLdFail (Report a failure to load the InCommand in its InManager) */
          CrPsVerConfigSetPrData(outcome, servType, servSubType, disc, VER_CMD_LD_FD, inCmd, NULL);
          serv1Pr = CrPsVerConfigGetCmdVerFail();
          FwPrRun(serv1Pr);
+         assert (outcome == crCmdAckLdFail);
          break;
     }
 }

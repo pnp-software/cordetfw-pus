@@ -12,7 +12,7 @@
  * @image html CrPsPcktReroutingFail.png
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Aug 22 2018 19:50:3
+ * @date Created on: Sep 18 2018 1:16:33
  */
 
 /** Make sure to include this header file only once */
@@ -110,7 +110,7 @@ FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION1 to N2.
- * Packet encapsulates a command 
+ * Else
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */

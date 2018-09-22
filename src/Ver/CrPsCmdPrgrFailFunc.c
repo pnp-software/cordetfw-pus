@@ -5,13 +5,9 @@
  *
  * @brief This procedure is run when a command has failed its progress check.
  *
- * @author FW Profile code generator version 5.01
- * @date Created on: Jul 11 2017 17:58:12
- *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * 
- * last modification: 22.01.2018
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * 
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
@@ -31,25 +27,40 @@
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
-#include "Pckt/CrFwPckt.h" /* --- interface to adaptation point CrFwPckt --- */
-#include <CrFwCmpData.h>
-#include <OutFactory/CrFwOutFactory.h>
-#include <OutLoader/CrFwOutLoader.h>
-#include <OutCmp/CrFwOutCmp.h>
+/** CORDET FW function definitions */
+#include "Pckt/CrFwPckt.h"
+#include "CrFwCmpData.h"
+#include "CrFwUserConstants.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "OutCmp/CrFwOutCmp.h"
+#include "CrFwRepErr.h"
+#include "CrFwRepInCmdOutcome.h"
+#include "InCmd/CrFwInCmd.h"
 
-#include "CrPsConstants.h"
+/** PUS Extension function definitions */
+#include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpTst.h"
+#include "CrPsTypes.h"
+#include "CrPsServTypeId.h"
+#include "DataPool/CrPsDpVer.h"
+#include "Ver/CrPsVerConfig.h"
+#include "PcktFunctions/CrPsPckt.h"
+#include "PcktFunctions/CrPsPcktVer.h"
 
 #include <stdlib.h>
-#include <time.h>
+#include <assert.h>
 
 static FwSmDesc_t rep;
+static CrFwProgressStepId_t prgrStepId;
+static CrPsThirteenBit_t tcPcktId;
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
 void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
-  /* Retrieve an OutComponent of type (1,6) from the OutFactory */
+  /* Retrieve an OutComponent of type (1,5) from the OutFactory */
   rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDPRGRREP_STYPE, 0, 0);
 
   return;
@@ -58,13 +69,10 @@ void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
 void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc) {
-  CrFwCmpData_t* inData;
   CRFW_UNUSED(prDesc);
 
-  inData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-
   /* Generate error report OUTFACTORY_FAIL */
-  CrFwRepErrKind(psOutFactoryFail, inData->typeId, inData->instanceId, TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0);
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, VER_TYPE, VERSUCCPRGRREP_STYPE, 0);
 
   return;
 }
@@ -72,106 +80,54 @@ void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
 void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
-  CrFwDestSrc_t     source;
-  CrPsFailData_t    VerFailData;
-  CrFwCmpData_t    *inData;
-  CrFwInCmdData_t  *inSpecificData;
-  CrFwPckt_t        inPckt;
-  FwSmDesc_t        smDesc;
-  prData_t         *prData;
-  CrFwCmpData_t    *cmpDataStart;
-  CrFwOutCmpData_t *cmpSpecificData;
-  CrFwPckt_t        pckt;
-  CrPsRid_t         Rid;
+  CrFwDestSrc_t inPcktSrc;
+  CrFwPckt_t inPckt, outPckt;
+  CrPsSixteenBit_t tcPcktSeqCtrl;
+  CrFwOutcome_t failCode;
+  CrPsFailData_t failData;
+  CrFwServType_t type;
+  CrFwServSubType_t subType;
+  CrFwDiscriminant_t disc;
+  CrPsThreeBit_t tcPcktVersNmb;
+  FwSmDesc_t inCmd;
 
-  cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
-  cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
-  pckt            = cmpSpecificData->pckt;
+  /* Configure report (1,10) */
+  inCmd = CrPsVerConfigGetInCmd();
+  inPckt = CrPsVerConfigGetInPckt();
+  outPckt = CrFwOutCmpGetPckt(rep);
+  type = CrPsVerConfigGetServType();
+  subType = CrPsVerConfigGetServSubType();
+  disc = CrPsVerConfigGetDisc();
+  failCode = CrPsVerConfigGetFailCode();
+  failData = getDpVerFailData();
 
-  /* Configure report and load it in the OutLoader */
+  tcPcktVersNmb = getTcHeaderPcktVersionNmb(inPckt);
+  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*(2^13)+getTcHeaderAPID(inPckt);
+  prgrStepId = CrFwInCmdGetProgressStepId(inCmd);
 
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  /* set Packet request ID */
-  Rid = getPcktRid(inPckt);
-  setVerFailedPrgrRepRid(pckt, Rid);
-
-  /* Set step Id */
-  setVerFailedPrgrRepStepId(pckt, (CrPsStepId_t)prData->ushortParam1);
-
-  /* Set failCodeAccFailed = discriminant */
-  setVerFailedPrgrRepFailureCode(pckt, (CrPsFailCode_t)prData->ushortParam2);
-
-  /* Set verFailData */
-  VerFailData = getDpverFailData();
-  setVerFailedPrgrRepFailureData(pckt, VerFailData); 
+  setVerFailedPrgrRepPcktVersNumber(outPckt,tcPcktVersNmb);
+  setVerFailedPrgrRepTcPcktId(outPckt, tcPcktId);
+  setVerFailedPrgrRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
+  setVerFailedPrgrRepTcFailCode(outPckt, failCode);
+  setVerFailedPrgrRepTcFailData(outPckt, failData);
+  setVerFailedPrgrRepTcType(outPckt, type);
+  setVerFailedPrgrRepTcSubType(outPckt, subType);
+  setVerFailedPrgrRepTcDisc(outPckt, disc);
 
   /* Set the destination of the report to the source of the in-coming packet */
-  source = CrFwPcktGetSrc(inPckt);
-  CrFwOutCmpSetDest(rep, source);
+  inPcktSrc = CrFwPcktGetSrc(inPckt);
+  CrFwOutCmpSetDest(rep, inPcktSrc);
 
   /* Load report in the Outloader */
   CrFwOutLoaderLoad(rep);
 
-  return;
-}
-
-/* ------------------------------------------------------------------------------------ */
-/** Action for node N5. */
-void CrPsCmdPrgrFailN5(FwPrDesc_t prDesc)
-{
-  CrFwCounterU4_t nOfPrgrFailed;
-
-  CRFW_UNUSED(prDesc);
-  
   /* Increment data pool variable nOfPrgrFailed */
+  setDpVerNOfPrgrFailed(getDpVerNOfPrgrFailed()+1);
 
-  nOfPrgrFailed = getDpnOfPrgrFailed();
-  nOfPrgrFailed += 1;
-  setDpnOfPrgrFailed(nOfPrgrFailed);
-
-  return;
-}
-
-/* ------------------------------------------------------------------------------------ */
-/** Action for node N6. */
-void CrPsCmdPrgrFailN6(FwPrDesc_t prDesc)
-{
-  CrFwTypeId_t     PacketId;
-  CrFwCmpData_t   *inData;
-  CrFwInCmdData_t *inSpecificData;
-  CrFwPckt_t       inPckt;
-  FwSmDesc_t       smDesc;
-  prData_t        *prData;
-
-  /* Update data pool variable pcktIdPrgrFailed, failCodePrgrFailed and prgrStepFailed */
-
-  /* Get procedure parameters */
-  prData = FwPrGetData(prDesc);
-  smDesc = prData->smDesc;
-
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  /* Set pcktIdPrgrFailed */
-  PacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setDppcktIdPrgrFailed(PacketId);
-
-  /* Set failCodePrgrFailed */
-  setDpfailCodePrgrFailed(prData->ushortParam2);
-
-  /* Set prgrStepFailed */
-  setDpstepPrgrFailed(prData->ushortParam1);
+  /* Update data pool variable pcktIdPrgrFailed and prgrStepFailed */
+  setDpVerPcktIdPrgrFailed(tcPcktId);
+  setDpVerStepPrgrFailed(prgrStepId);
 
   return;
 }
@@ -182,21 +138,14 @@ void CrPsCmdPrgrFailN6(FwPrDesc_t prDesc)
 /**************/
 
 /** Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsCmdPrgrFailG1(FwPrDesc_t prDesc)
-{
+FwPrBool_t CrPsCmdPrgrFailG1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
-
   if (rep == NULL)
-    {
-      return 1;
-    }
+    return 1;
   else
-    {
-      return 0;
-    }
-
+    return 0;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */

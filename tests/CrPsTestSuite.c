@@ -33,12 +33,10 @@
 /* Include test suite files for the PUS extension */
 #include "CrPsPcktGetSetTestCases.h"
 #include "CrPsTstTestCases.h"
-/*#include "CrPsDataPoolTestCases.h"	DEBUG
-#include "CrPsServiceVeriTestCases.h"
-#include "CrPsHkTestCases.h"
-#include "CrPsEvtTestCases.h"
-#include "CrPsLptTestCases.h"*/
 
+/* Include files with service initialization functions */
+#include "Ver/CrPsVerConfig.h"
+#include "Tst/CrPsTstConfig.h"
 
 /**
  * Main program for the test suite.
@@ -89,6 +87,10 @@ int main() {
 	testNames[i] = "Pusext_CrPsTst_TestCase4";
 	testCases[i] = &CrPsTstTestCase4;
 	i+=1;
+
+	/* Initialize the services which are used by the test cases */
+	CrPsVerConfigInit();
+	CrPsTstConfigInit();
 
 	/* Run test cases in sequence */
 	for (i=0; i<NOF_TESTS; i++) {

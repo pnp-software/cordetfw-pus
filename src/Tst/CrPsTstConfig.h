@@ -74,8 +74,6 @@ typedef struct CrPsTstData {
  *
  * The procedure instances can be retrieved using functions <code>::CrPsTstConfigGetStart17s3</code>
  * and <code>::CrPsTstConfigGetPrgr17s3</code>.
- *
- * @return 1 if the initialization was successful and 0 otherwise
  */
 void CrPsTstConfigInit();
 

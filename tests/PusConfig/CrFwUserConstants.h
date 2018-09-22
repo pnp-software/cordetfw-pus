@@ -244,17 +244,6 @@ typedef enum {
 } CrFwAppErrCode_t;
 
 /**
- * Type for a pointer to a function implementing the Step Completed Check for Service 1.
- * The Step Completed Check for Service 1 is one of the adaptation points of the PUS Extension
- * of the CORDET Framework.
- * This function to determine whether a progress step of an incoming command has been completed.
- * A function which implements this operation takes the descriptor of the incoming command whose
- * progress step completion is checked and returns 1 if the currently executing step has been
- * completed and 0 otherwise.
- */
-typedef CrFwBool_t (*CrPsStepCompleted_t)(FwSmDesc_t);
-
-/**
  * Maximum number of packets simultaneously supported by the packet factory */
 #define CR_FW_MAX_NOF_PCKTS 255
 

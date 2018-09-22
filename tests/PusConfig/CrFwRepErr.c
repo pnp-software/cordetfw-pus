@@ -26,11 +26,15 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+
 /* Include Framework Files */
 #include "CrFwConstants.h"
 #include "CrFwRepErr.h"
+#include "FwPrCore.h"
+
 /* Include Configuration Files */
 #include "CrFwRepErrStub.h"
+#include "Ver/CrPsVerConfig.h"
 
 /** The size of the error report array */
 #define CR_FW_ERR_REP_ARRAY_SIZE 100
