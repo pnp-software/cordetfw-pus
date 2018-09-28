@@ -97,6 +97,8 @@ CrFwBool_t CrPsTstTestCase3();
  * @verify Connection Test Command, Start Action, Retrieval of Second OutComponent Fails
  * @verify Connection Test Command, Start Action, Retrieval of First OutComponent Fails
  * @verify Connection Test Command, Progress Action, right Branch (failure)
+ * @verify Start Failure Report, Failure Code VER_REP_CR_FD
+ * @verify Termination Failure Report, Failure Code VER_TST_TO
  *
  * @return true if the test was successful, false otherwise.
  */

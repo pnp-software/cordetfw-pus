@@ -74,11 +74,15 @@ void CrPsTstConnectCmdTerminationAction(FwSmDesc_t smDesc) {
   cmd17s3 = CrPsTstConfigGetStart17s3();
   prTstData = (CrPsTstData_t*)FwPrGetData(cmd17s3);
 
-  /* Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise.
+  /* Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise
+   * with failure code VER_TST_TO.
    * If the (17,4) report was issued, then prTstData->isRep17s4Alive is equal to 1, otherwise
    * it is equal to 0
    */
-  CrFwSetSmOutcome(smDesc,prTstData->isRep17s4Alive);
+  if (prTstData->isRep17s4Alive == 1)
+      CrFwSetSmOutcome(smDesc,1);
+  else
+      CrFwSetSmOutcome(smDesc,VER_TST_TO);
 
   return;
 }
