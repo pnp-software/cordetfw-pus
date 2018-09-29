@@ -115,6 +115,7 @@ if [ "$EDITOR" == "YES" ]
     cp $EDITOR_PATH/cfw/Lpt/*.h ./src/Lpt
     cp $EDITOR_PATH/cfw/Tst/*.h ./src/Tst
     cp $EDITOR_PATH/cfw/Scd/*.h ./src/Scd
+    cp $EDITOR_PATH/cfw/Dum/*.h ./src/Dum
 fi
 
 # Copy the files which define the configuration of the CORDET Framework

@@ -753,7 +753,7 @@ The tables in this section formally specify the service 1 components by specifyi
 \item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{itemize}
 
-With reference to the first bullet, it is recalled that the OutRegistry component of the CORDET Framework stores the enable status of out-going reports as a function of the report's type, sub-type and discriminant. By default, all out-going reports are enabled. Users who wish to disable a specific verification failure code or who wish to disable a certain service 1 sub-type can do so by setting its status to 'disabled' in the OutRegistry. Note that this is a run-time operation which would typically be done as part of an application's initialization.
+With reference to the first bullet, it is recalled that the OutRegistry component of the CORDET Framework stores the enable status of out-going reports as a function of the report's type, sub-type and discriminant. By default, all out-going reports are enabled. Users who wish to disable a specific service 1 sub-type can do so by setting its status to 'disabled' in the OutRegistry. This is a run-time operation which would typically be done as part of an application's initialization.
 
 \printVerSuccAccRepSpec{|c|p{10cm}|}
 \printVerFailedAccRepSpec{|c|p{10cm}|}

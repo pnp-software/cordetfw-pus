@@ -325,7 +325,7 @@ CrFwBool_t CrPsTstTestCase2() {
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
     return 0;
 
-  /* Fill the outfactory so that an Error could occur (leave one free slot) */
+  /* Fill the outfactory so that an Error could occur */
   for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP;i++)
     outCmpArr[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
 

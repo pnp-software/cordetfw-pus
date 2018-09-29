@@ -18,8 +18,7 @@
  * @param smDesc The state machine descriptor.
  * @return The enable check result.
  */
-CrFwBool_t CrPsVerFailedRoutingRepEnableCheck(FwSmDesc_t smDesc)
-{
+CrFwBool_t CrPsOutCmpVerFailedRoutingRepEnableCheck(FwSmDesc_t smDesc) {
    CRFW_UNUSED(smDesc);
    DBG("CrPsVerFailedRoutingRepEnableCheck");
    return 1;

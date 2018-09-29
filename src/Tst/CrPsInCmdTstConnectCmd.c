@@ -39,7 +39,8 @@
 
 #include <stdlib.h>
 
-void CrPsTstConnectCmdStartAction(FwSmDesc_t smDesc) {
+/* ------------------------------------------------------------------------------------ */
+void CrPsInCmdTstConnectCmdStartAction(FwSmDesc_t smDesc) {
   CrPsTstData_t* startPrData;
   FwPrDesc_t startPr;
 
@@ -55,7 +56,7 @@ void CrPsTstConnectCmdStartAction(FwSmDesc_t smDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-void CrPsTstConnectCmdProgressAction(FwSmDesc_t smDesc) {
+void CrPsInCmdTstConnectCmdProgressAction(FwSmDesc_t smDesc) {
   FwPrDesc_t prgrPr;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command */
@@ -66,7 +67,7 @@ void CrPsTstConnectCmdProgressAction(FwSmDesc_t smDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-void CrPsTstConnectCmdTerminationAction(FwSmDesc_t smDesc) {
+void CrPsInCmdTstConnectCmdTerminationAction(FwSmDesc_t smDesc) {
   FwPrDesc_t cmd17s3;
   CrPsTstData_t* prTstData;
 

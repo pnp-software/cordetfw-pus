@@ -1063,3 +1063,15 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
+\def \printSampleaSpec#1 {
+\begin{pnptable}{#1}{Specification of Sample1 Component}{tab:SampleaSpec}{Name & Sample1(255,1)}
+Description & Sample command used for testing purposes. The outcome of all its actions and checks can be set by setting user-commandable flags. Its actions increment the value of user-observable counters.  \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & The Ready Check returns the value of an internal flag (the Ready Flag) whose value is set through function <code>::CrFwInCmdSample1SetReadyFlag</code>. \\\hline
+Start Action & This action sets the outcome to the value of an internal counter (the Start Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetStartActionOutcome</code> and it increments the value of a counter (the Start Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetStartActionCounter</code>. \\\hline
+Progress Action & This action:\newline  (a) Sets the outcome to the value of an internal counter (the Progress Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetProgressActionOutcome</code>, and\newline  (b) It increments the progress step identifier if the progress step flag is set (its value is controlled through function <code>::CrFwInCmdSample1SetProgressActionFlag</code>. \\\hline
+Termination Action & This actions sets the outcome to the value of an internal counter (the Termination Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetTerminationActionOutcome</code> and it increments the value of a counter (the Termination Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetTerminationActionCounter</code>. \\\hline
+Abort Action & This action sets the outcome to the value of an internal counter (the Abort Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetAbortActionOutcome</code> and it increments the value of a counter (the Abort Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetAbortActionCounter</code>. \\\hline
+\end{pnptable}}
+

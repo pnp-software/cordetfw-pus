@@ -17,8 +17,7 @@
  * @param smDesc The state machine descriptor.
  * @return The enable check result.
  */
-CrFwBool_t CrPsVerSuccPrgrRepEnableCheck(FwSmDesc_t smDesc)
-{
+CrFwBool_t CrPsOutCmpVerSuccPrgrRepEnableCheck(FwSmDesc_t smDesc) {
    CRFW_UNUSED(smDesc);
    DBG("CrPsVerSuccPrgrRepEnableCheck");
    return 1;

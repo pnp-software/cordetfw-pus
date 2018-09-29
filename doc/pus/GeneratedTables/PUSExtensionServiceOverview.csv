@@ -86,3 +86,4 @@ TC(17,1)|AreYouAliveCmd|Perform Are-You-Alive Connection Test|332
 TM(17,2)|AreYouAliveRep|Are-You-Alive Connection Report|321
 TC(17,3)|ConnectCmd|Perform On-Board Connection Test|332
 TM(17,4)|ConnectRep|On-Board Connection Test Report|321
+TC(255,1)|Sample1|Sample 1 Command |332

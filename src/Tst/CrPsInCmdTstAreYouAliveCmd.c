@@ -39,7 +39,7 @@ static FwSmDesc_t rep;
 
 
 /* ------------------------------------------------------------------------------------ */
-void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc) {
+void CrPsInCmdTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc) {
   CrFwCmpData_t* inData;
 
   /* Retrieve (17,2) report from OutFactory and set action outcome
@@ -62,7 +62,7 @@ void CrPsTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-void CrPsTstAreYouAliveCmdProgressAction(FwSmDesc_t smDesc) {
+void CrPsInCmdTstAreYouAliveCmdProgressAction(FwSmDesc_t smDesc) {
   CrFwDestSrc_t    source;
 
   /* Configure the (17,2) report with a destination equal to the

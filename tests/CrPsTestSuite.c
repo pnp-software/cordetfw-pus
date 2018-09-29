@@ -33,6 +33,7 @@
 /* Include test suite files for the PUS extension */
 #include "CrPsPcktGetSetTestCases.h"
 #include "CrPsTstTestCases.h"
+#include "CrPsVerTestCases.h"
 
 /* Include files with service initialization functions */
 #include "Ver/CrPsVerConfig.h"
@@ -72,21 +73,30 @@ int main() {
     i=0;
 
 	/*Getter and Setter*/
-	testNames[i] = "Pusext_PacketGetterSetter_TestCase1";
+	testNames[i] = "PusExt_PacketGetterSetter_TestCase1";
 	testCases[i] = &CrPsPcktGetSetTestCase1;
 	i+=1;
-	testNames[i] = "Pusext_CrPsTst_TestCase1";
+	testNames[i] = "PusExt_CrPsTst_TestCase1";
 	testCases[i] = &CrPsTstTestCase1;
 	i+=1;
-	testNames[i] = "Pusext_CrPsTst_TestCase2";
+	testNames[i] = "PusExt_CrPsTst_TestCase2";
 	testCases[i] = &CrPsTstTestCase2;
 	i+=1;
-	testNames[i] = "Pusext_CrPsTst_TestCase3";
+	testNames[i] = "PusExt_CrPsTst_TestCase3";
 	testCases[i] = &CrPsTstTestCase3;
 	i+=1;
-	testNames[i] = "Pusext_CrPsTst_TestCase4";
+	testNames[i] = "PusExt_CrPsTst_TestCase4";
 	testCases[i] = &CrPsTstTestCase4;
 	i+=1;
+    testNames[i] = "PusExt_CrPsVer_TestCase1";
+    testCases[i] = &CrPsVerTestCase1;
+    i+=1;
+    testNames[i] = "PusExt_CrPsVer_TestCase2";
+    testCases[i] = &CrPsVerTestCase2;
+    i+=1;
+    testNames[i] = "PusExt_CrPsVer_TestCase3";
+    testCases[i] = &CrPsVerTestCase3;
+    i+=1;
 
 	/* Initialize the services which are used by the test cases */
 	CrPsVerConfigInit();

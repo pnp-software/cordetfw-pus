@@ -22,7 +22,7 @@
  * Set AreYouAliveSrc to the source of the report
  * @param prDesc The descriptor of the Execution Procedure of the InReport.
  */
-void CrPsTstAreYouAliveRepUpdateAction(FwPrDesc_t prDesc) {
+void CrPsInRepTstAreYouAliveRepUpdateAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
 	CrFwInRepData_t* inRepData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
 	CrFwPckt_t pckt = inRepData->pckt;
