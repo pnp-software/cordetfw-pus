@@ -257,12 +257,12 @@ typedef enum {
 #define CR_FW_NBITS_APP_ID 11
 
 /** Maximum value of the service type attribute of InReports and InCommands */
-#define CR_FW_MAX_SERV_TYPE 100
+#define CR_FW_MAX_SERV_TYPE 255
 
 /** Maximum value of the service sub-type attribute of InReports and InCommands */
-#define CR_FW_MAX_SERV_SUBTYPE 150
+#define CR_FW_MAX_SERV_SUBTYPE 255
 
 /** Maximum value of the discriminant attribute of InReports and InCommands */
-#define CR_FW_MAX_DISCRIMINANT 50
+#define CR_FW_MAX_DISCRIMINANT 255
 
 #endif /* CRFW_USERCONSTANTS_H_ */

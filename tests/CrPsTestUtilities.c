@@ -40,6 +40,7 @@ CrFwPckt_t CrPsTestUtilitiesCreateSAmple1Pckt(CrFwDestSrc_t dest, CrFwBool_t acc
   CrFwPcktSetGroup(inPckt,group);
   CrFwPcktSetAckLevel(inPckt,accAck,startAck,prgAck,termAck);
   CrFwPcktSetSeqCnt(inPckt,seqCnt);
+  return inPckt;
  }
 
 /*-----------------------------------------------------------------------------*/

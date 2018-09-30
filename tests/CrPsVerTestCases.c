@@ -88,18 +88,18 @@ CrFwBool_t CrPsVerTestCase1() {
 	  return 0;
 
   /* Create a (1,2) report and check its attributes */
-  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 7, 0);
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDACCREP_STYPE, 0, 0);
   if (rep == NULL)
 	  return 0;
   if (CrFwOutCmpGetServType(rep) != 1)
 	  return 0;
   if (CrFwOutCmpGetServSubType(rep) != 2)
 	  return 0;
-  if (CrFwOutCmpGetDiscriminant(rep) != 7)
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
 	  return 0;
 
   pckt = CrFwOutCmpGetPckt(rep);
-  if (getVerFailedAccRepTcFailCode(pckt) != 7)
+  if (getVerFailedAccRepTcFailCode(pckt) != 0)
 	  return 0;
 
   CrFwOutFactoryReleaseOutCmp(rep);			/* Release the report */
@@ -134,11 +134,11 @@ CrFwBool_t CrPsVerTestCase1() {
 	  return 0;
   if (CrFwOutCmpGetServSubType(rep) != 4)
 	  return 0;
-  if (CrFwOutCmpGetDiscriminant(rep) != 9)
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
 	  return 0;
 
   pckt = CrFwOutCmpGetPckt(rep);
-  if (getVerFailedStartRepTcFailCode(pckt) != 9)
+  if (getVerFailedStartRepTcFailCode(pckt) != 0)
 	  return 0;
   setVerFailedStartRepTcPcktSeqCtrl(pckt,257);
   if (getVerFailedStartRepTcPcktSeqCtrl(pckt) != 257)
@@ -176,11 +176,11 @@ CrFwBool_t CrPsVerTestCase1() {
 	  return 0;
   if (CrFwOutCmpGetServSubType(rep) != 6)
 	  return 0;
-  if (CrFwOutCmpGetDiscriminant(rep) != 33)
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
 	  return 0;
 
   pckt = CrFwOutCmpGetPckt(rep);
-  if (getVerFailedPrgrRepTcFailCode(pckt) != 33)
+  if (getVerFailedPrgrRepTcFailCode(pckt) != 0)
 	  return 0;
   setVerFailedPrgrRepTcPcktSeqCtrl(pckt,257);
   if (getVerFailedPrgrRepTcPcktSeqCtrl(pckt) != 257)
@@ -211,18 +211,18 @@ CrFwBool_t CrPsVerTestCase1() {
 	  return 0;
 
   /* Create a (1,8) report and check its attributes */
-  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, 31, 0);
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDTERMREP_STYPE, 0, 0);
   if (rep == NULL)
 	  return 0;
   if (CrFwOutCmpGetServType(rep) != 1)
 	  return 0;
   if (CrFwOutCmpGetServSubType(rep) != 8)
 	  return 0;
-  if (CrFwOutCmpGetDiscriminant(rep) != 31)
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
 	  return 0;
 
   pckt = CrFwOutCmpGetPckt(rep);
-  if (getVerFailedTermRepTcFailCode(pckt) != 31)
+  if (getVerFailedTermRepTcFailCode(pckt) != 0)
 	  return 0;
   setVerFailedTermRepTcPcktId(pckt,4096);
   if (getVerFailedTermRepTcPcktId(pckt) != 4096)
@@ -233,18 +233,18 @@ CrFwBool_t CrPsVerTestCase1() {
 	  return 0;
 
   /* Create a (1,10) report and check its attributes */
-  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDROUTINGREP_STYPE, 255, 0);
+  rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDROUTINGREP_STYPE, 0, 0);
   if (rep == NULL)
 	  return 0;
   if (CrFwOutCmpGetServType(rep) != 1)
 	  return 0;
   if (CrFwOutCmpGetServSubType(rep) != 10)
 	  return 0;
-  if (CrFwOutCmpGetDiscriminant(rep) != 255)
+  if (CrFwOutCmpGetDiscriminant(rep) != 0)
 	  return 0;
 
   pckt = CrFwOutCmpGetPckt(rep);
-  if (getVerFailedTermRepTcFailCode(pckt) != 31)
+  if (getVerFailedTermRepTcFailCode(pckt) != 0)
 	  return 0;
   setVerFailedRoutingRepInvDest(pckt,10);
   if (getVerFailedRoutingRepInvDest(pckt) != 10)
@@ -267,18 +267,16 @@ CrFwBool_t CrPsVerTestCase1() {
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrPsVerTestCase2() {
   unsigned short i;
-  FwSmDesc_t inFactory, outManager, inCmd, inLoader;
-  CrFwPckt_t inPckt;
-  CrFwDestSrc_t illegalDest = 99;
+  FwSmDesc_t inFactory, outManager, inLoader, inStream;
   CrPsNOfCmd_t nOfCmdFailedRerouting = getDpVerNOfReroutingFailed();
-  CrPsThirteenBit_t pcktId;
   FwSmDesc_t outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
+  CrFwDestSrc_t illDest = 7;
 
   /* Check if number of Allocated Packets = 0*/
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
-  /* Instantiate and configure InFactory, InLoader and OutManager */
+  /* Instantiate and configure InFactory, InLoader, OutManager and InStream */
   inFactory = CrFwInFactoryMake();
   CrFwCmpInit(inFactory);
   CrFwCmpReset(inFactory);
@@ -288,17 +286,27 @@ CrFwBool_t CrPsVerTestCase2() {
   outManager = CrFwOutManagerMake(0);
   CrFwCmpInit(outManager);
   CrFwCmpReset(outManager);
+  inStream = CrFwInStreamMake(0);
+  CrFwCmpInit(inStream);
+  CrFwCmpReset(inStream);
+  CrFwInLoaderSetInStream(inStream);
 
-  /* Create a Sample 1 Command of type (255,1) with an illegal destination */
-  inPckt = CrPsTestUtilitiesCreateSAmple1Pckt(illegalDest,1,1,1,1,1,1);
-  pcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*(2^13)+getTcHeaderAPID(inPckt);
+  /* Instantiate and configure the InStreamStub to hold a dummy packet with an illegal destination */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Only one packet is loaded */
+  CrFwInStreamStubSetPcktSeqCnt(1);
+  CrFwInStreamStubSetPcktGroup(1);
+  CrFwInStreamStubSetPcktType(255,1,0);     /* Sets the type, sub-type and discriminant */
+  CrFwInStreamStubSetPcktDest(illDest);
+  CrFwInStreamStubSetPcktCmdRepId(1);
+  CrFwInStreamStubSetPcktAckLevel(1,1,1,1);
+  CrFwInStreamStubSetPcktCmdRepType(crCmdType);
 
-  inCmd = CrFwInFactoryMakeInCmd(inPckt);
-  if (inCmd == NULL)
-      return 0;
+  /* Configure the InLoaderStub to declare the destination of the dummy command to be illegal */
+  // CrFwInLoaderStubSetReroutingDest(0);      /* The next InCommand loaded in the InLoader will be declared to have invalid dest. */
 
-  /* Load the Sample 1 Command with the illegal destination in the InLoader */
-  CrFwOutLoaderLoad(inCmd);
+  /* The InStreamSub now holds a dummy packet with an invalid destination and this is loaded in the InLoader */
+  CrFwInStreamPcktAvail(inStream);          /* Collect dummy packet */
+  CrFwCmpExecute(inLoader);                 /* Load dummy packet in InLoader */
 
   /* Verify that a (1,10) report is now pending in the OutManager and that
    * data pool variables have been updated accordingly */
@@ -306,15 +314,14 @@ CrFwBool_t CrPsVerTestCase2() {
     return 0;
   if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,10) != 1)
       return 0;
-  if (getDpVerInvDestRerouting() != illegalDest)
+  if (getDpVerInvDestRerouting() != illDest)
       return 0;
   if (getDpVerNOfReroutingFailed() != nOfCmdFailedRerouting+1)
       return 0;
-  if (getDpVerPcktIdReroutingFailed() != pcktId)
+  if (getDpVerPcktIdReroutingFailed() != illDest*16)
       return 0;
 
-  /* Release all allocated commands and reports */
-  CrFwInFactoryReleaseInCmd(inCmd);     /* This releases the Sample 1 Command */
+  /* Release all allocated commands and reports (the dummy packet with illegal destination is released by the InLoader */
   CrFwCmpReset(outManager);             /* This releases the (1,10) report */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
@@ -323,9 +330,10 @@ CrFwBool_t CrPsVerTestCase2() {
   for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP;i++)
     outCmpArr[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
 
-  /* Create again a Sample 1 Command of type (255,1) with an illegal destination  and load it in the InLoader */
-  inPckt = CrPsTestUtilitiesCreateSAmple1Pckt(illegalDest,1,1,1,1,1,1);
-  CrFwOutLoaderLoad(inCmd);
+  /* Load again a dummy Sample 1 Command of type (255,1) with an illegal destination  and load it in the InLoader */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Only one packet is loaded */
+  CrFwInStreamPcktAvail(inStream);          /* Collect dummy packet */
+  CrFwCmpExecute(inLoader);                 /* Load dummy packet in InLoader */
 
   /* Verify that no (1,10) report was created */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)

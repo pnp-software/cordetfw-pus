@@ -24,7 +24,7 @@
 #include <string.h>
 
 /** The number of tests in the test suite. */
-#define NOF_TESTS 5
+#define NOF_TESTS 8
 
 /* Include framework files */
 #include "CrFwConstants.h"

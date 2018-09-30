@@ -80,7 +80,7 @@ static CrFwCounterU1_t terminationCounter = 0;
 static CrFwCounterU1_t abortCounter = 0;
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwBool_t CrFwInCmdDumSample1ValidityCheck(FwPrDesc_t prDesc) {
+CrFwBool_t CrPsInCmdDumSample1ValidityCheck(FwPrDesc_t prDesc) {
     CrFwPckt_t pckt;
     pckt = CrFwInCmdGetPcktFromPrDesc(prDesc);
     servType = CrFwPcktGetServType(pckt);
@@ -88,49 +88,49 @@ CrFwBool_t CrFwInCmdDumSample1ValidityCheck(FwPrDesc_t prDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwServType_t CrFwInCmdDumSample1GetType() {
+CrFwServType_t CrPsInCmdDumSample1GetType() {
     return servType;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1SetProgressStepFlag(CrFwBool_t flag) {
+void CrPsInCmdDumSample1SetProgressStepFlag(CrFwBool_t flag) {
     progressStepFlag = flag;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1SetValidityFlag(CrFwBool_t flag) {
+void CrPsInCmdDumSample1SetValidityFlag(CrFwBool_t flag) {
     validityFlag = flag;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwBool_t CrFwInCmdDumSample1ReadyCheck(FwSmDesc_t smDesc) {
+CrFwBool_t CrPsInCmdDumSample1ReadyCheck(FwSmDesc_t smDesc) {
     (void)(smDesc);
     return readyFlag;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1SetReadyFlag(CrFwBool_t flag) {
+void CrPsInCmdDumSample1SetReadyFlag(CrFwBool_t flag) {
     readyFlag = flag;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1StartAction(FwSmDesc_t smDesc) {
+void CrPsInCmdDumSample1StartAction(FwSmDesc_t smDesc) {
     CrFwSetSmOutcome(smDesc, startOutcome);
     startCounter++;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1SetStartActionOutcome(CrFwOutcome_t outcome) {
+void CrPsInCmdDumSample1SetStartActionOutcome(CrFwOutcome_t outcome) {
     startOutcome = outcome;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwCounterU1_t CrFwInCmdDumSample1GetStartActionCounter() {
+CrFwCounterU1_t CrPsInCmdDumSample1GetStartActionCounter() {
     return startCounter;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1ProgressAction(FwSmDesc_t smDesc) {
+void CrPsInCmdDumSample1ProgressAction(FwSmDesc_t smDesc) {
     CrFwProgressStepId_t progressStepId;
     CrFwSetSmOutcome(smDesc, progressOutcome);
     progressStepId = CrFwInCmdGetProgressStepId(smDesc);
@@ -141,44 +141,44 @@ void CrFwInCmdDumSample1ProgressAction(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1SetProgressActionOutcome(CrFwOutcome_t outcome) {
+void CrPsInCmdDumSample1SetProgressActionOutcome(CrFwOutcome_t outcome) {
     progressOutcome = outcome;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwCounterU1_t CrFwInCmdDumSample1GetProgressActionCounter() {
+CrFwCounterU1_t CrPsInCmdDumSample1GetProgressActionCounter() {
     return progressCounter;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1AbortAction(FwSmDesc_t smDesc) {
+void CrPsInCmdDumSample1AbortAction(FwSmDesc_t smDesc) {
     CrFwSetSmOutcome(smDesc, abortOutcome);
     abortCounter++;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1SetAbortActionOutcome(CrFwOutcome_t outcome) {
+void CrPsInCmdDumSample1SetAbortActionOutcome(CrFwOutcome_t outcome) {
     abortOutcome = outcome;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwCounterU1_t CrFwInCmdDumSample1GetAbortActionCounter() {
+CrFwCounterU1_t CrPsInCmdDumSample1GetAbortActionCounter() {
     return abortCounter;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1TerminationAction(FwSmDesc_t smDesc) {
+void CrPsInCmdDumSample1TerminationAction(FwSmDesc_t smDesc) {
     CrFwSetSmOutcome(smDesc, terminationOutcome);
     terminationCounter++;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInCmdDumSample1SetTerminationActionOutcome(CrFwOutcome_t outcome) {
+void CrPsInCmdDumSample1SetTerminationActionOutcome(CrFwOutcome_t outcome) {
     terminationOutcome = outcome;
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwCounterU1_t CrFwInCmdDumSample1GetTerminationActionCounter() {
+CrFwCounterU1_t CrPsInCmdDumSample1GetTerminationActionCounter() {
     return terminationCounter;
 
 }

@@ -4,7 +4,7 @@
  *
  * Control interface for the Sample 1 InCommand used in the Test Suite.
  * An InCommand is defined by defining the functions which override its
- * adaptation points, namely (see <code>CrFwInCmd.h</code>):
+ * adaptation points, namely (see <code>CrPsInCmd.h</code>):
  * - The Validity Check Operation
  * - The Ready Check Operation
  * - The Start Action Operation
@@ -41,37 +41,37 @@
 #include "FwSmCore.h"
 
 /**
- * Set the value of the Validity Flag (see <code>::CrFwInCmdDumSample1ValidityCheck</code>).
+ * Set the value of the Validity Flag (see <code>::CrPsInCmdDumSample1ValidityCheck</code>).
  * @param flag the value of the validity flag
  */
-void CrFwInCmdDumSample1SetValidityFlag(CrFwBool_t flag);
+void CrPsInCmdDumSample1SetValidityFlag(CrFwBool_t flag);
 
 /**
  * Return the value of the InCommand type computed by the validity check function
- * <code>::CrFwInCmdDumSample1ValidityCheck</code>
+ * <code>::CrPsInCmdDumSample1ValidityCheck</code>
  * @return the value of the InCommand type computed by the validity check function
- *         <code>::CrFwInCmdDumSample1ValidityCheck</code>
+ *         <code>::CrPsInCmdDumSample1ValidityCheck</code>
  */
-CrFwServType_t CrFwInCmdDumSample1GetType();
+CrFwServType_t CrPsInCmdDumSample1GetType();
 
 /**
- * Set the value of the Ready Flag (see <code>::CrFwInCmdDumSample1ReadyCheck</code>).
+ * Set the value of the Ready Flag (see <code>::CrPsInCmdDumSample1ReadyCheck</code>).
  * @param flag the value of the ready flag
  */
-void CrFwInCmdDumSample1SetReadyFlag(CrFwBool_t flag);
+void CrPsInCmdDumSample1SetReadyFlag(CrFwBool_t flag);
 
 /**
  * Set the value of the Start Action Outcome Counter
- * (see <code>::CrFwInCmdDumSample1StartAction</code>).
+ * (see <code>::CrPsInCmdDumSample1StartAction</code>).
  * @param outcome the value of the Start Action Outcome
  */
-void CrFwInCmdDumSample1SetStartActionOutcome(CrFwOutcome_t outcome);
+void CrPsInCmdDumSample1SetStartActionOutcome(CrFwOutcome_t outcome);
 
 /**
- * Get the value of the Start Action Counter (see <code>::CrFwInCmdDumSample1StartAction</code>).
+ * Get the value of the Start Action Counter (see <code>::CrPsInCmdDumSample1StartAction</code>).
  * @return the value of the Start Action Counter
  */
-CrFwCounterU1_t CrFwInCmdDumSample1GetStartActionCounter();
+CrFwCounterU1_t CrPsInCmdDumSample1GetStartActionCounter();
 
 /**
  * Sets the progress step flag used by the progress action of the sample InCommand (if the flag
@@ -79,45 +79,45 @@ CrFwCounterU1_t CrFwInCmdDumSample1GetStartActionCounter();
  *
  * @param flag the value of the progress step flag
  */
-void CrFwInCmdDumSample1SetProgressStepFlag(CrFwBool_t flag);
+void CrPsInCmdDumSample1SetProgressStepFlag(CrFwBool_t flag);
 
 /**
  * Set the value of the Progress Action Outcome Counter
- * (see <code>::CrFwInCmdDumSample1ProgressAction</code>).
+ * (see <code>::CrPsInCmdDumSample1ProgressAction</code>).
  * @param outcome the value of the Progress Action Outcome
  */
-void CrFwInCmdDumSample1SetProgressActionOutcome(CrFwOutcome_t outcome);
+void CrPsInCmdDumSample1SetProgressActionOutcome(CrFwOutcome_t outcome);
 
 /**
- * Get the value of the Progress Action Counter (see <code>::CrFwInCmdDumSample1ProgressAction</code>).
+ * Get the value of the Progress Action Counter (see <code>::CrPsInCmdDumSample1ProgressAction</code>).
  * @return the value of the Progress Action Counter
  */
-CrFwCounterU1_t CrFwInCmdDumSample1GetProgressActionCounter();
+CrFwCounterU1_t CrPsInCmdDumSample1GetProgressActionCounter();
 
 /**
  * Set the value of the Abort Action Outcome Counter
- * (see <code>::CrFwInCmdDumSample1AbortAction</code>).
+ * (see <code>::CrPsInCmdDumSample1AbortAction</code>).
  * @param outcome the value of the Abort Action Outcome
  */
-void CrFwInCmdDumSample1SetAbortActionOutcome(CrFwOutcome_t outcome);
+void CrPsInCmdDumSample1SetAbortActionOutcome(CrFwOutcome_t outcome);
 
 /**
- * Get the value of the Abort Action Counter (see <code>::CrFwInCmdDumSample1AbortAction</code>).
+ * Get the value of the Abort Action Counter (see <code>::CrPsInCmdDumSample1AbortAction</code>).
  * @return the value of the Abort Action Counter
  */
-CrFwCounterU1_t CrFwInCmdDumSample1GetAbortActionCounter();
+CrFwCounterU1_t CrPsInCmdDumSample1GetAbortActionCounter();
 
 /**
  * Set the value of the Termination Action Outcome Counter
- * (see <code>::CrFwInCmdDumSample1TerminationAction</code>).
+ * (see <code>::CrPsInCmdDumSample1TerminationAction</code>).
  * @param outcome the value of the Termination Action Outcome
  */
-void CrFwInCmdDumSample1SetTerminationActionOutcome(CrFwOutcome_t outcome);
+void CrPsInCmdDumSample1SetTerminationActionOutcome(CrFwOutcome_t outcome);
 
 /**
- * Get the value of the Termination Action Counter (see <code>::CrFwInCmdDumSample1TerminationAction</code>).
+ * Get the value of the Termination Action Counter (see <code>::CrPsInCmdDumSample1TerminationAction</code>).
  * @return the value of the Termination Action Counter
  */
-CrFwCounterU1_t CrFwInCmdDumSample1GetTerminationActionCounter();
+CrFwCounterU1_t CrPsInCmdDumSample1GetTerminationActionCounter();
 
 #endif /* CRFW_INCMDDUMSAMPLE1CTRL_H_ */
