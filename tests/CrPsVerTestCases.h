@@ -60,22 +60,72 @@ CrFwBool_t CrPsVerTestCase1();
  * @verify Observable, nOfReroutingFailed
  * @verify Observable, invDestRerouting
  * @verify Observable, pcktIdReroutingFailed
+ * @verify Failed Routing Verification Report (1,10)
  */
 CrFwBool_t CrPsVerTestCase2();
 
 /**
- * Test the generation of the success reports of service 1
+ * Test the generation of the success reports of service 1.
  * The following actions are performed in this test:
  * - Create a Sample 1 dummy command (see <code>CrPsInCmdDumSample1.h</code> and
  *   configure it such that all its checks are passed.
  *   The progress check is configured such that two progress steps are performed.
  * - Load and execute the dummy command and then verify that one (1,1),
  *   one (1,3), two (1,5) and one (1,7) reports are generated.
- * 
+ * .
  * @verify Command Verification Success Procedure, Nominal branches
  * @verify Command Progress Success Procedure, Nominal branches
+ * @verify Successful Acceptance Verification Report (1,1)
+ * @verify Successful Start of Execution Verification Report (1,3)
+ * @verify Successful Progress of Execution Verification Report (1,5)
+ * @verify Successful Termination of Execution Verification Report (1,7)
  */
 CrFwBool_t CrPsVerTestCase3();
 
+/**
+ * Test the generation of the failure reports of service 1.
+ * The following actions are performed in this test:
+ * - Create a Sample 1 dummy command (see <code>CrPsInCmdDumSample1.h</code>) and
+ *   configure it such that its validity check is failed, execute it and
+ *   verify that a (1,2) report is generated.
+ * - Create a Sample 1 dummy command (see <code>CrPsInCmdDumSample1.h</code>) and
+ *   configure it such that its validity check is passed and its start action fails,
+ *   execute it and verify that a (1,4) report is generated.
+ * - Create a Sample 1 dummy command (see <code>CrPsInCmdDumSample1.h</code>) and
+ *   configure it such that its validity check and start action are passed and its
+ *   progress action fails, execute it and verify that a (1,6) report is generated.
+ * - Create a Sample 1 dummy command (see <code>CrPsInCmdDumSample1.h</code>) and
+ *   configure it such that its validity check, start and progress action are passed and its
+ *   termination action fails, execute it and verify that a (1,8) report is generated.
+ * .
+ * @verify Command Verification Failed Procedure, Nominal branch
+ * @verify Command Progress Failed Procedure, Nominal branch
+ * @verify Failed Acceptance Verification Report (1,2)
+ * @verify Failed Start of Execution Verification Report (1,4)
+ * @verify Failed Progress of Execution Verification Report (1,6)
+ * @verify Failed Termination of Execution Verification Report (1,8)
+ */
+CrFwBool_t CrPsVerTestCase4();
+
+/**
+ * Test the OUTFACTORY_FAIL branch of the service 1 procedures (except for the Re-routing
+ * Failure Procedure).
+ * The following actions are performed in this test:
+ * - Fill up the OutFactory such that no more OutComponents are available
+ * - Create a Sample 1 dummy command (see <code>CrPsInCmdDumSample1.h</code>) and
+ *   configure it such that: its acceptance and start check are passed and its progress
+ *   check is passed on the first progress step but failed on the second progress step.
+ * - One would expect the following reports to be generated: (1,1), (1,3) and (1,6)
+ *   but it is verifed that none of them is generated.
+ * - Create another Sample 1 dummy command (see <code>CrPsInCmdDumSample1.h</code>) and
+ *   configure it such that: its acceptance, start and progress checks are passed but its
+ *   termination check fails and verify that no service 1 reports are generated for it.
+ * .
+ * @verify Command Verification Success Procedure, OUTFACTORY_FAIL branch
+ * @verify Command Verification Failed Procedure, OUTFACTORY_FAIL branch
+ * @verify Command Progress Success Procedure, OUTFACTORY_FAIL branch
+ * @verify Command Progress Failure Procedure, OUTFACTORY_FAIL branch
+ */
+CrFwBool_t CrPsVerTestCase5();
 
 #endif /* CRPS_VERTESTCASES_H_ */

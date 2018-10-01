@@ -45,6 +45,7 @@
 #include "CrPsServTypeId.h"
 #include "CrPsConstants.h"
 #include "CrPsTestUtilities.h"
+#include "Dum/CrPsInCmdDumSample1Ctrl.h"
 
 /* Include system files */
 #include <stdlib.h>
@@ -267,7 +268,7 @@ CrFwBool_t CrPsVerTestCase1() {
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrPsVerTestCase2() {
   unsigned short i;
-  FwSmDesc_t inFactory, outManager, inLoader, inStream;
+  FwSmDesc_t inFactory, outManager, inLoader, inStream, inManager;
   CrPsNOfCmd_t nOfCmdFailedRerouting = getDpVerNOfReroutingFailed();
   FwSmDesc_t outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
   CrFwDestSrc_t illDest = 7;
@@ -289,7 +290,9 @@ CrFwBool_t CrPsVerTestCase2() {
   inStream = CrFwInStreamMake(0);
   CrFwCmpInit(inStream);
   CrFwCmpReset(inStream);
-  CrFwInLoaderSetInStream(inStream);
+  inManager = CrFwInManagerMake(0);
+  CrFwCmpInit(inManager);
+  CrFwCmpReset(inManager);
 
   /* Instantiate and configure the InStreamStub to hold a dummy packet with an illegal destination */
   CrFwInStreamStubSetPcktCollectionCnt(1);  /* Only one packet is loaded */
@@ -301,12 +304,10 @@ CrFwBool_t CrPsVerTestCase2() {
   CrFwInStreamStubSetPcktAckLevel(1,1,1,1);
   CrFwInStreamStubSetPcktCmdRepType(crCmdType);
 
-  /* Configure the InLoaderStub to declare the destination of the dummy command to be illegal */
-  // CrFwInLoaderStubSetReroutingDest(0);      /* The next InCommand loaded in the InLoader will be declared to have invalid dest. */
-
-  /* The InStreamSub now holds a dummy packet with an invalid destination and this is loaded in the InLoader */
-  CrFwInStreamPcktAvail(inStream);          /* Collect dummy packet */
-  CrFwCmpExecute(inLoader);                 /* Load dummy packet in InLoader */
+  /* The InStreamStub now holds a dummy packet with an invalid destination and this is loaded in the InLoader */
+  CrFwInStreamPcktAvail(inStream);          /* Dummy packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Dummy packet is collected from InStream and loaded in InManager */
 
   /* Verify that a (1,10) report is now pending in the OutManager and that
    * data pool variables have been updated accordingly */
@@ -318,12 +319,14 @@ CrFwBool_t CrPsVerTestCase2() {
       return 0;
   if (getDpVerNOfReroutingFailed() != nOfCmdFailedRerouting+1)
       return 0;
-  if (getDpVerPcktIdReroutingFailed() != illDest*16)
+  if (getDpVerPcktIdReroutingFailed() != illDest*16+0x1000)
       return 0;
 
   /* Release all allocated commands and reports (the dummy packet with illegal destination is released by the InLoader */
   CrFwCmpReset(outManager);             /* This releases the (1,10) report */
   if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
 
   /* Fill the outfactory */
@@ -336,7 +339,7 @@ CrFwBool_t CrPsVerTestCase2() {
   CrFwCmpExecute(inLoader);                 /* Load dummy packet in InLoader */
 
   /* Verify that no (1,10) report was created */
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
+  if (  CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
     return 0;
   if (getDpVerNOfReroutingFailed() != nOfCmdFailedRerouting+1)
       return 0;
@@ -355,6 +358,119 @@ CrFwBool_t CrPsVerTestCase2() {
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrPsVerTestCase3() {
+  FwSmDesc_t outManager, inLoader, inStream, inManager;
+  CrFwProgressStepId_t prgrStepId;
+  FwSmDesc_t sample1Cmd, rep1s5;
+  CrFwPckt_t rep1s5Pckt;
+
+  /* Check if number of Allocated Packets = 0*/
+  if (CrFwPcktGetNOfAllocated() != 0)
+     return 0;
+
+  /* Instantiate InFactory, InLoader, OutManager and InStream (configured in previous test case */
+  inLoader = CrFwInLoaderMake();
+  outManager = CrFwOutManagerMake(0);
+  inStream = CrFwInStreamMake(0);
+  inManager = CrFwInManagerMake(0);
+
+  /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Only one packet is loaded */
+  CrFwInStreamStubSetPcktCmdRepType(crCmdType);
+  CrFwInStreamStubSetPcktSeqCnt(1);
+  CrFwInStreamStubSetPcktGroup(1);
+  CrFwInStreamStubSetPcktType(255,1,0);     /* Sets the type, sub-type and discriminant */
+  CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);
+  CrFwInStreamStubSetPcktCmdRepId(1);
+  CrFwInStreamStubSetPcktAckLevel(1,1,1,1);
+
+  /* Configure the Sample 1 Command to pass all its checks and repeat the prorgress action */
+  CrPsInCmdDumSample1SetValidityFlag(1);
+  CrPsInCmdDumSample1SetReadyFlag(1);
+  CrPsInCmdDumSample1SetStartActionOutcome(1);
+  CrPsInCmdDumSample1SetProgressStepFlag(0);        /* do not increment progress step */
+  CrPsInCmdDumSample1SetProgressActionOutcome(2);   /* continue execution of progress action */
+  CrPsInCmdDumSample1SetTerminationActionOutcome(1);
+
+  /* The InStreamStub now holds a dummy packet with an invalid destination and this is loaded in the InLoader */
+  CrFwInStreamPcktAvail(inStream);          /* Dummy packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Dummy packet is collected from InStream and loaded in InManager */
+  sample1Cmd = CrPsTestUtilitiesGetItemFromInManager(inManager, 0);
+
+  /* Verify that a (1,1) was generated during the command's loading process */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+    return 0;
+
+  /* Execute the Sample 1 command a few times and verify that a (1,3) was generated */
+  CrFwCmpExecute(inManager);
+  CrFwCmpExecute(inManager);
+  CrFwCmpExecute(inManager);
+  CrFwCmpExecute(inManager);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,3) != 1)
+    return 0;
+
+  /* Configure the Sample 1 command to complete a progress step and verify that a (1,5) is generated */
+  prgrStepId = CrFwInCmdGetProgressStepId(sample1Cmd);
+  CrPsInCmdDumSample1SetProgressStepFlag(1);        /* complete progress step at next command execution */
+  CrFwCmpExecute(inManager);
+  CrPsInCmdDumSample1SetProgressStepFlag(0);        /* do not increment progress step at next command execution */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,2,1,5) != 1)
+    return 0;
+  rep1s5 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 2);
+  rep1s5Pckt = CrFwOutCmpGetPckt(rep1s5);
+  if (getVerSuccPrgrRepTcPrgStep(rep1s5Pckt) != prgrStepId+1)
+    return 0;
+
+  /* Execute the Sample 1 command a few more times and verify that no service reports are generated */
+  CrFwCmpExecute(inManager);
+  CrFwCmpExecute(inManager);
+  CrFwCmpExecute(inManager);
+  CrFwCmpExecute(inManager);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+    return 0;
+
+  /* Configure the Sample 1 command to complete another progress step and verify that another (1,5) is generated */
+  prgrStepId = CrFwInCmdGetProgressStepId(sample1Cmd);
+  CrPsInCmdDumSample1SetProgressStepFlag(1);        /* complete progress step at next command execution */
+  CrFwCmpExecute(inManager);
+  CrPsInCmdDumSample1SetProgressStepFlag(0);        /* do not increment progress step at next command execution */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,3,1,5) != 1)
+    return 0;
+  rep1s5 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 3);
+  rep1s5Pckt = CrFwOutCmpGetPckt(rep1s5);
+  if (getVerSuccPrgrRepTcPrgStep(rep1s5Pckt) != prgrStepId+1)
+    return 0;
+
+  /* Configure the Sample 1 command to terminate execution and verify that a (1,7) is generated */
+  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* terminate execution of progress action */
+  CrPsInCmdDumSample1SetTerminationActionOutcome(1);
+  CrFwCmpExecute(inManager);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 5)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,4,1,7) != 1)
+    return 0;
+
+  /* Reset all components used in the test case */
+  CrFwCmpReset(inManager);
+  CrFwCmpReset(outManager);
+  CrFwCmpReset(inStream);
+  CrFwCmpReset(inLoader);
+
+  /* Check if number of Allocated Packets = 0*/
+  if (CrFwPcktGetNOfAllocated() != 0)
+     return 0;
+
+  /* Check and then reset application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+     return 0;
 
   return 1;
 }

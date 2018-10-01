@@ -128,8 +128,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
   else
     inPckt = CrPsVerConfigGetInPckt();
   tcPcktVersNmb = getTcHeaderPcktVersionNmb(inPckt);
-  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*0x400+getTcHeaderSeqCount(inPckt);
-  tcPcktId = getTcHeaderPcktType(inPckt)*0x100+getTcHeaderSecHeaderFlag(inPckt)*0x80+getTcHeaderAPID(inPckt);
+  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*0x4000+getTcHeaderSeqCount(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*0x1000+getTcHeaderSecHeaderFlag(inPckt)*0x800+getTcHeaderAPID(inPckt);
 
   switch (outcome) {
     case crCmdAckAccFail:   /* InCommand failed its validity check */

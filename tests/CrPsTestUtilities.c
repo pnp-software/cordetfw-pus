@@ -23,6 +23,7 @@
 /* Include framework files */
 #include "CrFwCmpData.h"
 #include "OutManager/CrFwOutManager.h"
+#include "Pckt/CrFwPckt.h"
 
 
 /*-----------------------------------------------------------------------------*/
@@ -52,7 +53,7 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmd(FwSmDesc_t outManager, int i,
 
   outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
-  outCmp = outManagerCSData->pocl[0];
+  outCmp = outManagerCSData->pocl[i];
   if (outCmp == NULL)
       return 0;
   if (CrFwOutCmpGetServType(outCmp) != servType)
@@ -63,5 +64,19 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmd(FwSmDesc_t outManager, int i,
   return 1;
 }
   
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsTestUtilitiesGetItemFromInManager(FwSmDesc_t inManager, int i) {
+  CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(inManager);
+  CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
+  return inManagerCSData->pcrl[i];
+}
 
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t  CrPsTestUtilitiesGetItemFromOutManager(FwSmDesc_t outManager, int i) {
+  CrFwCmpData_t* outManagerData;
+  CrFwOutManagerData_t* outManagerCSData;
 
+  outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
+  outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
+  return outManagerCSData->pocl[i];
+}

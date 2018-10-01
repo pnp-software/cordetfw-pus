@@ -57,4 +57,22 @@
 CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmd(FwSmDesc_t outManager, int i,
                                         CrFwServType_t servType, CrFwServSubType_t servSubType);
 
+/**
+ * Return the item which is currently loaded in the i-th entry of the PCRL of the argument InManager.
+ *
+ * @param inManager the InManager
+ * @param i the index of the entry in the PCRL
+ * @return the entry in the i-th element of the PCRL (starting from zero)
+ */
+FwSmDesc_t CrPsTestUtilitiesGetItemFromInManager(FwSmDesc_t inManager, int i);
+
+/**
+ * Return the OutComponent which is currently loaded in the i-th entry of the POCL of the argument OutManager.
+ *
+ * @param outManager the outManager
+ * @param i the index of the entry in the PCRL
+ * @return the entry in the i-th element of the POCL (starting from zero)
+ */
+FwSmDesc_t CrPsTestUtilitiesGetItemFromOutManager(FwSmDesc_t outManager, int i);
+
 #endif /* CRPS_TESTUTILITIES_H_ */

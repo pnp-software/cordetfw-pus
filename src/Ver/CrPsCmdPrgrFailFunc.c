@@ -102,8 +102,8 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   failData = getDpVerFailData();
 
   tcPcktVersNmb = getTcHeaderPcktVersionNmb(inPckt);
-  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*0x400+getTcHeaderSeqCount(inPckt);
-  tcPcktId = getTcHeaderPcktType(inPckt)*0x100+getTcHeaderSecHeaderFlag(inPckt)*0x80+getTcHeaderAPID(inPckt);
+  tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*0x4000+getTcHeaderSeqCount(inPckt);
+  tcPcktId = getTcHeaderPcktType(inPckt)*0x1000+getTcHeaderSecHeaderFlag(inPckt)*0x800+getTcHeaderAPID(inPckt);
   prgrStepId = CrFwInCmdGetProgressStepId(inCmd);
 
   setVerFailedPrgrRepPcktVersNumber(outPckt,tcPcktVersNmb);
