@@ -91,9 +91,9 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   CrPsThreeBit_t tcPcktVersNmb;
   FwSmDesc_t inCmd;
 
-  /* Configure report (1,10) */
+  /* Configure report (1,6) */
   inCmd = CrPsVerConfigGetInCmd();
-  inPckt = CrPsVerConfigGetInPckt();
+  inPckt = CrFwInCmdGetPckt(inCmd);
   outPckt = CrFwOutCmpGetPckt(rep);
   type = CrPsVerConfigGetServType();
   subType = CrPsVerConfigGetServSubType();
@@ -114,6 +114,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   setVerFailedPrgrRepTcType(outPckt, type);
   setVerFailedPrgrRepTcSubType(outPckt, subType);
   setVerFailedPrgrRepTcDisc(outPckt, disc);
+  setVerSuccPrgrRepTcPrgStep(outPckt, prgrStepId);
 
   /* Set the destination of the report to the source of the in-coming packet */
   inPcktSrc = CrFwPcktGetSrc(inPckt);

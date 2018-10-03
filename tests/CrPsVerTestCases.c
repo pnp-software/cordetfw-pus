@@ -474,3 +474,253 @@ CrFwBool_t CrPsVerTestCase3() {
 
   return 1;
 }
+
+/* ---------------------------------------------------------------------------------------------*/
+CrFwBool_t CrPsVerTestCase4() {
+  FwSmDesc_t outManager, inLoader, inStream, inManager;
+  CrFwProgressStepId_t prgrStepId;
+  FwSmDesc_t sample1Cmd, rep1s5;
+  CrFwPckt_t rep1s5Pckt;
+
+  /* Check if number of Allocated Packets = 0*/
+  if (CrFwPcktGetNOfAllocated() != 0)
+     return 0;
+
+  /* Instantiate InFactory, InLoader, OutManager and InStream (configured in previous test case */
+  inLoader = CrFwInLoaderMake();
+  outManager = CrFwOutManagerMake(0);
+  inStream = CrFwInStreamMake(0);
+  inManager = CrFwInManagerMake(0);
+
+  /* ---------------------------------- Step 1 ----------------------------------- */
+  /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Only one packet is loaded */
+  CrFwInStreamStubSetPcktCmdRepType(crCmdType);
+  CrFwInStreamStubSetPcktSeqCnt(1);
+  CrFwInStreamStubSetPcktGroup(1);
+  CrFwInStreamStubSetPcktType(255,1,0);     /* Sets the type, sub-type and discriminant */
+  CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);
+  CrFwInStreamStubSetPcktCmdRepId(1);
+  CrFwInStreamStubSetPcktAckLevel(1,1,1,1);
+
+  /* Configure the Sample 1 Command to fail its validity check */
+  CrPsInCmdDumSample1SetValidityFlag(0);
+
+  /* The InStreamStub now holds a Sample 1 Command which fails its validity check */
+  CrFwInStreamPcktAvail(inStream);          /* SAmple packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Sample packet is collected from InStream and loaded in InManager */
+
+  /* Verify that a (1,2) was generated during the command's loading process and then reset OutManager */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,2) != 1)
+    return 0;
+  CrFwCmpReset(outManager);                 /* Clears queue of pending service 1 reports in OutManager */
+
+  /* ---------------------------------- Step 2 ----------------------------------- */
+  /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Load one more packet */
+
+  /* Configure the Sample 1 Command to fail its start action */
+  CrPsInCmdDumSample1SetValidityFlag(1);
+  CrPsInCmdDumSample1SetReadyFlag(1);
+  CrPsInCmdDumSample1SetStartActionOutcome(0);
+
+  /* The InStreamStub now holds a Sample 1 Command which fails its start action */
+  CrFwInStreamPcktAvail(inStream);          /* Sample packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Sample packet is collected from InStream and loaded in InManager */
+  CrFwCmpExecute(inManager);
+
+  /* Verify that a (1,1) and (1,4) were generated during the command's loading process and then reset OutManager */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,4) != 1)
+    return 0;
+  CrFwCmpReset(outManager);                 /* Clears queue of pending service 1 reports in OutManager */
+
+  /* ---------------------------------- Step 3 ----------------------------------- */
+  /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Load one more packet */
+
+  /* Configure the Sample 1 Command to fail its progress action */
+  CrPsInCmdDumSample1SetValidityFlag(1);
+  CrPsInCmdDumSample1SetReadyFlag(1);
+  CrPsInCmdDumSample1SetStartActionOutcome(1);
+  CrPsInCmdDumSample1SetProgressActionOutcome(0);   /* fail progress action */
+  CrPsInCmdDumSample1SetProgressStepFlag(1);        /* increment progress step at next command execution */
+
+  /* The InStreamStub now holds a Sample 1 Command which fails its progress action */
+  CrFwInStreamPcktAvail(inStream);          /* Sample packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Sample packet is collected from InStream and loaded in InManager */
+  sample1Cmd = CrPsTestUtilitiesGetItemFromInManager(inManager, 0);
+  CrFwCmpExecute(inManager);
+  prgrStepId = CrFwInCmdGetProgressStepId(sample1Cmd);
+
+  /* Verify that a (1,1), (1,3) and (1,6) were generated during the command's loading process and then reset OutManager */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,3) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,2,1,6) != 1)
+    return 0;
+  rep1s5 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 2);
+  rep1s5Pckt = CrFwOutCmpGetPckt(rep1s5);
+  if (getVerSuccPrgrRepTcPrgStep(rep1s5Pckt) != prgrStepId)
+    return 0;
+  CrFwCmpReset(outManager);                 /* Clears queue of pending service 1 reports in OutManager */
+
+  /* ---------------------------------- Step 4 ----------------------------------- */
+  /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Load one more packet */
+
+  /* Configure the Sample 1 Command to fail its termination action */
+  CrPsInCmdDumSample1SetValidityFlag(1);
+  CrPsInCmdDumSample1SetReadyFlag(1);
+  CrPsInCmdDumSample1SetStartActionOutcome(1);
+  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* termination execution of progress action */
+  CrPsInCmdDumSample1SetProgressStepFlag(1);        /* increment progress step at next command execution */
+  CrPsInCmdDumSample1SetTerminationActionOutcome(0);
+
+  /* The InStreamStub now holds a Sample 1 Command which fails its termination action */
+  CrFwInStreamPcktAvail(inStream);          /* Sample packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Sample packet is collected from InStream and loaded in InManager */
+  sample1Cmd = CrPsTestUtilitiesGetItemFromInManager(inManager, 0);
+  CrFwCmpExecute(inManager);
+  prgrStepId = CrFwInCmdGetProgressStepId(sample1Cmd);
+
+  /* Verify that a (1,1), (1,3) and (1,6) were generated during the command's loading process and then reset OutManager */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,3) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,2,1,5) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,3,1,8) != 1)
+    return 0;
+
+  /* Reset all components used in the test case */
+  CrFwCmpReset(inManager);
+  CrFwCmpReset(outManager);
+  CrFwCmpReset(inStream);
+  CrFwCmpReset(inLoader);
+
+  /* Check if number of Allocated Packets = 0*/
+  if (CrFwPcktGetNOfAllocated() != 0)
+     return 0;
+
+  /* Check and then reset application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+     return 0;
+
+  return 1;
+}
+
+/* ---------------------------------------------------------------------------------------------*/
+CrFwBool_t CrPsVerTestCase5() {
+  FwSmDesc_t inLoader, inStream, inManager, outManager;
+  FwSmDesc_t outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
+  int i;
+
+  /* Check if number of Allocated Packets = 0*/
+  if (CrFwPcktGetNOfAllocated() != 0)
+     return 0;
+
+  /* Instantiate InFactory, InLoader, OutManager and InStream (configured in previous test case */
+  inLoader = CrFwInLoaderMake();
+  inStream = CrFwInStreamMake(0);
+  inManager = CrFwInManagerMake(0);
+  outManager = CrFwOutManagerMake(0);
+
+  /* Fill the OutFactory */
+  for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP;i++)
+    outCmpArr[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
+
+  /* ---------------------------------- New Step --------------------------------- */
+  /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Only one packet is loaded */
+  CrFwInStreamStubSetPcktCmdRepType(crCmdType);
+  CrFwInStreamStubSetPcktSeqCnt(1);
+  CrFwInStreamStubSetPcktGroup(1);
+  CrFwInStreamStubSetPcktType(255,1,0);     /* Sets the type, sub-type and discriminant */
+  CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);
+  CrFwInStreamStubSetPcktCmdRepId(1);
+  CrFwInStreamStubSetPcktAckLevel(1,1,1,1);
+
+  /* Configure the Sample 1 Command to pass its progress action but remaing pending */
+  CrPsInCmdDumSample1SetValidityFlag(1);
+  CrPsInCmdDumSample1SetReadyFlag(1);
+  CrPsInCmdDumSample1SetStartActionOutcome(1);
+  CrPsInCmdDumSample1SetProgressActionOutcome(2);   /* continue execution */
+  CrPsInCmdDumSample1SetProgressStepFlag(1);        /* increment progress step at next command execution */
+
+  /* The InStreamStub now holds a Sample 1 Command which passes its progress action and then remains pending */
+  CrFwInStreamPcktAvail(inStream);          /* Sample packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Sample packet is collected from InStream and loaded in InManager */
+  CrFwCmpExecute(inManager);
+
+  /* Verify that no service 1 reports were generated */
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
+    return 0;
+
+  /* Configure Sample 1 Command to fail its next progress step and then execute it again */
+  CrPsInCmdDumSample1SetProgressActionOutcome(0);   /* continue execution */
+  CrFwCmpExecute(inManager);
+
+  /* Verify that no service 1 reports were generated */
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
+    return 0;
+
+  /* ---------------------------------- New Step --------------------------------- */
+  /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
+  CrFwInStreamStubSetPcktCollectionCnt(1);  /* Load one more packet */
+
+  /* Configure the Sample 1 Command to fail its termination action */
+  CrPsInCmdDumSample1SetValidityFlag(1);
+  CrPsInCmdDumSample1SetReadyFlag(1);
+  CrPsInCmdDumSample1SetStartActionOutcome(1);
+  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* termination execution of progress action */
+  CrPsInCmdDumSample1SetProgressStepFlag(1);        /* increment progress step at next command execution */
+  CrPsInCmdDumSample1SetTerminationActionOutcome(0);
+
+  /* The InStreamStub now holds a Sample 1 Command which fails its termination action */
+  CrFwInStreamPcktAvail(inStream);          /* Sample packet is loaded in InStream */
+  CrFwInLoaderSetInStream(inStream);
+  CrFwCmpExecute(inLoader);                 /* Sample packet is collected from InStream and loaded in InManager */
+  CrFwCmpExecute(inManager);
+
+  /* Verify that no service 1 reports were generated */
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
+    return 0;
+
+  /* Release all OutComponents, that have been created to fill the outfactory */
+  for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP;i++)
+    CrFwOutFactoryReleaseOutCmp(outCmpArr[i]);
+
+  /* Reset all components used in the test case */
+  CrFwCmpReset(inManager);
+  CrFwCmpReset(inStream);
+  CrFwCmpReset(inLoader);
+
+  /* Check if number of Allocated Packets = 0*/
+  if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
+     return 0;
+
+  /* Check and then reset application errors */
+  /* Check and then reset application errors */
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
+    return 0;
+  CrFwSetAppErrCode(crNoAppErr);
+
+  return 1;
+}
