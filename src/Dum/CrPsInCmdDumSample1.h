@@ -54,10 +54,13 @@ void CrPsInCmdDumSample1StartAction(FwSmDesc_t smDesc);
 /**
  * Progress action of TC(255,1) DumSample1.
  * This action:
- * (a) Sets the outcome to the value of an internal counter (the Progress
+ * (a) Sets the success outcome to the value of an internal counter (the Progress
  * Action Outcome Counter) whose value is set through function
- * <code>::CrFwInCmdSample1SetProgressActionOutcome</code>, and
- * (b) It increments the progress step identifier if the progress step flag is
+ * <code>::CrFwInCmdSample1SetProgressActionOutcome</code>;
+ * (b) Sets the completion outcome to the value of an internal flag (the Progress
+ * Completion Outcome) whose value is set through function
+ * <code>::
+ * (c) It increments the progress step identifier if the progress step flag is
  * set (its value is controlled through function
  * <code>::CrFwInCmdSample1SetProgressActionFlag</code>.
  * @param smDesc The state machine descriptor.

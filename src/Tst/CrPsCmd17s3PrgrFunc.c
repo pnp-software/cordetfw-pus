@@ -69,9 +69,9 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc) {
   CrFwOutCmpSetDest(rep17s4, srcId);
   CrFwOutLoaderLoad(rep17s4);
 
-  /* Set outcome to 'success' */
-  cmpData = (CrFwCmpData_t*) FwSmGetData(cmd17s3);
-  cmpData->outcome = 1;
+  /* Set outcome to 'success' and completion outcome to 'not completed' */
+  CrFwSetSmOutcome(cmd17s3, 1);
+  CrFwInCmdSetProgressActionCompleted(cmd17s3, 0);
 
   return;
 }
@@ -90,9 +90,9 @@ void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc) {
    * (this is part of the data structure attached to the Progress Action Procedure) */
   cmd17s3 = prTstData->cmd17s3;
 
-  /* Set action outcome in the (17,3) command to 'continue' */
-  cmpData = (CrFwCmpData_t*) FwSmGetData(cmd17s3);
-  cmpData->outcome = 2;
+  /* Set outcome to 'success' and completion outcome to 'completed' */
+  CrFwSetSmOutcome(cmd17s3, 1);
+  CrFwInCmdSetProgressActionCompleted(cmd17s3, 0);
 
   return;
 }
@@ -112,9 +112,9 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc) {
    * (this is part of the data structure attached to the Progress Action Procedure) */
   cmd17s3 = prTstData->cmd17s3;
 
-  /* Set action outcome in the (17,3) command to 'success' */
-  cmpData = (CrFwCmpData_t*) FwSmGetData(cmd17s3);
-  cmpData->outcome = 1;
+  /* Set outcome to 'success' and completion outcome to 'completed' */
+  CrFwSetSmOutcome(cmd17s3, 1);
+  CrFwInCmdSetProgressActionCompleted(cmd17s3, 1);
 
   /* Retrieve the (17,4) report which was created by the Start Action of the (17,3) and
    * which is available in the data structure attached to the Progress Action Procedure */

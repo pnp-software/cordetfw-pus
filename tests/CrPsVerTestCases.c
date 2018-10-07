@@ -388,7 +388,7 @@ CrFwBool_t CrPsVerTestCase3() {
   CrPsInCmdDumSample1SetReadyFlag(1);
   CrPsInCmdDumSample1SetStartActionOutcome(1);
   CrPsInCmdDumSample1SetProgressStepFlag(0);        /* do not increment progress step */
-  CrPsInCmdDumSample1SetProgressActionOutcome(2);   /* continue execution of progress action */
+  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* progress action is successful */
   CrPsInCmdDumSample1SetTerminationActionOutcome(1);
 
   /* The InStreamStub now holds a dummy packet with an invalid destination and this is loaded in the InLoader */
@@ -396,6 +396,7 @@ CrFwBool_t CrPsVerTestCase3() {
   CrFwInLoaderSetInStream(inStream);
   CrFwCmpExecute(inLoader);                 /* Dummy packet is collected from InStream and loaded in InManager */
   sample1Cmd = CrPsTestUtilitiesGetItemFromInManager(inManager, 0);
+  CrFwInCmdSetProgressActionCompleted(sample1Cmd, 0);           /* continue execution of progress action */
 
   /* Verify that a (1,1) was generated during the command's loading process */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
@@ -450,7 +451,7 @@ CrFwBool_t CrPsVerTestCase3() {
     return 0;
 
   /* Configure the Sample 1 command to terminate execution and verify that a (1,7) is generated */
-  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* terminate execution of progress action */
+  CrPsInCmdDumSample1SetProgressActionCompletionOutcome(1);   /* terminate execution of progress action */
   CrPsInCmdDumSample1SetTerminationActionOutcome(1);
   CrFwCmpExecute(inManager);
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 5)
@@ -545,6 +546,7 @@ CrFwBool_t CrPsVerTestCase4() {
   /* ---------------------------------- Step 3 ----------------------------------- */
   /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
   CrFwInStreamStubSetPcktCollectionCnt(1);  /* Load one more packet */
+  CrFwInStreamStubSetPcktAckLevel(1,1,0,0); /* Acknowledge acceptance and start success */
 
   /* Configure the Sample 1 Command to fail its progress action */
   CrPsInCmdDumSample1SetValidityFlag(1);
@@ -579,12 +581,13 @@ CrFwBool_t CrPsVerTestCase4() {
   /* ---------------------------------- Step 4 ----------------------------------- */
   /* Instantiate and configure the InStreamStub to hold a Sample 1 Command (255,1) */
   CrFwInStreamStubSetPcktCollectionCnt(1);  /* Load one more packet */
+  CrFwInStreamStubSetPcktAckLevel(1,1,1,0); /* Acknowledge acceptance, start and progress */
 
   /* Configure the Sample 1 Command to fail its termination action */
   CrPsInCmdDumSample1SetValidityFlag(1);
   CrPsInCmdDumSample1SetReadyFlag(1);
   CrPsInCmdDumSample1SetStartActionOutcome(1);
-  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* termination execution of progress action */
+  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* progress action is successful */
   CrPsInCmdDumSample1SetProgressStepFlag(1);        /* increment progress step at next command execution */
   CrPsInCmdDumSample1SetTerminationActionOutcome(0);
 
@@ -596,7 +599,7 @@ CrFwBool_t CrPsVerTestCase4() {
   CrFwCmpExecute(inManager);
   prgrStepId = CrFwInCmdGetProgressStepId(sample1Cmd);
 
-  /* Verify that a (1,1), (1,3) and (1,6) were generated during the command's loading process and then reset OutManager */
+  /* Verify that a (1,1), (1,3) and (1,8) were generated during the command's loading process and then reset OutManager */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
     return 0;
   if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
@@ -656,11 +659,12 @@ CrFwBool_t CrPsVerTestCase5() {
   CrFwInStreamStubSetPcktCmdRepId(1);
   CrFwInStreamStubSetPcktAckLevel(1,1,1,1);
 
-  /* Configure the Sample 1 Command to pass its progress action but remaing pending */
+  /* Configure the Sample 1 Command to pass its progress action but remain pending */
   CrPsInCmdDumSample1SetValidityFlag(1);
   CrPsInCmdDumSample1SetReadyFlag(1);
   CrPsInCmdDumSample1SetStartActionOutcome(1);
-  CrPsInCmdDumSample1SetProgressActionOutcome(2);   /* continue execution */
+  CrPsInCmdDumSample1SetProgressActionCompletionOutcome(0);   /* continue execution of progress action */
+  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* progress action is successful */
   CrPsInCmdDumSample1SetProgressStepFlag(1);        /* increment progress step at next command execution */
 
   /* The InStreamStub now holds a Sample 1 Command which passes its progress action and then remains pending */
@@ -689,7 +693,7 @@ CrFwBool_t CrPsVerTestCase5() {
   CrPsInCmdDumSample1SetValidityFlag(1);
   CrPsInCmdDumSample1SetReadyFlag(1);
   CrPsInCmdDumSample1SetStartActionOutcome(1);
-  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* termination execution of progress action */
+  CrPsInCmdDumSample1SetProgressActionOutcome(1);   /* progress action is successful */
   CrPsInCmdDumSample1SetProgressStepFlag(1);        /* increment progress step at next command execution */
   CrPsInCmdDumSample1SetTerminationActionOutcome(0);
 
@@ -716,7 +720,6 @@ CrFwBool_t CrPsVerTestCase5() {
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
      return 0;
 
-  /* Check and then reset application errors */
   /* Check and then reset application errors */
   if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;

@@ -89,6 +89,13 @@ void CrPsInCmdDumSample1SetProgressStepFlag(CrFwBool_t flag);
 void CrPsInCmdDumSample1SetProgressActionOutcome(CrFwOutcome_t outcome);
 
 /**
+ * Set the value of the Progress Action Completion Outcome
+ * (see <code>::CrPsInCmdDumSample1ProgressAction</code>).
+ * @param outcome the value of the Progress Action Completiong Outcome
+ */
+void CrPsInCmdDumSample1SetProgressActionCompletionOutcome(CrFwBool_t outcome);
+
+/**
  * Get the value of the Progress Action Counter (see <code>::CrPsInCmdDumSample1ProgressAction</code>).
  * @return the value of the Progress Action Counter
  */

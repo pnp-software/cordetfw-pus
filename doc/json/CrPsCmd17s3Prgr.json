@@ -2,7 +2,7 @@
      "editorVersion": "5.01",
      "states": [
           {
-               "id": 1,
+               "id": 125,
                "attrs": {
                     "x": 374,
                     "y": 44,
@@ -26,7 +26,7 @@
                "selected": false
           },
           {
-               "id": 3,
+               "id": 127,
                "attrs": {
                     "x": 653,
                     "y": 156,
@@ -50,12 +50,12 @@
                "selected": false
           },
           {
-               "id": 4,
+               "id": 128,
                "attrs": {
                     "x": 311,
                     "y": 249,
                     "width": 206,
-                    "height": 66,
+                    "height": 78,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -78,24 +78,24 @@
                     "entryCode": "",
                     "doCode": "",
                     "exitCode": "",
-                    "entryDesc": "Configure the (17,4) report with\na destination equal to the source of \nthe (17,3), load it in the OutLoader, and\nset action outcome to 'completed'",
+                    "entryDesc": "Configure the (17,4) report with\na destination equal to the source of \nthe (17,3), load it in the OutLoader, and\nset completion outcome to 'completed'\nand success outcome to 'success'",
                     "doDesc": "",
                     "exitDesc": "",
                     "derived": [],
                     "entryAp": false,
                     "doAp": false,
                     "exitAp": false,
-                    "embedSmId": null
+                    "embedSmId": "0"
                },
                "selected": false
           },
           {
-               "id": 6,
+               "id": 130,
                "attrs": {
-                    "x": 597,
-                    "y": 261,
-                    "width": 138,
-                    "height": 42,
+                    "x": 586,
+                    "y": 255,
+                    "width": 160,
+                    "height": 54,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -118,24 +118,24 @@
                     "entryCode": "",
                     "doCode": "",
                     "exitCode": "",
-                    "entryDesc": "Set action outcome\n to 'continue'",
+                    "entryDesc": "Set completion outcome\nto 'not completed' and success\noutcome to 'success'",
                     "doDesc": "",
                     "exitDesc": "",
                     "derived": [],
                     "entryAp": false,
                     "doAp": false,
                     "exitAp": false,
-                    "embedSmId": null
+                    "embedSmId": "0"
                },
                "selected": false
           },
           {
-               "id": 8,
+               "id": 132,
                "attrs": {
                     "x": 821,
                     "y": 261,
                     "width": 200,
-                    "height": 42,
+                    "height": 54,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -158,19 +158,19 @@
                     "entryCode": "",
                     "doCode": "",
                     "exitCode": "",
-                    "entryDesc": "Set action outcome to 'success'\nand release (17,4) report",
+                    "entryDesc": "Set action outcome to 'success'\nand completion outcome to 'completed'\nand release (17,4) report",
                     "doDesc": "",
                     "exitDesc": "",
                     "derived": [],
                     "entryAp": false,
                     "doAp": false,
                     "exitAp": false,
-                    "embedSmId": null
+                    "embedSmId": "0"
                },
                "selected": false
           },
           {
-               "id": 10,
+               "id": 136,
                "attrs": {
                     "x": 740,
                     "y": 72,
@@ -192,7 +192,7 @@
                "selected": false
           },
           {
-               "id": 11,
+               "id": 137,
                "attrs": {
                     "x": 653,
                     "y": 349,
@@ -214,7 +214,7 @@
                "selected": false
           },
           {
-               "id": 12,
+               "id": 138,
                "attrs": {
                     "x": 511,
                     "y": 389,
@@ -237,7 +237,7 @@
                "selected": false
           },
           {
-               "id": 14,
+               "id": 140,
                "attrs": {
                     "x": 330,
                     "y": 316,
@@ -259,7 +259,7 @@
                "selected": false
           },
           {
-               "id": 15,
+               "id": 141,
                "attrs": {
                     "x": 969,
                     "y": 304,
@@ -281,7 +281,7 @@
                "selected": false
           },
           {
-               "id": 16,
+               "id": 142,
                "attrs": {
                     "x": 271,
                     "y": 118,
@@ -360,8 +360,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 3,
-               "stateToID": 4,
+               "stateFromID": 127,
+               "stateToID": 128,
                "selected": false
           },
           {
@@ -381,8 +381,8 @@
                          ],
                          [
                               "L",
-                              665.5538461538462,
-                              253
+                              665.4615384615385,
+                              247
                          ]
                     ],
                     "stroke-width": 2,
@@ -419,8 +419,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 3,
-               "stateToID": 6,
+               "stateFromID": 127,
+               "stateToID": 130,
                "selected": false
           },
           {
@@ -488,8 +488,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 3,
-               "stateToID": 8,
+               "stateFromID": 127,
+               "stateToID": 132,
                "selected": false
           },
           {
@@ -542,8 +542,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 10,
-               "stateToID": 3,
+               "stateFromID": 136,
+               "stateToID": 127,
                "selected": false
           },
           {
@@ -554,7 +554,7 @@
                          [
                               "M",
                               414,
-                              320
+                              332
                          ],
                          [
                               "L",
@@ -605,8 +605,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 4,
-               "stateToID": 11,
+               "stateFromID": 128,
+               "stateToID": 137,
                "selected": false
           },
           {
@@ -617,7 +617,7 @@
                          [
                               "M",
                               666,
-                              308
+                              314
                          ],
                          [
                               "L",
@@ -647,8 +647,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 6,
-               "stateToID": 11,
+               "stateFromID": 130,
+               "stateToID": 137,
                "selected": false
           },
           {
@@ -700,8 +700,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 12,
-               "stateToID": 14,
+               "stateFromID": 138,
+               "stateToID": 140,
                "selected": false
           },
           {
@@ -753,8 +753,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 12,
-               "stateToID": 15,
+               "stateFromID": 138,
+               "stateToID": 141,
                "selected": false
           },
           {
@@ -765,7 +765,7 @@
                          [
                               "M",
                               921,
-                              308
+                              320
                          ],
                          [
                               "L",
@@ -806,8 +806,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 8,
-               "stateToID": 11,
+               "stateFromID": 132,
+               "stateToID": 137,
                "selected": false
           }
      ],
@@ -817,8 +817,8 @@
           "attrs": {
                "x": 0,
                "y": -60,
-               "width": 1662,
-               "height": 954,
+               "width": 1517,
+               "height": 795,
                "r": 0,
                "rx": 0,
                "ry": 0,
@@ -840,7 +840,7 @@
                "smNotes": "",
                "memalloc": "dynamic",
                "displayInfo": 0,
-               "displayOrder": 1,
+               "displayOrder": 0,
                "derived": [],
                "smTags": "PUS"
           }

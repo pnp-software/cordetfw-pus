@@ -12,7 +12,7 @@
  * @image html CrPsCmd17s3Prgr.png
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Jun 7 2018 18:44:45
+ * @date Created on: Oct 7 2018 19:16:3
  */
 
 /** Make sure to include this header file only once */
@@ -43,7 +43,8 @@ FwPrDesc_t CrPsCmd17s3PrgrCreate(void* prData);
  * Configure the (17,4) report with
  * a destination equal to the source of 
  * the (17,3), load it in the OutLoader, and
- * set action outcome to 'completed'
+ * set completion outcome to 'completed'
+ * and success outcome to 'success'
  * </pre>
  * @param smDesc the procedure descriptor
  */
@@ -52,8 +53,9 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc);
 /**
  * Action for node N2.
  * <pre>
- * Set action outcome
- *  to 'continue'
+ * Set completion outcome
+ * to 'not completed' and success
+ * outcome to 'success'
  * </pre>
  * @param smDesc the procedure descriptor
  */
@@ -62,7 +64,8 @@ void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc);
 /**
  * Action for node N3.
  * <pre>
- * Set action outcome to 'failed'
+ * Set action outcome to 'success'
+ * and completion outcome to 'completed'
  * and release (17,4) report
  * </pre>
  * @param smDesc the procedure descriptor
