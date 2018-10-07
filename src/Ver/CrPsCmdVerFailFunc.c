@@ -44,8 +44,8 @@
 #include "CrPsServTypeId.h"
 #include "DataPool/CrPsDpVer.h"
 #include "Ver/CrPsVerConfig.h"
-#include "PcktFunctions/CrPsPckt.h"
-#include "PcktFunctions/CrPsPcktVer.h"
+#include "Pckt/CrPsPckt.h"
+#include "Pckt/CrPsPcktVer.h"
 
 #include <stdlib.h>
 #include <assert.h>

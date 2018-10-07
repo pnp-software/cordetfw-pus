@@ -39,8 +39,8 @@
 #include "CrFwRepErr.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 
-#include "PcktFunctions/CrPsPcktVer.h"
-#include "PcktFunctions/CrPsPckt.h"
+#include "Pckt/CrPsPcktVer.h"
+#include "Pckt/CrPsPckt.h"
 #include "DataPool/CrPsDpVer.h"
 #include "CrPsServTypeId.h"
 #include "CrPsConstants.h"

@@ -21,7 +21,7 @@
 #include "CrPsCmd17s3Start.h"
 #include "CrPsServTypeId.h"
 #include "CrPsTstConfig.h"
-#include "PcktFunctions/CrPsPcktTst.h"
+#include "Pckt/CrPsPcktTst.h"
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpVer.h"
 #include "DataPool/CrPsDpTst.h"

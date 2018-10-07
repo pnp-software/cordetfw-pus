@@ -41,10 +41,10 @@
 #include "CrFwOutFactoryUserPar.h"
 
 #include "Tst/CrPsTstConfig.h"
-#include "PcktFunctions/CrPsPcktTst.h"
+#include "Pckt/CrPsPcktTst.h"
 #include "DataPool/CrPsDpTst.h"
 #include "DataPool/CrPsDpVer.h"
-#include "PcktFunctions/CrPsPcktVer.h"
+#include "Pckt/CrPsPcktVer.h"
 #include "CrPsServTypeId.h"
 #include "CrPsConstants.h"
 

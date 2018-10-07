@@ -17,7 +17,7 @@
  */
 
 /* Include system files */
-#include "PcktFunctions/CrPsPckt.h"
+#include "Pckt/CrPsPckt.h"
 #include <unistd.h>
 #include <stdlib.h>
 

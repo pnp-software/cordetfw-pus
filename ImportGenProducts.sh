@@ -64,7 +64,7 @@ fi
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files holding the packet accessor functions--"
-    cp $EDITOR_PATH/pck/CrPsPckt*.h ./src/PcktFunctions
+    cp $EDITOR_PATH/pck/CrPsPckt*.h ./src/Pckt
 fi
 
 # Copy the files with the definition of the types and of the constants
