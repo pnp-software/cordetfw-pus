@@ -4,7 +4,7 @@ Description & Report generated to mark the successful acceptance of an incoming 
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
@@ -16,7 +16,7 @@ Description & Report generated to mark the acceptance failure of an incoming com
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
 Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
@@ -28,7 +28,7 @@ Description & Report generated to mark the successful start of execution of an i
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
@@ -40,7 +40,7 @@ Description & Report generated to mark the start of execution failure of an inco
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
 Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
@@ -76,7 +76,7 @@ Description & Report generated to mark the successful completion of execution of
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
@@ -88,7 +88,7 @@ Description & Report generated to mark the failure to complete execution of an i
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
 Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
@@ -100,7 +100,7 @@ Description & Report generated to mark the failure to route an incoming command 
 Parameters & Packet version number followed by information on the command whose routing failed: packet identifier, packet sequence counter, type, sub-type and discriminant, and invalid destination \\\hline
 Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
@@ -304,7 +304,7 @@ Description & Informative event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
@@ -316,7 +316,7 @@ Description & Low severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
@@ -328,7 +328,7 @@ Description & Medium severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
@@ -340,7 +340,7 @@ Description & High severity event report  \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline

@@ -1030,16 +1030,16 @@ The event reporting service provides the capability to report event-like occurre
 
 The PUS recognizes four levels of event reports and associates to each level a service sub-type. Thus, for instance, all event reports of level 1 are carried by reports of type (5,1) and all event reports of level 2 are carried by event reports of type (5,2). 
 
-All event reports have the same behaviour irrespective of their level. The PUS Extension of the CORDET Framework consequently defines one single component EvtHk which may encapsulate an event report of any level.
+All event reports have the same behaviour irrespective of their level. The PUS Extension of the CORDET Framework one component for each event reporting level.
 
-Event reports may carry data. The Event Identifier (EID) determines the format of the data associated to an event report. The PUS Extension accordingly treats the event identifier as a discriminant. The range of discriminants and the data associated to each discriminant are adaptation points which must be defined at application level. No event identifiers are pre-defined at framework level.
+Event reports may carry data. The Event Identifier (EID) determines the format of the data associated to an event report. The PUS Extension accordingly treats the event identifier as a discriminant. The range of discriminants and the data associated to each discriminant are adaptation points which must be defined at application level. Some event identifiers are pre-defined at framework level. They are listed in appendix \ref{sec:preDefEvtRep}.
 
 Applications use event reports as follows:
 
 \begin{itemize}
-\item When an application encounters a situation which should trigger the generation of an event report, it retrieves an EvtHk component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the EvtHk component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type, sub-type and the discriminant of the event report.
-\item The application configures the component with the destination and with any data which 
-\item The application loads the EvtHk component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
+\item When an application encounters a situation which should trigger the generation of an event report, it retrieves an event component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the event component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type, sub-type and the discriminant of the event report.
+\item The application configures the component with the destination and with any data which are attached to the event 
+\item The application loads the event component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
 	\begin{itemize}
 	\item If the identifier of the event is enabled, then the event report will eventually be sent to its destination;
 	\item If the identifier of the event is not enabled, them the event report will be discarded.
@@ -1051,22 +1051,10 @@ Note that the configuration of the event reports must be done by the application
 Event identifiers can be enabled and disabled. The PUS Extension uses the report enable mechanism of the OutRegistry component to manage the enable status of event reports. This implies that, by default, all event identifiers are enabled. If an application needs some event identifiers to be disabled by default, it must disable them during the application initialization phase.
 
 %-------------------------------------------------------------------------------------
-\subsection{Pre-Defined Event Reports}\label{sec:serv5PreDefEvtRep}
-The event reports listed in section \ref{sec:preDefEvtRep} are pre-defined in the sense that they are generated in response to situations defined at framework level. For each of these events, the framework provides a Generate Pre-Defined Event Function which takes as parameters the type, subtype and discriminant value of the event report and all its parameters and then performs the following actions:
-
-\begin{itemize}
-\item Retrieve an instance of an OutComponent for the event report from the OutFactory
-\item If the retrieval is successful, it configures the event report with the event parameter data and loads it in the OutLoader
-\item If the retrieval is not successful, it generates an error report OUTFACTORY\_FAIL
-\end{itemize}
-
-
-%-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
 The tables in this section formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
 \begin{itemize}
-\item The same component EvtRep implements all four event reports (5,1) to (5,4). This is legitimate because all event reports - irrespective of their severity level - have the same behaviour. 
 \item The update of observables which are related to the occurrence of an event is done by the Enable Check of component EvtRep. This is appropriate because this action is executed every time an application creates an event report. The update of observables which are related to the generation of report is done by the Update Action of component EvtRep. This is appropriate because this action is only executed when an event report is actually issued by an application.
 \item Service 5 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
 \item Service 5 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
@@ -1079,11 +1067,11 @@ The tables in this section formally specify the service 5 commands and reports b
 \printOutCmpEvtRepcSpec{|c|p{10cm}|}
 \printOutCmpEvtRepdSpec{|c|p{10cm}|}
 \newpage
-\printInCmdEvtEnbIdCmdSpec{|c|p{10cm}|}
-\printInCmdEvtDisIdCmdSpec{|c|p{10cm}|}
+\printInCmdEvtEnbCmdSpec{|c|p{10cm}|}
+\printInCmdEvtDisCmdSpec{|c|p{10cm}|}
 \newpage
-\printInCmdEvtRepDisIdCmdSpec{|c|p{10cm}|}
-\printOutCmpEvtDisIdRepSpec{|c|p{10cm}|}
+\printInCmdEvtRepDisCmdSpec{|c|p{10cm}|}
+\printOutCmpEvtDisRepSpec{|c|p{10cm}|}
 
 
 %---------------------------------------------------------------------------------
