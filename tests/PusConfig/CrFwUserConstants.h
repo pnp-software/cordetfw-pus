@@ -68,6 +68,12 @@ typedef unsigned short CrFwCmdRepKindIndex_t;
 /** Type for the component kind key in <code>CrFwInFactory.c</code> and <code>CrFwOutFactory.c</code>. */
 typedef unsigned int CrFwCmdRepKindKey_t;
 
+/** Type for the Progress Step Identifier of an InCommand */
+typedef unsigned short CrFwProgressStepId_t;
+
+/** Type for the counter of execution progress steps */
+typedef unsigned short CrFwExecStepId_t;
+
 /**
  * Type for the index in the pool of pre-allocated OutComponents in
  * the OutFactory (see <code>CrFwOutFactory.h</code>).

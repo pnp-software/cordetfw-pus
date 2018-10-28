@@ -14,10 +14,10 @@
 
 DpEvtVars_t dpEvtVars  = { \
    {1}, /* isEidEnabled */ \
-   EVT_NULL, /* lastEvtEid_1 */ \
-   EVT_NULL, /* lastEvtEid_2 */ \
-   EVT_NULL, /* lastEvtEid_3 */ \
-   EVT_NULL, /* lastEvtEid_4 */ \
+   0, /* lastEvtEid_1 */ \
+   0, /* lastEvtEid_2 */ \
+   0, /* lastEvtEid_3 */ \
+   0, /* lastEvtEid_4 */ \
    0, /* lastEvtTime_1 */ \
    0, /* lastEvtTime_2 */ \
    0, /* lastEvtTime_3 */ \
