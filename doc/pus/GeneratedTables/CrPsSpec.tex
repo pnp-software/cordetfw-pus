@@ -14,7 +14,7 @@ Update Action & Default implementation (do nothing) \\\hline
 \begin{pnptable}{#1}{Specification of VerFailedAccRep Component}{tab:OutCmpVerFailedAccRepSpec}{Name & VerFailedAccRep(1,2)}
 Description & Report generated to mark the acceptance failure of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
-Discriminant & None \\\hline
+Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
@@ -38,7 +38,7 @@ Update Action & Default implementation (do nothing) \\\hline
 \begin{pnptable}{#1}{Specification of VerFailedStartRep Component}{tab:OutCmpVerFailedStartRepSpec}{Name & VerFailedStartRep(1,4)}
 Description & Report generated to mark the start of execution failure of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
-Discriminant & None \\\hline
+Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
@@ -62,7 +62,7 @@ Update Action & Default implementation (do nothing) \\\hline
 \begin{pnptable}{#1}{Specification of VerFailedPrgrRep Component}{tab:OutCmpVerFailedPrgrRepSpec}{Name & VerFailedPrgrRep(1,6)}
 Description & Report generated to mark the failure of an execution step of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code); identifier of progress step which failed \\\hline
-Discriminant & None \\\hline
+Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & \#TM(1,6) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
@@ -86,7 +86,7 @@ Update Action & Default implementation (do nothing) \\\hline
 \begin{pnptable}{#1}{Specification of VerFailedTermRep Component}{tab:OutCmpVerFailedTermRepSpec}{Name & VerFailedTermRep(1,8)}
 Description & Report generated to mark the failure to complete execution of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
-Discriminant & None \\\hline
+Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OutRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
@@ -291,11 +291,11 @@ Abort Action & Do nothing \\\hline
 Description & Command (3,28) to generate a one-shot diagnostic report \\\hline
 Parameters & The list of SIDs for which the one-shot report is to be generated \\\hline
 Discriminant & SID to be generated in one-shot mode \\\hline
-Ready Check & \#TM(3,28) \\\hline
-Start Action & \#TM(3,28) \\\hline
-Progress Action & \#TM(3,28) \\\hline
-Termination Action & \#TM(3,28) \\\hline
-Abort Action & \#TM(3,28) \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Run the procedure Start Action of Multi-SID Command of figure 9.3 \\\hline
+Progress Action & Run the procedure Progress Action of Generate One-Shot Housekeeping Report of figure 9.6 \\\hline
+Termination Action & Set action outcome to 'success' if all valid SIDs in the command were successfully processed by the progress action; set it to 'failure' otherwise \\\hline
+Abort Action & Do nothing \\\hline
 \end{pnptable}}
 
 \def \printOutCmpEvtRepaSpec#1 {
@@ -346,8 +346,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
 \end{pnptable}}
 
-\def \printInCmdEvtEnbIdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtEnbId Component}{tab:InCmdEvtEnbIdSpec}{Name & EvtEnbId(5,5)}
+\def \printInCmdEvtEnbCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtEnbCmd Component}{tab:InCmdEvtEnbCmdSpec}{Name & EvtEnbCmd(5,5)}
 Description & Command to enable generation of a list of event identifiers \\\hline
 Parameters & List of event identifiers to be enabled  \\\hline
 Discriminant & None \\\hline
@@ -358,8 +358,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printInCmdEvtDisIdCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtDisIdCmd Component}{tab:InCmdEvtDisIdCmdSpec}{Name & EvtDisIdCmd(5,6)}
+\def \printInCmdEvtDisCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtDisCmd Component}{tab:InCmdEvtDisCmdSpec}{Name & EvtDisCmd(5,6)}
 Description & Command to disable generation of a list of event identifiers \\\hline
 Parameters & List of event identifiers to be disabled  \\\hline
 Discriminant & None \\\hline
@@ -370,8 +370,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printInCmdEvtRepDisIdCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRepDisIdCmd Component}{tab:InCmdEvtRepDisIdCmdSpec}{Name & EvtRepDisIdCmd(5,7)}
+\def \printInCmdEvtRepDisCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRepDisCmd Component}{tab:InCmdEvtRepDisCmdSpec}{Name & EvtRepDisCmd(5,7)}
 Description & This command triggers the generation of a (5,8) report holding the list of disabled event identifiers \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -382,8 +382,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printOutCmpEvtDisIdRepSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtDisIdRep Component}{tab:OutCmpEvtDisIdRepSpec}{Name & EvtDisIdRep(5,8)}
+\def \printOutCmpEvtDisRepSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtDisRep Component}{tab:OutCmpEvtDisRepSpec}{Name & EvtDisRep(5,8)}
 Description & Report generated in response to a (5,7) command carrying the list of disabled Event Identifiers \\\hline
 Parameters & The list of disabled event identifiers  \\\hline
 Discriminant & None \\\hline

@@ -28,10 +28,10 @@ TM(5,1)|Rep1|Informative Event Report (Level 1)|321
 TM(5,2)|Rep2|Low Severity Event Report (Level 2)|321
 TM(5,3)|Rep3|Medium Severity Event Report (Level 3)|321
 TM(5,4)|Rep4|High Severity Event Report (Level 4)|321
-TC(5,5)|EnbId|Enable Generation of Event Identifiers|332
-TC(5,6)|DisIdCmd|Disable Generation of Event Identifiers|332
-TC(5,7)|RepDisIdCmd|Report the List of Disabled Event Identifiers|332
-TM(5,8)|DisIdRep|Disabled Event Identifier Report|321
+TC(5,5)|EnbCmd|Enable Generation of Event Identifiers|332
+TC(5,6)|DisCmd|Disable Generation of Event Identifiers|332
+TC(5,7)|RepDisCmd|Report the List of Disabled Event Identifiers|332
+TM(5,8)|DisRep|Disabled Event Identifier Report|321
 TC(11,1)|EnbTbsCmd|Enable Time-Based Schedule Execution Function|332
 TC(11,2)|DisTbsCmd|Disable Time-Based Schedule Execution Function|332
 TC(11,3)|ResTbsCmd|Reset Time-Based Schedule|332
