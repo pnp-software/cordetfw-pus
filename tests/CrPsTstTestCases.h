@@ -65,7 +65,7 @@ CrFwBool_t CrPsTstTestCase2();
  *   with failure code VER_REP_CR_FD
  * - Create a (17,3) command with a legal destination for the connection test
  * - Execute the (17,3) command and verify that a (17,1) command is issued to the correct destination
- * - Create a (17,2) report as a response to the (17,1)
+ * - Create a (17,2) report as a response to the (17,1) and execute it
  * - Execute again the (17,3) command and verify that it completes its execution
  * .
  * @verify Connection Test Command, Start Action, Illegal Destination Branch
@@ -86,13 +86,19 @@ CrFwBool_t CrPsTstTestCase3();
  * - Create a (17,3) command at a time when there is only one free slot in the OutFactory and then
  *   execute it and verify that the (17,4) OutComponent cannot be allocated and therefore the
  *   command terminates with a Start Failure
- * - Create a (17,3) command at a time when there are no free slots in the OutFactory and then
- *   execute it and verify that the (17,1) OutComponent cannot be allocated and therefore the
- *   command terminates with a Start Failure
+ * - Advance time to the point where it has a non-zero value
+ * - Create a (17,3) command with nominal parameters and at a time when there are free slots
+ *   in the OutFactory and then execute it once. This causes a (17,1) to be created and loaded into
+ *   its OutManager
+ * - Execute the (17,3) a few more times and verify that it remains pending waiting for the (17,2)
+ * - Set the time-out to a very small value such that the time-out is exceeded
+ *   and then execute again the (17,3) and verify that it is aborted because the time-out has expired
  * .
  * @verify Connection Test Command, Start Action, Retrieval of Second OutComponent Fails
  * @verify Connection Test Command, Start Action, Retrieval of First OutComponent Fails
  * @verify Connection Test Command, Progress Action, right Branch (failure)
+ * @verify Start Failure Report, Failure Code VER_REP_CR_FD
+ * @verify Termination Failure Report, Failure Code VER_TST_TO
  *
  * @return true if the test was successful, false otherwise.
  */

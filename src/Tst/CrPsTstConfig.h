@@ -1,5 +1,5 @@
 /**
- * @file CrPsTstInit.c
+ * @file CrPsTstConfig.c
  * @ingroup Serv17
  *
  * @brief Define functions to configure the Test Service (service 17).
@@ -59,25 +59,23 @@ typedef struct CrPsTstData {
  * This function must be called before service 17 can be used in the host application.
  * The function should typically be called as part of the initialization of the host application.
  *
- * This function: (a) creates and configures the procedures which implement the Start Action and the
- * Progress Action of the On-Board Connection Command, and (b) it initializes the data pool parameters
- * for the test service by calling function <code>::initDpTst</code>.
+ * This function creates and configures the procedures which implement the Start Action and the
+ * Progress Action of the On-Board Connection Command.
  *
- * The initialization process is declared successful if it was possible to create the two procedure
- * instances.
- * The procedure instances can be retrieved using functions <code>::CrPsTstConfigGetStart17s3</code>
- * and <code>::CrPsTstConfigGetPrgr17s3</code>.
+ * No check is performed on the successful creation of the test service procedures.
+ * This is acceptable because this function is only called during the application initialization
+ * phase.
+ * Its success or failure can therefore be determined statically.
  *
- * No configuration check (through function <code>::FwPrCheck</code> is done.
+ * No configuration check (through function <code>::FwPrCheck</code>) is done.
  * Such a check should not be part of the operational implementation of service 17.
  * If it is needed (as is typically the case during the development and debug phase of an application),
- * it can be done in a separate module.
+ * it should be done in a separate module.
  *
- * @descCmd17s3 the descriptor of the (17,3) command instance to which the procedures created by this module
- * are attached
- * @return 1 if the initialization was successful and 0 otherwise
+ * The procedure instances can be retrieved using functions <code>::CrPsTstConfigGetStart17s3</code>
+ * and <code>::CrPsTstConfigGetPrgr17s3</code>.
  */
-CrFwBool_t CrPsTstConfigInit();
+void CrPsTstConfigInit();
 
 /**
  * Return the instance of the procedure implementing the Start Action for the (17,3) command.

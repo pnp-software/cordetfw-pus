@@ -1,88 +1,89 @@
 Type|Name|Description|APID
-TM(1,1)|VerSuccAccRep|Successful Acceptance Verification Report|0x141
-TM(1,2)|VerFailedAccRep|Failed Acceptance Verification Report|0x141
-TM(1,3)|VerSuccStartRep|Successful Start of Execution Verification Report|0x141
-TM(1,4)|VerFailedStartRep|Failed Start of Execution Verification Report|0x141
-TM(1,5)|VerSuccPrgrRep|Successful Progress of Execution Verification Report|0x141
-TM(1,6)|VerFailedPrgrRep|Failed Progress of Execution Verification Report|0x141
-TM(1,7)|VerSuccTermRep|Successful Completion of Execution Verification Report|0x141
-TM(1,8)|VerFailedTermRep|Failed Completion of Execution Verification Report|0x141
-TM(1,10)|VerFailedRoutingRep|Failed Routing Verification Report|0x141
-TC(3,1)|HkCreHkCmd|Create a Housekeeping Parameter Report Structure|0x14c
-TC(3,2)|HkCreDiagCmd|Create a Diagnostic Parameter Report Structure|0x14c
-TC(3,3)|HkDelHkCmd|Delete a Housekeeping Parameter Report Structure|0x14c
-TC(3,4)|HkDelDiagCmd|Delete a Diagnostic Parameter Report Structure|0x14c
-TC(3,5)|HkEnbHkCmd|Enable Periodic Generation of a Housekeeping Parameter Report Structure|0x14c
-TC(3,6)|HkDisHkCmd|Disable Periodic Generation of a Housekeeping Parameter Report Structure|0x14c
-TC(3,7)|HkEnbDiagCmd|Enable Periodic Generation of a Diagnostic Parameter Report Structure|0x14c
-TC(3,8)|HkDisDiagCmd|Disable Periodic Generation of a Diagnostic Parameter Report Structure|0x14c
-TC(3,9)|HkRepStructHkCmd|Report Housekeeping Parameter Report Structure|0x14c
-TM(3,10)|HkRepStructHkRep|Housekeeping Parameter Report Structure Report|0x141
-TC(3,11)|HkRepStructDiagCmd|Report Diagnostic Parameter Report Structure|0x14c
-TM(3,12)|HkRepStructDiagRep|Diagnostic Parameter Report Structure Report|0x141
-TM(3,25)|HkRep|Housekeeping Parameter Report|0x141
-TM(3,26)|HkDiagRep|Diagnostic Parameter Report|0x141
-TC(3,27)|HkOneShotHkCmd|Generate One-Shot Report for Housekeeping Parameters|0x14c
-TC(3,28)|HkOneShotDiagCmd|Generate One-Shot Report for Diagnostic Parameters|0x14c
-TM(5,1)|EvtRep1|Informative Event Report (Level 1)|0x141
-TM(5,2)|EvtRep2|Low Severity Event Report (Level 2)|0x141
-TM(5,3)|EvtRep3|Medium Severity Event Report (Level 3)|0x141
-TM(5,4)|EvtRep4|High Severity Event Report (Level 4)|0x141
-TC(5,5)|EvtEnbId|Enable Generation of Event Identifiers|0x14c
-TC(5,6)|EvtDisIdCmd|Disable Generation of Event Identifiers|0x14c
-TC(5,7)|EvtRepDisIdCmd|Report the List of Disabled Event Identifiers|0x14c
-TM(5,8)|EvtDisIdRep|Disabled Event Identifier Report|0x141
-TC(11,1)|ScdEnbTbsCmd|Enable Time-Based Schedule Execution Function|0x14c
-TC(11,2)|ScdDisTbsCmd|Disable Time-Based Schedule Execution Function|0x14c
-TC(11,3)|ScdResTbsCmd|Reset Time-Based Schedule|0x14c
-TC(11,4)|ScdInsTbaCmd|Insert Activities into Time-Based Schedule|0x14c
-TC(11,5)|ScdDelTbaCmd|Delete Activities from Time-Based Schedule|0x14c
-TC(11,20)|ScdEnbSubSchedCmd|Enable Time-Based Sub-Schedules|0x14c
-TC(11,21)|ScdDisSubSchedCmd|Disable Time-Based Sub-Schedules|0x14c
-TC(11,22)|ScdCreGrpCmd|Create Time-Based Scheduling Groups|0x14c
-TC(11,23)|ScdDelGrpCmd|Delete Time-Based Scheduling Groups|0x14c
-TC(11,24)|ScdEnbGrpCmd|Enable Time-Based Scheduling Groups|0x14c
-TC(11,25)|ScdDisGrpCmd|Disable Time-Based Scheduling Groups|0x14c
-TC(11,26)|ScdRepGrpCmd|Report Status of Time-Based Scheduling Groups|0x14c
-TM(11,27)|ScdGrpRep|Time-Based Scheduling Group Status Report|0x141
-TC(12,1)|MonEnbParMonDefCmd|Enable Parameter Monitoring Definitions|0x14c
-TC(12,2)|MonDisParMonDefCmd|Disable Parameter Monitoring Definitions|0x14c
-TC(12,3)|MonChgTransDelCmd|Change Maximum Transition Reporting Delay|0x14c
-TC(12,4)|MonDelAllParMonCmd|Delete All Parameter Monitoring Definitions|0x14c
-TC(12,5)|MonAddParMonDefCmd|Add Parameter Monitoring Definitions|0x14c
-TC(12,6)|MonDelParMonDefCmd|Delete Parameter Monitoring Definitions|0x14c
-TC(12,7)|MonModParMonDefCmd|Modify Parameter Monitoring Definitions|0x14c
-TC(12,8)|MonRepParMonDefCmd|Report Parameter Monitoring Definitions|0x14c
-TM(12,9)|MonRepParMonDefRep|Parameter Monitoring Definition Report|0x141
-TC(12,10)|MonRepOutOfLimitsCmd|Report Out Of Limit Monitors|0x14c
-TM(12,11)|MonRepOutOfLimitsRep|Out Of Limit Monitors Report|0x141
-TM(12,12)|MonCheckTransRep|Check Transition Report|0x141
-TC(12,13)|MonRepParMonStatCmd|Report Status of Parameter Monitors|0x14c
-TM(12,14)|MonRepParMonStatRep|Parameter Monitor Status Report|0x141
-TC(12,15)|MonEnbParMonFuncCmd|Enable Parameter Monitoring Function|0x14c
-TC(12,16)|MonDisParMonFuncCmd|Disable Parameter Monitoring Function|0x14c
-TC(12,17)|MonEnbFuncMonCmd|Enable Functional Monitoring Function|0x14c
-TC(12,18)|MonDisFuncMonCmd|Disable Functional Monitoring Function|0x14c
-TC(12,19)|MonEnbFuncMonDefCmd|Enable Functional Monitoring Definitions|0x14c
-TC(12,20)|MonDisFuncMonDefCmd|Disable Functional Monitoring Definitions|0x14c
-TC(12,21)|MonProtFuncMonDefCmd|Protect Functional Monitoring Definitions|0x14c
-TC(12,22)|MonUnprotFuncMonDefCmd|Unprotect Functional Monitoring Definitions|0x14c
-TC(12,23)|MonAddFuncMonDefCmd|Add Functional Monitoring Definitions|0x14c
-TC(12,24)|MonDelFuncMonDefCmd|Delete Functional Monitoring Definitions|0x14c
-TC(12,25)|MonRepFuncMonDefCmd|Report Functional Monitoring Definitions|0x14c
-TM(12,26)|MonRepFuncMonDefRep|Report Functional Monitoring Definitions|0x141
-TC(12,27)|MonRepFuncMonStatCmd|Report Status of Functional Monitors|0x14c
-TM(12,28)|MonRepFuncMonStatRep|Status of Functional Monitors Report|0x141
-TM(13,1)|LptDownFirstRep|First Downlink Part Report|0x141
-TM(13,2)|LptDownInterRep|Intermediate Downlink  Report|0x141
-TM(13,3)|LptDownLastRep|Last Downlink Part Report|0x141
-TC(13,9)|LptUpFirstCmd|First Uplink Part |0x14c
-TC(13,10)|LptUpInterCmd|Intermediate Uplink Part |0x14c
-TC(13,11)|LptUpLastCmd|Last Uplink Part|0x14c
-TM(13,16)|LptUpAbortRep|Large Packet Uplink Abortion Report|0x141
-TC(13,129)|LptStartDownCmd|Trigger Large Packet Down-Transfer|0x14c
-TC(13,130)|LptAbortDownCmd|Abort Large Packet Down-Transfer|0x14c
-TC(17,1)|TstAreYouAliveCmd|Perform Are-You-Alive Connection Test|0x14c
-TM(17,2)|TstAreYouAliveRep|Are-You-Alive Connection Report|0x141
-TC(17,3)|TstConnectCmd|Perform On-Board Connection Test|0x14c
-TM(17,4)|TstConnectRep|On-Board Connection Test Report|0x141
+TM(1,1)|SuccAccRep|Successful Acceptance Verification Report|321
+TM(1,2)|FailedAccRep|Failed Acceptance Verification Report|321
+TM(1,3)|SuccStartRep|Successful Start of Execution Verification Report|321
+TM(1,4)|FailedStartRep|Failed Start of Execution Verification Report|321
+TM(1,5)|SuccPrgrRep|Successful Progress of Execution Verification Report|321
+TM(1,6)|FailedPrgrRep|Failed Progress of Execution Verification Report|321
+TM(1,7)|SuccTermRep|Successful Completion of Execution Verification Report|321
+TM(1,8)|FailedTermRep|Failed Completion of Execution Verification Report|321
+TM(1,10)|FailedRoutingRep|Failed Routing Verification Report|321
+TC(3,1)|CreHkCmd|Create a Housekeeping Parameter Report Structure|332
+TC(3,2)|CreDiagCmd|Create a Diagnostic Parameter Report Structure|332
+TC(3,3)|DelHkCmd|Delete a Housekeeping Parameter Report Structure|332
+TC(3,4)|DelDiagCmd|Delete a Diagnostic Parameter Report Structure|332
+TC(3,5)|EnbHkCmd|Enable Periodic Generation of a Housekeeping Parameter Report Structure|332
+TC(3,6)|DisHkCmd|Disable Periodic Generation of a Housekeeping Parameter Report Structure|332
+TC(3,7)|EnbDiagCmd|Enable Periodic Generation of a Diagnostic Parameter Report Structure|332
+TC(3,8)|DisDiagCmd|Disable Periodic Generation of a Diagnostic Parameter Report Structure|332
+TC(3,9)|RepStructHkCmd|Report Housekeeping Parameter Report Structure|332
+TM(3,10)|RepStructHkRep|Housekeeping Parameter Report Structure Report|321
+TC(3,11)|RepStructDiagCmd|Report Diagnostic Parameter Report Structure|332
+TM(3,12)|RepStructDiagRep|Diagnostic Parameter Report Structure Report|321
+TM(3,25)|Rep|Housekeeping Parameter Report|321
+TM(3,26)|DiagRep|Diagnostic Parameter Report|321
+TC(3,27)|OneShotHkCmd|Generate One-Shot Report for Housekeeping Parameters|332
+TC(3,28)|OneShotDiagCmd|Generate One-Shot Report for Diagnostic Parameters|332
+TM(5,1)|Rep1|Informative Event Report (Level 1)|321
+TM(5,2)|Rep2|Low Severity Event Report (Level 2)|321
+TM(5,3)|Rep3|Medium Severity Event Report (Level 3)|321
+TM(5,4)|Rep4|High Severity Event Report (Level 4)|321
+TC(5,5)|EnbCmd|Enable Generation of Event Identifiers|332
+TC(5,6)|DisCmd|Disable Generation of Event Identifiers|332
+TC(5,7)|RepDisCmd|Report the List of Disabled Event Identifiers|332
+TM(5,8)|DisRep|Disabled Event Identifier Report|321
+TC(11,1)|EnbTbsCmd|Enable Time-Based Schedule Execution Function|332
+TC(11,2)|DisTbsCmd|Disable Time-Based Schedule Execution Function|332
+TC(11,3)|ResTbsCmd|Reset Time-Based Schedule|332
+TC(11,4)|InsTbaCmd|Insert Activities into Time-Based Schedule|332
+TC(11,5)|DelTbaCmd|Delete Activities from Time-Based Schedule|332
+TC(11,20)|EnbSubSchedCmd|Enable Time-Based Sub-Schedules|332
+TC(11,21)|DisSubSchedCmd|Disable Time-Based Sub-Schedules|332
+TC(11,22)|CreGrpCmd|Create Time-Based Scheduling Groups|332
+TC(11,23)|DelGrpCmd|Delete Time-Based Scheduling Groups|332
+TC(11,24)|EnbGrpCmd|Enable Time-Based Scheduling Groups|332
+TC(11,25)|DisGrpCmd|Disable Time-Based Scheduling Groups|332
+TC(11,26)|RepGrpCmd|Report Status of Time-Based Scheduling Groups|332
+TM(11,27)|GrpRep|Time-Based Scheduling Group Status Report|321
+TC(12,1)|EnbParMonDefCmd|Enable Parameter Monitoring Definitions|332
+TC(12,2)|DisParMonDefCmd|Disable Parameter Monitoring Definitions|332
+TC(12,3)|ChgTransDelCmd|Change Maximum Transition Reporting Delay|332
+TC(12,4)|DelAllParMonCmd|Delete All Parameter Monitoring Definitions|332
+TC(12,5)|AddParMonDefCmd|Add Parameter Monitoring Definitions|332
+TC(12,6)|DelParMonDefCmd|Delete Parameter Monitoring Definitions|332
+TC(12,7)|ModParMonDefCmd|Modify Parameter Monitoring Definitions|332
+TC(12,8)|RepParMonDefCmd|Report Parameter Monitoring Definitions|332
+TM(12,9)|RepParMonDefRep|Parameter Monitoring Definition Report|321
+TC(12,10)|RepOutOfLimitsCmd|Report Out Of Limit Monitors|332
+TM(12,11)|RepOutOfLimitsRep|Out Of Limit Monitors Report|321
+TM(12,12)|CheckTransRep|Check Transition Report|321
+TC(12,13)|RepParMonStatCmd|Report Status of Parameter Monitors|332
+TM(12,14)|RepParMonStatRep|Parameter Monitor Status Report|321
+TC(12,15)|EnbParMonFuncCmd|Enable Parameter Monitoring Function|332
+TC(12,16)|DisParMonFuncCmd|Disable Parameter Monitoring Function|332
+TC(12,17)|EnbFuncMonCmd|Enable Functional Monitoring Function|332
+TC(12,18)|DisFuncMonCmd|Disable Functional Monitoring Function|332
+TC(12,19)|EnbFuncMonDefCmd|Enable Functional Monitoring Definitions|332
+TC(12,20)|DisFuncMonDefCmd|Disable Functional Monitoring Definitions|332
+TC(12,21)|ProtFuncMonDefCmd|Protect Functional Monitoring Definitions|332
+TC(12,22)|UnprotFuncMonDefCmd|Unprotect Functional Monitoring Definitions|332
+TC(12,23)|AddFuncMonDefCmd|Add Functional Monitoring Definitions|332
+TC(12,24)|DelFuncMonDefCmd|Delete Functional Monitoring Definitions|332
+TC(12,25)|RepFuncMonDefCmd|Report Functional Monitoring Definitions|332
+TM(12,26)|RepFuncMonDefRep|Report Functional Monitoring Definitions|321
+TC(12,27)|RepFuncMonStatCmd|Report Status of Functional Monitors|332
+TM(12,28)|RepFuncMonStatRep|Status of Functional Monitors Report|321
+TM(13,1)|DownFirstRep|First Downlink Part Report|321
+TM(13,2)|DownInterRep|Intermediate Downlink  Report|321
+TM(13,3)|DownLastRep|Last Downlink Part Report|321
+TC(13,9)|UpFirstCmd|First Uplink Part |332
+TC(13,10)|UpInterCmd|Intermediate Uplink Part |332
+TC(13,11)|UpLastCmd|Last Uplink Part|332
+TM(13,16)|UpAbortRep|Large Packet Uplink Abortion Report|321
+TC(13,129)|StartDownCmd|Trigger Large Packet Down-Transfer|332
+TC(13,130)|AbortDownCmd|Abort Large Packet Down-Transfer|332
+TC(17,1)|AreYouAliveCmd|Perform Are-You-Alive Connection Test|332
+TM(17,2)|AreYouAliveRep|Are-You-Alive Connection Report|321
+TC(17,3)|ConnectCmd|Perform On-Board Connection Test|332
+TM(17,4)|ConnectRep|On-Board Connection Test Report|321
+TC(255,1)|Sample1|Sample 1 Command |332

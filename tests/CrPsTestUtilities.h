@@ -1,0 +1,78 @@
+/**
+ * @file CrPsTestUtilities.h
+ * @ingroup PUSTestsuite
+ *
+ * @brief Declarations of utility functions to support testing of the PUS Extension.
+ *
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
+ *
+ * @copyright P&P Software GmbH, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ */
+
+#ifndef CRPS_TESTUTILITIES_H_
+#define CRPS_TESTUTILITIES_H_
+
+/* Include framework files */
+#include "CrFwConstants.h"
+/* Include FW Profile files */
+#include "FwSmConstants.h"
+
+/**
+ * Create a packet holding a Sample 1 Command with the characteristics specified by the
+ * function parameters.
+ * The Sample 1 Command belongs to the Dummy Service 255.
+ * It is used for testing purposes and is defined in <code>::CrPsInCmdDumSample1.h</code>.
+ *
+ * @param dest the destination of the Sample 1 Command
+ * @param accAck the acceptance acknowledge flag of the Sample 1 Command
+ * @param startAck the start acknowledge flag of the Sample 1 Command
+ * @param prgAck the progress acknowledge flag of the Sample 1 Command
+ * @param termAck the termination acknowledge flag of the Sample 1 Command
+ * @param seqCnt the sequence counter of the Sample 1 Command
+ * @param group the groupd of the Sample 1 Command
+ * @return the packet holding the Sample 1 Command could be created, false otherwise
+ */
+ CrFwPckt_t CrPsTestUtilitiesCreateSAmple1Pckt(CrFwDestSrc_t dest, CrFwBool_t accAck, CrFwBool_t startAck,
+         CrFwBool_t prgAck, CrFwBool_t termAck, CrFwSeqCnt_t seqCnt, CrFwGroup_t group);
+
+/**
+ * Function to verify that the i-th entry in the POCL of an OutManager contains an OutComponent
+ * of a given type and sub-type.
+ * When an OutComponent is loaded onto an OutManager, it is stored in its "Pending Out-Component List"
+ * or POCL.
+ * This function extracts the i-th entry in the POCL and checks whether its type and sub-type
+ * match the type and sub-type values given as function parameters.
+ * If the i-th entry in the POCL is empty, the function return false.
+ *
+ * @param outManager the OutManager whose POCL is checked
+ * @param i the index of the entry in the POCL which is checked (starting from zero)
+ * @param servType the expected type of the OutComponent at the i-th position in the POCL
+ * @param servSubType the expected sub-type of the OutComponent at the i-th position in the POCL
+ * @return true if the i-th entry in the POCL has the stated type and sub-type, false otherwise
+ */
+CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmd(FwSmDesc_t outManager, int i,
+                                        CrFwServType_t servType, CrFwServSubType_t servSubType);
+
+/**
+ * Return the item which is currently loaded in the i-th entry of the PCRL of the argument InManager.
+ *
+ * @param inManager the InManager
+ * @param i the index of the entry in the PCRL
+ * @return the entry in the i-th element of the PCRL (starting from zero)
+ */
+FwSmDesc_t CrPsTestUtilitiesGetItemFromInManager(FwSmDesc_t inManager, int i);
+
+/**
+ * Return the OutComponent which is currently loaded in the i-th entry of the POCL of the argument OutManager.
+ *
+ * @param outManager the outManager
+ * @param i the index of the entry in the PCRL
+ * @return the entry in the i-th element of the POCL (starting from zero)
+ */
+FwSmDesc_t CrPsTestUtilitiesGetItemFromOutManager(FwSmDesc_t outManager, int i);
+
+#endif /* CRPS_TESTUTILITIES_H_ */

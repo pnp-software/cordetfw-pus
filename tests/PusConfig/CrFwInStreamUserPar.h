@@ -10,9 +10,9 @@
  * The value of these parameters cannot be changed dynamically.
  *
  * The default values defined in this file are those used for the testing of the
- * PUS Configuration of the CORDET Framework.
+ * PUS Extension of the CORDET Framework.
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
+ * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -25,10 +25,10 @@
 #define CR_FW_INSTREAM_USERPAR_H_
 
 /* Include framework files */
+#include "CrFwInStreamStub.h"
 #include "InStream/CrFwInStream.h"
 #include "BaseCmp/CrFwResetProc.h"
 /* Include test suite files */
-#include "CrFwInStreamStub.h"
 
 /**
  * The number of InStream components in the application.
@@ -205,6 +205,6 @@
  * offered by the InStream component.
  */
 #define CR_FW_INSTREAM_SHUTDOWNACTION {&CrFwInStreamDefShutdownAction, \
-							     	   &CrFwInStreamStubShutdown}
+							     	   &CrFwInStreamDefShutdownAction}
 
 #endif /* CR_FW_INSTREAM_USERPAR_H_ */

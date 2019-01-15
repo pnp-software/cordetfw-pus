@@ -21,7 +21,7 @@
 #include "CrPsCmd17s3Start.h"
 #include "CrPsServTypeId.h"
 #include "CrPsTstConfig.h"
-#include "PcktFunctions/CrPsPcktTst.h"
+#include "Pckt/CrPsPcktTst.h"
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpVer.h"
 #include "DataPool/CrPsDpTst.h"
@@ -83,13 +83,10 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N3. */
 void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc) {
-  CrFwCmpData_t* inData;
   CRFW_UNUSED(prDesc);
 
-  inData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-
   /* Generate error report OUTFACTORY_FAIL */
-  CrFwRepErrKind(psOutFactoryFail, inData->typeId, inData->instanceId, TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0);
+  CrFwRepErrKind(psOutFactoryFail, 0, 0, TST_TYPE, TSTAREYOUALIVEREP_STYPE, 0);
 
   return;
 }
@@ -157,14 +154,10 @@ void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc) {
 
   /* Set outcome of Start Action to 'failure' with failure code VER_REP_CR_FD */
 
-  /* Set outcome in InCmd prData to 'failure' */
+  /* Set outcome in InCmd prData to 'failure' (failure code to VER_REP_CR_FD) */
   prTstData = (CrPsTstData_t*)FwPrGetData(prDesc);
   cmd17s3 = prTstData->cmd17s3;
-  cmpData = (CrFwCmpData_t*) FwSmGetData(cmd17s3);
-  cmpData->outcome = 0;
-
-  /* Set failure code to VER_REP_CR_FD */
-  setDpVerVerFailCode(VER_REP_CR_FD);
+  CrFwSetSmOutcome(cmd17s3, VER_REP_CR_FD);
 
   return;
 }

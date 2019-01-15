@@ -1,53 +1,53 @@
-\def \printVerSuccAccRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerSuccAccRep Component}{tab:VerSuccAccRepSpec}{Name & VerSuccAccRep(1,1)}
+\def \printOutCmpVerSuccAccRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerSuccAccRep Component}{tab:OutCmpVerSuccAccRepSpec}{Name & VerSuccAccRep(1,1)}
 Description & Report generated to mark the successful acceptance of an incoming command \\\hline
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerFailedAccRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerFailedAccRep Component}{tab:VerFailedAccRepSpec}{Name & VerFailedAccRep(1,2)}
+\def \printOutCmpVerFailedAccRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerFailedAccRep Component}{tab:OutCmpVerFailedAccRepSpec}{Name & VerFailedAccRep(1,2)}
 Description & Report generated to mark the acceptance failure of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
 Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerSuccStartRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerSuccStartRep Component}{tab:VerSuccStartRepSpec}{Name & VerSuccStartRep(1,3)}
+\def \printOutCmpVerSuccStartRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerSuccStartRep Component}{tab:OutCmpVerSuccStartRepSpec}{Name & VerSuccStartRep(1,3)}
 Description & Report generated to mark the successful start of execution of an incoming command \\\hline
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerFailedStartRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerFailedStartRep Component}{tab:VerFailedStartRepSpec}{Name & VerFailedStartRep(1,4)}
+\def \printOutCmpVerFailedStartRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerFailedStartRep Component}{tab:OutCmpVerFailedStartRepSpec}{Name & VerFailedStartRep(1,4)}
 Description & Report generated to mark the start of execution failure of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
 Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerSuccPrgrRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerSuccPrgrRep Component}{tab:VerSuccPrgrRepSpec}{Name & VerSuccPrgrRep(1,5)}
+\def \printOutCmpVerSuccPrgrRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerSuccPrgrRep Component}{tab:OutCmpVerSuccPrgrRepSpec}{Name & VerSuccPrgrRep(1,5)}
 Description & Report generated to mark the successful completion of an execution step of an incoming command \\\hline
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
@@ -58,8 +58,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerFailedPrgrRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerFailedPrgrRep Component}{tab:VerFailedPrgrRepSpec}{Name & VerFailedPrgrRep(1,6)}
+\def \printOutCmpVerFailedPrgrRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerFailedPrgrRep Component}{tab:OutCmpVerFailedPrgrRepSpec}{Name & VerFailedPrgrRep(1,6)}
 Description & Report generated to mark the failure of an execution step of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code); identifier of progress step which failed \\\hline
 Discriminant & Failure Identification Code \\\hline
@@ -70,44 +70,44 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerSuccTermRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerSuccTermRep Component}{tab:VerSuccTermRepSpec}{Name & VerSuccTermRep(1,7)}
+\def \printOutCmpVerSuccTermRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerSuccTermRep Component}{tab:OutCmpVerSuccTermRepSpec}{Name & VerSuccTermRep(1,7)}
 Description & Report generated to mark the successful completion of execution of an incoming command \\\hline
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerFailedTermRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerFailedTermRep Component}{tab:VerFailedTermRepSpec}{Name & VerFailedTermRep(1,8)}
+\def \printOutCmpVerFailedTermRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerFailedTermRep Component}{tab:OutCmpVerFailedTermRepSpec}{Name & VerFailedTermRep(1,8)}
 Description & Report generated to mark the failure to complete execution of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
 Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printVerFailedRoutingRepSpec#1 {
-\begin{pnptable}{#1}{Specification of VerFailedRoutingRep Component}{tab:VerFailedRoutingRepSpec}{Name & VerFailedRoutingRep(1,10)}
+\def \printOutCmpVerFailedRoutingRepSpec#1 {
+\begin{pnptable}{#1}{Specification of VerFailedRoutingRep Component}{tab:OutCmpVerFailedRoutingRepSpec}{Name & VerFailedRoutingRep(1,10)}
 Description & Report generated to mark the failure to route an incoming command to its final destination \\\hline
 Parameters & Packet version number followed by information on the command whose routing failed: packet identifier, packet sequence counter, type, sub-type and discriminant, and invalid destination \\\hline
-Discriminant & Failure Identification Code \\\hline
+Discriminant & None \\\hline
 Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
-Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printHkCreHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkCreHkCmd Component}{tab:HkCreHkCmdSpec}{Name & HkCreHkCmd(3,1)}
+\def \printInCmdHkCreHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkCreHkCmd Component}{tab:InCmdHkCreHkCmdSpec}{Name & HkCreHkCmd(3,1)}
 Description & Create a housekeeping report structure \\\hline
 Parameters & SID, collection interval and identifiers of parameters of the report to be created \\\hline
 Discriminant & The structure identifier (SID) of the packet to be created \\\hline
@@ -118,8 +118,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkCreDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkCreDiagCmd Component}{tab:HkCreDiagCmdSpec}{Name & HkCreDiagCmd(3,2)}
+\def \printInCmdHkCreDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkCreDiagCmd Component}{tab:InCmdHkCreDiagCmdSpec}{Name & HkCreDiagCmd(3,2)}
 Description & Create a diagnostic report structure \\\hline
 Parameters & SID, collection interval and identifiers of parameters of the\newline diagnostic report to be created \\\hline
 Discriminant & The structure identifier (SID) of the packet to be created \\\hline
@@ -130,8 +130,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkDelHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkDelHkCmd Component}{tab:HkDelHkCmdSpec}{Name & HkDelHkCmd(3,3)}
+\def \printInCmdHkDelHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDelHkCmd Component}{tab:InCmdHkDelHkCmdSpec}{Name & HkDelHkCmd(3,3)}
 Description & Delete one or more housekeeping report definitions \\\hline
 Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
@@ -142,8 +142,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkDelDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkDelDiagCmd Component}{tab:HkDelDiagCmdSpec}{Name & HkDelDiagCmd(3,4)}
+\def \printInCmdHkDelDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDelDiagCmd Component}{tab:InCmdHkDelDiagCmdSpec}{Name & HkDelDiagCmd(3,4)}
 Description & Delete one or more diagnostic report definitions \\\hline
 Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
@@ -154,8 +154,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkEnbHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkEnbHkCmd Component}{tab:HkEnbHkCmdSpec}{Name & HkEnbHkCmd(3,5)}
+\def \printInCmdHkEnbHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkEnbHkCmd Component}{tab:InCmdHkEnbHkCmdSpec}{Name & HkEnbHkCmd(3,5)}
 Description & Enable the periodic generation of one or more housekeeping report structures \\\hline
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
@@ -166,8 +166,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkDisHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkDisHkCmd Component}{tab:HkDisHkCmdSpec}{Name & HkDisHkCmd(3,6)}
+\def \printInCmdHkDisHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDisHkCmd Component}{tab:InCmdHkDisHkCmdSpec}{Name & HkDisHkCmd(3,6)}
 Description & Disable the periodic generation of one or more housekeeping report structures \\\hline
 Parameters & List of SIDs to be disabled \\\hline
 Discriminant & None \\\hline
@@ -178,8 +178,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkEnbDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkEnbDiagCmd Component}{tab:HkEnbDiagCmdSpec}{Name & HkEnbDiagCmd(3,7)}
+\def \printInCmdHkEnbDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkEnbDiagCmd Component}{tab:InCmdHkEnbDiagCmdSpec}{Name & HkEnbDiagCmd(3,7)}
 Description & Enable the periodic generation of one or more diagnostic report structures \\\hline
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
@@ -190,8 +190,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkDisDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkDisDiagCmd Component}{tab:HkDisDiagCmdSpec}{Name & HkDisDiagCmd(3,8)}
+\def \printInCmdHkDisDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDisDiagCmd Component}{tab:InCmdHkDisDiagCmdSpec}{Name & HkDisDiagCmd(3,8)}
 Description & Disable the periodic generation of one or more diagnostic report structures \\\hline
 Parameters & List of SIDs to be disabled  \\\hline
 Discriminant & None \\\hline
@@ -202,8 +202,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkRepStructHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkRepStructHkCmd Component}{tab:HkRepStructHkCmdSpec}{Name & HkRepStructHkCmd(3,9)}
+\def \printInCmdHkRepStructHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkRepStructHkCmd Component}{tab:InCmdHkRepStructHkCmdSpec}{Name & HkRepStructHkCmd(3,9)}
 Description & This command carries a list of SIDs. For each SID, it triggers the generation of a (3,10) report with the definition of the housekeeping report structure for that SID. \\\hline
 Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
@@ -214,8 +214,8 @@ Termination Action & Set action outcome to 'success' if all valid SIDs in the co
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkRepStructHkRepSpec#1 {
-\begin{pnptable}{#1}{Specification of HkRepStructHkRep Component}{tab:HkRepStructHkRepSpec}{Name & HkRepStructHkRep(3,10)}
+\def \printOutCmpHkRepStructHkRepSpec#1 {
+\begin{pnptable}{#1}{Specification of HkRepStructHkRep Component}{tab:OutCmpHkRepStructHkRepSpec}{Name & HkRepStructHkRep(3,10)}
 Description & Report carrying the definition of a housekeeping report structure generated in response to a (3,9) command. \\\hline
 Parameters & SID of the housekeeping report, flag indicating whether periodic generation of the report is enabled, number of simply commutated parameters in the report and their identifiers, number of super-commutated groups and, for each group, number of parameters in the group and their identifiers \\\hline
 Discriminant & Structure Identifier \\\hline
@@ -226,8 +226,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Load the SID definition from the RDL \\\hline
 \end{pnptable}}
 
-\def \printHkRepStructDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkRepStructDiagCmd Component}{tab:HkRepStructDiagCmdSpec}{Name & HkRepStructDiagCmd(3,11)}
+\def \printInCmdHkRepStructDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkRepStructDiagCmd Component}{tab:InCmdHkRepStructDiagCmdSpec}{Name & HkRepStructDiagCmd(3,11)}
 Description & This command carries a list of SIDs. For each SID, it triggers the generation of a (3,12) report with the definition of the diagnostic report structure for that SID. \\\hline
 Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
@@ -238,8 +238,8 @@ Termination Action & Set action outcome to 'success' if all valid SIDs in the co
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printHkRepStructDiagRepSpec#1 {
-\begin{pnptable}{#1}{Specification of HkRepStructDiagRep Component}{tab:HkRepStructDiagRepSpec}{Name & HkRepStructDiagRep(3,12)}
+\def \printOutCmpHkRepStructDiagRepSpec#1 {
+\begin{pnptable}{#1}{Specification of HkRepStructDiagRep Component}{tab:OutCmpHkRepStructDiagRepSpec}{Name & HkRepStructDiagRep(3,12)}
 Description & Report carrying the definition of a diagnostic report structure generated in response to a (3,11) command. \\\hline
 Parameters & SID of the diagnostic report, flag indicating whether periodic generation of the report is enabled, number of simply commutated parameters in the report and their identifiers, number of super-commutated groups and, for each group, number of parameters in the group and their identifiers \\\hline
 Discriminant & Structure Identifier \\\hline
@@ -250,8 +250,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Load the SID definition from the RDL \\\hline
 \end{pnptable}}
 
-\def \printHkRepSpec#1 {
-\begin{pnptable}{#1}{Specification of HkRep Component}{tab:HkRepSpec}{Name & HkRep(3,25)}
+\def \printOutCmpHkRepSpec#1 {
+\begin{pnptable}{#1}{Specification of HkRep Component}{tab:OutCmpHkRepSpec}{Name & HkRep(3,25)}
 Description & Periodic housekeeping report \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL  \\\hline
 Discriminant & Structure Identifier \\\hline
@@ -262,8 +262,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition \\\hline
 \end{pnptable}}
 
-\def \printHkDiagRepSpec#1 {
-\begin{pnptable}{#1}{Specification of HkDiagRep Component}{tab:HkDiagRepSpec}{Name & HkDiagRep(3,26)}
+\def \printOutCmpHkDiagRepSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDiagRep Component}{tab:OutCmpHkDiagRepSpec}{Name & HkDiagRep(3,26)}
 Description & Periodic Diagnostic Report (3,26) \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL \\\hline
 Discriminant & Structure Identifier \\\hline
@@ -274,8 +274,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition \\\hline
 \end{pnptable}}
 
-\def \printHkOneShotHkCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkOneShotHkCmd Component}{tab:HkOneShotHkCmdSpec}{Name & HkOneShotHkCmd(3,27)}
+\def \printInCmdHkOneShotHkCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkOneShotHkCmd Component}{tab:InCmdHkOneShotHkCmdSpec}{Name & HkOneShotHkCmd(3,27)}
 Description & Command (3,27) to generate a one-shot housekeeping report \\\hline
 Parameters & The list of SIDs for which the one-shot report is to be generated \\\hline
 Discriminant & SID to be generated in one-shot mode \\\hline
@@ -286,68 +286,68 @@ Termination Action & Set action outcome to 'success' if all valid SIDs in the co
 Abort Action & Do nothing \\\hline
 \end{pnptable}}
 
-\def \printHkOneShotDiagCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of HkOneShotDiagCmd Component}{tab:HkOneShotDiagCmdSpec}{Name & HkOneShotDiagCmd(3,28)}
+\def \printInCmdHkOneShotDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkOneShotDiagCmd Component}{tab:InCmdHkOneShotDiagCmdSpec}{Name & HkOneShotDiagCmd(3,28)}
 Description & Command (3,28) to generate a one-shot diagnostic report \\\hline
 Parameters & The list of SIDs for which the one-shot report is to be generated \\\hline
 Discriminant & SID to be generated in one-shot mode \\\hline
-Ready Check & \#TM(3,28) \\\hline
-Start Action & \#TM(3,28) \\\hline
-Progress Action & \#TM(3,28) \\\hline
-Termination Action & \#TM(3,28) \\\hline
-Abort Action & \#TM(3,28) \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Run the procedure Start Action of Multi-SID Command of figure 9.3 \\\hline
+Progress Action & Run the procedure Progress Action of Generate One-Shot Housekeeping Report of figure 9.6 \\\hline
+Termination Action & Set action outcome to 'success' if all valid SIDs in the command were successfully processed by the progress action; set it to 'failure' otherwise \\\hline
+Abort Action & Do nothing \\\hline
 \end{pnptable}}
 
-\def \printEvtRepaSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRep1 Component}{tab:EvtRepaSpec}{Name & EvtRep1(5,1)}
+\def \printOutCmpEvtRepaSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRep1 Component}{tab:OutCmpEvtRepaSpec}{Name & EvtRep1(5,1)}
 Description & Informative event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
 \end{pnptable}}
 
-\def \printEvtRepbSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRep2 Component}{tab:EvtRepbSpec}{Name & EvtRep2(5,2)}
+\def \printOutCmpEvtRepbSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRep2 Component}{tab:OutCmpEvtRepbSpec}{Name & EvtRep2(5,2)}
 Description & Low severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
 \end{pnptable}}
 
-\def \printEvtRepcSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRep3 Component}{tab:EvtRepcSpec}{Name & EvtRep3(5,3)}
+\def \printOutCmpEvtRepcSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRep3 Component}{tab:OutCmpEvtRepcSpec}{Name & EvtRep3(5,3)}
 Description & Medium severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
 \end{pnptable}}
 
-\def \printEvtRepdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRep4 Component}{tab:EvtRepdSpec}{Name & EvtRep4(5,4)}
+\def \printOutCmpEvtRepdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRep4 Component}{tab:OutCmpEvtRepdSpec}{Name & EvtRep4(5,4)}
 Description & High severity event report  \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Out-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
 \end{pnptable}}
 
-\def \printEvtEnbIdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtEnbId Component}{tab:EvtEnbIdSpec}{Name & EvtEnbId(5,5)}
+\def \printInCmdEvtEnbCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtEnbCmd Component}{tab:InCmdEvtEnbCmdSpec}{Name & EvtEnbCmd(5,5)}
 Description & Command to enable generation of a list of event identifiers \\\hline
 Parameters & List of event identifiers to be enabled  \\\hline
 Discriminant & None \\\hline
@@ -358,8 +358,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtDisIdCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtDisIdCmd Component}{tab:EvtDisIdCmdSpec}{Name & EvtDisIdCmd(5,6)}
+\def \printInCmdEvtDisCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtDisCmd Component}{tab:InCmdEvtDisCmdSpec}{Name & EvtDisCmd(5,6)}
 Description & Command to disable generation of a list of event identifiers \\\hline
 Parameters & List of event identifiers to be disabled  \\\hline
 Discriminant & None \\\hline
@@ -370,8 +370,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtRepDisIdCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRepDisIdCmd Component}{tab:EvtRepDisIdCmdSpec}{Name & EvtRepDisIdCmd(5,7)}
+\def \printInCmdEvtRepDisCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRepDisCmd Component}{tab:InCmdEvtRepDisCmdSpec}{Name & EvtRepDisCmd(5,7)}
 Description & This command triggers the generation of a (5,8) report holding the list of disabled event identifiers \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -382,8 +382,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtDisIdRepSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtDisIdRep Component}{tab:EvtDisIdRepSpec}{Name & EvtDisIdRep(5,8)}
+\def \printOutCmpEvtDisRepSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtDisRep Component}{tab:OutCmpEvtDisRepSpec}{Name & EvtDisRep(5,8)}
 Description & Report generated in response to a (5,7) command carrying the list of disabled Event Identifiers \\\hline
 Parameters & The list of disabled event identifiers  \\\hline
 Discriminant & None \\\hline
@@ -394,8 +394,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Load the list of disabled event identifiers from arrays isEidEnabled1 to isEidEnabled4 \\\hline
 \end{pnptable}}
 
-\def \printScdEnbTbsCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdEnbTbsCmd Component}{tab:ScdEnbTbsCmdSpec}{Name & ScdEnbTbsCmd(11,1)}
+\def \printInCmdScdEnbTbsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbTbsCmd Component}{tab:InCmdScdEnbTbsCmdSpec}{Name & ScdEnbTbsCmd(11,1)}
 Description & Command to enable the time-based schedule execution function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -406,8 +406,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDisTbsCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDisTbsCmd Component}{tab:ScdDisTbsCmdSpec}{Name & ScdDisTbsCmd(11,2)}
+\def \printInCmdScdDisTbsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisTbsCmd Component}{tab:InCmdScdDisTbsCmdSpec}{Name & ScdDisTbsCmd(11,2)}
 Description & Command to disable the time-based schedule execution function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -418,8 +418,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdResTbsCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdResTbsCmd Component}{tab:ScdResTbsCmdSpec}{Name & ScdResTbsCmd(11,3)}
+\def \printInCmdScdResTbsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdResTbsCmd Component}{tab:InCmdScdResTbsCmdSpec}{Name & ScdResTbsCmd(11,3)}
 Description & Command to reset the time-based schedule \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -430,8 +430,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdInsTbaCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdInsTbaCmd Component}{tab:ScdInsTbaCmdSpec}{Name & ScdInsTbaCmd(11,4)}
+\def \printInCmdScdInsTbaCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdInsTbaCmd Component}{tab:InCmdScdInsTbaCmdSpec}{Name & ScdInsTbaCmd(11,4)}
 Description & Command to insert one or more time-based activities (TBAs) into the time-based schedule (TBS) \\\hline
 Parameters & The sub-schedule to which the TBAs must be added and, for each TBA, the group to which the TBA belongs, its release time and the command which implements the activity \\\hline
 Discriminant & None \\\hline
@@ -442,8 +442,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDelTbaCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDelTbaCmd Component}{tab:ScdDelTbaCmdSpec}{Name & ScdDelTbaCmd(11,5)}
+\def \printInCmdScdDelTbaCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDelTbaCmd Component}{tab:InCmdScdDelTbaCmdSpec}{Name & ScdDelTbaCmd(11,5)}
 Description & Command to delete one or more time-based activities (TBAs) from the time-based schedule (TBS) \\\hline
 Parameters & The number of activities to be deleted and the list of identifiers of the activities to be deleted. Each such identifier is made up of: the identifier of the source, the APID and the sequence count of the request embedded in the activity to be deleted. \\\hline
 Discriminant & None \\\hline
@@ -454,8 +454,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdEnbSubSchedCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdEnbSubSchedCmd Component}{tab:ScdEnbSubSchedCmdSpec}{Name & ScdEnbSubSchedCmd(11,20)}
+\def \printInCmdScdEnbSubSchedCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbSubSchedCmd Component}{tab:InCmdScdEnbSubSchedCmdSpec}{Name & ScdEnbSubSchedCmd(11,20)}
 Description & Command to enable one or more time-based sub-schedules \\\hline
 Parameters & The number of sub-schedules to be enabled followed by the list of identifiers of the sub-schedules to be enabled \\\hline
 Discriminant & None \\\hline
@@ -466,8 +466,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDisSubSchedCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDisSubSchedCmd Component}{tab:ScdDisSubSchedCmdSpec}{Name & ScdDisSubSchedCmd(11,21)}
+\def \printInCmdScdDisSubSchedCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisSubSchedCmd Component}{tab:InCmdScdDisSubSchedCmdSpec}{Name & ScdDisSubSchedCmd(11,21)}
 Description & Command to disable one or more time-based sub-schedules \\\hline
 Parameters & The number of sub-schedules to be disabled followed by the list of identifiers of the sub-schedules to be disabled \\\hline
 Discriminant & None \\\hline
@@ -478,8 +478,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdCreGrpCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdCreGrpCmd Component}{tab:ScdCreGrpCmdSpec}{Name & ScdCreGrpCmd(11,22)}
+\def \printInCmdScdCreGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdCreGrpCmd Component}{tab:InCmdScdCreGrpCmdSpec}{Name & ScdCreGrpCmd(11,22)}
 Description & Command to create one or more scheduling groups \\\hline
 Parameters & The number of groups to be created and, for each group to be created, its identifier and its initial enable status \\\hline
 Discriminant & None \\\hline
@@ -490,8 +490,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDelGrpCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDelGrpCmd Component}{tab:ScdDelGrpCmdSpec}{Name & ScdDelGrpCmd(11,23)}
+\def \printInCmdScdDelGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDelGrpCmd Component}{tab:InCmdScdDelGrpCmdSpec}{Name & ScdDelGrpCmd(11,23)}
 Description & Command to delete one or more scheduling groups \\\hline
 Parameters & The number of groups to be delete and the list of their identifiers \\\hline
 Discriminant & None \\\hline
@@ -502,8 +502,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdEnbGrpCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdEnbGrpCmd Component}{tab:ScdEnbGrpCmdSpec}{Name & ScdEnbGrpCmd(11,24)}
+\def \printInCmdScdEnbGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbGrpCmd Component}{tab:InCmdScdEnbGrpCmdSpec}{Name & ScdEnbGrpCmd(11,24)}
 Description & Command to enable one or more scheduling groups \\\hline
 Parameters & The number of groups to be enabled and the list of their identifiers \\\hline
 Discriminant & None \\\hline
@@ -514,8 +514,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdDisGrpCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdDisGrpCmd Component}{tab:ScdDisGrpCmdSpec}{Name & ScdDisGrpCmd(11,25)}
+\def \printInCmdScdDisGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisGrpCmd Component}{tab:InCmdScdDisGrpCmdSpec}{Name & ScdDisGrpCmd(11,25)}
 Description & Command to disable one or more scheduling groups \\\hline
 Parameters & The number of groups to be disabled and the list of their identifiers \\\hline
 Discriminant & None \\\hline
@@ -526,8 +526,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdRepGrpCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdRepGrpCmd Component}{tab:ScdRepGrpCmdSpec}{Name & ScdRepGrpCmd(11,26)}
+\def \printInCmdScdRepGrpCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdRepGrpCmd Component}{tab:InCmdScdRepGrpCmdSpec}{Name & ScdRepGrpCmd(11,26)}
 Description & Command to trigger the generation of a (11,27) report carrying the status of the scheduling groups \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -538,8 +538,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printScdGrpRepSpec#1 {
-\begin{pnptable}{#1}{Specification of ScdGrpRep Component}{tab:ScdGrpRepSpec}{Name & ScdGrpRep(11,27)}
+\def \printOutCmpScdGrpRepSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdGrpRep Component}{tab:OutCmpScdGrpRepSpec}{Name & ScdGrpRep(11,27)}
 Description & Report generated in response to a (11,26) command to report the status of the scheduling groups \\\hline
 Parameters & The number of currently used scheduling groups and, for each, the identifier and the enable status \\\hline
 Discriminant & None \\\hline
@@ -550,8 +550,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Collect the information about the currently used scheduling groups \\\hline
 \end{pnptable}}
 
-\def \printMonEnbParMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonEnbParMonDefCmd Component}{tab:MonEnbParMonDefCmdSpec}{Name & MonEnbParMonDefCmd(12,1)}
+\def \printInCmdMonEnbParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonEnbParMonDefCmd Component}{tab:InCmdMonEnbParMonDefCmdSpec}{Name & MonEnbParMonDefCmd(12,1)}
 Description & Command to enable one or more monitoring definitions \\\hline
 Parameters & The identifiers of the monitoring definitions to be enabled \\\hline
 Discriminant & None \\\hline
@@ -562,8 +562,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonDisParMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonDisParMonDefCmd Component}{tab:MonDisParMonDefCmdSpec}{Name & MonDisParMonDefCmd(12,2)}
+\def \printInCmdMonDisParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDisParMonDefCmd Component}{tab:InCmdMonDisParMonDefCmdSpec}{Name & MonDisParMonDefCmd(12,2)}
 Description & Command to disable one or more monitoring definitions \\\hline
 Parameters & The identifiers of the monitoring definitions to be disabled \\\hline
 Discriminant & None \\\hline
@@ -574,8 +574,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonChgTransDelCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonChgTransDelCmd Component}{tab:MonChgTransDelCmdSpec}{Name & MonChgTransDelCmd(12,3)}
+\def \printInCmdMonChgTransDelCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonChgTransDelCmd Component}{tab:InCmdMonChgTransDelCmdSpec}{Name & MonChgTransDelCmd(12,3)}
 Description & Command to change the maximum delay after which the content of the check transition list (CTL) is reported through a (12,12) report \\\hline
 Parameters & The new value of the maximum transition reporting delay \\\hline
 Discriminant & None \\\hline
@@ -586,8 +586,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonDelAllParMonCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonDelAllParMonCmd Component}{tab:MonDelAllParMonCmdSpec}{Name & MonDelAllParMonCmd(12,4)}
+\def \printInCmdMonDelAllParMonCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDelAllParMonCmd Component}{tab:InCmdMonDelAllParMonCmdSpec}{Name & MonDelAllParMonCmd(12,4)}
 Description & Command to delete all parameter monitoring definitions \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -598,8 +598,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonAddParMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonAddParMonDefCmd Component}{tab:MonAddParMonDefCmdSpec}{Name & MonAddParMonDefCmd(12,5)}
+\def \printInCmdMonAddParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonAddParMonDefCmd Component}{tab:InCmdMonAddParMonDefCmdSpec}{Name & MonAddParMonDefCmd(12,5)}
 Description & Command to add one or more parameter definitions \\\hline
 Parameters & The parameter definitions to be added. Each parameter definition consists of parameter monitor identifier, identifier of parameter to be monitored, description of validity check, repetition counter, description of monitoring check (including identifiers of events to be generated in case of monitoring violation) \\\hline
 Discriminant & None \\\hline
@@ -610,8 +610,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonDelParMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonDelParMonDefCmd Component}{tab:MonDelParMonDefCmdSpec}{Name & MonDelParMonDefCmd(12,6)}
+\def \printInCmdMonDelParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDelParMonDefCmd Component}{tab:InCmdMonDelParMonDefCmdSpec}{Name & MonDelParMonDefCmd(12,6)}
 Description & Command to delete one or more parameter monitoring definitions \\\hline
 Parameters & The identifiers of the parameter monitors to be deleted \\\hline
 Discriminant & None \\\hline
@@ -622,8 +622,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonModParMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonModParMonDefCmd Component}{tab:MonModParMonDefCmdSpec}{Name & MonModParMonDefCmd(12,7)}
+\def \printInCmdMonModParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonModParMonDefCmd Component}{tab:InCmdMonModParMonDefCmdSpec}{Name & MonModParMonDefCmd(12,7)}
 Description & Command to modify one or more parameter definitions \\\hline
 Parameters & The modified parameter definitions. Each modified parameter definition consists of identifier of parameter monitor, identifier of parameter to be monitored, repetition counter, description of monitoring check (including identifiers of events to be generated in case of monitoring violation) \\\hline
 Discriminant & None \\\hline
@@ -634,8 +634,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonRepParMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepParMonDefCmd Component}{tab:MonRepParMonDefCmdSpec}{Name & MonRepParMonDefCmd(12,8)}
+\def \printInCmdMonRepParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepParMonDefCmd Component}{tab:InCmdMonRepParMonDefCmdSpec}{Name & MonRepParMonDefCmd(12,8)}
 Description & This command triggers the generation of a (12,9) report carrying one or more parameter monitor definitions \\\hline
 Parameters & The identifiers of the parameter monitors whose definitions are to be reported \\\hline
 Discriminant & None \\\hline
@@ -646,8 +646,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonRepParMonDefRepSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepParMonDefRep Component}{tab:MonRepParMonDefRepSpec}{Name & MonRepParMonDefRep(12,9)}
+\def \printOutCmpMonRepParMonDefRepSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepParMonDefRep Component}{tab:OutCmpMonRepParMonDefRepSpec}{Name & MonRepParMonDefRep(12,9)}
 Description & Report generated in response to a (12,8) command to report one or more monitoring definitions. \\\hline
 Parameters & The maximum transition reporting delay, and the description of all requested parameter monitors. Each parameter monitor description consists of: parameter monitor identifier, identifier of monitored data item, description of validity condition of parameter monitor (identifier of validity data item, mask and expected value), monitoring interval, monitoring status, repetition number, check type and check-dependent data \\\hline
 Discriminant & None \\\hline
@@ -658,8 +658,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printMonRepOutOfLimitsCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepOutOfLimitsCmd Component}{tab:MonRepOutOfLimitsCmdSpec}{Name & MonRepOutOfLimitsCmd(12,10)}
+\def \printInCmdMonRepOutOfLimitsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepOutOfLimitsCmd Component}{tab:InCmdMonRepOutOfLimitsCmdSpec}{Name & MonRepOutOfLimitsCmd(12,10)}
 Description & This command triggers the generation of a (12,11) report holding the parameter monitors which are out of limits \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -670,8 +670,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonRepOutOfLimitsRepSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepOutOfLimitsRep Component}{tab:MonRepOutOfLimitsRepSpec}{Name & MonRepOutOfLimitsRep(12,11)}
+\def \printOutCmpMonRepOutOfLimitsRepSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepOutOfLimitsRep Component}{tab:OutCmpMonRepOutOfLimitsRepSpec}{Name & MonRepOutOfLimitsRep(12,11)}
 Description & Report generated in response to a (12,10) command carrying the parameter monitors which are out of limits \\\hline
 Parameters & The description of the monitors which are out of limits. Each description consists of: parameter monitor identifier, identifier of monitored data item, check type, current parameter value, value of crossed limit, previous and current checking status, time when the monitoring violation occurred. \\\hline
 Discriminant & None \\\hline
@@ -682,8 +682,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printMonCheckTransRepSpec#1 {
-\begin{pnptable}{#1}{Specification of MonCheckTransRep Component}{tab:MonCheckTransRepSpec}{Name & MonCheckTransRep(12,12)}
+\def \printOutCmpMonCheckTransRepSpec#1 {
+\begin{pnptable}{#1}{Specification of MonCheckTransRep Component}{tab:OutCmpMonCheckTransRepSpec}{Name & MonCheckTransRep(12,12)}
 Description & Report carrying the content of the Check Transition List (CTL). \\\hline
 Parameters & The entries in the Check Transition List. \\\hline
 Discriminant & None \\\hline
@@ -694,8 +694,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printMonRepParMonStatCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepParMonStatCmd Component}{tab:MonRepParMonStatCmdSpec}{Name & MonRepParMonStatCmd(12,13)}
+\def \printInCmdMonRepParMonStatCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepParMonStatCmd Component}{tab:InCmdMonRepParMonStatCmdSpec}{Name & MonRepParMonStatCmd(12,13)}
 Description & This command triggers the generation of a (12,14) report carrying the status of all parameter monitors \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -706,8 +706,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonRepParMonStatRepSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepParMonStatRep Component}{tab:MonRepParMonStatRepSpec}{Name & MonRepParMonStatRep(12,14)}
+\def \printOutCmpMonRepParMonStatRepSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepParMonStatRep Component}{tab:OutCmpMonRepParMonStatRepSpec}{Name & MonRepParMonStatRep(12,14)}
 Description & Report generated in response to a (12,13) report carrying the status of all currently defined parameter monitors \\\hline
 Parameters & The checking status of all parameter monitors currently defined in the PDML \\\hline
 Discriminant & None \\\hline
@@ -718,8 +718,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printMonEnbParMonFuncCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonEnbParMonFuncCmd Component}{tab:MonEnbParMonFuncCmdSpec}{Name & MonEnbParMonFuncCmd(12,15)}
+\def \printInCmdMonEnbParMonFuncCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonEnbParMonFuncCmd Component}{tab:InCmdMonEnbParMonFuncCmdSpec}{Name & MonEnbParMonFuncCmd(12,15)}
 Description & Command to enable the monitoring function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -730,8 +730,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonDisParMonFuncCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonDisParMonFuncCmd Component}{tab:MonDisParMonFuncCmdSpec}{Name & MonDisParMonFuncCmd(12,16)}
+\def \printInCmdMonDisParMonFuncCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDisParMonFuncCmd Component}{tab:InCmdMonDisParMonFuncCmdSpec}{Name & MonDisParMonFuncCmd(12,16)}
 Description & Command to disable the parameter monitoring function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -742,8 +742,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonEnbFuncMonCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonEnbFuncMonCmd Component}{tab:MonEnbFuncMonCmdSpec}{Name & MonEnbFuncMonCmd(12,17)}
+\def \printInCmdMonEnbFuncMonCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonEnbFuncMonCmd Component}{tab:InCmdMonEnbFuncMonCmdSpec}{Name & MonEnbFuncMonCmd(12,17)}
 Description & Command to enable the functional monitoring function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -754,8 +754,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonDisFuncMonCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonDisFuncMonCmd Component}{tab:MonDisFuncMonCmdSpec}{Name & MonDisFuncMonCmd(12,18)}
+\def \printInCmdMonDisFuncMonCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDisFuncMonCmd Component}{tab:InCmdMonDisFuncMonCmdSpec}{Name & MonDisFuncMonCmd(12,18)}
 Description & Command to disable the functional monitoring function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -766,8 +766,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonEnbFuncMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonEnbFuncMonDefCmd Component}{tab:MonEnbFuncMonDefCmdSpec}{Name & MonEnbFuncMonDefCmd(12,19)}
+\def \printInCmdMonEnbFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonEnbFuncMonDefCmd Component}{tab:InCmdMonEnbFuncMonDefCmdSpec}{Name & MonEnbFuncMonDefCmd(12,19)}
 Description & Command to enable one or more functional monitoring definitions \\\hline
 Parameters & The identifiers of the functional monitors to be enabled \\\hline
 Discriminant & None \\\hline
@@ -778,8 +778,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonDisFuncMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonDisFuncMonDefCmd Component}{tab:MonDisFuncMonDefCmdSpec}{Name & MonDisFuncMonDefCmd(12,20)}
+\def \printInCmdMonDisFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDisFuncMonDefCmd Component}{tab:InCmdMonDisFuncMonDefCmdSpec}{Name & MonDisFuncMonDefCmd(12,20)}
 Description & Command to disable one ore more functional monitoring definitions \\\hline
 Parameters & The identifiers of the functional monitors to be disabled \\\hline
 Discriminant & None \\\hline
@@ -790,8 +790,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonProtFuncMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonProtFuncMonDefCmd Component}{tab:MonProtFuncMonDefCmdSpec}{Name & MonProtFuncMonDefCmd(12,21)}
+\def \printInCmdMonProtFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonProtFuncMonDefCmd Component}{tab:InCmdMonProtFuncMonDefCmdSpec}{Name & MonProtFuncMonDefCmd(12,21)}
 Description & Command to protect one or more functional monitoring definitions \\\hline
 Parameters & The identifiers of the functional monitors to be protected \\\hline
 Discriminant & None \\\hline
@@ -802,8 +802,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonUnprotFuncMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonUnprotFuncMonDefCmd Component}{tab:MonUnprotFuncMonDefCmdSpec}{Name & MonUnprotFuncMonDefCmd(12,22)}
+\def \printInCmdMonUnprotFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonUnprotFuncMonDefCmd Component}{tab:InCmdMonUnprotFuncMonDefCmdSpec}{Name & MonUnprotFuncMonDefCmd(12,22)}
 Description & Command to unprotect one or more functional monitoring definitions \\\hline
 Parameters & The identifiers of the functional monitors to be unprotected \\\hline
 Discriminant & None \\\hline
@@ -814,8 +814,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonAddFuncMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonAddFuncMonDefCmd Component}{tab:MonAddFuncMonDefCmdSpec}{Name & MonAddFuncMonDefCmd(12,23)}
+\def \printInCmdMonAddFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonAddFuncMonDefCmd Component}{tab:InCmdMonAddFuncMonDefCmdSpec}{Name & MonAddFuncMonDefCmd(12,23)}
 Description & Command to add one or more functional monitoring definitions \\\hline
 Parameters & The description of the functional monitors to be added. Each description consists of: identifier, description of check validity condition (identifier of validity data item. mask, expected value), the event definition identifier, minimum failing number, list of identifiers of parameter monitors to be associated to the functional monitor.  \\\hline
 Discriminant & None \\\hline
@@ -826,8 +826,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonDelFuncMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonDelFuncMonDefCmd Component}{tab:MonDelFuncMonDefCmdSpec}{Name & MonDelFuncMonDefCmd(12,24)}
+\def \printInCmdMonDelFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDelFuncMonDefCmd Component}{tab:InCmdMonDelFuncMonDefCmdSpec}{Name & MonDelFuncMonDefCmd(12,24)}
 Description & Command to delete one or more functional monitoring definitions to the FMDL \\\hline
 Parameters & The identifiers of the functional monitors to be deleted \\\hline
 Discriminant & None \\\hline
@@ -838,8 +838,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonRepFuncMonDefCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepFuncMonDefCmd Component}{tab:MonRepFuncMonDefCmdSpec}{Name & MonRepFuncMonDefCmd(12,25)}
+\def \printInCmdMonRepFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepFuncMonDefCmd Component}{tab:InCmdMonRepFuncMonDefCmdSpec}{Name & MonRepFuncMonDefCmd(12,25)}
 Description & This command triggers the generation of a (12,26) report carrying the definition of one or more functional monitors \\\hline
 Parameters & The identifiers of the functional monitors whose definition is to be reported \\\hline
 Discriminant & None \\\hline
@@ -850,8 +850,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonRepFuncMonDefRepSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepFuncMonDefRep Component}{tab:MonRepFuncMonDefRepSpec}{Name & MonRepFuncMonDefRep(12,26)}
+\def \printOutCmpMonRepFuncMonDefRepSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepFuncMonDefRep Component}{tab:OutCmpMonRepFuncMonDefRepSpec}{Name & MonRepFuncMonDefRep(12,26)}
 Description & Report generated in response to a (12,25) command to carry the definition of some or all functional monitoring definitions \\\hline
 Parameters & The description of the functional monitors. Each description consists of: identifier, description of check validity condition (identifier of validity data item. mask, expected value), the protection status, the checking status, the event definition identifier, minimum failing number, list of identifiers of parameter monitors associated to the functional monitor.  \\\hline
 Discriminant & None \\\hline
@@ -862,8 +862,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printMonRepFuncMonStatCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepFuncMonStatCmd Component}{tab:MonRepFuncMonStatCmdSpec}{Name & MonRepFuncMonStatCmd(12,27)}
+\def \printInCmdMonRepFuncMonStatCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepFuncMonStatCmd Component}{tab:InCmdMonRepFuncMonStatCmdSpec}{Name & MonRepFuncMonStatCmd(12,27)}
 Description & This command triggers the generation of a (12,28) report carrying the status of all functional monitors \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -874,8 +874,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printMonRepFuncMonStatRepSpec#1 {
-\begin{pnptable}{#1}{Specification of MonRepFuncMonStatRep Component}{tab:MonRepFuncMonStatRepSpec}{Name & MonRepFuncMonStatRep(12,28)}
+\def \printOutCmpMonRepFuncMonStatRepSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepFuncMonStatRep Component}{tab:OutCmpMonRepFuncMonStatRepSpec}{Name & MonRepFuncMonStatRep(12,28)}
 Description & Report generated in response to a (12,27) command carrying the status of all currently defined functional monitors \\\hline
 Parameters & The checking status of all functional monitors currently defined in the PDML \\\hline
 Discriminant & None \\\hline
@@ -886,8 +886,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printLptDownFirstRepSpec#1 {
-\begin{pnptable}{#1}{Specification of LptDownFirstRep Component}{tab:LptDownFirstRepSpec}{Name & LptDownFirstRep(13,1)}
+\def \printOutCmpLptDownFirstRepSpec#1 {
+\begin{pnptable}{#1}{Specification of LptDownFirstRep Component}{tab:OutCmpLptDownFirstRepSpec}{Name & LptDownFirstRep(13,1)}
 Description & Report carrying the first part of a down-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and transfer data \\\hline
 Discriminant & None \\\hline
@@ -898,8 +898,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & The following actions are performed:\newline \newline (a) Load the first part of the large packet from the LPT Buffer\newline (b) Set the transaction identifier equal to largeMsgTransId\newline (c) Set the part number equal to partSeqNmb\newline (d) Increment partSeqNmb; and decrement lptRemSize by partSize\newline (e) Set the action outcome to: 'completed' \\\hline
 \end{pnptable}}
 
-\def \printLptDownInterRepSpec#1 {
-\begin{pnptable}{#1}{Specification of LptDownInterRep Component}{tab:LptDownInterRepSpec}{Name & LptDownInterRep(13,2)}
+\def \printOutCmpLptDownInterRepSpec#1 {
+\begin{pnptable}{#1}{Specification of LptDownInterRep Component}{tab:OutCmpLptDownInterRepSpec}{Name & LptDownInterRep(13,2)}
 Description & Report carrying an intermediate part of a down-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and\newline transfer data \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -910,8 +910,8 @@ Repeat Check & Report is repeated as long as lptRemSize is greater than partSize
 Update Action & The following actions are performed:\newline \newline (a) Load the next part of the large packet from the LPT Buffer\newline (b) Set the transaction identifier equal to largeMsgTransId\newline (c) Set the part number equal to partSeqNmb\newline (d) Increase partSeqNmb \newline (e) Decrement lptRemSize by partSize\newline (f) Set the action outcome to: 'completed' \\\hline
 \end{pnptable}}
 
-\def \printLptDownLastRepSpec#1 {
-\begin{pnptable}{#1}{Specification of LptDownLastRep Component}{tab:LptDownLastRepSpec}{Name & LptDownLastRep(13,3)}
+\def \printOutCmpLptDownLastRepSpec#1 {
+\begin{pnptable}{#1}{Specification of LptDownLastRep Component}{tab:OutCmpLptDownLastRepSpec}{Name & LptDownLastRep(13,3)}
 Description & Report carrying the last part of a down-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and transfer data \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -922,8 +922,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & The following actions are performed:\newline \newline (a) Load the last part of the large packet from the LPT Buffer\newline (b) Set the transaction identifier equal to largeMsgTransId\newline (c) Set the partnumber equal to partSeqNmb\newline (d) Set the action outcome to: 'completed' \\\hline
 \end{pnptable}}
 
-\def \printLptUpFirstCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of LptUpFirstCmd Component}{tab:LptUpFirstCmdSpec}{Name & LptUpFirstCmd(13,9)}
+\def \printInCmdLptUpFirstCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of LptUpFirstCmd Component}{tab:InCmdLptUpFirstCmdSpec}{Name & LptUpFirstCmd(13,9)}
 Description & Command to carry the first part of an up-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and part data for up-transfer \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -934,8 +934,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printLptUpInterCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of LptUpInterCmd Component}{tab:LptUpInterCmdSpec}{Name & LptUpInterCmd(13,10)}
+\def \printInCmdLptUpInterCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of LptUpInterCmd Component}{tab:InCmdLptUpInterCmdSpec}{Name & LptUpInterCmd(13,10)}
 Description & Command to carry an intermediate part of an up-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and part data for up-transfer \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -946,8 +946,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printLptUpLastCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of LptUpLastCmd Component}{tab:LptUpLastCmdSpec}{Name & LptUpLastCmd(13,11)}
+\def \printInCmdLptUpLastCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of LptUpLastCmd Component}{tab:InCmdLptUpLastCmdSpec}{Name & LptUpLastCmd(13,11)}
 Description & Command to carry the last part of an up-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and\newline part data for up-transfer \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -958,8 +958,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printLptUpAbortRepSpec#1 {
-\begin{pnptable}{#1}{Specification of LptUpAbortRep Component}{tab:LptUpAbortRepSpec}{Name & LptUpAbortRep(13,16)}
+\def \printOutCmpLptUpAbortRepSpec#1 {
+\begin{pnptable}{#1}{Specification of LptUpAbortRep Component}{tab:OutCmpLptUpAbortRepSpec}{Name & LptUpAbortRep(13,16)}
 Description & Report to notify the abortion of an up-transfer \\\hline
 Parameters & Large message transaction identifier and failure reason \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -970,8 +970,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & The large message transaction identifier is taken from parameter largeMsgTransId and the failure reason is read from variable lptFailCode. \\\hline
 \end{pnptable}}
 
-\def \printLptStartDownCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of LptStartDownCmd Component}{tab:LptStartDownCmdSpec}{Name & LptStartDownCmd(13,129)}
+\def \printInCmdLptStartDownCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of LptStartDownCmd Component}{tab:InCmdLptStartDownCmdSpec}{Name & LptStartDownCmd(13,129)}
 Description & Command to start a down-transfer \\\hline
 Parameters & Large message transaction identifier \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -982,8 +982,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printLptAbortDownCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of LptAbortDownCmd Component}{tab:LptAbortDownCmdSpec}{Name & LptAbortDownCmd(13,130)}
+\def \printInCmdLptAbortDownCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of LptAbortDownCmd Component}{tab:InCmdLptAbortDownCmdSpec}{Name & LptAbortDownCmd(13,130)}
 Description & Command to abort a down-transfer \\\hline
 Parameters & Large message transaction identifier \\\hline
 Discriminant & Large Message Trans. Identifier \\\hline
@@ -994,20 +994,32 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printTstAreYouAliveCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of TstAreYouAliveCmd Component}{tab:TstAreYouAliveCmdSpec}{Name & TstAreYouAliveCmd(17,1)}
+\def \printInCmdTstAreYouAliveCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of TstAreYouAliveCmd Component}{tab:InCmdTstAreYouAliveCmdSpec}{Name & TstAreYouAliveCmd(17,1)}
 Description & Command to perform and Are-You-Alive Connection Test \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Retrieve (17,2) report from OutFactory and set action outcome to 'success' if the retrieval succeeds. If the retrieval fails, generate error report OUTFACTORY FAILED and set outcome of Start Action to 'failed' \\\hline
+Start Action & Retrieve (17,2) report from OutFactory and set action outcome to 'success' if the retrieval succeeds. If the retrieval fails, generate error report OUTFACTORY FAILED and set outcome of Start Action to 'failed' with failure code VER\_\-REP\_\-CR\_\-FD \\\hline
 Progress Action & Configure the (17,2) report with a destination equal to the source of the (17,1), load it in the OutLoader, and then set the action outcome to 'completed' \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printTstAreYouAliveRepSpec#1 {
-\begin{pnptable}{#1}{Specification of TstAreYouAliveRep Component}{tab:TstAreYouAliveRepSpec}{Name & TstAreYouAliveRep(17,2)}
+\def \printOutCmpTstAreYouAliveCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of TstAreYouAliveCmd Component}{tab:OutCmpTstAreYouAliveCmdSpec}{Name & TstAreYouAliveCmd(17,1)}
+Description & Command to perform and Are-You-Alive Connection Test \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Destination & The application providing the test service \\\hline
+Enable Check & Default implementation \\\hline
+Ready Check & Default implementation \\\hline
+Repeat Check & Default implementation \\\hline
+Update Action & Default implementation \\\hline
+\end{pnptable}}
+
+\def \printOutCmpTstAreYouAliveRepSpec#1 {
+\begin{pnptable}{#1}{Specification of TstAreYouAliveRep Component}{tab:OutCmpTstAreYouAliveRepSpec}{Name & TstAreYouAliveRep(17,2)}
 Description & Report generated in response to a (17,1) command requesting an Are-You-Alive Connection Test \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -1018,20 +1030,29 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
-\def \printTstConnectCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of TstConnectCmd Component}{tab:TstConnectCmdSpec}{Name & TstConnectCmd(17,3)}
+\def \printInRepTstAreYouAliveRepSpec#1 {
+\begin{pnptable}{#1}{Specification of TstAreYouAliveRep Component}{tab:InRepTstAreYouAliveRepSpec}{Name & TstAreYouAliveRep(17,2)}
+Description & Report generated in response to a (17,1) command requesting an Are-You-Alive Connection Test \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Acceptance Check & Default implementation \\\hline
+Update Action & Set AreYouAliveSrc to the source of the report \\\hline
+\end{pnptable}}
+
+\def \printInCmdTstConnectCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of TstConnectCmd Component}{tab:InCmdTstConnectCmdSpec}{Name & TstConnectCmd(17,3)}
 Description & Command to perform and On-Board Connection Test.  \\\hline
 Parameters & Identifier of application with which the connection test is done \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Run the procedure Start Action of (17,3) Command of figure \ref{fig:Cmd17s3Start}) \\\hline
 Progress Action & Run the procedure Progress Action of (17,3) Command of figure \ref{fig:Cmd17s3Start}) \\\hline
-Termination Action & Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise \\\hline
+Termination Action & Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise with failure code VER\_\-TST\_\-TO \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printTstConnectRepSpec#1 {
-\begin{pnptable}{#1}{Specification of TstConnectRep Component}{tab:TstConnectRepSpec}{Name & TstConnectRep(17,4)}
+\def \printOutCmpTstConnectRepSpec#1 {
+\begin{pnptable}{#1}{Specification of TstConnectRep Component}{tab:OutCmpTstConnectRepSpec}{Name & TstConnectRep(17,4)}
 Description & Report generated in response to a (17,3) command requesting a On-Board Connection Test \\\hline
 Parameters & Identifier of application with which the connection test was done \\\hline
 Discriminant & None \\\hline
@@ -1040,5 +1061,17 @@ Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Default implementation (do nothing) \\\hline
+\end{pnptable}}
+
+\def \printInCmdDumSampleaSpec#1 {
+\begin{pnptable}{#1}{Specification of DumSample1 Component}{tab:InCmdDumSampleaSpec}{Name & DumSample1(255,1)}
+Description & Sample command used for testing purposes. The outcome of all its actions and checks can be set by setting user-commandable flags. Its actions increment the value of user-observable counters.  \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & The Ready Check returns the value of an internal flag (the Ready Flag) whose value is set through function <code>::CrFwInCmdSample1SetReadyFlag</code>. \\\hline
+Start Action & This action sets the outcome to the value of an internal counter (the Start Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetStartActionOutcome</code> and it increments the value of a counter (the Start Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetStartActionCounter</code>. \\\hline
+Progress Action & This action:\newline  (a) Sets the outcome to the value of an internal counter (the Progress Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetProgressActionOutcome</code>, and\newline  (b) It increments the progress step identifier if the progress step flag is set (its value is controlled through function <code>::CrFwInCmdSample1SetProgressActionFlag</code>. \\\hline
+Termination Action & This actions sets the outcome to the value of an internal counter (the Termination Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetTerminationActionOutcome</code> and it increments the value of a counter (the Termination Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetTerminationActionCounter</code>. \\\hline
+Abort Action & This action sets the outcome to the value of an internal counter (the Abort Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetAbortActionOutcome</code> and it increments the value of a counter (the Abort Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetAbortActionCounter</code>. \\\hline
 \end{pnptable}}
 

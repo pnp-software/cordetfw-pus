@@ -68,6 +68,12 @@ typedef unsigned short CrFwCmdRepKindIndex_t;
 /** Type for the component kind key in <code>CrFwInFactory.c</code> and <code>CrFwOutFactory.c</code>. */
 typedef unsigned int CrFwCmdRepKindKey_t;
 
+/** Type for the Progress Step Identifier of an InCommand */
+typedef unsigned short CrFwProgressStepId_t;
+
+/** Type for the counter of execution progress steps */
+typedef unsigned short CrFwExecStepId_t;
+
 /**
  * Type for the index in the pool of pre-allocated OutComponents in
  * the OutFactory (see <code>CrFwOutFactory.h</code>).
@@ -257,12 +263,12 @@ typedef enum {
 #define CR_FW_NBITS_APP_ID 11
 
 /** Maximum value of the service type attribute of InReports and InCommands */
-#define CR_FW_MAX_SERV_TYPE 100
+#define CR_FW_MAX_SERV_TYPE 255
 
 /** Maximum value of the service sub-type attribute of InReports and InCommands */
-#define CR_FW_MAX_SERV_SUBTYPE 150
+#define CR_FW_MAX_SERV_SUBTYPE 255
 
 /** Maximum value of the discriminant attribute of InReports and InCommands */
-#define CR_FW_MAX_DISCRIMINANT 50
+#define CR_FW_MAX_DISCRIMINANT 255
 
 #endif /* CRFW_USERCONSTANTS_H_ */

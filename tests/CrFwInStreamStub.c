@@ -96,11 +96,11 @@ CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t src) {
 	pcktCollectCnt--;
 	pcktSeqCnt++;
 	pckt = CrFwPcktMake(CrFwPcktGetMaxLength());
+    CrFwPcktSetCmdRepType(pckt, cmdRepType);
 	CrFwPcktSetSeqCnt(pckt, pcktSeqCnt);
 	CrFwPcktSetGroup(pckt, pcktGroup);
 	CrFwPcktSetDest(pckt, dest);
 	CrFwPcktSetCmdRepId(pckt, cmdRepId);
-	CrFwPcktSetCmdRepType(pckt, cmdRepType);
 	CrFwPcktSetServType(pckt, servType);
 	CrFwPcktSetServSubType(pckt, servSubType);
 	CrFwPcktSetDiscriminant(pckt, disc);

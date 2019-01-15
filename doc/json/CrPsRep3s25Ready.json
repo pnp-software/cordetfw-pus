@@ -1,0 +1,957 @@
+{
+     "editorVersion": "5.01",
+     "states": [
+          {
+               "id": 162,
+               "attrs": {
+                    "x": 402,
+                    "y": 184,
+                    "width": 170,
+                    "height": 32,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N1",
+                    "entryFunc": "CrPsRep3s25ReadyN1",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Set Cycle Counter to zero",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "embedSmId": null,
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false
+               },
+               "selected": false
+          },
+          {
+               "id": 164,
+               "attrs": {
+                    "x": 471,
+                    "y": 121,
+                    "width": 30,
+                    "height": 30,
+                    "r": 15,
+                    "rx": 15,
+                    "ry": 15,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "init",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 165,
+               "attrs": {
+                    "x": 474,
+                    "y": 268,
+                    "width": 24,
+                    "height": 24,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "DECISION1"
+               },
+               "selected": false
+          },
+          {
+               "id": 166,
+               "attrs": {
+                    "x": 285,
+                    "y": 259,
+                    "width": 112,
+                    "height": 44,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N2",
+                    "entryFunc": "CrPsRep3s25ReadyN2",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Ready Check\nreturns 'Ready'",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "embedSmId": null,
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false
+               },
+               "selected": false
+          },
+          {
+               "id": 168,
+               "attrs": {
+                    "x": 577,
+                    "y": 259,
+                    "width": 112,
+                    "height": 44,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N3",
+                    "entryFunc": "CrPsRep3s25ReadyN3",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Ready Check\nreturns 'Not Ready'",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "embedSmId": null,
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false
+               },
+               "selected": false
+          },
+          {
+               "id": 170,
+               "attrs": {
+                    "x": 405,
+                    "y": 328,
+                    "width": 168,
+                    "height": 32,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 4,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N4",
+                    "entryFunc": "CrPsRep3s25ReadyN4",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Increment Cycle Counter",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "embedSmId": null,
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false
+               },
+               "selected": false
+          },
+          {
+               "id": 172,
+               "attrs": {
+                    "x": 474,
+                    "y": 417,
+                    "width": 24,
+                    "height": 24,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "DECISION2"
+               },
+               "selected": false
+          },
+          {
+               "id": 173,
+               "attrs": {
+                    "x": 525,
+                    "y": 478,
+                    "width": 26,
+                    "height": 26,
+                    "r": 13,
+                    "rx": 13,
+                    "ry": 13,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "final",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 174,
+               "attrs": {
+                    "x": 220,
+                    "y": 72,
+                    "width": 268,
+                    "height": 44,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "note",
+                    "note": "This procedure implements the Ready Check\nfor Housekeeping/Diagnostic reports (3,25 and (3,26)"
+               },
+               "selected": false
+          },
+          {
+               "id": 176,
+               "attrs": {
+                    "x": 515,
+                    "y": 72,
+                    "width": 342,
+                    "height": 92,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "note",
+                    "note": "Flag_1 : (Cycle Counter != 0) || (SID is not enabled in RDL)\n\nThe Cycle Counter is given by the value of the 'cycleCnt' field in the\nReport Definition in the RDL corresponding to the Report's SID.\nSimilarly, the Period is given by the value of the 'period' field in the\nsame Report Definition of the RDL."
+               },
+               "selected": false
+          },
+          {
+               "id": 178,
+               "attrs": {
+                    "x": 296,
+                    "y": 452,
+                    "width": 148,
+                    "height": 44,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "note",
+                    "note": "A SID is defined if there\nis an entry for it in the RDL"
+               },
+               "selected": false
+          },
+          {
+               "id": 180,
+               "attrs": {
+                    "x": 471,
+                    "y": 438,
+                    "width": 6,
+                    "height": 6,
+                    "r": 6,
+                    "rx": 6,
+                    "ry": 6,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "notedot",
+                    "note": ""
+               },
+               "selected": false
+          }
+     ],
+     "connections": [
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              486.3125,
+                              156
+                         ],
+                         [
+                              "L",
+                              486.625,
+                              176
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 164,
+               "stateToID": 162,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              486.7375,
+                              221
+                         ],
+                         [
+                              "L",
+                              486.37430139249955,
+                              250.0558886000352
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 162,
+               "stateToID": 165,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              512.9775583986614,
+                              280.18352080543303
+                         ],
+                         [
+                              "L",
+                              569,
+                              280.56462585034024
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "CrPsRep3s25ReadyG1",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " Flag_1 ",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": -3,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 165,
+               "stateToID": 168,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              455.02252244736655,
+                              279.18604891404436
+                         ],
+                         [
+                              "L",
+                              400.9996149837971,
+                              279.5586206896552
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "CrPsRep3s25ReadyG1E",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " ! Flag_1 ",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 6,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": -4.000385016202927,
+                    "y": -1,
+                    "hasMoved": true
+               },
+               "stateFromID": 165,
+               "stateToID": 166,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              340.1290322580645,
+                              308
+                         ],
+                         [
+                              "L",
+                              339,
+                              343
+                         ],
+                         [
+                              "L",
+                              397,
+                              343.3866666666667
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 339,
+                         "y": 343,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 166,
+               "stateToID": 170,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              632.1290322580645,
+                              308
+                         ],
+                         [
+                              "L",
+                              631,
+                              343
+                         ],
+                         [
+                              "L",
+                              581,
+                              343.3521126760562
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 631,
+                         "y": 343,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 168,
+               "stateToID": 170,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              488.25882352941176,
+                              365
+                         ],
+                         [
+                              "L",
+                              487.04948013172384,
+                              399.2647296011588
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "CrPsRep3s25ReadyG2",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " Next Execution ",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": -45,
+               "shifty": 4,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 170,
+               "stateToID": 172,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              459,
+                              429
+                         ],
+                         [
+                              "L",
+                              222,
+                              429
+                         ],
+                         [
+                              "L",
+                              222,
+                              199
+                         ],
+                         [
+                              "L",
+                              394,
+                              199.6490566037737
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "CrIaReadyChk3s25ReadyGoToRst",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " (Cycle Counter == Period) && (SID is Defined) ",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 126,
+               "shifty": 81,
+               "vertexes": [
+                    {
+                         "x": 222,
+                         "y": 429,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 222,
+                         "y": 199,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 172,
+               "stateToID": 162,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              486,
+                              456
+                         ],
+                         [
+                              "L",
+                              486,
+                              491
+                         ],
+                         [
+                              "L",
+                              517,
+                              491
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "CrPsRep3s25ReadyGoToFin",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " SID is not defined ",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 64,
+               "shifty": -19,
+               "vertexes": [
+                    {
+                         "x": 486,
+                         "y": 491,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 172,
+               "stateToID": 173,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              513,
+                              429
+                         ],
+                         [
+                              "L",
+                              754,
+                              429
+                         ],
+                         [
+                              "L",
+                              754,
+                              199
+                         ],
+                         [
+                              "L",
+                              605,
+                              199
+                         ],
+                         [
+                              "L",
+                              503.31003402379804,
+                              268.21753986615425
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "3",
+                    "identifier": "",
+                    "guardFunc": "CrIaReadyChk3s25ReadyGoToDec",
+                    "actionFunc": "",
+                    "guardType": "run code",
+                    "actionType": "call function",
+                    "guardCode": "return 1;",
+                    "actionCode": "",
+                    "guardDesc": " (Cycle Counter != Period) && (SID is Defined) ",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": -133,
+               "shifty": 127,
+               "vertexes": [
+                    {
+                         "x": 754,
+                         "y": 429,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 754,
+                         "y": 199,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 605,
+                         "y": 199,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 172,
+               "stateToID": 165,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              449,
+                              448.9326923076924
+                         ],
+                         [
+                              "L",
+                              463,
+                              444.4903846153846
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": "-"
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 178,
+               "stateToID": 180,
+               "selected": false
+          }
+     ],
+     "globals": {
+          "paperPanX": 0,
+          "paperPanY": 0,
+          "attrs": {
+               "x": 0,
+               "y": 0,
+               "width": 1478,
+               "height": 593,
+               "r": 0,
+               "rx": 0,
+               "ry": 0,
+               "fill": "#eee",
+               "stroke": "#000",
+               "stroke-width": 0
+          },
+          "fwprop": {
+               "smName": "CrPsRep3s25Ready",
+               "editorType": "Pr",
+               "globalvar": [
+                    {
+                         "type": "int",
+                         "name": "",
+                         "value": ""
+                    }
+               ],
+               "smIncludes": "",
+               "smNotes": "",
+               "memalloc": "dynamic",
+               "displayInfo": 0,
+               "displayOrder": 1,
+               "smTags": "PUS"
+          }
+     }
+}

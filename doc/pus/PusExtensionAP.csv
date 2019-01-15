@@ -53,7 +53,7 @@ S1,3,Closes ILD-13,Operation to Report Acceptance Success by InLoader,Run the Co
 S1,4,Closes ICM-12,Operation to Report Start Failed for InCommand ,Run the Command Verification Failure Procedure of figure \ref{fig:CmdVerFail}
 S1,5,Closes ICM-13,Operation to Report Start Successful for InCommand ,Run the Command Verification Success Procedure of figure \ref{fig:CmdPrgrSucc}
 S1,6,Closes ICM-14,Operation to Report Progress Failed for InCommand,Run the Command Progress Failure Procedure \ref{fig:CmdPrgrFail}
-S1,7,Overrides ICM-15,Operation to Report Progress Successful for InCommand ,"Determine if a progress step has been completed and, if so, run the Command Progress Success Procedure"
+S1,7,Closes ICM-15,Operation to Report Progress Successful for InCommand ,Run the Command Progress Success Procedure \ref{fig:CmdPrgrSucc}
 S1,8,Closes ICM-16,Operation to Report Termination Failed for InCommand ,Run the Command Verification Failure Procedure of figure \ref{fig:CmdVerSucc}
 S1,9,Closes ICM-17,Operation to Report Report Termination Successful for InCommand ,Run the Command Verification Success Procedure of figure \ref{fig:CmdPrgrSucc}
 S12,1,New AP,Definition of Parameter Monitoring Procedures,"Three parameter monitoring procedures are defined (limit check, expected value and delta check)"

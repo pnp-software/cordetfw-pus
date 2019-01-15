@@ -292,7 +292,7 @@ There are some terminological differences between PUS and CORDET. For clarity, t
 \subsubsection{Multi-Instruction Requests}
 In the PUS, a request (command) contains one or more instructions. In the CORDET Framework, the concept of Instruction does not exist: instructions are implicitly embedded within commands. Instructions therefore only arise in the definition of the individual commands. With reference to clause 5.3.3.2, two points need to be noted. Firstly, for multi-instruction commands, the PUS Extension does not impose an upper boundary on the number of instructions in a command. Such an upper boundary, if needed, must be enforced by the user (e.g. in the SRDB). Secondly, for commands pre-defined by the PUS Extension, if a command can hold more than one instruction, then all these instructions are of the same type (i.e. a situation where the same command instance may hold instructions of different types is not allowed). 
 
-\subsubsection{Acknowledgement Flags} In the PUS, each request (command) carries four flags whcih determine whether successful acceptance, start, progress and completion of that request should be reported to the request originator. The CORDET Framework defines four flags with the same semantics. It is important to stress that, in accordance with clause 5.4.11.2.2, the acknowledge flags only concern the reporting of verifications performed at the level of the \underline{request}. The PUS is silent about the conditions under which the outcome of instruction-level verifications should be reported. In this respect, the PUS Framework takes the  approach that, for instructions, only execution failures are reported and that they are reported unconditionally. 
+\subsubsection{Acknowledgement Flags} In the PUS, each request (command) carries four flags which determine whether successful acceptance, start, progress and completion of that request should be reported to the request originator. The CORDET Framework defines four flags with the same semantics. It is important to stress that, in accordance with clause 5.4.11.2.2, the acknowledge flags only concern the reporting of verifications performed at the level of the \underline{request}. The PUS is silent about the conditions under which the outcome of instruction-level verifications should be reported. The PUS Extension by-passes this issue by mapping instruction-level checks to request-level checks (see next point). 
 
 
 \subsubsection{Verification of Multi-Instruction Requests}
@@ -301,21 +301,17 @@ The request execution model of the PUS foresees the generation of verification r
 \begin{itemize}
 \item For requests which only contain one single instruction, the instruction-level verification check is subsumed in the request-level check.
 \item For requests which contain multiple instructions which are verified together (i.e. a request passes a verification stage only if all instructions pass the same verification stage), the instruction-level verification check is subsumed in the request-level check.
-\item For requests which contain multiple instructions which are verified individually, the instruction-level checks are implemented within the execution actions themselves. The request-level check is considered to be successful as long as at least one instruction-level check has been passed. In accordance with the rule stated in the previous paragraph, for instructions, only execution failures are reported.
+\item For requests which contain multiple instructions which are verified individually, then the instructions are treated as accepted and successfully started if the request was accepted and successfully started and each instruction is executed in a dedicated progress step. The latter implies that success and failure of execution of an instruction are reported through progress-level execution reports. If one or more instructions have failed their execution, then the request is considered to have failed its execution.
 \end{itemize}
 
-As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction' and the PUS stipulates that, as part of the Start-of-Execution verification, valid SIDs should be accepted for execution whereas invalid SIDs should trigger Failed-Start-of-Execution notifications which might eventually trigger the generation of (1,4) reports. The PUS Extension of the CORDET Framework responds to this requirement by specifying that the Start Action of the (3,5) command evaluates the validity of the SIDs and generates the (1,4) reports for each invalid SID. The Start Action is considered to be successful as long as at least one valid SID is found. 
+As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction'. Each SID is processed in a dedicated progress step. If a SID is illegal, then a (1,6) report is generated. If a SID is legal, then it is enabled and, if acknowledgement of successful progress-of-execution is enabled, a (1,5) report is generated. After all SIDs have been processed, the request is declared successful if all SIDs were legal and were enabled (in which case, if acknowledgement of successful completion-of-execution is enabled, a (1,7) report is generated); if, instead, one or more SIDs were illegal, then the request is declared to have failed its execution and a (1,8) is generated for it. Note that, with this approach, it is possible to have a situation where a (1,8) report is generated for a request but some instructions in that request have been successfully executed. 
 
 \subsubsection{Reporting Failed Progress of Execution}
 Clause 5.4.9a gives a choice between reporting failed progress of execution through Failed-Progress-Of-Execution notification reports or through Completion-Of-Execution notification reports. In general, both options are compatible with the CORDET Framework: in the former case the notification report is generated by the Report Progress Failed Operation of the framework (adaptation point ICM-14); in the latter case, the notification is generated by the Report Termination Failed Operation of the framework (adaptation point ICM-16). By default, the PUS Extension chooses the former option but application developers can override this choice if they wish.
 
-
 \subsubsection{Disabling Failure Verification Reports} 
-The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken by the PUS Extension is to generate a wide range of verification reports. At instantiation time, applications can restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
+The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken by the PUS Extension is to generate a wide range of verification reports. At instantiation time, applications can restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discriminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
  
-\subsubsection{Command Abort in Case of Progress of Execution Failures}
-Point 3 of clause 5.4.11.2.3a implies that a Progress-of-Execution failure for a command does not necessarily result in the command being aborted. By default, the CORDET Framework assumes that a command which has encountered a progress-of-execution failure is aborted after having generated a Progress-of-Execution Failure Report (see InCommand State Machine in reference [CR-SP]). It is TBC whether this behaviour is consistent with the PUS. In any case, applications who wish to generate a Completion-of-Execution Failure Report after the Progress-of-Execution Failure Report can do so in the Abort Action associated to the command.
-
 \subsubsection{Time-Tagging of Reports}
 Clause 5.4.2.1 of the PUS leaves applications the option to generate the time-tag of a report either before or after the time the report collects its data. In the CORDET Framework, the time-stamp of a report represents the time when an application makes a request to issue that report (this is after the report data have been collected). 
 
@@ -333,7 +329,7 @@ Clause 5.4.2.1 of the PUS leaves applications the option to generate the time-ta
 \endhead
 Application Process & In the PUS, an application process is an entity which hosts one or more sub-services. In the CORDET Framework, the equivalent concept is that of group (each command or report in a CORDET application must belong to a group). See also section \ref{sec:mapGroup}. \\  
 \hline
-Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in the CORDET Framework. They are implicit to commands. In the PUS Extension, instructions therefore arise when individual commands are defined. \\
+Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in the CORDET Framework. They are implicit to commands. In the PUS Extension, instructions therefore arise when individual commands are defined. If a command has multiple instructions, then each instruction is executed in a dedicated progress step of that command. \\
 \hline
 Message & In the PUS, a message is either a report or a request and its type is defined by the pair [service type, service sub-type]. The CORDET Framework directly supports the concepts of service types and sub-types and adds to them the concept of discriminant (see section \ref{sec:mapDisc}). \\
 \hline
@@ -341,7 +337,7 @@ Notification & In the PUS, a report contains one or more notifications. The noti
 \hline
 Parameter & In a generic sense, PUS parameters are mapped to command and report parameters. In the specific context of service 3, parameters are mapped to data items. \\
 \hline
-Progress Step & In the PUS, the Progress Step is an enumerated type. In the CORDET Framework it is a positive integer which is equal to the number of times that the Progress Action has been executed since the execution of the command started. \\
+Progress Step & In the PUS, the Progress Step is an enumerated type. In the CORDET Framework, a command is executed in a sequence of \textit{execution steps}. A set of logically related execution steps is a \textit{progress step}. It is up to each command to define what constitutes a progress step. \\
 \hline
 Request & The PUS Request is the same as the CORDET Command \\
 \hline
@@ -354,7 +350,7 @@ Transaction & In the PUS, a transaction is an exchange between a service provide
 
 %=============================================================================================
 \section{Report and Command Attributes}\label{sec:repCmdAttr}
-The CORDET Framework defines a number of attributes for commands and reports. Table \ref{tab:pcktAttPus} shows how they are mapped to the command and report attributes defined by the PUS. In most cases, the mapping is straightforward but, in the case of the discriminant and of the APID, clarifications are in order which are provided in the next two sub-sections. 
+The CORDET Framework defines a number of attributes for commands and reports. Table \ref{tab:pcktAttPus} shows how they are mapped to the command and report attributes defined by the PUS. 
 
 The PUS Extension of the CORDET Framework extends the range of command and report attributes to include all command and report attributes defined by the PUS: the components which implement PUS commands and reports provide operations to access all the attributes defined at PUS level. 
 
@@ -381,6 +377,9 @@ Within the framework, commands and reports are handled as instances of component
 \hline
 \texttt{Length} & Related to Packet Length Field (which is the length of the packet data field minus 1) \\
 \hline
+\texttt{ProgressStep} & The progress step of an incoming command \\
+\hline
+
 \texttt{TimeStamp} & Time field in data field header of telemetry packets; not present in telecommand packets \\
 \hline
 \texttt{Discriminant} & Service-specific mapping to parameter which determines command or report layout, see section \ref{sec:mapDisc} \\
@@ -671,7 +670,7 @@ The Request Verification Service is implemented by nine reports which are issued
 
 \begin{itemize}
 \item The report (1,10) is triggered in response to notifications of a routing failure for an incoming command (Routing and Reporting Sub-Service)
-\item The reports (1,1) and (1,2) are triggered in response to notifications of the failure or success of the acceptance of an incoming command (Acceptance and Reporting Sub-Service)
+\item The report (1,1) and (1,2) are triggered in response to notifications of the failure or success of the acceptance of an incoming command (Acceptance and Reporting Sub-Service) 
 \item The reports (1,3) to (1,8) are triggered in response to notifications of the failure or success of execution of an incoming command (Execution and Reporting Sub-Service)
 \end{itemize}
 
@@ -698,7 +697,7 @@ By way of summary, table \ref{tab:sourcesNotif} lists the sources of all notific
 \endhead
 Routing Failure Notification & This notification is issued by the \textit{Report Packet Destination Invalid Operation} which is called by the InLoader Execution Procedure when an application has received a command or report with a destination which is neither the application itself nor some other known application. & ILD-12 \\
 \hline
-Acceptance Failure Notification & This notification is issued by the \textit{Report Acceptance Failure Operation} which is called by the InLoader Load Command/Report Procedure when an incoming command has failed its acceptance check. & ILD-14 \\
+Acceptance Failure Notification & This notification is issued by the \textit{Report Acceptance Failure Operation} which is called by the InLoader Load Command/Report Procedure when: (a) an incoming command has failed its acceptance check, or (b) the InCommand component could not be created either to a lack or resources or to the triplet [type,sub-type,discriminant] being illegal, or (c) the InCommand component could not be loaded into its InManager due to the InManager Pending Command/Report List (PCRL) being full. & ILD-14 \\
 \hline
 Acceptance Success Notification & This notification is issued by the \textit{Report Acceptance Success Operation} which is called by the InLoader Load Command/Report Procedure when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance. & ILD-15 \\
 \hline
@@ -719,15 +718,6 @@ Execution Termination Failure Notification &  This notification is issued by the
 The framework extension closes the adaptation points in table \ref{tab:sourcesNotif} with behaviour which generates the service 1 verification reports. The first row in the table corresponds to a situation where a packet cannot be re-routed, which if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other rows correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
 
 The close-out behaviour for the adaptation points is defined in table \ref{tab:AP-S1}. It consists of running a procedure which creates the service 1 report, configures it, and then loads it into the OutLoader. The report is created by calling the \texttt{Make} operation of the OutFactory. This may fail if the OutFactory has run out of resources for new reports. In that case, error report OUTFACTORY\_FAIL is generated. Procedures which report failures also update the relevant observables (see section \ref{sec:serv1Obs}).
-
-The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Framework has the concept of 'Progress Step' which is a counter which counts the number of times an InCommand has been executed since it was 'in progress' (i.e. since it entered state PROGRESS). It is recognized that this mechanism may result in a step granularity which is too fine for some applications. The default logic for the generation of the (1,5) and (1,6) reports is then as follows:
-
-\begin{itemize}
-\item A return value of 'failed' for the Progress Action of the InCommand is interpreted as a progress step failure which triggers a (1,6) report. 
-\item A return value of 'continue' for the Progress Action of the InCommand may be interpreted as a progress step success which triggers a (1,5) report according to an application-specific logic to be inserted in adaptation point ICM-15 (Operation to Report Progress Success for InCommand). 
-\end{itemize}
-
-Note that the second bullet implies that the adaptation point ICM-15 cannot be closed at framework level but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
 
 The failure code of failure reports in service 1 is treated as a discriminant. This allows applications to selectively disable certain failure reports by using the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discriminant]. 
 
@@ -759,21 +749,21 @@ The tables in this section formally specify the service 1 components by specifyi
 \item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{itemize}
 
-With reference to the first bullet, it is recalled that the OutRegistry component of the CORDET Framework stores the enable status of out-going reports as a function of the report's type, sub-type and discriminant. By default, all out-going reports are enabled. Users who wish to disable a specific verification failure code or who wish to disable a certain service 1 sub-type can do so by setting its status to 'disabled' in the OutRegistry. Note that this is a run-time operation which would typically be done as part of an application's initialization.
+With reference to the first bullet, it is recalled that the OutRegistry component of the CORDET Framework stores the enable status of out-going reports as a function of the report's type, sub-type and discriminant. By default, all out-going reports are enabled. Users who wish to disable a specific service 1 sub-type can do so by setting its status to 'disabled' in the OutRegistry. This is a run-time operation which would typically be done as part of an application's initialization.
 
-\printVerSuccAccRepSpec{|c|p{10cm}|}
-\printVerFailedAccRepSpec{|c|p{10cm}|}
+\printOutCmpVerSuccAccRepSpec{|c|p{10cm}|}
+\printOutCmpVerFailedAccRepSpec{|c|p{10cm}|}
 \newpage
-\printVerSuccStartRepSpec{|c|p{10cm}|}
-\printVerFailedStartRepSpec{|c|p{10cm}|}
+\printOutCmpVerSuccStartRepSpec{|c|p{10cm}|}
+\printOutCmpVerFailedStartRepSpec{|c|p{10cm}|}
 \newpage
-\printVerSuccPrgrRepSpec{|c|p{10cm}|}
-\printVerFailedPrgrRepSpec{|c|p{10cm}|}
+\printOutCmpVerSuccPrgrRepSpec{|c|p{10cm}|}
+\printOutCmpVerFailedPrgrRepSpec{|c|p{10cm}|}
 \newpage
-\printVerSuccTermRepSpec{|c|p{10cm}|}
-\printVerFailedTermRepSpec{|c|p{10cm}|}
+\printOutCmpVerSuccTermRepSpec{|c|p{10cm}|}
+\printOutCmpVerFailedTermRepSpec{|c|p{10cm}|}
 \newpage
-\printVerFailedRoutingRepSpec{|c|p{10cm}|}
+\printOutCmpVerFailedRoutingRepSpec{|c|p{10cm}|}
 
 
 %---------------------------------------------------------------------------------
@@ -949,28 +939,28 @@ The tables in this section formally specify the service 3 commands and reports b
 \item For the housekeeping/diagnostic reports (3,25) and (3,26), two components are provided of which one is used when the reports are generated on a periodic basis and the other is used when the reports are generated in óne-shot' mode in response to a (3,27) or (3,28) command.
 \end{itemize}
 
-\printHkCreateHkCmdSpec{|c|p{10cm}|}
-\printHkCreateDiagCmdSpec{|c|p{10cm}|}
+\printInCmdHkCreHkCmdSpec{|c|p{10cm}|}
+\printInCmdHkCreDiagCmdSpec{|c|p{10cm}|}
 \newpage
-\printHkDelHkCmdSpec{|c|p{10cm}|}
-\printHkDelDiagCmdSpec{|c|p{10cm}|}
+\printInCmdHkDelHkCmdSpec{|c|p{10cm}|}
+\printInCmdHkDelDiagCmdSpec{|c|p{10cm}|}
 \newpage
-\printHkEnableHkCmdSpec{|c|p{10cm}|}
-\printHkDisableHkCmdSpec{|c|p{10cm}|}
+\printInCmdHkEnbHkCmdSpec{|c|p{10cm}|}
+\printInCmdHkDisHkCmdSpec{|c|p{10cm}|}
 \newpage
-\printHkEnableDiagCmdSpec{|c|p{10cm}|}
-\printHkDisableDiagCmdSpec{|c|p{10cm}|}
+\printInCmdHkEnbDiagCmdSpec{|c|p{10cm}|}
+\printInCmdHkDisDiagCmdSpec{|c|p{10cm}|}
 \newpage
-\printHkRepStructHkCmdSpec{|c|p{10cm}|}
-\printHkRepStructHkRepSpec{|c|p{10cm}|}
+\printInCmdHkRepStructHkCmdSpec{|c|p{10cm}|}
+\printOutCmpHkRepStructHkRepSpec{|c|p{10cm}|}
 \newpage
-\printHkRepStructDiagCmdSpec{|c|p{10cm}|}
-\printHkRepStructDiagRepSpec{|c|p{10cm}|}
+\printInCmdHkRepStructDiagCmdSpec{|c|p{10cm}|}
+\printOutCmpHkRepStructDiagRepSpec{|c|p{10cm}|}
 \newpage
-\printHkRepSpec{|c|p{10cm}|}
-\printHkDiagRepSpec{|c|p{10cm}|}
+\printOutCmpHkRepSpec{|c|p{10cm}|}
+\printOutCmpHkDiagRepSpec{|c|p{10cm}|}
 \newpage
-\printHkOneShotHkCmdSpec{|c|p{10cm}|}
+\printInCmdHkOneShotHkCmdSpec{|c|p{10cm}|}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Constants}\label{sec:serv3Const}
@@ -1040,16 +1030,16 @@ The event reporting service provides the capability to report event-like occurre
 
 The PUS recognizes four levels of event reports and associates to each level a service sub-type. Thus, for instance, all event reports of level 1 are carried by reports of type (5,1) and all event reports of level 2 are carried by event reports of type (5,2). 
 
-All event reports have the same behaviour irrespective of their level. The PUS Extension of the CORDET Framework consequently defines one single component EvtHk which may encapsulate an event report of any level.
+All event reports have the same behaviour irrespective of their level. The PUS Extension of the CORDET Framework one component for each event reporting level.
 
-Event reports may carry data. The Event Identifier (EID) determines the format of the data associated to an event report. The PUS Extension accordingly treats the event identifier as a discriminant. The range of discriminants and the data associated to each discriminant are adaptation points which must be defined at application level. No event identifiers are pre-defined at framework level.
+Event reports may carry data. The Event Identifier (EID) determines the format of the data associated to an event report. The PUS Extension accordingly treats the event identifier as a discriminant. The range of discriminants and the data associated to each discriminant are adaptation points which must be defined at application level. Some event identifiers are pre-defined at framework level. They are listed in appendix \ref{sec:preDefEvtRep}.
 
 Applications use event reports as follows:
 
 \begin{itemize}
-\item When an application encounters a situation which should trigger the generation of an event report, it retrieves an EvtHk component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the EvtHk component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type, sub-type and the discriminant of the event report.
-\item The application configures the component with the destination and with any data which 
-\item The application loads the EvtHk component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
+\item When an application encounters a situation which should trigger the generation of an event report, it retrieves an event component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the event component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type, sub-type and the discriminant of the event report.
+\item The application configures the component with the destination and with any data which are attached to the event 
+\item The application loads the event component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
 	\begin{itemize}
 	\item If the identifier of the event is enabled, then the event report will eventually be sent to its destination;
 	\item If the identifier of the event is not enabled, them the event report will be discarded.
@@ -1061,39 +1051,27 @@ Note that the configuration of the event reports must be done by the application
 Event identifiers can be enabled and disabled. The PUS Extension uses the report enable mechanism of the OutRegistry component to manage the enable status of event reports. This implies that, by default, all event identifiers are enabled. If an application needs some event identifiers to be disabled by default, it must disable them during the application initialization phase.
 
 %-------------------------------------------------------------------------------------
-\subsection{Pre-Defined Event Reports}\label{sec:serv5PreDefEvtRep}
-The event reports listed in section \ref{sec:preDefEvtRep} are pre-defined in the sense that they are generated in response to situations defined at framework level. For each of these events, the framework provides a Generate Pre-Defined Event Function which takes as parameters the type, subtype and discriminant value of the event report and all its parameters and then performs the following actions:
-
-\begin{itemize}
-\item Retrieve an instance of an OutComponent for the event report from the OutFactory
-\item If the retrieval is successful, it configures the event report with the event parameter data and loads it in the OutLoader
-\item If the retrieval is not successful, it generates an error report OUTFACTORY\_FAIL
-\end{itemize}
-
-
-%-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
 The tables in this section formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
 \begin{itemize}
-\item The same component EvtRep implements all four event reports (5,1) to (5,4). This is legitimate because all event reports - irrespective of their severity level - have the same behaviour. 
 \item The update of observables which are related to the occurrence of an event is done by the Enable Check of component EvtRep. This is appropriate because this action is executed every time an application creates an event report. The update of observables which are related to the generation of report is done by the Update Action of component EvtRep. This is appropriate because this action is only executed when an event report is actually issued by an application.
 \item Service 5 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
 \item Service 5 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{itemize}
 
 \newpage
-\printEvtRepaSpec{|c|p{10cm}|}
-\printEvtRepbSpec{|c|p{10cm}|}
+\printOutCmpEvtRepaSpec{|c|p{10cm}|}
+\printOutCmpEvtRepbSpec{|c|p{10cm}|}
 \newpage
-\printEvtRepcSpec{|c|p{10cm}|}
-\printEvtRepdSpec{|c|p{10cm}|}
+\printOutCmpEvtRepcSpec{|c|p{10cm}|}
+\printOutCmpEvtRepdSpec{|c|p{10cm}|}
 \newpage
-\printEvtEnbIdSpec{|c|p{10cm}|}
-\printEvtDisIdSpec{|c|p{10cm}|}
+\printInCmdEvtEnbCmdSpec{|c|p{10cm}|}
+\printInCmdEvtDisCmdSpec{|c|p{10cm}|}
 \newpage
-\printEvtRepDisIdSpec{|c|p{10cm}|}
-\printEvtDisIdRepSpec{|c|p{10cm}|}
+\printInCmdEvtRepDisCmdSpec{|c|p{10cm}|}
+\printOutCmpEvtDisRepSpec{|c|p{10cm}|}
 
 
 %---------------------------------------------------------------------------------
@@ -1200,32 +1178,32 @@ The group 1 is the default group. An application which does not need groups shou
 \subsection{Service 11 Report and Command Definition}\label{sec:serv11RepCmdDef}
 Tables \ref{tab:ScdEnbTbsSpec} to \ref{tab:ScdDisSubSchedSpec} formally specify the service 11 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
 
-\printScdEnbTbsSpec{|c|p{10cm}|}
-\printScdDisTbsSpec{|c|p{10cm}|}
+\printInCmdScdEnbTbsCmdSpec{|c|p{10cm}|}
+\printInCmdScdDisTbsCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printScdResTbsSpec{|c|p{10cm}|}
+\printInCmdScdResTbsCmdSpec{|c|p{10cm}|}
 \newpage
-\printScdInsTbaSpec{|c|p{10cm}|}
+\printInCmdScdInsTbaCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printScdDelTbaSpec{|c|p{10cm}|}
+\printInCmdScdDelTbaCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printScdEnbSubSchedSpec{|c|p{10cm}|}
-\printScdDisSubSchedSpec{|c|p{10cm}|}
+\printInCmdScdEnbSubSchedCmdSpec{|c|p{10cm}|}
+\printInCmdScdDisSubSchedCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printScdCreGrpSpec{|c|p{10cm}|}
-\printScdDelGrpSpec{|c|p{10cm}|}
+\printInCmdScdCreGrpCmdSpec{|c|p{10cm}|}
+\printInCmdScdDelGrpCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printScdEnbGrpSpec{|c|p{10cm}|}
-\printScdDisGrpSpec{|c|p{10cm}|}
+\printInCmdScdEnbGrpCmdSpec{|c|p{10cm}|}
+\printInCmdScdDisGrpCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printScdRepGrpSpec{|c|p{10cm}|}
-\printScdGrpRepSpec{|c|p{10cm}|}
+\printInCmdScdRepGrpCmdSpec{|c|p{10cm}|}
+\printOutCmpScdGrpRepSpec{|c|p{10cm}|}
 
 
 
@@ -1514,61 +1492,61 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
 Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
 
-\printMonEnbParMonDefCmdSpec{|c|p{10cm}|}
-\printMonDisParMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonEnbParMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonDisParMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonChgTransDelCmdSpec{|c|p{10cm}|}
-\printMonDelAllParMonCmdSpec{|c|p{10cm}|}
+\printInCmdMonChgTransDelCmdSpec{|c|p{10cm}|}
+\printInCmdMonDelAllParMonCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonAddParMonDefCmdSpec{|c|p{10cm}|}
-\printMonDelParMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonAddParMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonDelParMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonModParMonDefCmdSpec{|c|p{10cm}|}
-\printMonRepParMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonModParMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonRepParMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonRepParMonDefRepSpec{|c|p{10cm}|}
-\printMonRepOutOfLimitsCmdSpec{|c|p{10cm}|}
+\printOutCmpMonRepParMonDefRepSpec{|c|p{10cm}|}
+\printInCmdMonRepOutOfLimitsCmdSpec{|c|p{10cm}|}
  
 \newpage
-\printMonRepOutOfLimitsRepSpec{|c|p{10cm}|}
-\printMonCheckTransRepSpec{|c|p{10cm}|}
+\printOutCmpMonRepOutOfLimitsRepSpec{|c|p{10cm}|}
+\printOutCmpMonCheckTransRepSpec{|c|p{10cm}|}
 
 \newpage
-\printMonRepParMonStatCmdSpec{|c|p{10cm}|}
+\printInCmdMonRepParMonStatCmdSpec{|c|p{10cm}|}
 
-\printMonRepParMonStatRepSpec{|c|p{10cm}|}
-
-\newpage
-\printMonEnbParMonFuncCmdSpec{|c|p{10cm}|}
-\printMonDisParMonFuncCmdSpec{|c|p{10cm}|}
+\printOutCmpMonRepParMonStatRepSpec{|c|p{10cm}|}
 
 \newpage
-\printMonEnbFuncMonCmdSpec{|c|p{10cm}|}
-\printMonDisFuncMonCmdSpec{|c|p{10cm}|}
+\printInCmdMonEnbParMonFuncCmdSpec{|c|p{10cm}|}
+\printInCmdMonDisParMonFuncCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonEnbFuncMonDefCmdSpec{|c|p{10cm}|}
-\printMonDisFuncMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonEnbFuncMonCmdSpec{|c|p{10cm}|}
+\printInCmdMonDisFuncMonCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonProtFuncMonDefCmdSpec{|c|p{10cm}|}
-\printMonUnprotFuncMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonEnbFuncMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonDisFuncMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonAddFuncMonDefCmdSpec{|c|p{10cm}|}
-\printMonDelFuncMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonProtFuncMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonUnprotFuncMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonRepFuncMonDefCmdSpec{|c|p{10cm}|}
-\printMonRepFuncMonDefRepSpec{|c|p{10cm}|}
+\printInCmdMonAddFuncMonDefCmdSpec{|c|p{10cm}|}
+\printInCmdMonDelFuncMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printMonRepFuncMonStatCmdSpec{|c|p{10cm}|}
-\printMonRepFuncMonStatRepSpec{|c|p{10cm}|}
+\printInCmdMonRepFuncMonDefCmdSpec{|c|p{10cm}|}
+\printOutCmpMonRepFuncMonDefRepSpec{|c|p{10cm}|}
+
+\newpage
+\printInCmdMonRepFuncMonStatCmdSpec{|c|p{10cm}|}
+\printOutCmpMonRepFuncMonStatRepSpec{|c|p{10cm}|}
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Constants}\label{sec:serv12Const}
@@ -1776,23 +1754,23 @@ Finally, the LPT State Machine is responsible for managing the nOfUplinks variab
 \subsection{Service 13 Report and Command Definition}\label{sec:serv13RepCmdDef}
 Tables \ref{tab:LptDownFirstRepSpec} to \ref{tab:LptAbortDownCmdSpec} formally specify the service 13 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 13 (see section \ref{sec:defPusRepCmd}). 
 
-\printLptDownFirstRepSpec{|c|p{10cm}|}
+\printOutCmpLptDownFirstRepSpec{|c|p{10cm}|}
 
 \newpage
-\printLptDownInterRepSpec{|c|p{10cm}|}
-\printLptDownLastRepSpec{|c|p{10cm}|}
+\printOutCmpLptDownInterRepSpec{|c|p{10cm}|}
+\printOutCmpLptDownLastRepSpec{|c|p{10cm}|}
 
 \newpage
-\printLptUpFirstCmdSpec{|c|p{10cm}|}
-\printLptUpInterCmdSpec{|c|p{10cm}|}
+\printInCmdLptUpFirstCmdSpec{|c|p{10cm}|}
+\printInCmdLptUpInterCmdSpec{|c|p{10cm}|}
 
 \newpage
-\printLptUpLastCmdSpec{|c|p{10cm}|}
-\printLptUpAbortRepSpec{|c|p{10cm}|}
+\printInCmdLptUpLastCmdSpec{|c|p{10cm}|}
+\printOutCmpLptUpAbortRepSpec{|c|p{10cm}|}
 
 \newpage
-\printLptStartDownCmdSpec{|c|p{10cm}|}
-\printLptAbortDownCmdSpec{|c|p{10cm}|}
+\printInCmdLptStartDownCmdSpec{|c|p{10cm}|}
+\printInCmdLptAbortDownCmdSpec{|c|p{10cm}|}
 
 
 
@@ -1893,13 +1871,12 @@ Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 
 \end{itemize}
 
 \newpage
-
-\printAreYouAliveCmdSpec{|c|p{10cm}|}
-\printAreYouAliveRepSpec{|c|p{10cm}|}
+\printInCmdTstAreYouAliveCmdSpec{|c|p{10cm}|}
+\printOutCmpTstAreYouAliveRepSpec{|c|p{10cm}|}
 
 \newpage
-\printOnBoardConnectCmdSpec{|c|p{10cm}|}
-\printOnBoardConnectRepSpec{|c|p{10cm}|}
+\printInCmdTstConnectCmdSpec{|c|p{10cm}|}
+\printOutCmpTstConnectRepSpec{|c|p{10cm}|}
 
 
 

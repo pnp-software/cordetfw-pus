@@ -1,0 +1,908 @@
+{
+     "editorVersion": "5.01",
+     "states": [
+          {
+               "id": 1,
+               "attrs": {
+                    "x": 333,
+                    "y": 176,
+                    "width": 134,
+                    "height": 50,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "INACTIVE",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "",
+                    "doDesc": "",
+                    "exitDesc": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 4,
+               "attrs": {
+                    "x": 227,
+                    "y": 337,
+                    "width": 362,
+                    "height": 234,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "DOWN_TRASFER",
+                    "entryFunc": "CrPsLptDownTransferEntryAction",
+                    "doFunc": "CrPsLptDownTransferDoAction",
+                    "exitFunc": "CrPsLptDownTransferExitAction",
+                    "entryType": "define function",
+                    "doType": "define function",
+                    "exitType": "define function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "nOfDownlinks++;\npartSeqNmb = 1;\nlptRemSize = lptSize;\nSet Flag_2, Flag_3 and Flag_4 to True",
+                    "doDesc": "if (partSeqNmb == 1) && Flag_2 {\n  Load (13,1) report with lptDest as destination;\n  Flag_2 = False; }\nelseif (partSeqNmb == 2) && (lptRemSize > partSize) && Flag_3 {\n  Load (13,2) report with lptDest as destination;\n  Flag_3 = False; }\nelseif (lptRemSize <= partSize) && Flag_4 { \n  Load (13,3) report with lptDest as destination;\n  Flag_4 = False; }",
+                    "exitDesc": "Increment largeMsgTransId by LPT\\_N\\_BUF;\nnOfDownlinks--;",
+                    "embedSmId": "0",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false
+               },
+               "selected": false
+          },
+          {
+               "id": 9,
+               "attrs": {
+                    "x": 591,
+                    "y": -35,
+                    "width": 230,
+                    "height": 104,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "UP_TRANSFER",
+                    "entryFunc": "CrPsLptUpTransferEntryAction",
+                    "doFunc": "CrPsLptUpTransferDoAction",
+                    "exitFunc": "CrPsLptUpTransferExitAction",
+                    "entryType": "define function",
+                    "doType": "define function",
+                    "exitType": "define function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "nOfUplinks++;\nlptFailCode = NO_FAIL;",
+                    "doDesc": "if (Flag_1) lptFailCode = TIME_OUT",
+                    "exitDesc": "nOfDownlinks--",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 12,
+               "attrs": {
+                    "x": 417,
+                    "y": 239,
+                    "width": 210,
+                    "height": 54,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "note",
+                    "note": "Down-transfer is finished when all\ndata in LPT Buffer have been transferred\n(i.e.: lptRemSize is equal to zero)"
+               },
+               "selected": false
+          },
+          {
+               "id": 14,
+               "attrs": {
+                    "x": 556,
+                    "y": 198,
+                    "width": 6,
+                    "height": 6,
+                    "r": 6,
+                    "rx": 6,
+                    "ry": 6,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "notedot",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 15,
+               "attrs": {
+                    "x": 111,
+                    "y": -88.5,
+                    "width": 468,
+                    "height": 42,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "note",
+                    "note": "To each Large Packet Transfer (LPT) Buffer, an instance of this state machine is associated.\nEach LPT Buffer has an identifier i which is an integer in the range 0 to (LPT_N_BUF-1)."
+               },
+               "selected": false
+          },
+          {
+               "id": 17,
+               "attrs": {
+                    "x": 691,
+                    "y": 120,
+                    "width": 30,
+                    "height": 30,
+                    "r": 15,
+                    "rx": 15,
+                    "ry": 15,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "init",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 18,
+               "attrs": {
+                    "x": 174,
+                    "y": 586.5,
+                    "width": 484,
+                    "height": 68,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 10,
+                    "type": "note",
+                    "note": "The loading of a (13,x) report is done as  follows:\n- The report is retrieved from the OutFactory\n- If the retrieval from the OutFactory fails, error   report OUTFACTORY_FAIL is generated\n- If the retrieval succeeds,  the report is configured with its destination and is loaded in the OutLoader"
+               },
+               "selected": false
+          },
+          {
+               "id": 20,
+               "attrs": {
+                    "x": 652,
+                    "y": 157,
+                    "width": 192,
+                    "height": 66,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 12,
+                    "type": "note",
+                    "note": "Variable largeMsgTransId holds the\nLarge Message Transfer Identifier.  Its\nvalue is initialized to i where i is the \nidentifier of the LPT Buffer."
+               },
+               "selected": false
+          },
+          {
+               "id": 22,
+               "attrs": {
+                    "x": 112,
+                    "y": 50,
+                    "width": 272,
+                    "height": 114,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 13,
+                    "type": "note",
+                    "note": "The loading of the (13,16) report is done as  follows:\n- The report is retrieved from the OutFactory\n- If the retrieval from the OutFactory fails,\n  error   report OUTFACTORY_FAIL is generated\n- If the retrieval succeeds,  the report is configured with \n  its destination and is loaded in the OutLoader\n- The destination of the (13,16) report is the  source\n  of the up-transfer which has been aborted"
+               },
+               "selected": false
+          },
+          {
+               "id": 24,
+               "attrs": {
+                    "x": 430,
+                    "y": 41,
+                    "width": 6,
+                    "height": 6,
+                    "r": 6,
+                    "rx": 6,
+                    "ry": 6,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 4,
+                    "type": "notedot",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 25,
+               "attrs": {
+                    "x": 583,
+                    "y": -88.5,
+                    "width": 278,
+                    "height": 42,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 14,
+                    "type": "note",
+                    "note": "Flag_1 is true if the time since the last up-transfer\ncommand (as given by lptTime)  is larger than lptTimeOut"
+               },
+               "selected": false
+          },
+          {
+               "id": 27,
+               "attrs": {
+                    "x": 110,
+                    "y": -35,
+                    "width": 284,
+                    "height": 66,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 15,
+                    "type": "note",
+                    "note": "nOfUplinks and nOfDownlinks are global variables\nwhich count the number of currently active up- and down-\ntransfers. All other variables used by this state machine\nare instantiated for each LPT Buffer"
+               },
+               "selected": false
+          }
+     ],
+     "connections": [
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              404.1422924901185,
+                              332
+                         ],
+                         [
+                              "L",
+                              401.04347826086956,
+                              234
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "Abort",
+                    "guardFunc": "",
+                    "actionFunc": "CrPsLptGenerateAbortEvent",
+                    "guardType": "call function",
+                    "actionType": "define function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "actionDesc": "Generate event\nEVT_DOWN_ABORT",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 66,
+               "shifty": 40,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 4,
+               "stateToID": 1,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              400,
+                              171
+                         ],
+                         [
+                              "L",
+                              400,
+                              17
+                         ],
+                         [
+                              "L",
+                              583,
+                              17.000000000000014
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "StartUpTransfer",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "actionDesc": "",
+                    "note": ""
+               },
+               "shiftx": 76,
+               "shifty": -1,
+               "vertexes": [
+                    {
+                         "x": 400,
+                         "y": 17,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1,
+               "stateToID": 9,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              586,
+                              45.09756097560965
+                         ],
+                         [
+                              "L",
+                              501,
+                              65
+                         ],
+                         [
+                              "L",
+                              472,
+                              104
+                         ],
+                         [
+                              "L",
+                              424.4948453608248,
+                              168
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "Execute",
+                    "guardFunc": "CrPsLptIsFailed",
+                    "actionFunc": "CrPsLptLoadReport",
+                    "guardType": "define function",
+                    "actionType": "define function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "lptFailCode != NO_FAIL ",
+                    "actionDesc": "\nLoad (13,16) report",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 8,
+               "shifty": -33,
+               "vertexes": [
+                    {
+                         "x": 501,
+                         "y": 65,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 472,
+                         "y": 104,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 9,
+               "stateToID": 1,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              601.1724137931031,
+                              74
+                         ],
+                         [
+                              "L",
+                              546,
+                              104
+                         ],
+                         [
+                              "L",
+                              449.67010309278356,
+                              168
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "EndUpTransfer",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 85,
+               "shifty": -9,
+               "vertexes": [
+                    {
+                         "x": 546,
+                         "y": 104,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 9,
+               "stateToID": 1,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              594,
+                              454
+                         ],
+                         [
+                              "L",
+                              637,
+                              454
+                         ],
+                         [
+                              "L",
+                              637,
+                              202
+                         ],
+                         [
+                              "L",
+                              475,
+                              201.31645569620252
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "Execute",
+                    "guardFunc": "CrPsLptIsTransferFinished",
+                    "actionFunc": "",
+                    "guardType": "define function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " Transfer is finished ",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": -67,
+               "shifty": -68,
+               "vertexes": [
+                    {
+                         "x": 637,
+                         "y": 454,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 637,
+                         "y": 202,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 4,
+               "stateToID": 1,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              540.2153846153846,
+                              234
+                         ],
+                         [
+                              "L",
+                              552.7384615384616,
+                              212
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": "-"
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 12,
+               "stateToID": 14,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              686,
+                              135
+                         ],
+                         [
+                              "L",
+                              584,
+                              135
+                         ],
+                         [
+                              "L",
+                              475,
+                              174.09782608695653
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "CrPsLptInitialization",
+                    "guardType": "call function",
+                    "actionType": "define function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "actionDesc": "Initialize largeMsgTransId",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 41,
+               "shifty": -2,
+               "vertexes": [
+                    {
+                         "x": 584,
+                         "y": 135,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 17,
+               "stateToID": 1,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              328,
+                              201
+                         ],
+                         [
+                              "L",
+                              169,
+                              201
+                         ],
+                         [
+                              "L",
+                              169,
+                              454
+                         ],
+                         [
+                              "L",
+                              219,
+                              454
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "StartDownTransfer",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "actionDesc": "",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 99,
+               "shifty": -71,
+               "vertexes": [
+                    {
+                         "x": 169,
+                         "y": 201,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 169,
+                         "y": 454,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1,
+               "stateToID": 4,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              389,
+                              120.07284768211922
+                         ],
+                         [
+                              "L",
+                              399,
+                              121
+                         ],
+                         [
+                              "L",
+                              433,
+                              121
+                         ],
+                         [
+                              "L",
+                              433,
+                              55
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": "-"
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 399,
+                         "y": 121,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 433,
+                         "y": 121,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 22,
+               "stateToID": 24,
+               "selected": false
+          }
+     ],
+     "globals": {
+          "paperPanX": 0,
+          "paperPanY": -120,
+          "attrs": {
+               "x": 0,
+               "y": -120,
+               "width": 1658,
+               "height": 782,
+               "r": 0,
+               "rx": 0,
+               "ry": 0,
+               "fill": "#eee",
+               "stroke": "#000",
+               "stroke-width": 0
+          },
+          "fwprop": {
+               "smName": "CrPsLpt",
+               "editorType": "Sm",
+               "globalvar": [
+                    {
+                         "type": "int",
+                         "name": "",
+                         "value": ""
+                    }
+               ],
+               "smIncludes": "",
+               "smNotes": "",
+               "memalloc": "dynamic",
+               "displayInfo": 0,
+               "displayOrder": 0,
+               "smTags": "PUS"
+          }
+     }
+}
