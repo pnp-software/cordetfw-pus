@@ -413,9 +413,9 @@ Within the framework, commands and reports are handled as instances of component
 The CORDET discriminant is an optional attribute of a command or report. It is defined when the layout or the behaviour of a command or report are not exclusively determined by the command or report type and sub-type. In such cases, the discriminant becomes the determinant of the command or report layout and behaviour. The PUS does not have the concept of discriminant but some of its services use a particular field for the same purpose. For instance, the Event Identifier (EID) of service 5 reports determines the layout of a service 5 report and hence serves the same purpose as the CORDET discriminant. Similarly, some commands or reports carry variable-length blocks of data; in such cases, the parameter which defines the length of the data block acts as a discriminant. Bearing in mind these considerations, the PUS Extension maps the CORDET discriminant to the following PUS parameters:
 
 \begin{itemize}
+\item The Failure Identifier (FID) for service 1 failure reports
 \item The Structure Identifier (SID) for (3,25) reports
 \item The Event Identifier (EID) for reports (5,1) to (5,4)
-\item The Failure Identifier (FID) for service 1 failure reports
 \end{itemize}
 
 %----------------------------------------------------------------------------------
