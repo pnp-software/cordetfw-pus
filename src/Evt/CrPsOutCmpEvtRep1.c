@@ -9,21 +9,30 @@
  * @copyright P&P Software GmbH
  */
 
+/* Cordet Framework includes */
+#include "OutRegistry/CrFwOutRegistry.h"
+#include "OutCmp/CrFwOutCmp.h"
+
+/* PUS Extension includes */
 #include "CrPsOutCmpEvtRep1.h"
+#include "DataPool/CrPsDpEvt.h"
+#include "Pckt/CrPsPckt.h"
+#include "Pckt/CrPsPcktEvt.h"
 
 /**
  * Enable check of TM(5,1) EvtRep1.
  * Update service 5 observable nOfDetectedEvt x (’x’ is the event severity
- * level) and then retrieve the enable status from the Our-Registry as a
+ * level) and then retrieve the enable status from the Out-Registry as a
  * function of the report type, sub-type and discriminant
  * @param smDesc The state machine descriptor.
  * @return The enable check result.
  */
-CrFwBool_t CrPsOutCmpEvtRep1EnableCheck(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsOutCmpEvtRep1EnableCheck");
-   return 1;
+CrFwBool_t CrPsOutCmpEvtRep1EnableCheck(FwSmDesc_t smDesc) {
+  CrPsNEvtRep_t nOfEvt = getDpEvtNOfDetectedEvts_1();
+  setDpEvtNOfDetectedEvts_1(nOfEvt++);
+
+  CrFwBool_t enableStatus = CrFwOutRegistryIsEnabled(smDesc);
+  return enableStatus;
 }
 
 /**
@@ -34,9 +43,19 @@ CrFwBool_t CrPsOutCmpEvtRep1EnableCheck(FwSmDesc_t smDesc)
  * the event report.
  * @param smDesc The state machine descriptor.
  */
-void CrPsOutCmpEvtRep1UpdateAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsOutCmpEvtRep1UpdateAction");
-   return ;
+void CrPsOutCmpEvtRep1UpdateAction(FwSmDesc_t smDesc) {
+  CrPsEightBit_t Time[6];
+  CrFwPckt_t pckt = CrFwOutCmpGetPckt(smDesc);
+
+  CrPsNEvtRep_t nOfGenEvt = getDpEvtNOfGenEvtRep_1();
+  setDpEvtNOfGenEvtRep_1(nOfGenEvt++);
+
+  CrPsEvtId_t lastEvtEid = getEvtRep1EventId(pckt);
+  setDpEvtLastEvtEid_1(lastEvtEid);
+
+  getTmHeaderTime(pckt, &Time);
+  unsigned int coarseTime = Time[0]*0x1000000 + Time[1]*0x10000 + Time[2]*0x100 + Time[3];
+  unsigned int fineTime = Time[4]*0x100 + Time[5];
+  CrFwTime_t lastEvtTime = (CrFwTime_t)coarseTime + (CrFwTime_t)fineTime/65536.0;
+  setDpEvtLastEvtTime_1(lastEvtTime);
 }
