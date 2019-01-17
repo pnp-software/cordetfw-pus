@@ -22,7 +22,7 @@
  *
  */
 
-#include "CrPsEvtConfig.h"
+#include "Evt/CrPsEvtConfig.h"
 #include "CrPsTypes.h"
 
 unsigned int CrPsEvtConfigGetSeverity(CrPsEvtId_t evtId) {

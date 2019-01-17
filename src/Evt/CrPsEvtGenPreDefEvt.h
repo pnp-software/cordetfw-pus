@@ -29,9 +29,35 @@
 
 /**
  * Generate a parameterless event report with the given event identifier.
+ * This function:
+ * - retrieves an OutComponent to encapsulate the event report from the OutFactory,
+ * - configures it with its parameters, and
+ * - loads it in the OutLoader
+ * .
+ * If the OutComponent retrieval from the OutFactory fails, the function
+ * generates an error report of type OUTFACTORY_FAIL.
+ *
+ * If no severity level can be associated to the argument event identifier,
+ * the application error code is set to #CrPsEvtIdWithNoSevLevel.
  * @param evtId The event identifier
  */
 void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId);
 
-/*----------------------------------------------------------------------------*/
+/**
+ * Generate an event report with a dummy parameter.
+ * This function:
+ * - retrieves an OutComponent to encapsulate the event report from the OutFactory,
+ * - configures it with its parameters, and
+ * - loads it in the OutLoader
+ * .
+ * If the OutComponent retrieval from the OutFactory fails, the function
+ * generates an error report of type OUTFACTORY_FAIL.
+ *
+ * If no severity level can be associated to the argument event identifier,
+ * the application error code is set to #CrPsEvtIdWithNoSevLevel.
+ * @param evtId The event identifier
+ */
+void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar);
+
+
 #endif /* CRPSGENPREDEFEVT_H_ */
