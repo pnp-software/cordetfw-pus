@@ -10,32 +10,96 @@
  */
 
 #include "CrPsInCmdEvtRepDisCmd.h"
+#include "DataPool/CrPsDpEvt.h"
+#include "Pckt/CrPsPckt.h"
+#include "CrPsConstants.h"
+#include "CrPsServTypeId.h"
+
+#include "CrFwUserConstants.h"
+#include "OutCmp/CrFwOutCmp.h"
+#include "InCmd/CrFwInCmd.h"
+#include "OutFactory/CrFwOutFactory.h"
+
+static FwSmDesc_t rep5s8[EVT_MAX_N5s8];
+static unsigned int nOfRep5s8;
 
 /**
  * Start action of TC(5,7) EvtRepDisCmd.
- * Retrieve (5,8) report from OutFactory and set action outcome to 'success’
- * if retrieval succeeds. If the retrieval fails, generate error report
- * OUTFACTORY FAILED and set outcome of Start Action to ’failed’
- * @param smDesc The state machine descriptor.
+ * Retrieve as many (5,8) reports from OutFactory as are needed
+ * to hold the list of disabled event identifiers and set action
+ * outcome to 'success’ if all retrievals succeed. If any of the
+ * retrievals fail, generate error report OUTFACTORY FAILED and
+ * set outcome of Start Action to ’failed’
+ *
+ * @param smDesc The descriptor of the state machine encapsulating the (5,7) command.
  */
-void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdEvtRepDisCmdStartAction");
-   return ;
+void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
+  CrPsNEvtId_t nDisabledEvt;
+  unsigned int sizeOfEvtId, sizeOfEvtN, sizeOfHeader, maxNOfEid, nOfFull5s8, nOfPartial5s8, sizeFull5s8, sizePartial5s8, i;
+
+  /* Compute number of disabled events */
+  nDisabledEvt = getDpEvtNOfDisabledEid_1() + getDpEvtNOfDisabledEid_2() + getDpEvtNOfDisabledEid_3() + getDpEvtNOfDisabledEid_4();
+
+  /* Compute number of (5,8) packets required to report the disabled event identifiers */
+  sizeOfEvtId = getDpSize(DpIdlastEvtEid_1);
+  sizeOfEvtN = getDpSize(DpIdnOfDisabledEid_1);
+  sizeOfHeader = sizeof(TmHeader_t);
+  maxNOfEid = (CR_FW_MAX_PCKT_LENGTH - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
+  nOfFull5s8 = nDisabledEvt/maxNOfEid;
+  nOfPartial5s8 = nDisabledEvt - nOfFull5s8*maxNOfEid;
+  assert(nOfPartial5s8 < 2);
+
+  /* Compute the size of the (5,8) reports */
+  sizeFull5s8 = sizeOfHeader + sizeOfEvtN + maxNOfEid*sizeOfEvtId;
+  sizePartial5s8 = sizeOfHeader + sizeOfEvtN + (nDisabledEvt % maxNOfEid)*sizeOfEvtId;
+  assert(sizePartial5s8 < sizeFull5s8);
+
+  /* Check that the number of requested (5,8) reports is legal */
+  nOfRep5s8 = nOfFull5s8 + nOfPartial5s8;
+  if (nOfRep5s8 > EVT_MAX_N5s8) {
+    setDpVerFailCode(nOfFull5s8 + nOfPartial5s8);
+    CrFwSetSmOutcome(smDesc, VER_ILL_N5s8);
+    return;
+  }
+
+  /* Retrieve the full (5,8) Reports */
+  for (i=0; i<nOfFull5s8; i++) {
+    rep5s8[i] = CrFwOutFactoryMakeOutCmp(EVT_TYPE, EVTDISREP_STYPE, 0, sizeFull5s8);
+    if (rep5s8[i] == NULL) {
+      CrFwSetSmOutcome(smDesc, VER_CRE_FD);
+      return;
+    }
+  }
+
+  /* Retrieve the partial (5,8) Reports */
+  for (i=0; i<nOfPartial5s8; i++) {
+    rep5s8[i] = CrFwOutFactoryMakeOutCmp(EVT_TYPE, EVTDISREP_STYPE, 0, sizePartial5s8);
+    if (rep5s8[i] == NULL) {
+      CrFwSetSmOutcome(smDesc, VER_CRE_FD);
+      return;
+    }
+  }
 }
 
+/* ----------------------------------------------------------------------------------- */
 /**
  * Progress action of TC(5,7) EvtRepDisCmd.
  * Configure the (5,8) report with a destination equal to the source of the
  * (5,7) command, load it in the OutLoader, and set the action outcome to
- * ’completed’
- * @param smDesc The state machine descriptor.
+ * ’success’.
+ * @param smDesc The descriptor of the state machine encapsulating the (5,7) command.
  */
-void CrPsInCmdEvtRepDisCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdEvtRepDisCmdProgressAction");
-   return ;
+void CrPsInCmdEvtRepDisCmdProgressAction(FwSmDesc_t smDesc) {
+  unsigned int i;
+  CrFwDestSrc_t src5s7;
+
+  src5s7 = CrFwInCmdGetSrc(smDesc);
+  for (i=0; i<nOfRep5s8; i++) {
+    CrFwOutCmpSetDest(rep5s8[i], src5s7);
+    CrFwOutLoaderLoad(rep5s8[i]);
+  }
+
+  /* Set the action outcome to 'success' */
+  CrFwSetSmOutcome(smDesc, 1);
 }
 

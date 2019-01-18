@@ -47,14 +47,13 @@
  * to 'not completed'.
  *
  * The enable status of the event identifier is stored in the OutRegistry
- * component of the Cordet Framework.
- * @param smDesc The state machine descriptor.
+ * component of the CORDET Framework.
+ *
+ * @param smDesc The descriptor of the state machine encapsulating the (5,5) command.
  */
 void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
    CrFwPckt_t evtPckt = CrFwOutCmpGetPckt(smDesc);
-   static CrPsNEvtId_t nEvtId;
-   static CrFwCmdRepIndex_t cmdRepIndex;
-   static CrFwDiscriminant_t lowerBound, upperBound;
+   CrPsNEvtId_t nEvtId;
    CrPsEvtId_t eid;
    unsigned int sevLevel;
    CrFwProgressStepId_t progressStepId;
@@ -63,48 +62,38 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
    /* Get the progress step identifier */
    progressStepId = CrFwInCmdGetProgressStepId(smDesc);
 
-   /* Actions done only in first execution cycle */
-   if (progressStepId == 0) {
-     /* Get the lower and upper bounds for the event identifier */
-     cmdRepIndex = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, 1);
-     lowerBound = CrFwOutRegistryGetLowerDiscriminant(cmdRepIndex);
-     upperBound = CrFwOutRegistryGetUpperDiscriminant(cmdRepIndex);
-     /* Get the number of EIDs in the command */
-     nEvtId = getEvtEnbCmdN(evtPckt);
-   }
+   /* Get the number of EIDs in the command */
+   nEvtId = getEvtEnbCmdN(evtPckt);
 
    /* Get the event identifier to be process in the current cycle */
    eid = getEvtEnbCmdEventId(evtPckt, progressStepId);
 
-   if ( eid > upperBound)
+   /* Try to enable the argument event identifier */
+   sevLevel = CrPsEvtConfigSetEidEnableStatus(eid, 1);
+
+   if (sevLevel == 0) {     /* The EID is not defined */
+     setDpVerFailCode(eid);
      CrFwSetSmOutcome(smDesc, VER_ILL_EID);
-   else if ( eid < lowerBound)
-     CrFwSetSmOutcome(smDesc, VER_ILL_EID);
-   else {
-     sevLevel = CrPsEvtConfigGetSeverity(eid);
+   } else {
      switch (sevLevel) {
        case 1:
-         CrFwOutRegistrySetEnable(EVT_TYPE,sevLevel,eid,1);
          nOfDisabledEvt = getDpEvtNOfDisabledEid_1();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt+1);
+         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
          break;
        case 2:
-         CrFwOutRegistrySetEnable(EVT_TYPE,sevLevel,eid,1);
          nOfDisabledEvt = getDpEvtNOfDisabledEid_2();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt+1);
+         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
          break;
        case 3:
-         CrFwOutRegistrySetEnable(EVT_TYPE,sevLevel,eid,1);
          nOfDisabledEvt = getDpEvtNOfDisabledEid_3();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt+1);
+         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
          break;
        case 4:
-         CrFwOutRegistrySetEnable(EVT_TYPE,sevLevel,eid,1);
          nOfDisabledEvt = getDpEvtNOfDisabledEid_4();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt+1);
+         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
          break;
        default:
-         CrFwSetAppErrCode(CrPsEvtIdWithNoSevLevel);
+         CrFwSetAppErrCode(CrPsEvtIllSevLevel);
      }
      CrFwSetSmOutcome(smDesc, 1);
    }
