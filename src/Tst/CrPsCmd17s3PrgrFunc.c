@@ -30,6 +30,7 @@
 #include "FwPrConstants.h"
 #include "FwPrConfig.h"
 #include "FwSmConfig.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 /* Framework function definitions */
 #include "OutFactory/CrFwOutFactory.h"
@@ -48,7 +49,6 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc) {
   FwSmDesc_t cmd17s3;
   CrPsTstData_t* prTstData;
   CrFwDestSrc_t srcId;
-  CrFwCmpData_t* cmpData;
 
   /* Retrieve the data structure attached to the procedure */
   prTstData = (CrPsTstData_t*)FwPrGetData(prDesc);
@@ -81,7 +81,6 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc) {
 void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc) {
   FwSmDesc_t cmd17s3;
   CrPsTstData_t* prTstData;
-  CrFwCmpData_t* cmpData;
 
   /* Retrieve the data structure attached to the procedure */
   prTstData = (CrPsTstData_t*)FwPrGetData(prDesc);
@@ -103,7 +102,6 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc) {
   FwSmDesc_t rep17s4;
   FwSmDesc_t cmd17s3;
   CrPsTstData_t* prTstData;
-  CrFwCmpData_t* cmpData;
 
   /* Retrieve the data structure attached to the procedure */
   prTstData = (CrPsTstData_t*)FwPrGetData(prDesc);
