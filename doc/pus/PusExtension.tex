@@ -1050,7 +1050,6 @@ Note that the configuration of the event reports must be done by the application
 
 Event identifiers can be enabled and disabled. The PUS Extension uses the report enable mechanism of the OutRegistry component to manage the enable status of event reports. This implies that, by default, all event identifiers are enabled. If an application needs some event identifiers to be disabled by default, it must disable them during the application initialization phase (adaptation point P-S5-3).
 
-The mapping of event identifiers to their severity level is an application-level decision and the PUS Extension only defines an interface through which the framework may retrieve the severity level of a given event identifier (adaptation point TBD).
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
@@ -1070,6 +1069,7 @@ The tables in this section formally specify the service 5 commands and reports b
 \printOutCmpEvtRepdSpec{|c|p{10cm}|}
 \newpage
 \printInCmdEvtEnbCmdSpec{|c|p{10cm}|}
+\newpage
 \printInCmdEvtDisCmdSpec{|c|p{10cm}|}
 \newpage
 \printInCmdEvtRepDisCmdSpec{|c|p{10cm}|}
