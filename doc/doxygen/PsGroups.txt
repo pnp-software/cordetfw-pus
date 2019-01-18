@@ -92,7 +92,7 @@
  * Event reports may carry data. The Event Identifier (EID) determines the format of the data
  * associated to an event report. The PUS Extension accordingly treats the event identifier
  * as a discriminant. The range of discriminants and the data associated to each discriminant
- * are adaptation points which must be defined at application level. No event identifiers are
+ * are adaptation points which must be defined at application level. Some event reports are 
  * pre-defined at framework level.
  */
 
