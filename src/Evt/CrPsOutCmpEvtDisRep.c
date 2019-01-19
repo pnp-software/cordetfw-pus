@@ -10,16 +10,77 @@
  */
 
 #include "CrPsOutCmpEvtDisRep.h"
+#include "DataPool/CrPsDpEvt.h"
+#include "Pckt/CrPsPckt.h"
+#include "CrPsConstants.h"
+#include "CrPsServTypeId.h"
+
+#include "CrFwUserConstants.h"
+#include "OutCmp/CrFwOutCmp.h"
+#include "InCmd/CrFwInCmd.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 /**
  * Update action of TM(5,8) EvtDisRep.
- * Load the list of disabled event identifiers from arrays isEidEnabled1 to
- * isEidEnabled4
+ * Load the list of disabled event identifiers. First, the event
+ * identifiers of severity level 1 are loaded in order of increasing
+ * identifier. Then, the  event identifiers of severity level 2 are
+ * loaded in order of increasing identifier. And so on for severity
+ * levels 3 and 4. If one single (5,8) report is not sufficient to
+ * hold all disabled event identifiers, then the event identifiers
+ * are loaded in successive (5,8) reports which are triggered by
+ * the same (5,7) command.
+ *
+ * If more than one (5,8) reports are needed to carry all disabled
+ * event identifier, the Event Position Buffer in module CrPsEvtConfig.h is used to
+ * keep track of the position of the event identifier being processed.
+ *
  * @param smDesc The state machine descriptor.
  */
-void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsOutCmpEvtDisRepUpdateAction");
-   return ;
+void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
+  unsigned int evtSevLevel, evtPos;
+  unsigned int rep5s8Len, nEvtEid;
+  size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
+  CrFwPckt_t res5s8Pckt;
+  CrPsNEvtId_t i;
+  unsigned int nextSevLevel, nextPos;
+  CrPsEvtId_t* eid;
+  CrFwBool_t* isEidDis;
+
+  /* Retrieve the position of the first event to be carried by this report */
+  CrPsEvtConfigGetEvtIdPos(&evtSevLevel, &evtPos);
+  assert(evtSevLevel < 5);
+
+  /* Compute the number of event identifiers to be stored in this report */
+  rep5s8Len = CrFwOutCmpGetLength(smDesc);
+  sizeOfEvtId = getDpSize(DpIdlastEvtEid_1);
+  sizeOfEvtN = getDpSize(DpIdnOfDisabledEid_1);
+  sizeOfHeader = sizeof(TmHeader_t);
+  nEvtEid = (CR_FW_MAX_PCKT_LENGTH - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
+
+  /* Populate the (5,8) report */
+  res5s8Pckt = CrFwOutCmpGetPckt(smDesc);
+
+  setEvtDisRepN(res5s8Pckt, nEvtEid);
+  eid = CrPsEvtConfigGetListOfEid(evtSevLevel);
+  isEidDis = CrPsEvtConfigGetListOfDisabledEid(evtSevLevel);
+
+  while (i < nEvtEid) {
+      if (isEidDis[evtPos] == 1) {
+          setEvtDisRepEventId(res5s8Pckt, i, eid[evtPos]);
+          i++;
+      }
+      CrPsEvtConfigGetNextEvtId(evtSevLevel, evtPos, &nextSevLevel, &nextPos);
+      if (nextSevLevel < 1) { /* All event identifiers have been processed */
+          break;
+          assert(i == nEvtEid);
+      }
+      if (nextSevLevel != evtSevLevel) {
+          eid = CrPsEvtConfigGetListOfEid(nextSevLevel);
+          isEidDis = CrPsEvtConfigGetListOfDisabledEid(nextSevLevel);
+      }
+      evtSevLevel = nextSevLevel;
+      evtPos = nextPos;
+  }
 }

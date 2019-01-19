@@ -7,12 +7,15 @@
  * - Initialize the data structures used by the Event Reporting Service
  * - Check the legality of an event identifier
  * - Manage the enable/disable status of the event identifier
+ * - Provides an <i>Event Position Buffer</i> to allow different modules to exchange information
+ *   about the position of an event identifier between different modules
+ * - Provides an <i>iterator</i> to iterate through the event identifiers
  * .
  *
  * This module operates on the following data structures:
- * - The List Of Event Identifier: an array holding the list of event identifiers (in increasing
+ * - The Lists Of Event Identifier: an array holding the list of event identifiers (in increasing
  *   order) for each severity level
- * - The List Event Identifier Enable Status: an array holding the enable status of
+ * - The Lists Event Identifier Enable Status: an array holding the enable status of
  *   the event identifiers for each severity level
  * .
  * The event identifiers recognized by this module are those for which a service 5 packet
@@ -91,12 +94,64 @@ CrFwBool_t CrPsEvtConfigGetEidEnableStatus (CrPsEvtId_t evtId);
 CrFwBool_t CrPsEvtConfigIsEidLegal(CrPsEvtId_t evtId);
 
 /**
- * Return the pointer to the array of disabled event identifiers for the argument severity level.
+ * Return the pointer to the array of event identifiers for the argument severity level.
  * If the severity level is out-of-range, NULL is returned.
  * @return the pointer to the array of disabled event identifiers for the argument severity level
  * or NULL if the severity level is out-of-range
  */
-CrPsEvtId_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel);
+CrPsEvtId_t* CrPsEvtConfigGetListOfEid(unsigned int severityLevel);
+
+/**
+ * Return the pointer to the array of event identifier enabled status for the argument severity level.
+ * If the severity level is out-of-range, NULL is returned.
+ * @return the pointer to the array of disabled event identifiers for the argument severity level
+ * or NULL if the severity level is out-of-range
+ */
+CrFwBool_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel);
+
+/**
+ * Load the position of an event identifiers in the Event Position Buffer.
+ * The position of the event identifier is given by: (a) the event's severity level and (b)
+ * the event's position in the List of Event Identifiers.
+ * The content of the Event Position Buffer can be retrieved using function
+ * #CrPsEvtConfigGetEvtIdPos.
+ * @param sevLevel the severity level
+ * @param pos the position within the list of event identifiers
+ */
+void CrPsEvtConfigLoadEvtIdPos(unsigned int sevLevel, unsigned int pos);
+
+/**
+ * Retrieve the content of the Event Position Buffer (see function #CrPsEvtConfigLoadEvtIdPos).
+ *
+ * @param pSevLevel the severity level
+ * @param pPos the position within the list of event identifiers
+ */
+void CrPsEvtConfigGetEvtIdPos(unsigned int* pSevLevel, unsigned int* pPos);
+
+/**
+ * Iterate over all event identifiers.
+ * This function takes the position of an event identifier as input and returns the position
+ * of the next event identifier.
+ * An event identifier position is defined by its severity level and by the position within the
+ * corresponding List of Event Identifiers.
+ * The iteration is done in order of increasing identifier starting from the first severity 1 event
+ * identifier until the last severity 4 event identifier.
+ * When the last event identifier is reached, the function returns an illegal position with
+ * severity level set to zero.
+ *
+ * If the input severity level is illegal, a the function returns an illegal position with
+ * severity level set to -1.
+ * Input positions beyond the last position in a List of Event Identifiers are treated as
+ * legal and simply saturated.
+ *
+ * @param sevLevel the severity level of the current event identifier (input parameter)
+ * @param pos the position within the list of event identifiers of the current event identifier
+ * (input parameter)
+ * @param nextSevLevel the severity level of the next event identifier (output parameter)
+ * @param nextPos the position within the list of the next event identifiers (output parameter)
+ */
+void CrPsEvtConfigGetNextEvtId(unsigned int sevLevel, unsigned int pos,
+                                            unsigned int* nextSevLevel, unsigned int* nextPos);
 
 /**
  * Initialize the Event Reporting Service.

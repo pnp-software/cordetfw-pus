@@ -19,6 +19,7 @@
 #include "OutCmp/CrFwOutCmp.h"
 #include "InCmd/CrFwInCmd.h"
 #include "OutFactory/CrFwOutFactory.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 static FwSmDesc_t rep5s8[EVT_MAX_N5s8];
 static unsigned int nOfRep5s8;
@@ -31,11 +32,16 @@ static unsigned int nOfRep5s8;
  * retrievals fail, generate error report OUTFACTORY FAILED and
  * set outcome of Start Action to ’failed’
  *
+ * @constraint The number of (5,8) reports needed to carry all disabled event identifiers
+ * must be smaller than EVT_MAX_N5s8. Violation of this constraint results in the application
+ * error code being set to #CrIllNOf5s8.
+ *
  * @param smDesc The descriptor of the state machine encapsulating the (5,7) command.
  */
 void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   CrPsNEvtId_t nDisabledEvt;
-  unsigned int sizeOfEvtId, sizeOfEvtN, sizeOfHeader, maxNOfEid, nOfFull5s8, nOfPartial5s8, sizeFull5s8, sizePartial5s8, i;
+  unsigned int maxNOfEid, nOfFull5s8, nOfPartial5s8, sizeFull5s8, sizePartial5s8, i;
+  size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
 
   /* Compute number of disabled events */
   nDisabledEvt = getDpEvtNOfDisabledEid_1() + getDpEvtNOfDisabledEid_2() + getDpEvtNOfDisabledEid_3() + getDpEvtNOfDisabledEid_4();
@@ -57,9 +63,8 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   /* Check that the number of requested (5,8) reports is legal */
   nOfRep5s8 = nOfFull5s8 + nOfPartial5s8;
   if (nOfRep5s8 > EVT_MAX_N5s8) {
-    setDpVerFailCode(nOfFull5s8 + nOfPartial5s8);
-    CrFwSetSmOutcome(smDesc, VER_ILL_N5s8);
-    return;
+    nOfRep5s8 = EVT_MAX_N5s8;
+    CrFwSetAppErrCode(CrIllNOf5s8);
   }
 
   /* Retrieve the full (5,8) Reports */
@@ -98,6 +103,9 @@ void CrPsInCmdEvtRepDisCmdProgressAction(FwSmDesc_t smDesc) {
     CrFwOutCmpSetDest(rep5s8[i], src5s7);
     CrFwOutLoaderLoad(rep5s8[i]);
   }
+
+  /* Set the starting position in the Event Position Buffer */
+  CrPsEvtConfigLoadEvtIdPos(1,0);
 
   /* Set the action outcome to 'success' */
   CrFwSetSmOutcome(smDesc, 1);

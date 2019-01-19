@@ -30,6 +30,10 @@ static CrFwBool_t isEidDisabled_2[N_OF_DER_PCKT_EVT_REP2];
 static CrFwBool_t isEidDisabled_3[N_OF_DER_PCKT_EVT_REP3];
 static CrFwBool_t isEidDisabled_4[N_OF_DER_PCKT_EVT_REP4];
 
+/* Event Position Buffer */
+static unsigned int evtSevLevel;
+static unsigned int evtPos;
+
 /* ------------------------------------------------------------------------------------------------ */
 void CrPsEvtConfigInit() {
    return;
@@ -165,7 +169,7 @@ CrFwBool_t CrPsEvtConfigIsEidLegal(CrPsEvtId_t evtId) {
 }
 
 /* ------------------------------------------------------------------------------------------------ */
-CrPsEvtId_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel) {
+CrPsEvtId_t* CrPsEvtConfigGetListOfEid(unsigned int severityLevel) {
   switch (severityLevel) {
     case 1:
       return listOfEid_1;
@@ -178,4 +182,72 @@ CrPsEvtId_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel) {
     default:            /* Illegal severity level */
       return NULL;
   }
+}
+
+/* ------------------------------------------------------------------------------------------------ */
+CrFwBool_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel) {
+    switch (severityLevel) {
+      case 1:
+        return isEidDisabled_1;
+      case 2:
+        return isEidDisabled_2;
+      case 3:
+        return isEidDisabled_3;
+      case 4:
+        return isEidDisabled_4;
+      default:            /* Illegal severity level */
+        return NULL;
+    }
+}
+
+/* ------------------------------------------------------------------------------------------------ */
+void CrPsEvtConfigLoadEvtIdPos(unsigned int sevLevel, unsigned int pos) {
+  evtSevLevel = sevLevel;
+  evtPos = pos;
+}
+
+/* ------------------------------------------------------------------------------------------------ */
+void CrPsEvtConfigGetEvtIdPos(unsigned int* pSevLevel, unsigned int* pPos) {
+  *pSevLevel = evtSevLevel;
+  *pPos = evtPos;
+}
+
+/* ------------------------------------------------------------------------------------------------ */
+void CrPsEvtConfigGetNextEvtId(unsigned int sevLevel, unsigned int pos,
+                                            unsigned int* nextSevLevel, unsigned int* nextPos) {
+
+   /* Handle default case where we are within a List of Event Identifiers */
+   *nextSevLevel = sevLevel;
+   *nextPos = pos + 1;
+
+   /* Handle case where we are at the end of a List of Event Identifiers */
+   switch (sevLevel) {
+       case 1:
+           if (pos >= N_OF_DER_PCKT_EVT_REP1) {
+               *nextSevLevel = sevLevel + 1;
+               *nextPos = 0;
+           }
+           break;
+       case 2:
+           if (pos >= N_OF_DER_PCKT_EVT_REP2) {
+               *nextSevLevel = sevLevel + 1;
+               *nextPos = 0;
+           }
+           break;
+       case 3:
+           if (pos >= N_OF_DER_PCKT_EVT_REP3) {
+               *nextSevLevel = sevLevel + 1;
+               *nextPos = 0;
+           }
+           break;
+       case 4:
+           if (pos >= N_OF_DER_PCKT_EVT_REP4) {
+               *nextSevLevel = 0;
+               *nextPos = 0;
+           }
+           break;
+       default:
+           *nextSevLevel = -1;
+           *nextPos = 0;
+   }
 }
