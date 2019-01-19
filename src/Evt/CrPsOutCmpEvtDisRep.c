@@ -10,8 +10,11 @@
  */
 
 #include "CrPsOutCmpEvtDisRep.h"
+#include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpEvt.h"
+#include "Evt/CrPsEvtConfig.h"
 #include "Pckt/CrPsPckt.h"
+#include "Pckt/CrPsPcktEvt.h"
 #include "CrPsConstants.h"
 #include "CrPsServTypeId.h"
 
@@ -20,6 +23,7 @@
 #include "InCmd/CrFwInCmd.h"
 #include "OutFactory/CrFwOutFactory.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include <assert.h>
 
 /**
  * Update action of TM(5,8) EvtDisRep.
@@ -40,7 +44,7 @@
  */
 void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
   unsigned int evtSevLevel, evtPos;
-  unsigned int rep5s8Len, nEvtEid;
+  unsigned int nEvtEid;
   size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
   CrFwPckt_t res5s8Pckt;
   CrPsNEvtId_t i;
@@ -53,7 +57,6 @@ void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
   assert(evtSevLevel < 5);
 
   /* Compute the number of event identifiers to be stored in this report */
-  rep5s8Len = CrFwOutCmpGetLength(smDesc);
   sizeOfEvtId = getDpSize(DpIdlastEvtEid_1);
   sizeOfEvtN = getDpSize(DpIdnOfDisabledEid_1);
   sizeOfHeader = sizeof(TmHeader_t);

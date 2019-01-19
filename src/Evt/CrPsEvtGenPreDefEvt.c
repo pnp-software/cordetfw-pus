@@ -33,7 +33,7 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
   FwSmDesc_t evtRep;
 
   /* Get the event severity level */
-  sevLevel = CrPsEvtConfigGetSeverity(evtId);
+  sevLevel = CrPsEvtConfigGetSevLevel(evtId);
 
   /* - retrieves an OutComponent to encapsulate the event report from the OutFactory */
   switch (sevLevel) {
@@ -50,7 +50,7 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
       evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP4_STYPE,0,LEN_EVT_REP1);
       break;
     default:
-      CrFwSetAppErrCode(CrPsEvtIdWithNoSevLevel);
+      CrFwSetAppErrCode(crEvtIllEvtId);
       return;
   }
 
@@ -71,7 +71,7 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
   CrFwPckt_t evtPckt;
 
   /* Get the event severity level */
-  sevLevel = CrPsEvtConfigGetSeverity(evtId);
+  sevLevel = CrPsEvtConfigGetSevLevel(evtId);
 
   /* - retrieves an OutComponent to encapsulate the event report from the OutFactory */
   switch (sevLevel) {
@@ -82,7 +82,7 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
       evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP3_STYPE,0,LEN_EVT_REP1);
       break;
     default:
-      CrFwSetAppErrCode(CrPsWrongEvtIdForDumEvt);
+      CrFwSetAppErrCode(crEvtIllEvtId);
       return;
   }
 
@@ -97,7 +97,7 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
   if (sevLevel == 1)
     setEvtRep1_EVT_DUMMY_1Par(evtPckt, dummyPar);
   else
-    setEvtRep1_EVT_DUMMY_3Par(evtPckt, dummyPar);
+    setEvtRep3_EVT_DUMMY_3Par(evtPckt, dummyPar);
 
   CrFwOutLoaderLoad(evtRep);
 }

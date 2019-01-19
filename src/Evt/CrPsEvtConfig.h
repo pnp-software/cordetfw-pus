@@ -84,14 +84,15 @@ unsigned int CrPsEvtConfigSetEidEnableStatus (CrPsEvtId_t evtId, CrFwBool_t enab
 CrFwBool_t CrPsEvtConfigGetEidEnableStatus (CrPsEvtId_t evtId);
 
 /**
- * Return true if the event identifier is legal; false otherwise.
+ * Return the severity level of an event identifier.
+ * If the event identifier is illegal, the function returns zero.
  * An event identifier E is legal if a service 5 packet is defined which has E
  * as its event identifier.
  *
  * @param evtId the event identifier
- * @return true if the event identifier is legal; false otherwise
+ * @return the severity level of an event identifier if it is legal; return 0 otherwise
  */
-CrFwBool_t CrPsEvtConfigIsEidLegal(CrPsEvtId_t evtId);
+unsigned int CrPsEvtConfigGetSevLevel(CrPsEvtId_t evtId);
 
 /**
  * Return the pointer to the array of event identifiers for the argument severity level.

@@ -24,10 +24,12 @@
 #include "CrPsEvtConfig.h"
 #include "DataPool/CrPsDpEvt.h"
 #include "Pckt/CrPsPcktEvt.h"
+#include "DataPool/CrPsDpVer.h"
 
 #include "OutRegistry/CrFwOutRegistry.h"
 #include "InCmd/CrFwInCmd.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "OutCmp/CrFwOutCmp.h"
 
 /**
  * Progress action of TC(5,5) EvtEnbCmd.
@@ -93,7 +95,7 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
          setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
          break;
        default:
-         CrFwSetAppErrCode(CrPsEvtIllSevLevel);
+         CrFwSetAppErrCode(crIllEvtSevLevel);
      }
      CrFwSetSmOutcome(smDesc, 1);
    }

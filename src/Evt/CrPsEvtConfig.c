@@ -17,6 +17,9 @@
 #include "Pckt/CrPsPcktEvt.h"
 #include "CrPsTypes.h"
 #include "CrPsServTypeId.h"
+#include "CrFwUserConstants.h"
+
+#include "OutRegistry/CrFwOutRegistry.h"
 
 /* Define arrays holding event identifiers in increasing order */
 static CrPsEvtId_t listOfEid_1[N_OF_DER_PCKT_EVT_REP1] = LIST_OF_DER_PCKT_EVT_REP1;
@@ -84,29 +87,29 @@ int CrPsEvtConfigGetEidPos(CrPsEvtId_t evtId, unsigned int severityLevel) {
 unsigned int CrPsEvtConfigSetEidEnableStatus (CrPsEvtId_t evtId, CrFwBool_t enableStatus) {
   unsigned int pos;
   unsigned int sevLevel;
-  CrPsEvtId_t* isEidDisabled = NULL;
+  CrFwBool_t* isEidDisabled = NULL;
 
-  pos = CrPsEvtConfigGetEidPos(1);
+  pos = CrPsEvtConfigGetEidPos(evtId, 1);
   if (pos != -1) {
-    isEidDisabled = isEidDisabled_1;
+    isEidDisabled = &isEidDisabled_1[0];
     sevLevel = 1;
   }
 
-  pos = CrPsEvtConfigGetEidPos(2);
+  pos = CrPsEvtConfigGetEidPos(evtId, 2);
   if (pos != -1) {
-    isEidDisabled = isEidDisabled_2;
+    isEidDisabled = &isEidDisabled_2[0];
     sevLevel = 2;
   }
 
-  pos = CrPsEvtConfigGetEidPos(3);
+  pos = CrPsEvtConfigGetEidPos(evtId, 3);
   if (pos != -1) {
-    isEidDisabled = isEidDisabled_3;
+    isEidDisabled = &isEidDisabled_3[0];
     sevLevel = 3;
   }
 
-  pos = CrPsEvtConfigGetEidPos(4);
+  pos = CrPsEvtConfigGetEidPos(evtId, 4);
   if (pos != -1) {
-    isEidDisabled = isEidDisabled_4;
+    isEidDisabled = &isEidDisabled_4[0];
     sevLevel = 4;
   }
 
@@ -127,21 +130,21 @@ unsigned int CrPsEvtConfigSetEidEnableStatus (CrPsEvtId_t evtId, CrFwBool_t enab
 /* ------------------------------------------------------------------------------------------------ */
 CrFwBool_t CrPsEvtConfigGetEidEnableStatus (CrPsEvtId_t evtId) {
   unsigned int pos;
-  CrPsEvtId_t* isEidDisabled = NULL;
+  CrFwBool_t* isEidDisabled = NULL;
 
-  pos = CrPsEvtConfigGetEidPos(1);
+  pos = CrPsEvtConfigGetEidPos(evtId, 1);
   if (pos != -1)
     isEidDisabled = isEidDisabled_1;
 
-  pos = CrPsEvtConfigGetEidPos(2);
+  pos = CrPsEvtConfigGetEidPos(evtId, 2);
   if (pos != -1)
     isEidDisabled = isEidDisabled_2;
 
-  pos = CrPsEvtConfigGetEidPos(3);
+  pos = CrPsEvtConfigGetEidPos(evtId, 3);
   if (pos != -1)
     isEidDisabled = isEidDisabled_3;
 
-  pos = CrPsEvtConfigGetEidPos(4);
+  pos = CrPsEvtConfigGetEidPos(evtId, 4);
   if (pos != -1)
     isEidDisabled = isEidDisabled_4;
 
@@ -155,15 +158,15 @@ CrFwBool_t CrPsEvtConfigGetEidEnableStatus (CrPsEvtId_t evtId) {
 }
 
 /* ------------------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsEvtConfigIsEidLegal(CrPsEvtId_t evtId) {
-  if (CrPsEvtConfigGetEidPos(1) != -1)
+unsigned int CrPsEvtConfigGetSevLevel(CrPsEvtId_t evtId) {
+  if (CrPsEvtConfigGetEidPos(evtId, 1) != -1)
     return 1;
-  if (CrPsEvtConfigGetEidPos(2) != -1)
-    return 1;
-  if (CrPsEvtConfigGetEidPos(3) != -1)
-    return 1;
-  if (CrPsEvtConfigGetEidPos(4) != -1)
-    return 1;
+  if (CrPsEvtConfigGetEidPos(evtId, 2) != -1)
+    return 2;
+  if (CrPsEvtConfigGetEidPos(evtId, 3) != -1)
+    return 3;
+  if (CrPsEvtConfigGetEidPos(evtId, 4) != -1)
+    return 4;
 
   return 0;
 }

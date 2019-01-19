@@ -10,18 +10,23 @@
  */
 
 #include "CrPsInCmdEvtRepDisCmd.h"
+#include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpEvt.h"
 #include "Pckt/CrPsPckt.h"
+#include "Evt/CrPsEvtConfig.h"
 #include "CrPsConstants.h"
 #include "CrPsServTypeId.h"
 
 #include "CrFwUserConstants.h"
 #include "OutCmp/CrFwOutCmp.h"
+#include "OutLoader/CrFwOutLoader.h"
 #include "InCmd/CrFwInCmd.h"
 #include "OutFactory/CrFwOutFactory.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 
-static FwSmDesc_t rep5s8[EVT_MAX_N5s8];
+#include <assert.h>
+
+static FwSmDesc_t rep5s8[EVT_MAX_N58];
 static unsigned int nOfRep5s8;
 
 /**
@@ -62,9 +67,9 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
 
   /* Check that the number of requested (5,8) reports is legal */
   nOfRep5s8 = nOfFull5s8 + nOfPartial5s8;
-  if (nOfRep5s8 > EVT_MAX_N5s8) {
-    nOfRep5s8 = EVT_MAX_N5s8;
-    CrFwSetAppErrCode(CrIllNOf5s8);
+  if (nOfRep5s8 > EVT_MAX_N5S8) {
+    nOfRep5s8 = EVT_MAX_N5S8;
+    CrFwSetAppErrCode(crIllNOf5s8);
   }
 
   /* Retrieve the full (5,8) Reports */
