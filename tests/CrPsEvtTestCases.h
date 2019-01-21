@@ -50,6 +50,22 @@
  */
 CrFwBool_t CrPsEvtTestCase1();
 
+/**
+ * Test the generation of event reports pre-defined by the PUS Extension.
+ * The following actions are performed:
+ * - Generate the pre-defined event EVT_DUMMY_1 and verify that one event report is
+ *   pending in the OutManager and that its type, sub-type and event identifier are
+ *   as expected
+ * - Repeat the previous step for the pre-defined dummy events of severity levels 2 to 4
+ * .
+ * @verify Event Report 1, Nominal case
+ * @verify Event Report 2, Nominal case
+ * @verify Event Report 3, Nominal case
+ * @verify Event Report 4, Nominal case
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase2();
 
 
 #endif /* CRPS_EVTTESTCASES_H_ */
