@@ -29,6 +29,7 @@
 #include "OutLoader/CrFwOutLoader.h"
 #include "OutRegistry/CrFwOutRegistry.h"
 #include "CrFwCmpData.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 /* FwProfile includes */
 #include "FwPrConfig.h"

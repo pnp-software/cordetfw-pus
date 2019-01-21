@@ -43,7 +43,7 @@ void CrPsInCmdTstAreYouAliveCmdStartAction(FwSmDesc_t smDesc) {
   CrFwCmpData_t* inData;
 
   /* Retrieve (17,2) report from OutFactory and set action outcome
-     to \success' if retrieval succeeds. If the retrieval fails, generate
+     to 'success' if retrieval succeeds. If the retrieval fails, generate
      error report OUTFACTORY FAILED and set outcome of Start
      Action to 'failed' with failure code VER_REP_CR_FD */
 
