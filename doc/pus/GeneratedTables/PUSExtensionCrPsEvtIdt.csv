@@ -8,4 +8,7 @@ Value|Name|Description|Parameters
 7|EVT\_MON\_DEL\_I|Generated when a Delta Check Monitoring Procedure has detected an invalid parameter value of integer type|Identifier of parameter monitor and of monitored data item, sub-status of parameter monitor and last value of data item
 8|EVT\_FMON\_FAIL|Generated when a functional monitor has declared a failure|Identifiers of parameter monitors associated to the functional monitors and of their checking status
 9|EVT\_CLST\_FULL|Generated when the Monitoring Function Procedure tries to add an entry to the Check Transition List but the list is full|None
-255|EVT\_DUMMY|Dummy event used for testing purposes|One dummy parameter
+252|EVT\_DUMMY\_1|Dummy level 1 event used for testing purposes|One dummy parameter
+253|EVT\_DUMMY\_2|Dummy level 2 event used for testing purposes|None
+254|EVT\_DUMMY\_3|Dummy level 3 event used for testing purposes|One dummy parameter
+255|EVT\_DUMMY\_4|Dummy level 4 event used for testing purposes|None

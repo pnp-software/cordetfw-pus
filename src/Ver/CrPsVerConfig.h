@@ -7,8 +7,9 @@
  * - The initialization function for service 1 (<code>::CrPsTstInit</code>)
  * - The getter functions for the service 1 procedures
  * .
- * The initialization function must be called as part of the initialization of the host application.
- * The getter functions may be called at any time after the module has been initialized.
+ *
+ * @constraint The initialization function #CrPsVerConfigInit must be called as part
+ * of the initialization of the host application.
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *

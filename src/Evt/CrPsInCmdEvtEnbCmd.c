@@ -95,7 +95,7 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
          setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
          break;
        default:
-         CrFwSetAppErrCode(crIllEvtSevLevel);
+         CrFwSetAppErrCode(CrPsEvtIllSevLevel);
      }
      CrFwSetSmOutcome(smDesc, 1);
    }

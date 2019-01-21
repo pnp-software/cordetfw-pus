@@ -50,19 +50,19 @@ int CrPsEvtConfigGetEidPos(CrPsEvtId_t evtId, unsigned int severityLevel) {
   lower = 0;
   switch (severityLevel) {
     case 1:
-      upper = N_OF_DER_PCKT_EVT_REP1;
+      upper = N_OF_DER_PCKT_EVT_REP1-1;
       listOfEid = listOfEid_1;
       break;
     case 2:
-      upper = N_OF_DER_PCKT_EVT_REP2;
+      upper = N_OF_DER_PCKT_EVT_REP2-1;
       listOfEid = listOfEid_2;
       break;
     case 3:
-      upper = N_OF_DER_PCKT_EVT_REP3;
+      upper = N_OF_DER_PCKT_EVT_REP3-1;
       listOfEid = listOfEid_3;
       break;
     case 4:
-      upper = N_OF_DER_PCKT_EVT_REP4;
+      upper = N_OF_DER_PCKT_EVT_REP4-1;
       listOfEid = listOfEid_4;
       break;
     default:            /* Illegal severity level */
@@ -75,11 +75,18 @@ int CrPsEvtConfigGetEidPos(CrPsEvtId_t evtId, unsigned int severityLevel) {
     if (listOfEid[pos] == evtId)
       return pos;
     if (listOfEid[pos] > evtId)
-      lower = pos;
-    if (listOfEid[pos] < evtId)
       upper = pos;
-    if (lower == upper)
-      return -1;
+    else
+      lower = pos;
+    /* Loop terminate either when lower and upper are equal or when they differ by 1 */
+    if ((upper - lower) <= 1) {
+      if (listOfEid[lower] == evtId)
+        return lower;
+      else if (listOfEid[upper] == evtId)
+        return upper;
+      else
+        return -1;
+    }
   }
 }
 

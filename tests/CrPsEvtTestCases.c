@@ -56,10 +56,15 @@
 CrFwBool_t CrPsEvtTestCase1() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
-  FwSmDesc_t outFactory;
-  unsigned int nAllocatedRep;
+  unsigned int sevLev;
+  FwSmDesc_t outRegistry;
 
   CrFwSetAppErrCode(crNoAppErr);
+
+  /* Initialize and reset the OutRegistry (which is used in module CrPsEvtConfig */
+  outRegistry = CrFwOutRegistryMake();
+  CrFwCmpInit(outRegistry);
+  CrFwCmpReset(outRegistry);
 
   /* Check position of event identifier */
   if (CrPsEvtConfigGetEidPos(EVT_DUMMY_4, 6) != -1)     /* Illegal severity level */
@@ -71,7 +76,38 @@ CrFwBool_t CrPsEvtTestCase1() {
   if (CrPsEvtConfigGetEidPos(EVT_DUMMY_4+1000, 4) != -1) /* Non-existent event identifier */
       return 0;
 
+  /* Check setting of enabled status */
+  if (CrPsEvtConfigGetEidEnableStatus(EVT_DUMMY_4) != 1)    /* Check default enabled status */
+      return 0;
 
+  sevLev = CrPsEvtConfigSetEidEnableStatus(EVT_DUMMY_4, 0); /* Disable event */
+  if (sevLev != 4)
+      return 0;
+  if (CrPsEvtConfigGetEidEnableStatus(EVT_DUMMY_4) != 0)
+      return 0;
+
+  sevLev = CrPsEvtConfigSetEidEnableStatus(EVT_DUMMY_4, 1); /* Enable event */
+  if (sevLev != 4)
+      return 0;
+  if (CrPsEvtConfigGetEidEnableStatus(EVT_DUMMY_4) != 1)
+      return 0;
+
+  sevLev = CrPsEvtConfigSetEidEnableStatus(EVT_DUMMY_4+1000, 0); /* Non-existent event */
+  if (sevLev != 0)
+      return 0;
+
+  /* Check function to get the severity level of an event */
+  if (CrPsEvtConfigGetSevLevel(EVT_DUMMY_1) != 1)
+    return 0;
+  if (CrPsEvtConfigGetSevLevel(EVT_DUMMY_2) != 2)
+    return 0;
+  if (CrPsEvtConfigGetSevLevel(EVT_MON_DEL_I) != 3)
+    return 0;
+  if (CrPsEvtConfigGetSevLevel(EVT_DUMMY_4) != 4)
+    return 0;
+
+  if (CrPsEvtConfigGetSevLevel(EVT_DUMMY_4+1000) != 0)
+    return 0;
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)

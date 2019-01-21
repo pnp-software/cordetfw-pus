@@ -26,7 +26,7 @@
 
 #include <assert.h>
 
-static FwSmDesc_t rep5s8[EVT_MAX_N58];
+static FwSmDesc_t rep5s8[EVT_MAX_N5S8];
 static unsigned int nOfRep5s8;
 
 /**
