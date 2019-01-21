@@ -313,7 +313,7 @@ CrFwBool_t CrPsVerTestCase2() {
    * data pool variables have been updated accordingly */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,10) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,10,0) != 1)
       return 0;
   if (getDpVerInvDestRerouting() != illDest)
       return 0;
@@ -401,7 +401,7 @@ CrFwBool_t CrPsVerTestCase3() {
   /* Verify that a (1,1) was generated during the command's loading process */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,1,0) != 1)
     return 0;
 
   /* Execute the Sample 1 command a few times and verify that a (1,3) was generated */
@@ -411,7 +411,7 @@ CrFwBool_t CrPsVerTestCase3() {
   CrFwCmpExecute(inManager);
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,3) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,1,1,3,0) != 1)
     return 0;
 
   /* Configure the Sample 1 command to complete a progress step and verify that a (1,5) is generated */
@@ -421,7 +421,7 @@ CrFwBool_t CrPsVerTestCase3() {
   CrPsInCmdDumSample1SetProgressStepFlag(0);        /* do not increment progress step at next command execution */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,2,1,5) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,2,1,5,0) != 1)
     return 0;
   rep1s5 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 2);
   rep1s5Pckt = CrFwOutCmpGetPckt(rep1s5);
@@ -443,7 +443,7 @@ CrFwBool_t CrPsVerTestCase3() {
   CrPsInCmdDumSample1SetProgressStepFlag(0);        /* do not increment progress step at next command execution */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,3,1,5) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,3,1,5,0) != 1)
     return 0;
   rep1s5 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 3);
   rep1s5Pckt = CrFwOutCmpGetPckt(rep1s5);
@@ -456,7 +456,7 @@ CrFwBool_t CrPsVerTestCase3() {
   CrFwCmpExecute(inManager);
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 5)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,4,1,7) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,4,1,7,0) != 1)
     return 0;
 
   /* Reset all components used in the test case */
@@ -515,7 +515,7 @@ CrFwBool_t CrPsVerTestCase4() {
   /* Verify that a (1,2) was generated during the command's loading process and then reset OutManager */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,2) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,2,0) != 1)
     return 0;
   CrFwCmpReset(outManager);                 /* Clears queue of pending service 1 reports in OutManager */
 
@@ -537,9 +537,9 @@ CrFwBool_t CrPsVerTestCase4() {
   /* Verify that a (1,1) and (1,4) were generated during the command's loading process and then reset OutManager */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,1,0) != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,4) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,1,1,4,0) != 1)
     return 0;
   CrFwCmpReset(outManager);                 /* Clears queue of pending service 1 reports in OutManager */
 
@@ -566,11 +566,11 @@ CrFwBool_t CrPsVerTestCase4() {
   /* Verify that a (1,1), (1,3) and (1,6) were generated during the command's loading process and then reset OutManager */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,1,0) != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,3) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,1,1,3,0) != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,2,1,6) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,2,1,6,0) != 1)
     return 0;
   rep1s5 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 2);
   rep1s5Pckt = CrFwOutCmpGetPckt(rep1s5);
@@ -602,13 +602,13 @@ CrFwBool_t CrPsVerTestCase4() {
   /* Verify that a (1,1), (1,3) and (1,8) were generated during the command's loading process and then reset OutManager */
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,1,1) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,1,0) != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,1,1,3) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,1,1,3,0) != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,2,1,5) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,2,1,5,0) != 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,3,1,8) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,3,1,8,0) != 1)
     return 0;
 
   /* Reset all components used in the test case */

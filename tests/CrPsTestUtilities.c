@@ -45,8 +45,8 @@ CrFwPckt_t CrPsTestUtilitiesCreateSAmple1Pckt(CrFwDestSrc_t dest, CrFwBool_t acc
  }
 
 /*-----------------------------------------------------------------------------*/
-CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmd(FwSmDesc_t outManager, int i,
-                                        CrFwServType_t servType, CrFwServSubType_t servSubType) {
+CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmp(FwSmDesc_t outManager, int i,
+                 CrFwServType_t servType, CrFwServSubType_t servSubType, CrFwDiscriminant_t disc) {
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
   FwSmDesc_t outCmp;
@@ -60,6 +60,9 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmd(FwSmDesc_t outManager, int i,
     return 0;
   if (CrFwOutCmpGetServSubType(outCmp) != servSubType)
     return 0;
+  if (disc != 0)
+    if (CrFwOutCmpGetDiscriminant(outCmp) != disc)
+      return 0;
   
   return 1;
 }

@@ -41,21 +41,25 @@
 
 /**
  * Function to verify that the i-th entry in the POCL of an OutManager contains an OutComponent
- * of a given type and sub-type.
+ * of a given type, sub-type, and discriminant.
  * When an OutComponent is loaded onto an OutManager, it is stored in its "Pending Out-Component List"
  * or POCL.
  * This function extracts the i-th entry in the POCL and checks whether its type and sub-type
  * match the type and sub-type values given as function parameters.
+ * If the argument discriminant is different from zero, it also checks whether there is a match for
+ * the discriminant value.
  * If the i-th entry in the POCL is empty, the function return false.
  *
  * @param outManager the OutManager whose POCL is checked
  * @param i the index of the entry in the POCL which is checked (starting from zero)
  * @param servType the expected type of the OutComponent at the i-th position in the POCL
  * @param servSubType the expected sub-type of the OutComponent at the i-th position in the POCL
+ * @param  disc the expected value of the discriminant at the i-th position in the POCL (or zero if
+ * no check on the discriminant is desired)
  * @return true if the i-th entry in the POCL has the stated type and sub-type, false otherwise
  */
-CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmd(FwSmDesc_t outManager, int i,
-                                        CrFwServType_t servType, CrFwServSubType_t servSubType);
+CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmp(FwSmDesc_t outManager, int i,
+                          CrFwServType_t servType, CrFwServSubType_t servSubType, CrFwDiscriminant_t disc);
 
 /**
  * Return the item which is currently loaded in the i-th entry of the PCRL of the argument InManager.
