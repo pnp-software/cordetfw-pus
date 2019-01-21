@@ -20,10 +20,12 @@
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 #include "FwPrConstants.h"
+
 /* Include configuration files */
 #include "CrFwInStreamUserPar.h"
 #include "CrFwOutRegistryUserPar.h"
 #include "CrFwOutFactoryUserPar.h"
+
 /* Include framework files */
 #include "CrFwCmpData.h"
 #include "OutRegistry/CrFwOutRegistry.h"
@@ -33,6 +35,7 @@
 #include "InFactory/CrFwInFactory.h"
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutLoader/CrFwOutLoader.h"
+#include "OutManager/CrFwOutManager.h"
 #include "CrFwTime.h"
 #include "CrFwRepErr.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
@@ -61,7 +64,7 @@ CrFwBool_t CrPsEvtTestCase1() {
 
   CrFwSetAppErrCode(crNoAppErr);
 
-  /* Initialize and reset the OutRegistry (which is used in module CrPsEvtConfig */
+  /* Initialize and reset the OutRegistry (which is used in module CrPsEvtConfig) */
   outRegistry = CrFwOutRegistryMake();
   CrFwCmpInit(outRegistry);
   CrFwCmpReset(outRegistry);
@@ -108,6 +111,77 @@ CrFwBool_t CrPsEvtTestCase1() {
 
   if (CrPsEvtConfigGetSevLevel(EVT_DUMMY_4+1000) != 0)
     return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsEvtTestCase1() {
+  CrFwPckt_t pckt;
+  FwSmDesc_t rep;
+  unsigned int sevLev, nAllocatedRep;
+  FwSmDesc_t outRegistry, outFactory, outLoader, outManager;
+  CrFwPckt_t pckt;
+
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Initialize and reset the framework components */
+  outRegistry = CrFwOutRegistryMake();
+  CrFwCmpInit(outRegistry);
+  CrFwCmpReset(outRegistry);
+  outFactory = CrFwOutFactoryMake();
+  CrFwCmpInit(outFactory);
+  CrFwCmpReset(outFactory);
+  outManager = CrFwOutManagerMake(0);
+  CrFwCmpInit(outManager);
+  CrFwCmpReset(outManager);
+
+  /* Retrieve number of allocated OutComponents */
+  nAllocatedRep = CrFwOutFactoryGetNOfAllocatedOutCmp();
+
+  /* Initialize all event related data pool entries */
+  setDpEvtLastEvtEid_1(0);
+  setDpEvtLastEvtTime_1(0);
+  setDpEvtNOfDetectedEvts_1(0);
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  /* Generate a dummy event of level 1 */
+  CrPsEvtGenPreDefEvtDummyPar(EVT_DUMMY_1, 11);
+
+  /* Check that there is one pending OutComponent of type (5,1) */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmd(outManager,0,5,1,EVT_DUMMY_1) != 1)
+      return 0;
+
+  /* Check the parameter of the level 1 event */
+  pckt = CrFwOutCmp(CrPsTestUtilitiesGetItemFromOutManager(outManager,0));
+  if (getEvtRep1_EVT_DUMMY_1Par(pckt) != 11)
+      return 0;
+
+  /* Execute the OutManager so that the event will be executed, too */
+  CrFwCmpExecute(outManager);
+
+  /* Check observables related to level 1 events */
+  if (getDpEvtLastEvtEid_1() != EVT_DUMMY_1)
+      return 0;
+  if (abs(getDpEvtLastEvtTime_1()-CrFwGetCurrentTime()) < 0.001)
+      return 0;
+  if (getDpEvtNOfDetectedEvts_1() != 1)
+      return 0;
+
+  /* Reset all components used in the test case */
+  CrFwCmpReset(outLoader);
+  CrFwCmpReset(outManager);
+  CrFwCmpReset(outFactory);
+  CrFwCmpReset(outRegistry);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)

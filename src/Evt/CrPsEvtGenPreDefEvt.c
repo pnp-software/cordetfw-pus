@@ -37,14 +37,8 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
 
   /* - retrieves an OutComponent to encapsulate the event report from the OutFactory */
   switch (sevLevel) {
-    case 1:
-      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP1_STYPE,0,LEN_EVT_REP1);
-      break;
     case 2:
       evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP2_STYPE,0,LEN_EVT_REP1);
-      break;
-    case 3:
-      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP3_STYPE,0,LEN_EVT_REP1);
       break;
     case 4:
       evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP4_STYPE,0,LEN_EVT_REP1);

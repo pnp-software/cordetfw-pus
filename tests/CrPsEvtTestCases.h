@@ -56,12 +56,17 @@ CrFwBool_t CrPsEvtTestCase1();
  * - Generate the pre-defined event EVT_DUMMY_1 and verify that one event report is
  *   pending in the OutManager and that its type, sub-type and event identifier are
  *   as expected
+ * - Verify that the level 1 observables in the data pool have been correctly updated
+ *   (last event identifier, time stamp of last event, and number of generated events)
  * - Repeat the previous step for the pre-defined dummy events of severity levels 2 to 4
  * .
  * @verify Event Report 1, Nominal case
  * @verify Event Report 2, Nominal case
  * @verify Event Report 3, Nominal case
  * @verify Event Report 4, Nominal case
+ * @verify Data Pool, EvtLastEvtEid_x
+ * @verify Data Pool, EvtLastEvtTime_x
+ * @verify Data Pool, EvtNOfDetectedEvts_x
  *
  * @return 1 if the test was successful, 0 otherwise
  */
