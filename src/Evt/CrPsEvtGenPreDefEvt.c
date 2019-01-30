@@ -31,6 +31,7 @@
 void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
   unsigned int sevLevel;
   FwSmDesc_t evtRep;
+  CrFwPckt_t evtPckt;
 
   /* Get the event severity level */
   sevLevel = CrPsEvtConfigGetSevLevel(evtId);
@@ -54,7 +55,15 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
     return;
   }
 
-  /* Load event report in th OutLoader */
+  /* Set the event identifier */
+  evtPckt = CrFwOutCmpGetPckt(evtRep);
+  if (sevLevel == 2) {
+    setEvtRep2EventId(evtPckt, evtId);
+  } else {
+    setEvtRep4EventId(evtPckt, evtId);;
+  }
+
+  /* Load event report in th2 OutLoader */
   CrFwOutLoaderLoad(evtRep);
 }
 
@@ -67,7 +76,7 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
   /* Get the event severity level */
   sevLevel = CrPsEvtConfigGetSevLevel(evtId);
 
-  /* - retrieves an OutComponent to encapsulate the event report from the OutFactory */
+  /* Retrieves an OutComponent to encapsulate the event report from the OutFactory */
   switch (sevLevel) {
     case 1:
       evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP1_STYPE,0,LEN_EVT_REP1);
@@ -86,12 +95,15 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
     return;
   }
 
-  /* Configure and load event report in th OutLoader */
+  /* Configure and load event report in the OutLoader */
   evtPckt = CrFwOutCmpGetPckt(evtRep);
-  if (sevLevel == 1)
+  if (sevLevel == 1) {
+    setEvtRep1EventId(evtPckt, evtId);
     setEvtRep1_EVT_DUMMY_1Par(evtPckt, dummyPar);
-  else
+  } else {
+    setEvtRep3EventId(evtPckt, evtId);
     setEvtRep3_EVT_DUMMY_3Par(evtPckt, dummyPar);
+  }
 
   CrFwOutLoaderLoad(evtRep);
 }

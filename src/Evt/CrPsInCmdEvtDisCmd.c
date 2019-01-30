@@ -10,20 +10,17 @@
  */
 
 #include "CrPsInCmdEvtDisCmd.h"
+#include "CrPsServTypeId.h"
+#include "CrPsTypes.h"
+#include "CrPsEvtConfig.h"
+#include "DataPool/CrPsDpEvt.h"
+#include "Pckt/CrPsPcktEvt.h"
+#include "DataPool/CrPsDpVer.h"
 
-/**
- * Start action of TC(5,6) EvtDisCmd.
- * Run the procedure Start Action of Multi-EID Command of figure
- * \image html CrPsCmd5EidStart.png "Start Action of Multi-EID
- * Command"
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdEvtDisCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdEvtDisCmdStartAction");
-   return ;
-}
+#include "OutRegistry/CrFwOutRegistry.h"
+#include "InCmd/CrFwInCmd.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "OutCmp/CrFwOutCmp.h"
 
 /**
  * Progress action of TC(5,6) EvtDisCmd.
@@ -33,10 +30,62 @@ void CrPsInCmdEvtDisCmdStartAction(FwSmDesc_t smDesc)
  * outcome to ’completed’.
  * @param smDesc The state machine descriptor.
  */
-void CrPsInCmdEvtDisCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdEvtDisCmdProgressAction");
-   return ;
+void CrPsInCmdEvtDisCmdProgressAction(FwSmDesc_t smDesc) {
+  CrFwPckt_t evtPckt = CrFwInCmdGetPckt(smDesc);
+  CrPsNEvtId_t nEvtId;
+  CrPsEvtId_t eid;
+  unsigned int sevLevel;
+  CrFwProgressStepId_t progressStepId;
+  CrPsNEvtId_t nOfDisabledEvt;
+
+  /* Get the progress step identifier */
+  progressStepId = CrFwInCmdGetProgressStepId(smDesc);
+
+  /* Get the number of EIDs in the command */
+  nEvtId = getEvtDisCmdN(evtPckt);
+
+  /* Get the event identifier to be process in the current cycle */
+  eid = getEvtDisCmdEventId(evtPckt, progressStepId);
+
+  /* Try to disable the argument event identifier */
+  sevLevel = CrPsEvtConfigSetEidEnableStatus(eid, 0);
+
+  if (sevLevel == 0) {     /* The EID is not defined */
+    setDpVerFailCode(eid);
+    CrFwSetSmOutcome(smDesc, VER_ILL_EID);
+  } else {
+    switch (sevLevel) {
+      case 1:
+        nOfDisabledEvt = getDpEvtNOfDisabledEid_1();
+        setDpEvtNOfDisabledEid_1(nOfDisabledEvt+1);
+        break;
+      case 2:
+        nOfDisabledEvt = getDpEvtNOfDisabledEid_2();
+        setDpEvtNOfDisabledEid_2(nOfDisabledEvt+1);
+        break;
+      case 3:
+        nOfDisabledEvt = getDpEvtNOfDisabledEid_3();
+        setDpEvtNOfDisabledEid_3(nOfDisabledEvt+1);
+        break;
+      case 4:
+        nOfDisabledEvt = getDpEvtNOfDisabledEid_4();
+        setDpEvtNOfDisabledEid_4(nOfDisabledEvt+1);
+        break;
+      default:
+        CrFwSetAppErrCode(CrPsEvtIllSevLevel);
+    }
+    CrFwSetSmOutcome(smDesc, 1);
+  }
+
+  /* Update progress step identifier */
+  progressStepId++;
+  CrFwInCmdSetProgressStepId(smDesc, progressStepId);
+
+  /* Set completion outcome */
+  if (progressStepId < nEvtId)
+    CrFwInCmdSetProgressActionCompleted(smDesc, 0);
+  else
+    CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
+
 

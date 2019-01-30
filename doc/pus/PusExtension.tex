@@ -1038,7 +1038,6 @@ Applications use event reports as follows:
 
 \begin{itemize}
 \item When an application encounters a situation which should trigger the generation of an event report, it retrieves an event component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the event component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type and the sub-type of the event report.
-\item The application configures the component with the destination and with any data which are attached to the event 
 \item The application loads the event component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
 	\begin{itemize}
 	\item If the identifier of the event is enabled, then the event report will eventually be sent to its destination;
@@ -1050,7 +1049,7 @@ Note that the configuration of the event reports must be done by the application
 
 Event identifiers can be enabled and disabled. The PUS Extension uses the report enable mechanism of the OutRegistry component to manage the enable status of event reports. This implies that, by default, all event identifiers are enabled. If an application needs some event identifiers to be disabled by default, it must disable them during the application initialization phase (adaptation point P-S5-3).
 
-In accordance with clause 6.5.4b of reference [PS-SP], all event reports have the same destination and this destination must be statically defined. The destination is accordingly treated as a configuration parameter for the PUS Extension of the CORDET Framework.
+In accordance with clause 6.5.4b of reference [PS-SP], all event reports have the same destination and this destination must be statically defined. The destination is accordingly treated as a configuration parameter for the PUS Extension of the CORDET Framework. The event destination is set by the Update Action of the event report.
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}

@@ -1,6 +1,5 @@
 /**
  * @file
- * @ingroup gen_cfw
  *
  * Implementation of TM(5,4) EvtRep4 as an out-going report.
  *
@@ -9,7 +8,16 @@
  * @copyright P&P Software GmbH
  */
 
-#include "CrPsOutCmpEvtRep4.h"
+/* Cordet Framework includes */
+#include "OutRegistry/CrFwOutRegistry.h"
+#include "OutCmp/CrFwOutCmp.h"
+
+/* PUS Extension includes */
+#include "CrPsOutCmpEvtRep3.h"
+#include "DataPool/CrPsDpEvt.h"
+#include "Pckt/CrPsPckt.h"
+#include "Pckt/CrPsPcktEvt.h"
+#include "CrPsConstants.h"
 
 /**
  * Enable check of TM(5,4) EvtRep4.
@@ -19,11 +27,13 @@
  * @param smDesc The state machine descriptor.
  * @return The enable check result.
  */
-CrFwBool_t CrPsOutCmpEvtRep4EnableCheck(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsOutCmpEvtRep4EnableCheck");
-   return 1;
+CrFwBool_t CrPsOutCmpEvtRep4EnableCheck(FwSmDesc_t smDesc) {
+  CrPsNEvtRep_t nOfEvt = getDpEvtNOfDetectedEvts_4();
+  nOfEvt++;
+  setDpEvtNOfDetectedEvts_4(nOfEvt);
+
+  CrFwBool_t enableStatus = CrFwOutRegistryIsEnabled(smDesc);
+  return enableStatus;
 }
 
 /**
@@ -32,11 +42,25 @@ CrFwBool_t CrPsOutCmpEvtRep4EnableCheck(FwSmDesc_t smDesc)
  * (’x’ is the event severity level). Note that the parameter values are set
  * by the application which creates the event report at the time it creates
  * the event report.
+ * Set the event report destination to EVT_DEST.
  * @param smDesc The state machine descriptor.
  */
-void CrPsOutCmpEvtRep4UpdateAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsOutCmpEvtRep4UpdateAction");
-   return ;
+void CrPsOutCmpEvtRep4UpdateAction(FwSmDesc_t smDesc) {
+  CrPsEightBit_t Time[6];
+  CrFwPckt_t pckt = CrFwOutCmpGetPckt(smDesc);
+
+  CrPsNEvtRep_t nOfGenEvt = getDpEvtNOfGenEvtRep_4();
+  setDpEvtNOfGenEvtRep_4(nOfGenEvt++);
+
+  CrPsEvtId_t lastEvtEid = getEvtRep1EventId(pckt);
+  setDpEvtLastEvtEid_4(lastEvtEid);
+
+  getTmHeaderTime(pckt, &Time);
+  unsigned int coarseTime = Time[0]*0x1000000 + Time[1]*0x10000 + Time[2]*0x100 + Time[3];
+  unsigned int fineTime = Time[4]*0x100 + Time[5];
+  CrFwTime_t lastEvtTime = (CrFwTime_t)coarseTime + (CrFwTime_t)fineTime/65536.0;
+  setDpEvtLastEvtTime_4(lastEvtTime);
+
+  CrFwOutCmpSetDest(smDesc, EVT_DEST);
 }
+

@@ -1,6 +1,5 @@
 /**
  * @file
- * @ingroup gen_cfw
  *
  * Implementation of TM(5,1) EvtRep1 as an out-going report.
  *
@@ -18,6 +17,7 @@
 #include "DataPool/CrPsDpEvt.h"
 #include "Pckt/CrPsPckt.h"
 #include "Pckt/CrPsPcktEvt.h"
+#include "CrPsConstants.h"
 
 /**
  * Enable check of TM(5,1) EvtRep1.
@@ -29,7 +29,8 @@
  */
 CrFwBool_t CrPsOutCmpEvtRep1EnableCheck(FwSmDesc_t smDesc) {
   CrPsNEvtRep_t nOfEvt = getDpEvtNOfDetectedEvts_1();
-  setDpEvtNOfDetectedEvts_1(nOfEvt++);
+  nOfEvt++;
+  setDpEvtNOfDetectedEvts_1(nOfEvt);
 
   CrFwBool_t enableStatus = CrFwOutRegistryIsEnabled(smDesc);
   return enableStatus;
@@ -41,6 +42,8 @@ CrFwBool_t CrPsOutCmpEvtRep1EnableCheck(FwSmDesc_t smDesc) {
  * (’x’ is the event severity level). Note that the parameter values are set
  * by the application which creates the event report at the time it creates
  * the event report.
+ *
+ * Set the destination of the event report.
  * @param smDesc The state machine descriptor.
  */
 void CrPsOutCmpEvtRep1UpdateAction(FwSmDesc_t smDesc) {
@@ -58,4 +61,6 @@ void CrPsOutCmpEvtRep1UpdateAction(FwSmDesc_t smDesc) {
   unsigned int fineTime = Time[4]*0x100 + Time[5];
   CrFwTime_t lastEvtTime = (CrFwTime_t)coarseTime + (CrFwTime_t)fineTime/65536.0;
   setDpEvtLastEvtTime_1(lastEvtTime);
+
+  CrFwOutCmpSetDest(smDesc, EVT_DEST);
 }

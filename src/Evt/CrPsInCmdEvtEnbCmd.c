@@ -54,7 +54,7 @@
  * @param smDesc The descriptor of the state machine encapsulating the (5,5) command.
  */
 void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
-   CrFwPckt_t evtPckt = CrFwOutCmpGetPckt(smDesc);
+   CrFwPckt_t evtPckt = CrFwInCmdGetPckt(smDesc);
    CrPsNEvtId_t nEvtId;
    CrPsEvtId_t eid;
    unsigned int sevLevel;
