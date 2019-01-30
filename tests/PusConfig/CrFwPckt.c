@@ -57,11 +57,14 @@
  */
 
 #include "Pckt/CrPsPckt.h"
-#include "/home/ap/Projects/cordetfw-pus/tests/PusConfig/CrFwUserConstants.h"
+#include "CrFwUserConstants.h"
 #include "CrFwConstants.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "Pckt/CrFwPckt.h"
 #include "BaseCmp/CrFwBaseCmp.h"
+#include "CrPsServTypeId.h"
+#include "Pckt/CrPsPcktEvt.h"
+#include "Pckt/CrPsPcktVer.h"
 
 #include <stdlib.h>
 
@@ -257,14 +260,14 @@ void CrFwPcktSetDiscriminant(CrFwPckt_t pckt, CrFwDiscriminant_t discriminant) {
 
 	servType = CrFwPcktGetServType(pckt);
 	switch (servType) {
-		case 1:
-			// setVerFailedAccRepFailureCode(pckt, discriminant);
+		case VER_TYPE:
+		    //setDpVerFailCode(pckt, discriminant);
 			break;
 		case 3:
 			// setHkCreateCmdRepStrucId(pckt, discriminant);
 			break;
-		case 5:
-			// setEvtRep1EventId(pckt, discriminant);
+		case EVT_TYPE:
+			//setEvtRep1EventId(pckt, discriminant);
 			break;
 		case 13:
 			// TBD: Message Identifier
@@ -276,16 +279,43 @@ void CrFwPcktSetDiscriminant(CrFwPckt_t pckt, CrFwDiscriminant_t discriminant) {
 /*-----------------------------------------------------------------------------------------*/
 CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt) {
 	CrFwServType_t servType;
+	CrFwServSubType_t servSubType;
 
 	servType = CrFwPcktGetServType(pckt);
+	servSubType = CrFwPcktGetServSubType(pckt);
 	switch (servType) {
-		case 1:
-			// return getVerFailedAccRepFailureCode(pckt);
+		case VER_TYPE:
+		    switch (servSubType) {
+		      case VERFAILEDACCREP_STYPE:
+		        return getVerFailedAccRepTcFailCode(pckt);
+		      case VERFAILEDSTARTREP_STYPE:
+		        return getVerFailedStartRepTcFailCode(pckt);
+		      case VERFAILEDPRGRREP_STYPE:
+		        return getVerFailedPrgrRepTcFailCode(pckt);
+		      case VERFAILEDTERMREP_STYPE:
+		        return getVerFailedTermRepTcFailCode(pckt);
+		      case VERFAILEDROUTINGREP_STYPE:
+		        return getVerFailedRoutingRepTcDisc(pckt);
+		      default:
+		        break;
+		    }
+		    break;
 		case 3:
 			// return getHkCreateCmdRepStrucId(pckt);
-		case 5:
-			// return getEvtRep1EventId(pckt);
-			break;
+		case EVT_TYPE:
+		    switch (servSubType) {
+		      case EVTREP1_STYPE:
+		         return getEvtRep1EventId(pckt);
+              case EVTREP2_STYPE:
+                 return getEvtRep2EventId(pckt);
+              case EVTREP3_STYPE:
+                 return getEvtRep3EventId(pckt);
+              case EVTREP4_STYPE:
+                 return getEvtRep4EventId(pckt);
+              default:
+                 break;
+		    }
+		    break;
 		case 13:
 			// TBD: Message Identifier
 		default:
