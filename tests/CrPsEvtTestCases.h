@@ -51,26 +51,120 @@
 CrFwBool_t CrPsEvtTestCase1();
 
 /**
- * Test the generation of event reports pre-defined by the PUS Extension.
+ * Test the generation of the dummy event report of severity level 1 pre-defined by the PUS Extension.
  * The following actions are performed:
  * - Generate the pre-defined event EVT_DUMMY_1 and verify that one event report is
  *   pending in the OutManager and that its type, sub-type and event identifier are
  *   as expected
  * - Verify that the level 1 observables in the data pool have been correctly updated
  *   (last event identifier, time stamp of last event, and number of generated events)
- * - Repeat the previous step for the pre-defined dummy events of severity levels 2 to 4
+ * - Verify that the event identifier is correct and equal to its discriminant
  * .
  * @verify Event Report 1, Nominal case
- * @verify Event Report 2, Nominal case
- * @verify Event Report 3, Nominal case
- * @verify Event Report 4, Nominal case
- * @verify Data Pool, EvtLastEvtEid_x
- * @verify Data Pool, EvtLastEvtTime_x
- * @verify Data Pool, EvtNOfDetectedEvts_x
+ * @verify Data Pool, EvtLastEvtEid_1
+ * @verify Data Pool, EvtLastEvtTime_1
+ * @verify Data Pool, EvtNOfDetectedEvts_1
  *
  * @return 1 if the test was successful, 0 otherwise
  */
 CrFwBool_t CrPsEvtTestCase2();
+
+/**
+ * Test the generation of the dummy event report of severity level 2 pre-defined by the PUS Extension.
+ * The following actions are performed:
+ * - Generate the pre-defined event EVT_DUMMY_2 and verify that one event report is
+ *   pending in the OutManager and that its type, sub-type and event identifier are
+ *   as expected
+ * - Verify that the level 2 observables in the data pool have been correctly updated
+ *   (last event identifier, time stamp of last event, and number of generated events)
+ * - Verify that the event identifier is correct and equal to its discriminant
+ * .
+ * @verify Event Report 2, Nominal case
+ * @verify Data Pool, EvtLastEvtEid_2
+ * @verify Data Pool, EvtLastEvtTime_2
+ * @verify Data Pool, EvtNOfDetectedEvts_2
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase3();
+
+/**
+ * Test the generation of the dummy event report of severity level 3 pre-defined by the PUS Extension.
+ * The following actions are performed:
+ * - Generate the pre-defined event EVT_DUMMY_3 and verify that one event report is
+ *   pending in the OutManager and that its type, sub-type and event identifier are
+ *   as expected
+ * - Verify that the level 3 observables in the data pool have been correctly updated
+ *   (last event identifier, time stamp of last event, and number of generated events)
+ * - Verify that the event identifier is correct and equal to its discriminant
+ * .
+ * @verify Event Report 3, Nominal case
+ * @verify Data Pool, EvtLastEvtEid_3
+ * @verify Data Pool, EvtLastEvtTime_3
+ * @verify Data Pool, EvtNOfDetectedEvts_3
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase4();
+
+/**
+ * Test the generation of the dummy event report of severity level 4 pre-defined by the PUS Extension.
+ * The following actions are performed:
+ * - Generate the pre-defined event EVT_DUMMY_4 and verify that one event report is
+ *   pending in the OutManager and that its type, sub-type and event identifier are
+ *   as expected
+ * - Verify that the level 4 observables in the data pool have been correctly updated
+ *   (last event identifier, time stamp of last event, and number of generated events)
+ * - Verify that the event identifier is correct and equal to its discriminant
+ * .
+ * @verify Event Report 4, Nominal case
+ * @verify Data Pool, EvtLastEvtEid_4
+ * @verify Data Pool, EvtLastEvtTime_4
+ * @verify Data Pool, EvtNOfDetectedEvts_4
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase5();
+
+/**
+ * Test the event enable and disable telecommands in the nominal case of a legal event identifier.
+ * The following actions are performed:
+ * - Verify that the default enable state of the events is: 'enabled'
+ * - Instantiate a command of type (5,6) carrying two legal event identifiers and execute it
+ *   and verify that the argument event identifiers are disabled and that the counters of
+ *   disabled events has been increased
+ * - Instantiate a command of type (5,5) carrying two legal event identifiers and execute it
+ *   and verify that the argument event identifiers are enabled and that the counters of
+ *   disabled events has been decremented
+ * .
+ * @verify Enable Generation of Event Identifiers, Multiple legal event identifiers
+ * @verify Disable Generation of Event Identifiers, Multiple legal event identifiers
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase6();
+
+/**
+ * Test the event enable and disable telecommands in the case of a mixture of legal and
+ * illegal event identifiers.
+ * The following actions are performed:
+ * - Verify that the default enable state of the events is: 'enabled'
+ * - Instantiate a command of type (5,6) carrying one illegal and one legal event identifier and execute it
+ *   and verify that the legal event identifiers has been disabled and that the
+ *   illegal event identifier has been loaded in verFailData and that a (1,5) report
+ *   with failure code VER_ILL_EID has been generated
+ * - Instantiate a command of type (5,5) carrying the same identifiers as the (5,6) but
+ *   in revere order and execute it
+ *   and verify that the legal event identifiers has been enabled and that the
+ *   illegal event identifier has been loaded in verFailData and that a (1,5) report
+ *   with failure code VER_ILL_EID has been generated
+ * .
+ * @verify Enable Generation of Event Identifiers, Mixed legal and illegal event identifiers
+ * @verify Disable Generation of Event Identifiers, Mixed legal and illegal event identifiers
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase7();
 
 
 #endif /* CRPS_EVTTESTCASES_H_ */

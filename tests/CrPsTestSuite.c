@@ -24,7 +24,7 @@
 #include <string.h>
 
 /** The number of tests in the test suite. */
-#define NOF_TESTS 11
+#define NOF_TESTS 17
 
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -108,6 +108,23 @@ int main() {
     testNames[i] = "PusExt_CrPsEvt_TestCase1";
     testCases[i] = &CrPsEvtTestCase1;
     i+=1;
+    testNames[i] = "PusExt_CrPsEvt_TestCase2";
+    testCases[i] = &CrPsEvtTestCase2;
+    i+=1;
+    testNames[i] = "PusExt_CrPsEvt_TestCase3";
+    testCases[i] = &CrPsEvtTestCase3;
+    i+=1;
+    testNames[i] = "PusExt_CrPsEvt_TestCase4";
+    testCases[i] = &CrPsEvtTestCase4;
+    i+=1;
+    testNames[i] = "PusExt_CrPsEvt_TestCase5";
+    testCases[i] = &CrPsEvtTestCase5;
+    i+=1;
+    testNames[i] = "PusExt_CrPsEvt_TestCase6";
+    testCases[i] = &CrPsEvtTestCase6;
+    i+=1;
+    testNames[i] = "PusExt_CrPsEvt_TestCase7";
+    testCases[i] = &CrPsEvtTestCase7;
 
 	/* Initialize the services which are used by the test cases */
 	CrPsVerConfigInit();
