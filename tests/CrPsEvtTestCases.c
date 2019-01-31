@@ -48,6 +48,7 @@
 #include "Evt/CrPsEvtConfig.h"
 #include "CrPsServTypeId.h"
 #include "CrPsConstants.h"
+#include "CrPsTypes.h"
 #include "CrPsTestUtilities.h"
 #include "Dum/CrPsInCmdDumSample1Ctrl.h"
 #include "Evt/CrPsEvtGenPreDefEvt.h"
@@ -423,7 +424,7 @@ CrFwBool_t CrPsEvtTestCase6() {
 
   CrFwSetAppErrCode(crNoAppErr);
 
-  /* Instantiate and configure InFactory, InLoader, OutManager and InStream */
+  /* Instantiate and configure InFactory, InLoader and InStream */
   inFactory = CrFwInFactoryMake();
   CrFwCmpInit(inFactory);
   CrFwCmpReset(inFactory);
@@ -433,7 +434,7 @@ CrFwBool_t CrPsEvtTestCase6() {
 
   /* Initialize all event related data pool entries */
   setDpEvtNOfDisabledEid_1(0);
-  setDpEvtNOfDisabledEid_2(0);
+  setDpEvtNOfDisabledEid_4(0);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -480,6 +481,8 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that only the first EID has been disabled */
+  if (getDpEvtNOfDisabledEid_1() != 1)
+    return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 0)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt4Index, EVT_DUMMY_4) != 1)
@@ -494,6 +497,8 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that both EIDs have been disabled */
+  if (getDpEvtNOfDisabledEid_4() != 1)
+    return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 0)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt4Index, EVT_DUMMY_4) != 0)
@@ -535,6 +540,8 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that only the first EID has been enabled */
+  if (getDpEvtNOfDisabledEid_1() != 0)
+    return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 1)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt4Index, EVT_DUMMY_4) != 0)
@@ -549,6 +556,8 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that both EIDs have been disabled */
+  if (getDpEvtNOfDisabledEid_4() != 0)
+    return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 1)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt4Index, EVT_DUMMY_4) != 1)
@@ -573,3 +582,160 @@ CrFwBool_t CrPsEvtTestCase6() {
   return 1;
 }
 
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsEvtTestCase7() {
+  CrFwPckt_t pckt;
+  FwSmDesc_t inCmd;
+  FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader;
+  CrFwCmdRepIndex_t evt1Index;
+
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Instantiate and configure InFactory, InLoader, OutManager and InStream */
+  inFactory = CrFwInFactoryMake();
+  CrFwCmpInit(inFactory);
+  CrFwCmpReset(inFactory);
+  outRegistry = CrFwOutRegistryMake();
+  CrFwCmpInit(outRegistry);
+  CrFwCmpReset(outRegistry);
+  outFactory = CrFwOutFactoryMake();
+  CrFwCmpInit(outFactory);
+  CrFwCmpReset(outFactory);
+  outManager = CrFwOutManagerMake(0);
+  CrFwCmpInit(outManager);
+  CrFwCmpReset(outManager);
+  outLoader = CrFwOutLoaderMake();
+  CrFwCmpInit(outLoader);
+  CrFwCmpReset(outLoader);
+
+  /* Initialize all event related data pool entries */
+  setDpEvtNOfDisabledEid_1(0);
+  setDpEvtNOfDisabledEid_2(0);
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  /* Check that no outComponents are allocated */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
+    return 0;
+
+  /* Check initial enable status of two dummy events */
+  evt1Index = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, EVTREP1_STYPE);
+  if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_2) != 1)
+    return 0;
+
+  /* Create a (5,6) Packet with two event identifiers (one illegal and one illegal) */
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,EVT_TYPE);
+  CrFwPcktSetServSubType(pckt,EVTDISCMD_STYPE);
+  CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,10);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,2);
+  setEvtDisCmdN(pckt, 2);       /* 2 event identifiers */
+  setEvtDisCmdEventId(pckt, 0, EVT_DUMMY_1);        /* Legal event identifier */
+  setEvtDisCmdEventId(pckt, 1, EVT_DUMMY_4+200);    /* Illegal event identifier */
+
+  /*Creating an InCommand out of the 5,6 packet*/
+  inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+  /* Execute and terminate  the InCommand  (this simulates the action of an InManager) */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+
+  /*check that the InCommand is in PROGRESS state*/
+  if (!CrFwInCmdIsInProgress(inCmd))
+    return 0;
+
+  /* Check that the first EID has been disabled */
+  if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 0)
+    return 0;
+
+  /* Execute again the InCommand  */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+
+  /*check that the InCommand is in TERMINATED state*/
+  if (!CrFwInCmdIsInTerminated(inCmd))
+    return 0;
+
+  /* Check that a (1,6) report has been loaded in the OutManager with failure code VER_ILL_EID */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,6,VER_ILL_EID) != 1)
+    return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd);
+
+  /* Create a (5,5) Packet with two event identifiers (one illegal and one illegal) */
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,EVT_TYPE);
+  CrFwPcktSetServSubType(pckt,EVTENBCMD_STYPE);
+  CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,10);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,2);
+  setEvtDisCmdN(pckt, 2);       /* 2 event identifiers */
+  setEvtDisCmdEventId(pckt, 0, EVT_DUMMY_4+200);        /* Illegal event identifier */
+  setEvtDisCmdEventId(pckt, 1, EVT_DUMMY_1);            /* Legal event identifier */
+
+  /*Creating an InCommand out of the 5,5 packet*/
+  inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+  /* Execute and terminate  the InCommand  (this simulates the action of an InManager) */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+
+  /*check that the InCommand is in PROGRESS state*/
+  if (!CrFwInCmdIsInProgress(inCmd))
+    return 0;
+
+  /* Check that a (1,6) report has been loaded in the OutManager with failure code VER_ILL_EID */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,1,1,6,VER_ILL_EID) != 1)
+    return 0;
+
+  /* Execute again the InCommand  */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+
+  /* Check that the first EID has been enabled and that there are no new service 1 reports */
+  if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 1)
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+    return 0;
+
+  /*check that the InCommand is in TERMINATED state*/
+  if (!CrFwInCmdIsInTerminated(inCmd))
+    return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd);
+
+  /* Reset all components used in the test case */
+  CrFwCmpReset(inFactory);
+  CrFwCmpReset(outRegistry);
+  CrFwCmpReset(outManager);
+  CrFwCmpReset(outFactory);
+  CrFwCmpReset(outLoader);
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}

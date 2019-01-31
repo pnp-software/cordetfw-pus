@@ -148,7 +148,6 @@ CrFwBool_t CrPsEvtTestCase6();
  * Test the event enable and disable telecommands in the case of a mixture of legal and
  * illegal event identifiers.
  * The following actions are performed:
- * - Verify that the default enable state of the events is: 'enabled'
  * - Instantiate a command of type (5,6) carrying one illegal and one legal event identifier and execute it
  *   and verify that the legal event identifiers has been disabled and that the
  *   illegal event identifier has been loaded in verFailData and that a (1,5) report

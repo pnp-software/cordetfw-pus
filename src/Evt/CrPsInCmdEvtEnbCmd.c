@@ -84,15 +84,15 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
          break;
        case 2:
          nOfDisabledEvt = getDpEvtNOfDisabledEid_2();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
+         setDpEvtNOfDisabledEid_2(nOfDisabledEvt-1);
          break;
        case 3:
          nOfDisabledEvt = getDpEvtNOfDisabledEid_3();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
+         setDpEvtNOfDisabledEid_3(nOfDisabledEvt-1);
          break;
        case 4:
          nOfDisabledEvt = getDpEvtNOfDisabledEid_4();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
+         setDpEvtNOfDisabledEid_4(nOfDisabledEvt-1);
          break;
        default:
          CrFwSetAppErrCode(CrPsEvtIllSevLevel);

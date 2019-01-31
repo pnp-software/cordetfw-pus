@@ -114,7 +114,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   setVerFailedPrgrRepTcType(outPckt, type);
   setVerFailedPrgrRepTcSubType(outPckt, subType);
   setVerFailedPrgrRepTcDisc(outPckt, disc);
-  setVerSuccPrgrRepTcPrgStep(outPckt, prgrStepId);
+  setVerFailedPrgrRepTcPrgStep(outPckt, prgrStepId);
 
   /* Set the destination of the report to the source of the in-coming packet */
   inPcktSrc = CrFwPcktGetSrc(inPckt);

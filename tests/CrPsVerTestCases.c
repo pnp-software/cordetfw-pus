@@ -574,7 +574,7 @@ CrFwBool_t CrPsVerTestCase4() {
     return 0;
   rep1s5 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 2);
   rep1s5Pckt = CrFwOutCmpGetPckt(rep1s5);
-  if (getVerSuccPrgrRepTcPrgStep(rep1s5Pckt) != prgrStepId)
+  if (getVerFailedPrgrRepTcPrgStep(rep1s5Pckt) != prgrStepId)
     return 0;
   CrFwCmpReset(outManager);                 /* Clears queue of pending service 1 reports in OutManager */
 
