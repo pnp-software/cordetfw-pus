@@ -585,7 +585,7 @@ CrFwBool_t CrPsEvtTestCase6() {
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsEvtTestCase7() {
   CrFwPckt_t pckt;
-  FwSmDesc_t inCmd;
+  FwSmDesc_t inCmd, rep1s6, rep1s8;
   FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader;
   CrFwCmdRepIndex_t evt1Index;
 
@@ -659,14 +659,18 @@ CrFwBool_t CrPsEvtTestCase7() {
   CrFwCmpExecute(inCmd);
   CrFwInCmdTerminate(inCmd);
 
-  /*check that the InCommand is in TERMINATED state*/
-  if (!CrFwInCmdIsInTerminated(inCmd))
+  /*check that the InCommand is in ABORTED state*/
+  if (!CrFwInCmdIsInAborted(inCmd))
     return 0;
 
-  /* Check that a (1,6) report has been loaded in the OutManager with failure code VER_ILL_EID */
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+  /* Check that a (1,6) and (1,8) reports have been loaded in the OutManager with failure code VER_ILL_EID */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
     return 0;
   if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,1,6,VER_ILL_EID) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,0,6,VER_ILL_EID,EVT_DUMMY_4+200) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,8,VER_ILL_EID,1) != 1)
     return 0;
 
   /*Release the InCommand */
@@ -698,10 +702,12 @@ CrFwBool_t CrPsEvtTestCase7() {
   if (!CrFwInCmdIsInProgress(inCmd))
     return 0;
 
-  /* Check that a (1,6) report has been loaded in the OutManager with failure code VER_ILL_EID */
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+  /* Check that a (1,6) and (1,8) reports have been loaded in the OutManager with failure code VER_ILL_EID */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,1,1,6,VER_ILL_EID) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,2,1,6,VER_ILL_EID) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_ILL_EID,EVT_DUMMY_4+200) != 1)
     return 0;
 
   /* Execute again the InCommand  */
@@ -711,15 +717,113 @@ CrFwBool_t CrPsEvtTestCase7() {
   /* Check that the first EID has been enabled and that there are no new service 1 reports */
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 1)
     return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
     return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_ILL_EID,1) != 1)
+    return 0;
+
+  /*check that the InCommand is in ABORTED state*/
+  if (!CrFwInCmdIsInAborted(inCmd))
+    return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd);
+
+  /* Reset all components used in the test case */
+  CrFwCmpReset(inFactory);
+  CrFwCmpReset(outRegistry);
+  CrFwCmpReset(outManager);
+  CrFwCmpReset(outFactory);
+  CrFwCmpReset(outLoader);
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsEvtTestCase8() {
+  CrFwPckt_t pckt;
+  FwSmDesc_t inCmd, rep5s8;
+  FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader;
+
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Instantiate and configure InFactory, InLoader, OutManager and InStream */
+  inFactory = CrFwInFactoryMake();
+  CrFwCmpInit(inFactory);
+  CrFwCmpReset(inFactory);
+  outRegistry = CrFwOutRegistryMake();
+  CrFwCmpInit(outRegistry);
+  CrFwCmpReset(outRegistry);
+  outFactory = CrFwOutFactoryMake();
+  CrFwCmpInit(outFactory);
+  CrFwCmpReset(outFactory);
+  outManager = CrFwOutManagerMake(0);
+  CrFwCmpInit(outManager);
+  CrFwCmpReset(outManager);
+  outLoader = CrFwOutLoaderMake();
+  CrFwCmpInit(outLoader);
+  CrFwCmpReset(outLoader);
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  /* Check that no outComponents are allocated */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
+    return 0;
+
+  /* Disable two event identifiers */
+  CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_1, 0);
+  setDpEvtNOfDisabledEid_1(1);
+  CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_3, 0);
+  setDpEvtNOfDisabledEid_3(1);
+
+  /* Create a (5,7) Packet with two event identifiers (one illegal and one illegal) */
+  pckt = CrFwPcktMake(LEN_EVT_REPDISCMD);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,EVT_TYPE);
+  CrFwPcktSetServSubType(pckt,EVTREPDISCMD_STYPE);
+  CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,10);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,2);
+
+  /*Creating an InCommand out of the 5,7 packet*/
+  inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+  /* Execute and terminate  the InCommand  (this simulates the action of an InManager) */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
 
   /*check that the InCommand is in TERMINATED state*/
   if (!CrFwInCmdIsInTerminated(inCmd))
     return 0;
 
-  /*Release the InCommand */
-  CrFwInFactoryReleaseInCmd(inCmd);
+  /* Check that a (5,8) report has been loaded in the OutManager */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,5,8,0) != 1)
+    return 0;
+  rep5s8 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 0);
+  pckt = CrFwOutCmpGetPckt(rep5s8);
+  if (getEvtDisRepN(pckt) != 2)
+    return 0;
+  if (getEvtDisRepEventId(pckt,0) != EVT_DUMMY_1)
+    return 0;
+  if (getEvtDisRepEventId(pckt,1) != EVT_DUMMY_3)
+    return 0;
 
   /* Reset all components used in the test case */
   CrFwCmpReset(inFactory);

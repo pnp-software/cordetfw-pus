@@ -16,8 +16,12 @@
 #ifndef CRPS_TESTUTILITIES_H_
 #define CRPS_TESTUTILITIES_H_
 
+/* Include PUS Extension files */
+#include "CrPsTypes.h"
+
 /* Include framework files */
 #include "CrFwConstants.h"
+
 /* Include FW Profile files */
 #include "FwSmConstants.h"
 
@@ -56,10 +60,31 @@
  * @param servSubType the expected sub-type of the OutComponent at the i-th position in the POCL
  * @param  disc the expected value of the discriminant at the i-th position in the POCL (or zero if
  * no check on the discriminant is desired)
- * @return true if the i-th entry in the POCL has the stated type and sub-type, false otherwise
+ * @return true if the i-th entry in the POCL has the stated type, sub-type and discriminant, false otherwise
  */
 CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmp(FwSmDesc_t outManager, int i,
                           CrFwServType_t servType, CrFwServSubType_t servSubType, CrFwDiscriminant_t disc);
+
+/**
+ * Function to verify that the i-th entry in the POCL of an OutManager contains a service 1 failure
+ * report of a sub-type, failure code, and failure data.
+ * When an OutComponent is loaded onto an OutManager, it is stored in its "Pending Out-Component List"
+ * or POCL.
+ * This function extracts the i-th entry in the POCL and checks whether its type is 1 and its sub-type,
+ * failure code and failure data match the sub-type, failure code and failure data given as function parameters.
+ * If the i-th entry in the POCL is empty, the function return false.
+ *
+ * @param outManager the OutManager whose POCL is checked
+ * @param i the index of the entry in the POCL which is checked (starting from zero)
+ * @param servSubType the expected sub-type of the OutComponent at the i-th position in the POCL
+ * @param failCode the expected value of the failure code at the i-th position in the POCL (or zero if
+ * no check on the discriminant is desired)
+ * @param failData the expected value of the failure data at the i-th position in the POCL (only checked
+ * if the discriminant is non-zero)
+ * @return true if the i-th entry in the POCL has the stated sub-type, failure code, and failure data, false otherwise
+ */
+CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmdRejRep(FwSmDesc_t outManager, int i,
+                          CrFwServSubType_t servSubType, CrPsFailCode_t failCode, CrPsFailData_t failData);
 
 /**
  * Return the item which is currently loaded in the i-th entry of the PCRL of the argument InManager.

@@ -15,6 +15,7 @@
  */
 
 #include "CrPsTestUtilities.h"
+#include "Pckt/CrPsPcktVer.h"
 
 /* Include FW Profile files */
 #include "FwSmCore.h"
@@ -24,7 +25,6 @@
 #include "CrFwCmpData.h"
 #include "OutManager/CrFwOutManager.h"
 #include "Pckt/CrFwPckt.h"
-
 
 /*-----------------------------------------------------------------------------*/
 CrFwPckt_t CrPsTestUtilitiesCreateSAmple1Pckt(CrFwDestSrc_t dest, CrFwBool_t accAck, CrFwBool_t startAck,
@@ -66,6 +66,32 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmp(FwSmDesc_t outManager, int i,
   
   return 1;
 }
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmdRejRep(FwSmDesc_t outManager, int i,
+                          CrFwServSubType_t servSubType, CrPsFailCode_t failCode, CrPsFailData_t failData) {
+  CrFwCmpData_t* outManagerData;
+  CrFwOutManagerData_t* outManagerCSData;
+  FwSmDesc_t outCmp;
+  CrFwPckt_t pckt;
+
+  outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
+  outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
+  outCmp = outManagerCSData->pocl[i];
+  pckt = CrFwOutCmpGetPckt(outCmp);
+  if (outCmp == NULL)
+      return 0;
+  if (CrFwOutCmpGetServSubType(outCmp) != servSubType)
+    return 0;
+  if (failCode != 0) {
+    if (getVerFailedPrgrRepTcFailCode(pckt) != failCode)
+      return 0;
+    if (getVerFailedPrgrRepTcFailData(pckt) != failData)
+      return 0;
+  }
+
+  return 1;
+}
   
 /*-----------------------------------------------------------------------------*/
 FwSmDesc_t CrPsTestUtilitiesGetItemFromInManager(FwSmDesc_t inManager, int i) {
@@ -75,7 +101,7 @@ FwSmDesc_t CrPsTestUtilitiesGetItemFromInManager(FwSmDesc_t inManager, int i) {
 }
 
 /*-----------------------------------------------------------------------------*/
-FwSmDesc_t  CrPsTestUtilitiesGetItemFromOutManager(FwSmDesc_t outManager, int i) {
+FwSmDesc_t CrPsTestUtilitiesGetItemFromOutManager(FwSmDesc_t outManager, int i) {
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
 

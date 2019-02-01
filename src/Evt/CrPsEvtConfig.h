@@ -140,7 +140,7 @@ void CrPsEvtConfigGetEvtIdPos(unsigned int* pSevLevel, unsigned int* pPos);
  * When the last event identifier is reached, the function returns an illegal position with
  * severity level set to zero.
  *
- * If the input severity level is illegal, a the function returns an illegal position with
+ * If the input severity level is illegal, the function returns an illegal position with
  * severity level set to -1.
  * Input positions beyond the last position in a List of Event Identifiers are treated as
  * legal and simply saturated.

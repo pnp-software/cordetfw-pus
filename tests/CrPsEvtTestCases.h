@@ -165,5 +165,18 @@ CrFwBool_t CrPsEvtTestCase6();
  */
 CrFwBool_t CrPsEvtTestCase7();
 
+/**
+ * Test the telecommand to report the disabled event identifiers.
+ * The following actions are performed:
+ * - Disable one event identifier and then instantiate a command of type (5,7) and execute
+ *   it and verify that it triggers the generation of one (5,8) report carrying the disabled
+ *   identifier
+ * .
+ * @verify Report Disabled Event Identifiers, Nominal case
+ * @verify Disabled Event Identifiers Report, Case of single (5,8) report
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase8();
 
 #endif /* CRPS_EVTTESTCASES_H_ */

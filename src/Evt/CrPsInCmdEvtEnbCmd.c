@@ -74,7 +74,7 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
    sevLevel = CrPsEvtConfigSetEidEnableStatus(eid, 1);
 
    if (sevLevel == 0) {     /* The EID is not defined */
-     setDpVerFailCode(eid);
+     setDpVerFailData(eid);
      CrFwSetSmOutcome(smDesc, VER_ILL_EID);
    } else {
      switch (sevLevel) {
@@ -109,4 +109,21 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
      CrFwInCmdSetProgressActionCompleted(smDesc, 0);
    else
      CrFwInCmdSetProgressActionCompleted(smDesc, 1);
+}
+
+/**
+ * Termination action of TC(5,5) EvtEnbCmd.
+ * The action outcome is set to 'success' if all progress steps were
+ * successful. Otherwise, the action outcome is set to VER_ILL_EID and the
+ * number of failed progress steps (which corresponds to the number of illegal
+ * event identifier in the command) is loaded in verFailData.
+ * @param smDesc The state machine descriptor.
+ */
+void CrPsInCmdEvtEnbCmdTerminationAction(FwSmDesc_t smDesc) {
+  CrFwProgressStepId_t nOfFailedSteps = CrFwInCmdGetNOfProgressFailure(smDesc);
+  if (nOfFailedSteps > 0) {
+    setDpVerFailData(nOfFailedSteps);
+    CrFwSetSmOutcome(smDesc, VER_ILL_EID);
+  } else
+    CrFwSetSmOutcome(smDesc, 1);
 }

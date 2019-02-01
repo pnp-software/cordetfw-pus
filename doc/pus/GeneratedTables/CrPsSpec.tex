@@ -354,7 +354,7 @@ Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & The event identifiers are processed in sequence and in the order in which they are stored in the event report. Each event identifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-EID\newline (b) If the event identified is legal, then: its enable status is set to 'enabled'; the value of nDisabledEid x ('x' is the severity level of the EID) is decremented; and the Success Outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
-Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-ILL\_\-EID and the number of failed progress steps (which corresponds to the number of illegal event identifier in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -366,7 +366,7 @@ Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & The event identifiers are processed in sequence and in the order in which they are stored in the event report. Each event identiifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-EID\newline (b) If the event identified is legal, then: its enable status is set to 'disabled'; the value of nDisabledEid x ('x' is the severity level of the EID) is incremented; and the Success Outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
-Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-ILL\_\-EID and the number of failed progress steps (which corresponds to the number of illegal event identifier in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
