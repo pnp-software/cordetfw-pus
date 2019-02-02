@@ -25,6 +25,7 @@
 #include "CrFwInStreamUserPar.h"
 #include "CrFwOutRegistryUserPar.h"
 #include "CrFwOutFactoryUserPar.h"
+#include "CrFwRepErrStub.h"
 
 /* Include framework files */
 #include "CrFwCmpData.h"
@@ -791,7 +792,7 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_3, 0);
   setDpEvtNOfDisabledEid_3(1);
 
-  /* Create a (5,7) Packet with two event identifiers (one illegal and one illegal) */
+  /* Create a (5,7) Packet */
   pckt = CrFwPcktMake(LEN_EVT_REPDISCMD);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,EVT_TYPE);
@@ -847,7 +848,7 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_3, 0);
   setDpEvtNOfDisabledEid_3(5);
 
-  /* Create a (5,7) Packet with two event identifiers (one illegal and one illegal) */
+  /* Create a (5,7) Packet */
   pckt = CrFwPcktMake(LEN_EVT_REPDISCMD);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,EVT_TYPE);
@@ -896,6 +897,116 @@ CrFwBool_t CrPsEvtTestCase8() {
 
   /* Reset all components used in the test case */
   CrFwCmpReset(inFactory);
+  CrFwCmpReset(outRegistry);
+  CrFwCmpReset(outManager);
+  CrFwCmpReset(outFactory);
+  CrFwCmpReset(outLoader);
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsEvtTestCase9() {
+  FwSmDesc_t outRegistry, outFactory, outLoader, outManager, inCmd;
+  FwSmDesc_t outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
+  unsigned int i;
+  CrFwPckt_t pckt;
+  CrFwCounterU2_t errRepPos;
+
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Initialize and reset the framework components */
+  outRegistry = CrFwOutRegistryMake();
+  CrFwCmpInit(outRegistry);
+  CrFwCmpReset(outRegistry);
+  outFactory = CrFwOutFactoryMake();
+  CrFwCmpInit(outFactory);
+  CrFwCmpReset(outFactory);
+  outManager = CrFwOutManagerMake(0);
+  CrFwCmpInit(outManager);
+  CrFwCmpReset(outManager);
+  outLoader = CrFwOutLoaderMake();
+  CrFwCmpInit(outLoader);
+  CrFwCmpReset(outLoader);
+
+  /* Fill the outfactory */
+  for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP;i++)
+    outCmpArr[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
+
+  /* Retrieve pointer position in the Stub Error Report */
+  errRepPos = CrFwRepErrStubGetPos();
+
+  /* Attempt to generate a pre-defined parameterless event */
+  CrPsEvtGenPreDefEvtNoPar(EVT_DUMMY_2);
+  if (CrFwRepErrStubGetPos() != errRepPos+1)
+      return 0;
+  if (CrFwRepErrStubGetErrCode(errRepPos) != psOutFactoryFail)
+      return 0;
+
+  /* The Error Code has been set by the OutFactory and must be reset */
+  if (CrFwGetAppErrCode()!=crOutCmpAllocationFail)
+      return 0;
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Attempt to generate a pre-defined event with dummy parameter */
+  CrPsEvtGenPreDefEvtDummyPar(EVT_DUMMY_1, 1);
+  if (CrFwRepErrStubGetPos() != errRepPos+2)
+      return 0;
+  if (CrFwRepErrStubGetErrCode(errRepPos+1) != psOutFactoryFail)
+      return 0;
+
+  /* The Error Code has been set by the OutFactory and must be reset */
+  if (CrFwGetAppErrCode()!=crOutCmpAllocationFail)
+      return 0;
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /*------------------------------------------------ Step 2 ------------------------------------------*/
+  /* Create a (5,7) Packet */
+  pckt = CrFwPcktMake(LEN_EVT_REPDISCMD);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,EVT_TYPE);
+  CrFwPcktSetServSubType(pckt,EVTREPDISCMD_STYPE);
+  CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);       /* This will be the destination of the (5,8) report */
+  CrFwPcktSetDest(pckt,10);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,2);
+
+  /*Create an InCommand out of the 5,7 packet*/
+  inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+  /* Execute and terminate the InCommand (this simulates the action of an InManager) */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+
+  /* Verify generation of error report */
+  if (CrFwRepErrStubGetPos() != errRepPos+3)
+      return 0;
+  if (CrFwRepErrStubGetErrCode(errRepPos+2) != psOutFactoryFail)
+      return 0;
+
+  /* The Error Code has been set by the OutFactory and must be reset */
+  if (CrFwGetAppErrCode()!=crOutCmpAllocationFail)
+      return 0;
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Release all outcomponents, that have been created to fill the outfactory */
+  for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
+    CrFwOutFactoryReleaseOutCmp(outCmpArr[i]);
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd);
+
+  /* Reset all components used in the test case */
   CrFwCmpReset(outRegistry);
   CrFwCmpReset(outManager);
   CrFwCmpReset(outFactory);

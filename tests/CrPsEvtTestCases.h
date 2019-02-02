@@ -181,4 +181,20 @@ CrFwBool_t CrPsEvtTestCase7();
  */
 CrFwBool_t CrPsEvtTestCase8();
 
+/**
+ * Test the event service in a situation where the OutFactory is full and unable to generate
+ * new reports.
+ * The following actions are performed:
+ * - Fill the OutFactory and then attempt to generate a pre-defined event and verify that
+ *   an error report of type OUTFACTORY_FAIL is generated
+ * - Generate and execute a (5,7) command and verify that no (5,8) report is generated and
+ *   than an error report of type OUTFACTORY_FAIL is generated
+ * .
+ * @verify Generate Pre-Defined Parameterless Event, OUTFACTORY_FAIL error case
+ * @verify Report Disabled Event Identifiers, Case of full OutFactory
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsEvtTestCase9();
+
 #endif /* CRPS_EVTTESTCASES_H_ */

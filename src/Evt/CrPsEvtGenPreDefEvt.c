@@ -51,7 +51,7 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
 
   /* Generate error report if OutFactory failed to return a component */
   if (evtRep == NULL) {
-    CrFwRepErrKind(psOutFactoryFail, 0, 0, EVT_TYPE, (CrFwServSubType_t)sevLevel, 0);
+    CrFwRepErrKind(psOutFactoryFail, 0, 0, EVT_TYPE, (CrFwServSubType_t)sevLevel, evtId);
     return;
   }
 
@@ -91,7 +91,7 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
 
   /* Generate error report if OutFactory failed to return a component */
   if (evtRep == NULL) {
-    CrFwRepErrKind(psOutFactoryFail, 0, 0, EVT_TYPE, (CrFwServSubType_t)sevLevel, 0);
+    CrFwRepErrKind(psOutFactoryFail, 0, 0, EVT_TYPE, (CrFwServSubType_t)sevLevel, evtId);
     return;
   }
 
