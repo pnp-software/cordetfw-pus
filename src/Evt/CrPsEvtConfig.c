@@ -21,6 +21,8 @@
 
 #include "OutRegistry/CrFwOutRegistry.h"
 
+#include <assert.h>
+
 /* Define arrays holding event identifiers in increasing order */
 static CrPsEvtId_t listOfEid_1[N_OF_DER_PCKT_EVT_REP1] = LIST_OF_DER_PCKT_EVT_REP1;
 static CrPsEvtId_t listOfEid_2[N_OF_DER_PCKT_EVT_REP2] = LIST_OF_DER_PCKT_EVT_REP2;
@@ -34,8 +36,8 @@ static CrFwBool_t isEidDisabled_3[N_OF_DER_PCKT_EVT_REP3];
 static CrFwBool_t isEidDisabled_4[N_OF_DER_PCKT_EVT_REP4];
 
 /* Event Position Buffer */
-static unsigned int evtSevLevel;
-static unsigned int evtPos;
+static unsigned int sevLevel;
+static int pos;
 
 /* ------------------------------------------------------------------------------------------------ */
 void CrPsEvtConfigInit() {
@@ -215,53 +217,77 @@ CrFwBool_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel) {
 }
 
 /* ------------------------------------------------------------------------------------------------ */
-void CrPsEvtConfigLoadEvtIdPos(unsigned int sevLevel, unsigned int pos) {
-  evtSevLevel = sevLevel;
-  evtPos = pos;
+void CrPsEvtConfigResetIter() {
+  sevLevel = 1;
+  pos = -1;
 }
 
 /* ------------------------------------------------------------------------------------------------ */
-void CrPsEvtConfigGetEvtIdPos(unsigned int* pSevLevel, unsigned int* pPos) {
-  *pSevLevel = evtSevLevel;
-  *pPos = evtPos;
-}
+void CrPsEvtConfigIter(CrPsEvtId_t* eid) {
 
-/* ------------------------------------------------------------------------------------------------ */
-void CrPsEvtConfigGetNextEvtId(unsigned int sevLevel, unsigned int pos,
-                                            unsigned int* nextSevLevel, unsigned int* nextPos) {
+   while (sevLevel != 0) {
+       /* Handle default case where we are within a List of Event Identifiers */
+       pos = pos + 1;
 
-   /* Handle default case where we are within a List of Event Identifiers */
-   *nextSevLevel = sevLevel;
-   *nextPos = pos + 1;
-
-   /* Handle case where we are at the end of a List of Event Identifiers */
-   switch (sevLevel) {
-       case 1:
-           if (pos >= N_OF_DER_PCKT_EVT_REP1) {
-               *nextSevLevel = sevLevel + 1;
-               *nextPos = 0;
-           }
-           break;
-       case 2:
-           if (pos >= N_OF_DER_PCKT_EVT_REP2) {
-               *nextSevLevel = sevLevel + 1;
-               *nextPos = 0;
-           }
-           break;
-       case 3:
-           if (pos >= N_OF_DER_PCKT_EVT_REP3) {
-               *nextSevLevel = sevLevel + 1;
-               *nextPos = 0;
-           }
-           break;
-       case 4:
-           if (pos >= N_OF_DER_PCKT_EVT_REP4) {
-               *nextSevLevel = 0;
-               *nextPos = 0;
-           }
-           break;
-       default:
-           *nextSevLevel = -1;
-           *nextPos = 0;
+       /* Handle case where we are at the end of a List of Event Identifiers */
+       switch (sevLevel) {
+           case 1:
+               if (pos >= N_OF_DER_PCKT_EVT_REP1) {
+                   sevLevel = sevLevel + 1;
+                   pos = 0;
+               }
+               break;
+           case 2:
+               if (pos >= N_OF_DER_PCKT_EVT_REP2) {
+                   sevLevel = sevLevel + 1;
+                   pos = 0;
+               }
+               break;
+           case 3:
+               if (pos >= N_OF_DER_PCKT_EVT_REP3) {
+                   sevLevel = sevLevel + 1;
+                   pos = 0;
+               }
+               break;
+           case 4:
+               if (pos >= N_OF_DER_PCKT_EVT_REP4) {
+                   sevLevel = 0;
+                   pos = 0;
+                   *eid = 0;
+                   return;
+               }
+               break;
+           default:
+               assert(0);
+       }
+       /* Check whether the current event is disabled */
+       switch (sevLevel) {
+           case 1:
+               if (isEidDisabled_1[pos] == 1) {
+                   *eid = listOfEid_1[pos];
+                   return;
+               }
+               break;
+           case 2:
+               if (isEidDisabled_2[pos] == 1) {
+                   *eid = listOfEid_2[pos];
+                   return;
+               }
+               break;
+           case 3:
+               if (isEidDisabled_3[pos] == 1) {
+                   *eid = listOfEid_3[pos];
+                   return;
+               }
+               break;
+           case 4:
+               if (isEidDisabled_4[pos] == 1) {
+                   *eid = listOfEid_4[pos];
+                   return;
+               }
+               break;
+           default:
+               assert(0);
+       }
    }
 }

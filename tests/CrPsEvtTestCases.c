@@ -585,7 +585,7 @@ CrFwBool_t CrPsEvtTestCase6() {
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsEvtTestCase7() {
   CrFwPckt_t pckt;
-  FwSmDesc_t inCmd, rep1s6, rep1s8;
+  FwSmDesc_t inCmd;
   FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader;
   CrFwCmdRepIndex_t evt1Index;
 
@@ -751,9 +751,9 @@ CrFwBool_t CrPsEvtTestCase7() {
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsEvtTestCase8() {
-  CrFwPckt_t pckt;
+  CrFwPckt_t pckt, pckt1, pckt2;
   FwSmDesc_t inCmd, rep5s8;
-  FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader;
+  FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader, outStream;
 
   CrFwSetAppErrCode(crNoAppErr);
 
@@ -773,6 +773,9 @@ CrFwBool_t CrPsEvtTestCase8() {
   outLoader = CrFwOutLoaderMake();
   CrFwCmpInit(outLoader);
   CrFwCmpReset(outLoader);
+  outStream = CrFwOutStreamMake(0);     /* OutStream associated to destination EVT_DEST */
+  CrFwCmpInit(outStream);
+  CrFwCmpReset(outStream);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -794,16 +797,16 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrFwPcktSetServType(pckt,EVT_TYPE);
   CrFwPcktSetServSubType(pckt,EVTREPDISCMD_STYPE);
   CrFwPcktSetDiscriminant(pckt,0);
-  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);       /* This will be the destination of the (5,8) report */
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
 
-  /*Creating an InCommand out of the 5,7 packet*/
+  /*Create an InCommand out of the 5,7 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-  /* Execute and terminate  the InCommand  (this simulates the action of an InManager) */
+  /* Execute and terminate the InCommand (this simulates the action of an InManager) */
   CrFwCmpExecute(inCmd);
   CrFwInCmdTerminate(inCmd);
 
@@ -818,11 +821,77 @@ CrFwBool_t CrPsEvtTestCase8() {
     return 0;
   rep5s8 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 0);
   pckt = CrFwOutCmpGetPckt(rep5s8);
+
+  /* Execute the OutManager (this causes the (5,8) report to be executed */
+  CrFwCmpExecute(outManager);
+
+  /* The following checks are dangerous because the outCmp has already been released!!!!
+   * They only work because the pckt of the released outCmp has not yet been overwritten */
   if (getEvtDisRepN(pckt) != 2)
     return 0;
   if (getEvtDisRepEventId(pckt,0) != EVT_DUMMY_1)
     return 0;
   if (getEvtDisRepEventId(pckt,1) != EVT_DUMMY_3)
+    return 0;
+
+  /*----------------------------------- Step 2 ------------------------------------------*/
+  /* Disable 8 event identifiers */
+  CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_1, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_DOWN_ABORT, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_UP_ABORT, 0);
+  setDpEvtNOfDisabledEid_1(3);
+  CrPsEvtConfigSetEidEnableStatus (EVT_MON_LIM_I, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_MON_DEL_R, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_MON_DEL_I, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_FMON_FAIL, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_3, 0);
+  setDpEvtNOfDisabledEid_3(5);
+
+  /* Create a (5,7) Packet with two event identifiers (one illegal and one illegal) */
+  pckt = CrFwPcktMake(LEN_EVT_REPDISCMD);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,EVT_TYPE);
+  CrFwPcktSetServSubType(pckt,EVTREPDISCMD_STYPE);
+  CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);       /* This will be the destination of the (5,8) report */
+  CrFwPcktSetDest(pckt,10);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,2);
+
+  /*Create an InCommand out of the 5,7 packet*/
+  inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+  /* Execute and terminate the InCommand (this simulates the action of an InManager) */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+
+  /*check that the InCommand is in TERMINATED state*/
+  if (!CrFwInCmdIsInTerminated(inCmd))
+    return 0;
+
+  /* Check that two (5,8) reports have been loaded in the OutManager */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,5,8,0) != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,1,5,8,0) != 1)
+    return 0;
+  rep5s8 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 0);
+  pckt1 = CrFwOutCmpGetPckt(rep5s8);
+  rep5s8 = CrPsTestUtilitiesGetItemFromOutManager(outManager, 1);
+  pckt2 = CrFwOutCmpGetPckt(rep5s8);
+
+  /* Execute the OutManager (this causes the (5,8) reports to be executed */
+  CrFwCmpExecute(outManager);
+
+  /* The following checks are dangerous because the outCmp has already been released!!!!
+   * They only work because the pckt of the released outCmp has not yet been overwritten */
+  if (getEvtDisRepN(pckt1) != 7)
+    return 0;
+  if (getEvtDisRepN(pckt2) != 1)
+    return 0;
+  if (getEvtDisRepEventId(pckt2,0) != EVT_DUMMY_3)
     return 0;
 
   /* Reset all components used in the test case */
@@ -835,7 +904,6 @@ CrFwBool_t CrPsEvtTestCase8() {
   /* Check that no packets are allocated */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
-
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)

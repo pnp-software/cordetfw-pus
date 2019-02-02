@@ -111,48 +111,25 @@ CrPsEvtId_t* CrPsEvtConfigGetListOfEid(unsigned int severityLevel);
 CrFwBool_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel);
 
 /**
- * Load the position of an event identifiers in the Event Position Buffer.
- * The position of the event identifier is given by: (a) the event's severity level and (b)
- * the event's position in the List of Event Identifiers.
- * The content of the Event Position Buffer can be retrieved using function
- * #CrPsEvtConfigGetEvtIdPos.
- * @param sevLevel the severity level
- * @param pos the position within the list of event identifiers
+ * Reset the iterator which iterates over all disabled events.
+ * The iterator is accessed through function #CrPsEvtConfigIter.
  */
-void CrPsEvtConfigLoadEvtIdPos(unsigned int sevLevel, unsigned int pos);
+void CrPsEvtConfigResetIter();
 
 /**
- * Retrieve the content of the Event Position Buffer (see function #CrPsEvtConfigLoadEvtIdPos).
- *
- * @param pSevLevel the severity level
- * @param pPos the position within the list of event identifiers
- */
-void CrPsEvtConfigGetEvtIdPos(unsigned int* pSevLevel, unsigned int* pPos);
-
-/**
- * Iterate over all event identifiers.
- * This function takes the position of an event identifier as input and returns the position
- * of the next event identifier.
- * An event identifier position is defined by its severity level and by the position within the
- * corresponding List of Event Identifiers.
+ * Iterate over all disabled event identifiers.
+ * The iterator is reset with function #CrPsEvtConfigResetIter.
+ * After the iterator has been reset, each call to this function moves the iterator to the next
+ * disabled event and returns its event identifier.
  * The iteration is done in order of increasing identifier starting from the first severity 1 event
  * identifier until the last severity 4 event identifier.
- * When the last event identifier is reached, the function returns an illegal position with
- * severity level set to zero.
+ * When the last event identifier is reached, the function returns a zero event identifier and
+ * stops the iteration.
  *
- * If the input severity level is illegal, the function returns an illegal position with
- * severity level set to -1.
- * Input positions beyond the last position in a List of Event Identifiers are treated as
- * legal and simply saturated.
- *
- * @param sevLevel the severity level of the current event identifier (input parameter)
- * @param pos the position within the list of event identifiers of the current event identifier
- * (input parameter)
- * @param nextSevLevel the severity level of the next event identifier (output parameter)
- * @param nextPos the position within the list of the next event identifiers (output parameter)
+ * @param eid the event identifier at which the iterator has stopped in the last call to the
+ * function or zero if the iterator has completed the iteration over all event identifiers
  */
-void CrPsEvtConfigGetNextEvtId(unsigned int sevLevel, unsigned int pos,
-                                            unsigned int* nextSevLevel, unsigned int* nextPos);
+void CrPsEvtConfigIter(CrPsEvtId_t* eid);
 
 /**
  * Initialize the Event Reporting Service.

@@ -27,8 +27,7 @@
 #include <assert.h>
 
 static FwSmDesc_t rep5s8[EVT_MAX_N5S8];
-static unsigned int nOfFull5s8, nOfPartial5s8, nOfRep5s8;
-static unsigned int nOfEidsInPartial5s8, maxNOfEid;
+static unsigned int nOfRep5s8;
 
 /**
  * Start action of TC(5,7) EvtRepDisCmd.
@@ -46,7 +45,8 @@ static unsigned int nOfEidsInPartial5s8, maxNOfEid;
  */
 void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   CrPsNEvtId_t nDisabledEvt;
-  unsigned int sizeFull5s8, sizePartial5s8, i;
+  unsigned int nOfEidsInPartial5s8, maxNOfEid;
+  unsigned int sizeFull5s8, sizePartial5s8, nOfFull5s8, nOfPartial5s8, i;
   size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
 
   /* Compute number of disabled events */
@@ -104,52 +104,17 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
  * @param smDesc The descriptor of the state machine encapsulating the (5,7) command.
  */
 void CrPsInCmdEvtRepDisCmdProgressAction(FwSmDesc_t smDesc) {
-  unsigned int i, j, k;
+  unsigned int i;
   CrFwDestSrc_t src5s7;
-  CrFwPckt_t pckt;
-  CrPsEvtId_t* listOfEid_1, listOfEid_2, listOfEid_3, listOfEid_4;
-  CrFwBool_t* listOfDisabledEid_1, listOfDisabledEid_2, listOfDisabledEid_3, listOfDisabledEid_4;
-
-  listOfEid_1 = CrPsEvtConfigGetListOfEid(1);
-  listOfEid_2 = CrPsEvtConfigGetListOfEid(2);
-  listOfEid_3 = CrPsEvtConfigGetListOfEid(3);
-  listOfEid_4 = CrPsEvtConfigGetListOfEid(4);
-  listOfDisabledEid_1 = CrPsEvtConfigGetListOfDisabledEid(1);
-  listOfDisabledEid_2 = CrPsEvtConfigGetListOfDisabledEid(2);
-  listOfDisabledEid_3 = CrPsEvtConfigGetListOfDisabledEid(3);
-  listOfDisabledEid_4 = CrPsEvtConfigGetListOfDisabledEid(4);
 
   src5s7 = CrFwInCmdGetSrc(smDesc);
   /* Process the full (5,8) reports */
-  for (i=0; i<nOfFull5s8; i++) {
+  for (i=0; i<nOfRep5s8; i++) {
     CrFwOutCmpSetDest(rep5s8[i], src5s7);
-    pckt = CrFwOutCmpGetPckt(rep5s8[i]);
-    setEvtDisRepN(pckt,maxNOfEid);
-    /* Load the disabled event identifiers */
-    for (k=0; k<N_OF_DER_PCKT_EVT_REP1; k++)
-      if (listOfDisabledEid_1[k] == 1)
-        setEvtDisRepEventId(pckt,listOfEid_1[k]);
-    for (k=0; k<N_OF_DER_PCKT_EVT_REP2; k++)
-      if (listOfDisabledEid_2[k] == 1)
-        setEvtDisRepEventId(pckt,listOfEid_2[k]);
-    for (k=0; k<N_OF_DER_PCKT_EVT_REP3; k++)
-      if (listOfDisabledEid_3[k] == 1)
-        setEvtDisRepEventId(pckt,listOfEid_3[k]);
-    for (k=0; k<N_OF_DER_PCKT_EVT_REP4; k++)
-      if (listOfDisabledEid_4[k] == 1)
-        setEvtDisRepEventId(pckt,listOfEid_4[k]);
-
-
-
-
     CrFwOutLoaderLoad(rep5s8[i]);
   }
-
-  /* Process the partial 5,8) report */
-  TBD
-
   /* Set the starting position in the Event Position Buffer */
-  CrPsEvtConfigLoadEvtIdPos(1,0);
+  CrPsEvtConfigResetIter();
 
   /* Set the action outcome to 'success' */
   CrFwSetSmOutcome(smDesc, 1);

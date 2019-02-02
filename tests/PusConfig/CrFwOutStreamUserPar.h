@@ -30,6 +30,8 @@
 #include "BaseCmp/CrFwResetProc.h"
 /* Include test suite files */
 #include "CrFwOutStreamStub.h"
+/* Include PUS Extension files */
+#include "CrPsConstants.h"
 
 /**
  * The number of OutStream components in the application.
@@ -59,7 +61,7 @@
  * A destination is defined by a non-negative integer.
  * This array defines the destination of the i-th OutStream.
  */
-#define CR_FW_OUTSTREAM_DEST {1,2}
+#define CR_FW_OUTSTREAM_DEST {EVT_DEST,1}
 
 /**
  * The number of groups of the OutStream components.

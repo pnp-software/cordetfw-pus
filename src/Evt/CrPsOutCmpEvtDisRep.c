@@ -45,45 +45,26 @@
 void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
   unsigned int evtSevLevel, evtPos;
   unsigned int nEvtEid;
+  CrPsEvtId_t eid;
   size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
   CrFwPckt_t res5s8Pckt;
   CrPsNEvtId_t i;
   unsigned int nextSevLevel, nextPos;
-  CrPsEvtId_t* eid;
-  CrFwBool_t* isEidDis;
-
-  /* Retrieve the position of the first event to be carried by this report */
-  CrPsEvtConfigGetEvtIdPos(&evtSevLevel, &evtPos);
-  assert(evtSevLevel < 5);
 
   /* Compute the number of event identifiers to be stored in this report */
   sizeOfEvtId = getDpSize(DpIdlastEvtEid_1);
   sizeOfEvtN = getDpSize(DpIdnOfDisabledEid_1);
   sizeOfHeader = sizeof(TmHeader_t);
-  nEvtEid = (CR_FW_MAX_PCKT_LENGTH - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
+  nEvtEid = (CrFwOutCmpGetLength(smDesc) - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
 
   /* Populate the (5,8) report */
   res5s8Pckt = CrFwOutCmpGetPckt(smDesc);
 
   setEvtDisRepN(res5s8Pckt, nEvtEid);
-  eid = CrPsEvtConfigGetListOfEid(evtSevLevel);
-  isEidDis = CrPsEvtConfigGetListOfDisabledEid(evtSevLevel);
 
-  while (i < nEvtEid) {
-      if (isEidDis[evtPos] == 1) {
-          setEvtDisRepEventId(res5s8Pckt, i, eid[evtPos]);
-          i++;
-      }
-      CrPsEvtConfigGetNextEvtId(evtSevLevel, evtPos, &nextSevLevel, &nextPos);
-      if (nextSevLevel < 1) { /* All event identifiers have been processed */
-          break;
-          assert(i == nEvtEid);
-      }
-      if (nextSevLevel != evtSevLevel) {
-          eid = CrPsEvtConfigGetListOfEid(nextSevLevel);
-          isEidDis = CrPsEvtConfigGetListOfDisabledEid(nextSevLevel);
-      }
-      evtSevLevel = nextSevLevel;
-      evtPos = nextPos;
+  for (i=0; i<nEvtEid; i++) {
+      CrPsEvtConfigIter(&eid);
+      setEvtDisRepEventId(res5s8Pckt, i, eid);
+      assert(eid != 0);
   }
 }

@@ -38,8 +38,6 @@
  * - The severity level of an event identifier is recovered and its correctness is verified
  * - The severity level of a non-existent event identifier is recovered and it is verified that
  *   the non-existence of the event identifier is recognized
- * - Function #CrPsEvtConfigGetNextEvtId to iterate over the event identifier is verified
- *   for legal and illegal input values
  * .
  * @verify Evt Config, Operation to retrieve position and severity level of event identifier
  * @verify Evt Config, Operation to set the enable status of an event identifier
@@ -168,12 +166,16 @@ CrFwBool_t CrPsEvtTestCase7();
 /**
  * Test the telecommand to report the disabled event identifiers.
  * The following actions are performed:
- * - Disable one event identifier and then instantiate a command of type (5,7) and execute
+ * - Disable TWO event identifiers and then instantiate a command of type (5,7) and execute
  *   it and verify that it triggers the generation of one (5,8) report carrying the disabled
  *   identifier
+ * - Disable 8 event identifiers  and then instantiate a command of type (5,7) and execute
+ *   it and verify that it triggers the generation of two (5,8) reports carrying the disabled
+ *   identifiers
  * .
  * @verify Report Disabled Event Identifiers, Nominal case
  * @verify Disabled Event Identifiers Report, Case of single (5,8) report
+ * @verify Disabled Event Identifiers Report, Case of multiple (5,8) reports
  *
  * @return 1 if the test was successful, 0 otherwise
  */

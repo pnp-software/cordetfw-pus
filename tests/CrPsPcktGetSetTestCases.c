@@ -59,7 +59,7 @@ CrFwBool_t CrPsPcktGetSetTestCase1() {
   uint8_t  tim[6], timi[6];
   char    *pstart;
   int i;
-  uint16_t pcktsize = 30;
+  uint16_t pcktsize = 20;       /* Must be bug enough to hold a TM or TC header */
 
   CrFwSetAppErrCode(crNoAppErr);
 
