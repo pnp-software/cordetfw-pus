@@ -31,6 +31,8 @@
  * - The identifier of the sampling buffer holding the super-commutated data item values
  *   (an integer in the range: 1..HK_N_SAMP_BUF)
  * .
+ * Some of RDL data structures are defined in the data pool.
+ * The others are defined in this module.
  *
  * @limitation The over-sampling mechanism for housekeeping reports is not supported
  *
@@ -112,7 +114,6 @@ int CrPsHkConfigClearSid(CrPsSID_t sid);
 int CrPsHkConfigLoadSidDef(CrPsSID_t sid, CrPsNPar_t nOfItems,
                         CrPsCollectInterval_t collectionInt, CrPsParId_t* parId);
 
-
 /**
  * Collect the value of the data pool items in the packet defined in the <code>rdlSlot</code>-th slot of the RDL
  * and place their values in sequence in the array <code>target</code>.
@@ -123,9 +124,18 @@ int CrPsHkConfigLoadSidDef(CrPsSID_t sid, CrPsNPar_t nOfItems,
  * index zero)
  * @param target the array where the values of the data pool items in the packet in the RDL slot
  */
-CrPsHkConfigUpdateRepDef(unsigned int rdlSlot, void* target);
+void CrPsHkConfigUpdateRepDef(unsigned int rdlSlot, void* target);
 
-
+/**
+ * Get the index of the RDL slot where the report with the argument SID is stored (the index of the first slot
+ * is zero).
+ * If no report with the argument SID is defined in the RDL, a value of -1 is returned.
+ *
+ * @param sid the structure identifier (SID)
+ * @return the index of the RDL slot where the report with the argument SID is stored (the index of the first slot
+ * is zero)
+ */
+int CrPsHkConfigGetRdlSlot(CrPsSID_t sid);
 
 
 /*----------------------------------------------------------------------------*/
