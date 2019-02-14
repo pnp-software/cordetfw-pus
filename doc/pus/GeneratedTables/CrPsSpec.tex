@@ -113,7 +113,7 @@ Parameters & SID, collection interval and identifiers of parameters of the repor
 Discriminant & The structure identifier (SID) of the packet to be created \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Run the procedure Start Action of HkCreate Command of figure \ref{fig:Cmd3s1Start} \\\hline
-Progress Action & Add the definition of the new report to the RDL, set its enabled status to 'disabled', and set the action outcome to 'completed' \\\hline
+Progress Action & The following actions are performed:\newline \newline (a) The definition of the new report is added to the RDL, \newline (b) The destination of the new report is equal to the source of the present command\newline (c) The enabled status of the new report is set to 'disabled'\newline (d) The cycle counter of the new report is set to zero\newline (e) The action outcome is set to 'success'\newline (f) The completion outcome is set to 'completed' \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
@@ -125,7 +125,7 @@ Parameters & SID, collection interval and identifiers of parameters of the\newli
 Discriminant & The structure identifier (SID) of the packet to be created \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Run the procedure Start Action of HkCreate Command of figure \ref{fig:Cmd3s1Start} \\\hline
-Progress Action & Add the definition of the new report to the RDL, set its enabled status to 'disabled', and set the action outcome to 'completed' \\\hline
+Progress Action & The following actions are performed:\newline \newline (a) The definition of the new report is added to the RDL, \newline (b) The destination of the new report is equal to the source of the present command\newline (c) The enabled status of the new report is set to 'disabled'\newline (d) The cycle counter of the new report is set to zero\newline (e) The action outcome is set to 'success'\newline (f) The completion outcome is set to 'completed' \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
@@ -256,10 +256,10 @@ Description & Periodic housekeeping report \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL  \\\hline
 Discriminant & Structure Identifier \\\hline
 Destination & For pre-defined housekeeping reports, the default destination is HK\_\-DEST. For all other housekeeping reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
-Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
-Ready Check & Run the procedure of figure \ref{fig:Rep3s25Ready} \\\hline
-Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
+Ready Check & The Ready Check performs the following actions:\newline \newline (a) If the report's cycle counter in the RDL is equal to the report's period in the RDL, then the report's cycle counter in the RDL is reset to zero\newline (b) If the report's cycle counter in the RDL is equal to zero and the report is enabled in the RDL, then the outcome of the Ready Check is set to: 'ready'; otherwise it is set to 'not ready'\newline (c) The report's cycle counter in the RDL is incremented by 1\newline \newline NB: This logic ensures that the report's cycle counter increments from zero to the report's period and then is reset. The report is 'ready' when its cycle counter is equal to zero. The report's cycle counter is initialized to zero at application's initialization (for pre-defined reports) or when the report is created (for dynamically defined commands) \\\hline
+Repeat Check & The Repeat Check returns 'repeat' if the report's SID is defined in the RDL. Otherwise it returns 'no repeat'. \\\hline
+Update Action & Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition. The report definition is stored in the RDL. \\\hline
 \end{pnptable}}
 
 \def \printOutCmpHkDiagRepSpec#1 {
@@ -268,10 +268,10 @@ Description & Periodic Diagnostic Report (3,26) \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL \\\hline
 Discriminant & Structure Identifier \\\hline
 Destination & For pre-defined diagnostic reports, the default destination is HK\_\-DEST. For all other diagnostic reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
-Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
-Ready Check & Run the procedure of figure \ref{fig:Rep3s25Ready} \\\hline
-Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
+Ready Check & The Ready Check performs the following actions:\newline \newline (a) If the report's cycle counter in the RDL is equal to the report's period in the RDL, then the report's cycle counter in the RDL is reset to zero\newline (b) If the report's cycle counter in the RDL is equal to zero and the report is enabled in the RDL, then the outcome of the Ready Check is set to: 'ready'; otherwise it is set to 'not ready'\newline (c) The report's cycle counter in the RDL is incremented by 1\newline \newline NB: This logic ensures that the report's cycle counter increments from zero to the report's period and then is reset. The report is 'ready' when its cycle counter is equal to zero. The report's cycle counter is initialized to zero at application's initialization (for pre-defined reports) or when the report is created (for dynamically defined commands) \\\hline
+Repeat Check & The Repeat Check returns 'repeat' if the report's SID is defined in the RDL. Otherwise it returns 'no repeat'. \\\hline
+Update Action & Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition. The report definition is stored in the RDL. \\\hline
 \end{pnptable}}
 
 \def \printInCmdHkOneShotHkCmdSpec#1 {

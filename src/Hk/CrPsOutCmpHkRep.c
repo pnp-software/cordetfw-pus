@@ -15,16 +15,46 @@
 
 #include "CrPsOutCmpHkRep.h"
 
+/* --------------------------------------------------------------------------- */
 /**
- * Enable check of TM(3,25) HkRep.
- * The enable status is read from the isEnabled field of the Report Definition
- * corresponding to the report’s SID
+ * The Ready Check performs the following actions:
+ *
+ * (a) If the report's cycle counter in the RDL is equal to the report's
+ * period in the RDL, then the report's cycle counter in the RDL is reset to
+ * zero
+ * (b) If the report's cycle counter in the RDL is equal to zero and the
+ * report is enabled in the RDL, then the outcome of the Ready Check is set
+ * to: 'ready'; otherwise it is set to 'not ready'
+ * (c) The report's cycle counter in the RDL is incremented by 1
+ *
+ * NB: This logic ensures that the report's cycle counter increments from zero
+ * to the report's period and then is reset. The report is 'ready' when its
+ * cycle counter is equal to zero. The report's cycle counter is initialized
+ * to zero at application's initialization (for pre-defined reports) or when
+ * the report is created (for dynamically defined commands)
  * @param smDesc The state machine descriptor.
- * @return The enable check result.
+ * @return The ready check result.
  */
 CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
+  CrFwBool_t temp;
+  int rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
+  CrPsCycleCnt_t cycleCnt;
+
+  if (getDpHkCycleCntItem(rdlPos) == getDpHkPeriodItem(rdlPos))
+      setDpHkCycleCntItem(rdlPos, 0);
+
+  temp = 0;
+  if (getDpHkCycleCntItem(rdlPos) == 0)
+     if (getDpHkIsEnabledItem(rdlPos) == 1)
+        temp = 1;
+
+  cycleCnt = getDpHkCycleCntItem(rdlPos);
+  setDpHkCycleCntItem(rdlPos, cycleCnt+1);
+
+  return temp;
 }
 
+/* --------------------------------------------------------------------------- */
 /**
  * Repeat check of TM(3,25) HkRep.
  * Returns 'repeat' if the report's SID is defined in the RDL.
@@ -33,7 +63,7 @@ CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
  * @return The repeat check result.
  */
 CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
-  int rdlPos = (int)FwSmGetData(smDesc);
+  int rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
 
   if (getDpHkSidItem(rdlPos) == 0)
     return 0;
@@ -41,6 +71,7 @@ CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
     return 1;
 }
 
+/* --------------------------------------------------------------------------- */
 /**
  * Update action of TM(3,25) HkRep.
  * Load the value of the simply-commutated data items from the data pool and
@@ -49,4 +80,6 @@ CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
  * @param smDesc The state machine descriptor.
  */
 void CrPsOutCmpHkRepUpdateAction(FwSmDesc_t smDesc) {
+  int rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
+  CrPsHkConfigUpdateRep(rdlPos, smDesc);
 }

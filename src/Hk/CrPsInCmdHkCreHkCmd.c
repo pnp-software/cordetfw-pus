@@ -132,7 +132,7 @@ void CrPsInCmdHkCreHkCmdProgressAction(FwSmDesc_t smDesc) {
   collectionInt = getHkCreHkCmdCollectionInterval(pckt);
   parId = getHkCreHkCmdN1ParamIdArray(pckt);
 
-  CrPsHkConfigLoadSidDef(rdlSlot, sid, N1, dest, collectionInt, parId);
+  CCrPsHkConfigHkRep(rep3s25, rdlSlot, sid, N1, dest, collectionInt, parId);
 
   /* Set outcome to 'success' and completion outcome to 'completed' */
   CrFwSetSmOutcome(smDesc, 1);

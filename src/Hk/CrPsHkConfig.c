@@ -22,15 +22,11 @@
 
 #include <assert.h>
 
-/* List of super-commutated sample repetition numbers (rep[1] .. rep[nGroup]) */
-static unsigned int lstSampleRep[HK_MAX_N_GR];
-/* List of numbers nRep[1] .. nRep[nGroup] of data items in each super-commutated group */
-static CrPsNPar_t lstNSampRep[HK_MAX_N_GR];
 /* List of identifiers of data items in the report */
 static CrPsParId_t lstId[HK_N_REP_DEF*HK_MAX_N_ITEMS];
 
-/* RDL Index Buffer */
-static int rdlPosBuf[HK_N_REP_DEF];
+/* RDL Index Buffer (the i-th element of this array holds the integer i) */
+static int rdlIndexBuf[HK_N_REP_DEF];
 
 /* ----------------------------------------------------------------------------------- */
 static int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
@@ -52,9 +48,12 @@ void CrPsHkConfigInit() {
   if (DpIdParamsHighest >= DpIdVarsLowest)
     CrFwSetAppErrCode(crPsDpParVarIdOverlap);
 
-  /* Initialize RDL to be empty (an RDL slot is empty if its SID is equal to 0) */
-  for (i=0; i<HK_N_REP_DEF; i++)
+  /* Initialize RDL to be empty (an RDL slot is empty if its SID is equal to 0)
+   * and initialize the RDL Index Buffer */
+  for (i=0; i<HK_N_REP_DEF; i++) {
     setDpHkSidItem(i, 0);
+    rdlIndexBuf[i] = i;
+  }
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -80,10 +79,16 @@ int CrPsHkConfigClearSid(CrPsSID_t sid) {
 }
 
 /* ----------------------------------------------------------------------------------- */
-void CrPsHkConfigLoadSidDef(unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems, CrFwDestSrc_t dest,
-                                    CrPsCycleCnt_t collectionInt, CrPsParId_t* parId) {
+void CCrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
+                    CrFwDestSrc_t dest, CrPsCycleCnt_t collectionInt, CrPsParId_t* parId) {
   CrPsNPar_t i;
+  CrFwPckt_t pckt = CrFwOutCmpGetPckt(rep);
 
+  /* Configure the report */
+  CrFwOutCmpSetDest(rep, dest);
+  setHkRepSID(pckt, sid);
+
+  /* Set up report's definition in the RDL */
   setDpHkSidItem(rdlPos, sid);
   setDpHkNSimpleItem(rdlPos, nOfItems);
   setDpHkDestItem(rdlPos, dest);
@@ -91,23 +96,28 @@ void CrPsHkConfigLoadSidDef(unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfIt
   setDpHkPeriodItem(rdlPos, collectionInt);
   for (i=0; i<nOfItems; i++)
     lstId[rdlPos*HK_MAX_N_ITEMS + i] = parId[i];
+
+  /* Set up the link between the report and the RDL slot where it is defined */
+  CrPsHkConfigLinkRepToRdlIndex(rep, rdlPos);
 }
 
 /* ----------------------------------------------------------------------------------- */
-void CrPsHkConfigUpdateRep(unsigned int rdlSlot, void* target) {
+void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep) {
   int i, pos;
   CrPsParId_t parId;
   size_t elementLength;
   unsigned int nOfElements;
+  CrFwPckt_t pckt = CrFwOutCmptGetPckt(hkRep);
 
-  pos = 0;
+  pos = LEN_HK_REP;
   for (i=0; i<getDpHkNSimpleItem(rdlSlot); i++) {
     parId = lstId[rdlSlot*HK_MAX_N_ITEMS + i];
-    getDpValueEx(parId, target+pos, &elementLength, &nOfElements);
+    getDpValueEx(parId, pckt+pos, &elementLength, &nOfElements);
     pos = pos + elementLength+nOfElements;
   }
 }
 
+/* ----------------------------------------------------------------------------------- */
 int CrPsHkConfigGetFreeRdlSlot() {
   int i;
   for (i=0; i<HK_N_REP_DEF; i++)
@@ -117,3 +127,13 @@ int CrPsHkConfigGetFreeRdlSlot() {
   return -1;
 }
 
+/* ----------------------------------------------------------------------------------- */
+void CrPsHkConfigLinkRepToRdlIndex(FwSmDesc_t rep, int rdlPos) {
+  FwSmSetData(rep, &rdlIndexBuf[rdlPos]);
+}
+
+/* ----------------------------------------------------------------------------------- */
+int CrPsHkConfigGetRdlIndex(FwSmDesc_t rep) {
+  int* rdlPos = FwSmGetData(rep);
+  return (*rdlPos);
+}

@@ -34,17 +34,6 @@
  * Some of RDL data structures are defined in the data pool.
  * The others are defined in this module.
  *
- * Each Report Definition in the RDL holds the definition of a pending (3,25) or (3,26) report.
- * The pending (3,25) or (3,26) report is represented by an object of type #FwSmDesc_t.
- * The report object needs a link to the RDL slot where its definition resides.
- * This link is established through the RDL Index Buffer maintained in this module.
- * This consists of an array of #HK_N_REP_DEF elements with the i-th element having the value i.
- * When a new (3,25) or (3,26) report is created and its definition is stored in the i-th
- * element of the RDL Index Buffer, a pointer to this element is passed to the FwSmDesc_t object
- * representing the (3,25) or (3,26) report.
- * This module offers function to set up the link between a (3,25) or (3,26) report and its RDL index
- * and to retrieve this link.
- *
  * @limitation The over-sampling mechanism for housekeeping reports is not supported
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
@@ -72,8 +61,9 @@
  * - Instantiate the Ready Check Procedures (one for each RDL slot)
  * .
  * @constraint If an application needs pre-defined housekeeping reports, it must define them in the
- * RDL as part of its initialization (it can use for this purpose the initializers generated in
- * CrPsPcktHk.h by the CORDET Editor; see #CrPsHkTestCase1 for an example).
+ * RDL as part of its initialization using function #CrPsHkConfigHkRep. For packets defined in the
+ * CORDET Editor, an initializers with the list of their parameter identifiers is generated in
+ * CrPsPcktHk.h; see #CrPsHkTestCase1 for an example).
  */
 void CrPsHkConfigInit();
 
@@ -107,15 +97,16 @@ int CrPsHkConfigSetSidEnableStatus(CrPsSID_t sid, CrFwBool_t enableStatus);
 int CrPsHkConfigClearSid(CrPsSID_t sid);
 
 /**
- * Define a new packet in the Report Definition List (RDL).
+ * Configure a new housekeeping report and store its definition in the RDL.
  * The packet is defined in terms of: structure identifier (SID), number of items,
  * collection interval, and list of identifiers of items.
  * The initial enable state of the newly created packet is set to: 'disabled'.
  * The packet is defined at the rdlPos-th slot in the RDL.
  * No check is done to verify that this slot is free.
  *
- * @constraint The housekeeping reports shall be loaded into an OutManager which is activated
- * with a period of length HK_COLLECT_PER
+ * @constraint Since the collection interval of housekeeping packets is defined as an
+ * integer number of HK_COLLECT_PER periods, housekeeping reports shall be loaded into
+ * an OutManager which is activated with a period of length HK_COLLECT_PER
  *
  * @param rdlPos the slot in the RDL where the new packet is loaded (the first slot has index zero)
  * @param sid the Structure Identifier (SID) of the new packet
@@ -128,20 +119,20 @@ int CrPsHkConfigClearSid(CrPsSID_t sid);
  * @return the slot (starting from zero) where the argument SID has been inserted in the RDL or -1
  * if no empty slot in the RDL has been found
  */
-void CrPsHkConfigLoadSidDef(unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems, CrFwDestSrc_t dest,
-                                        CrPsCycleCnt_t collectionInt, CrPsParId_t* parId);
+void CrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
+                                CrFwDestSrc_t dest, CrPsCycleCnt_t collectionInt, CrPsParId_t* parId);
 
 /**
  * Collect the value of the data pool items in the packet defined in the <code>rdlSlot</code>-th slot of the RDL
- * and place their values in sequence in the array <code>target</code>.
+ * and place their values in the argument report (assumed to be a housekeeping report).
  * The argument parameter rdlSlot must be in the range 0..(HK_N_REP_DEF-1).
  * If it is out-of-range, the application behaviour becomes unpredictable.
  *
  * @param rdlSlot the index of the RDL slot where the packet to be updated is located (the first slot has
  * index zero)
- * @param target the array where the values of the data pool items in the packet in the RDL slot
+ * @param hkRep the housekeeping report
  */
-void CrPsHkConfigUpdateRep(unsigned int rdlSlot, void* target);
+void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep);
 
 /**
  * Get the index of the RDL slot where the report with the argument SID is stored (the index of the first slot
@@ -163,7 +154,30 @@ int CrPsHkConfigGetRdlSlot(CrPsSID_t sid);
 int CrPsHkConfigGetFreeRdlSlot();
 
 /**
-void CrPsHkConfigLinkRepToRdlIndexBuf(FwSmDesc_t rep);
+ * Set up a link between a housekeeping report and the index of the RDL slot where
+ * the definition of that report is stored.
+ *
+ * An RDL slot holds the definition of a housekeeping report.
+ * A report needs to know where its definition is stored in the RDL.
+ * This function allows a link to be established between a report and the index
+ * of its definition in the RDL.
+ * Function #CrPsHkConfigGetRdlIndex allows the reference to the RDL index to be
+ * retrieved from the report.
+ *
+ * @param rep a housekeeping report of type (3,25) or (3,26)
+ * @param rdlPos the index of the RDL slot where the report's definition is stored
+ */
+void CrPsHkConfigLinkRepToRdlIndex(FwSmDesc_t rep, int rdlPos);
+
+/**
+ * Return the index of the RDL slot where the definition of a housekeeping report
+ * is stored.
+ * This function uses the link set up through function #CrPsHkConfigLinkRepToRdlIndex.
+ *
+ * @param rep a housekeeping report of type (3,25) or (3,26)
+ * @return the index of the RDL slot where the report's definition is stored
+ */
+int CrPsHkConfigGetRdlIndex(FwSmDesc_t rep);
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSHKCONFIG_H_ */
