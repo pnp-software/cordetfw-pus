@@ -863,26 +863,26 @@ The parameters HK\_MAX\_* are application constants. Applications which do not n
 The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct} is discussed in the next section.
 
 
-\begin{pnptable}{|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Fields in Report Definition Data Structure}{tab:repDefDataStruct}{\textbf{Field Name} & \textbf{Description} & \textbf{Constraint}}
-\texttt{sid} & Structure identifier (SID) & Integer in range: 1..HK\_MAX\_SID \\
+\begin{pnptable}{|c|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Fields in Report Definition Data Structure}{tab:repDefDataStruct}{\textbf{Field Name} & \textbf{Description} & \textbf{Constraint}}
+1 & \texttt{sid} & Structure identifier (SID) & Integer in range: 1..HK\_MAX\_SID \\
 \hline
-\texttt{period} & Collection period in units of HK\_COLLECT\_PER & Positive integer (periodic reports) or zero (one-shot reports) \\
+2 & \texttt{period} & Collection period in units of HK\_COLLECT\_PER & Positive integer (periodic reports) or zero (one-shot reports) \\
 \hline
-\texttt{cycleCnt} & Cycle counter (see definition of service 3 reports and commands) & Integer in the range: 0..(\texttt{period}-1) \\
+3 & \texttt{cycleCnt} & Cycle counter (see definition of service 3 reports and commands) & Integer in the range: 0..(\texttt{period}-1) \\
 \hline
-\texttt{isEnabled} & True if the report is enabled & None  \\
+4 & \texttt{isEnabled} & True if the report is enabled & None  \\
 \hline
-\texttt{dest} & The identifier of the application to which the report is sent & None \\
+5 & \texttt{dest} & The identifier of the application to which the report is sent & None \\
 \hline
-\texttt{nSimple} & Number of simply-commutated data items in the report & Integer in range: 1..HK\_MAX\_N\_SIMPLE \\
+6 & \texttt{nSimple} & Number of simply-commutated data items in the report & Integer in range: 1..HK\_MAX\_N\_SIMPLE \\
 \hline
-\texttt{lstSampleRep} & List of super commutated sample repetition numbers (\texttt{rep[1]} .. \texttt{rep[nGroup]}) & The number of groups is in the range: 0..HK\_MAX\_N\_GR and each repetition number is in the range: 1..HK\_MAX\_REP \\
+7 & \texttt{lstSampleRep} & List of super commutated sample repetition numbers (\texttt{rep[1]} .. \texttt{rep[nGroup]}) & The number of groups is in the range: 0..HK\_MAX\_N\_GR and each repetition number is in the range: 1..HK\_MAX\_REP \\
 \hline
-\texttt{lstNSampRep} & List of numbers (\texttt{nRep[1]} .. \texttt{nRep[nGroup]}) of data items in each super-commutated group & Each \texttt{nRep[i]} is in range: 1..HK\_MAX\_N\_REP \\
+8 & \texttt{lstNSampRep} & List of numbers (\texttt{nRep[1]} .. \texttt{nRep[nGroup]}) of data items in each super-commutated group & Each \texttt{nRep[i]} is in range: 1..HK\_MAX\_N\_REP \\
 \hline
-\texttt{lstId} & List of identifiers of data items in the report & Not more than HK\_MAX\_N\_ITEMS data items and each identifier is in range: 1..HK\_MAX\_ID \\
+9 & \texttt{lstId} & List of identifiers of data items in the report & Not more than HK\_MAX\_N\_ITEMS data items and each identifier is in range: 1..HK\_MAX\_ID \\
 \hline
-\texttt{sampleBufId} & The identifier of the sampling buffer holding the super-commutated data item values & An integer in the range: 1..HK\_N\_SAMP\_BUF \\
+10 & \texttt{sampleBufId} & The identifier of the sampling buffer holding the super-commutated data item values & An integer in the range: 1..HK\_N\_SAMP\_BUF \\
 \hline
 \end{pnptable}  
 

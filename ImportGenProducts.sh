@@ -145,6 +145,7 @@ if [ "$FWPROFILE" == "YES" ]
     cp $EDITOR_PATH/CrPsPcktReroutingFail/CrPsPcktReroutingFail.h ./src/Ver
     
     cp $EDITOR_PATH/CrPs*/*.png ./doc/images
+    cp $EDITOR_PATH/CrPs*/*.json ./doc/json
 fi
 
 

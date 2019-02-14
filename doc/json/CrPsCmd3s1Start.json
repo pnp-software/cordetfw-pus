@@ -1,5 +1,5 @@
 {
-     "editorVersion": "5.01",
+     "editorVersion": "5.22",
      "states": [
           {
                "id": 1,
@@ -88,7 +88,7 @@
                "selected": false
           },
           {
-               "id": 7,
+               "id": 5,
                "attrs": {
                     "x": 499,
                     "y": 168,
@@ -112,7 +112,7 @@
                "selected": false
           },
           {
-               "id": 8,
+               "id": 6,
                "attrs": {
                     "x": 499,
                     "y": 271,
@@ -136,7 +136,7 @@
                "selected": false
           },
           {
-               "id": 9,
+               "id": 7,
                "attrs": {
                     "x": 409,
                     "y": 614,
@@ -176,7 +176,7 @@
                "selected": false
           },
           {
-               "id": 11,
+               "id": 9,
                "attrs": {
                     "x": 499,
                     "y": 371,
@@ -200,7 +200,7 @@
                "selected": false
           },
           {
-               "id": 12,
+               "id": 10,
                "attrs": {
                     "x": 411,
                     "y": 443,
@@ -240,7 +240,7 @@
                "selected": false
           },
           {
-               "id": 14,
+               "id": 12,
                "attrs": {
                     "x": 499,
                     "y": 535,
@@ -264,7 +264,7 @@
                "selected": false
           },
           {
-               "id": 15,
+               "id": 13,
                "attrs": {
                     "x": 645,
                     "y": 526,
@@ -304,7 +304,7 @@
                "selected": false
           },
           {
-               "id": 17,
+               "id": 15,
                "attrs": {
                     "x": 980,
                     "y": 74,
@@ -326,7 +326,7 @@
                "selected": false
           },
           {
-               "id": 18,
+               "id": 16,
                "attrs": {
                     "x": 705,
                     "y": 617,
@@ -350,7 +350,7 @@
                "selected": false
           },
           {
-               "id": 21,
+               "id": 17,
                "attrs": {
                     "x": 657,
                     "y": 696,
@@ -390,7 +390,7 @@
                "selected": false
           },
           {
-               "id": 23,
+               "id": 19,
                "attrs": {
                     "x": 457,
                     "y": 0,
@@ -414,7 +414,7 @@
                "selected": false
           },
           {
-               "id": 25,
+               "id": 21,
                "attrs": {
                     "x": 724,
                     "y": 256,
@@ -453,7 +453,7 @@
                "selected": false
           },
           {
-               "id": 27,
+               "id": 23,
                "attrs": {
                     "x": 718,
                     "y": 153,
@@ -492,7 +492,7 @@
                "selected": false
           },
           {
-               "id": 29,
+               "id": 25,
                "attrs": {
                     "x": 718,
                     "y": 356,
@@ -531,7 +531,7 @@
                "selected": false
           },
           {
-               "id": 31,
+               "id": 27,
                "attrs": {
                     "x": 843,
                     "y": 526,
@@ -570,7 +570,7 @@
                "selected": false
           },
           {
-               "id": 33,
+               "id": 29,
                "attrs": {
                     "x": 841,
                     "y": 608,
@@ -609,7 +609,7 @@
                "selected": false
           },
           {
-               "id": 35,
+               "id": 31,
                "attrs": {
                     "x": 1045,
                     "y": 705,
@@ -768,7 +768,7 @@
                     "y": 0
                },
                "stateFromID": 2,
-               "stateToID": 7,
+               "stateToID": 5,
                "selected": false
           },
           {
@@ -826,8 +826,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 7,
-               "stateToID": 27,
+               "stateFromID": 5,
+               "stateToID": 23,
                "selected": false
           },
           {
@@ -874,8 +874,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 7,
-               "stateToID": 8,
+               "stateFromID": 5,
+               "stateToID": 6,
                "selected": false
           },
           {
@@ -885,18 +885,13 @@
                     "path": [
                          [
                               "M",
-                              538,
-                              283
-                         ],
-                         [
-                              "L",
-                              643,
-                              283
+                              537.9928792974653,
+                              283.0854205041059
                          ],
                          [
                               "L",
                               716,
-                              283.3967391304347
+                              283.6487341772152
                          ]
                     ],
                     "stroke-width": 2,
@@ -914,7 +909,7 @@
                     "guardCode": "",
                     "actionCode": "",
                     "derived": [],
-                    "guardDesc": " The SID in the command\nis laready in use ",
+                    "guardDesc": " The SID in the command\nis already in use ",
                     "guardAp": false,
                     "actionDesc": "",
                     "actionAp": false,
@@ -922,19 +917,13 @@
                },
                "shiftx": -2,
                "shifty": -8,
-               "vertexes": [
-                    {
-                         "x": 643,
-                         "y": 283,
-                         "hasMoved": true
-                    }
-               ],
+               "vertexes": [],
                "shiftxy": {
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 8,
-               "stateToID": 25,
+               "stateFromID": 6,
+               "stateToID": 21,
                "selected": false
           },
           {
@@ -981,8 +970,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 8,
-               "stateToID": 11,
+               "stateFromID": 6,
+               "stateToID": 9,
                "selected": false
           },
           {
@@ -1029,8 +1018,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 11,
-               "stateToID": 12,
+               "stateFromID": 9,
+               "stateToID": 10,
                "selected": false
           },
           {
@@ -1072,8 +1061,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 12,
-               "stateToID": 14,
+               "stateFromID": 10,
+               "stateToID": 12,
                "selected": false
           },
           {
@@ -1120,8 +1109,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 14,
-               "stateToID": 15,
+               "stateFromID": 12,
+               "stateToID": 13,
                "selected": false
           },
           {
@@ -1164,7 +1153,7 @@
                     "y": 0
                },
                "stateFromID": 3,
-               "stateToID": 17,
+               "stateToID": 15,
                "selected": false
           },
           {
@@ -1211,8 +1200,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 14,
-               "stateToID": 9,
+               "stateFromID": 12,
+               "stateToID": 7,
                "selected": false
           },
           {
@@ -1254,8 +1243,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 9,
-               "stateToID": 18,
+               "stateFromID": 7,
+               "stateToID": 16,
                "selected": false
           },
           {
@@ -1302,8 +1291,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 18,
-               "stateToID": 21,
+               "stateFromID": 16,
+               "stateToID": 17,
                "selected": false
           },
           {
@@ -1349,8 +1338,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 11,
-               "stateToID": 29,
+               "stateFromID": 9,
+               "stateToID": 25,
                "selected": false
           },
           {
@@ -1391,8 +1380,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 15,
-               "stateToID": 31,
+               "stateFromID": 13,
+               "stateToID": 27,
                "selected": false
           },
           {
@@ -1438,8 +1427,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 18,
-               "stateToID": 33,
+               "stateFromID": 16,
+               "stateToID": 29,
                "selected": false
           },
           {
@@ -1491,8 +1480,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 27,
-               "stateToID": 17,
+               "stateFromID": 23,
+               "stateToID": 15,
                "selected": false
           },
           {
@@ -1544,8 +1533,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 25,
-               "stateToID": 17,
+               "stateFromID": 21,
+               "stateToID": 15,
                "selected": false
           },
           {
@@ -1597,8 +1586,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 29,
-               "stateToID": 17,
+               "stateFromID": 25,
+               "stateToID": 15,
                "selected": false
           },
           {
@@ -1650,8 +1639,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 31,
-               "stateToID": 17,
+               "stateFromID": 27,
+               "stateToID": 15,
                "selected": false
           },
           {
@@ -1713,8 +1702,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 33,
-               "stateToID": 17,
+               "stateFromID": 29,
+               "stateToID": 15,
                "selected": false
           },
           {
@@ -1755,8 +1744,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 21,
-               "stateToID": 35,
+               "stateFromID": 17,
+               "stateToID": 31,
                "selected": false
           }
      ],
@@ -1766,8 +1755,8 @@
           "attrs": {
                "x": 0,
                "y": -60,
-               "width": 1515,
-               "height": 955,
+               "width": 1646,
+               "height": 842,
                "r": 0,
                "rx": 0,
                "ry": 0,

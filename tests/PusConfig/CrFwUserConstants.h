@@ -252,12 +252,12 @@ typedef enum {
 	crInManagerIllId = 24,
 	/** An illegal event severity level has been encountered */
 	CrPsEvtIllSevLevel = 128,
-	/**	A dummy event has been encountered with an illegal event identifier */
-	CrPsWrongEvtIdForDumEvt = 129,
 	/** An illegal event identifier has been encountered */
-	crEvtIllEvtId = 130,
+	crPsEvtIllEvtId = 130,
 	/** The number of (5,8) reports triggered by a (5.7) command is larger than EVT_MAX_N5S8 */
-	crIllNOf5s8 = 131
+	crPsIllNOf5s8 = 131,
+	/** The range of data pool identifiers for data pool parameters and data pool variables overlap */
+	crPsDpParVarIdOverlap = 132
 } CrFwAppErrCode_t;
 
 /**

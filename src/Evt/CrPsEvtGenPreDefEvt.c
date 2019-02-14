@@ -45,7 +45,7 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
       evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP4_STYPE,0,LEN_EVT_REP1);
       break;
     default:
-      CrFwSetAppErrCode(crEvtIllEvtId);
+      CrFwSetAppErrCode(crPsEvtIllEvtId);
       return;
   }
 
@@ -85,7 +85,7 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
       evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP3_STYPE,0,LEN_EVT_REP1);
       break;
     default:
-      CrFwSetAppErrCode(crEvtIllEvtId);
+      CrFwSetAppErrCode(crPsEvtIllEvtId);
       return;
   }
 

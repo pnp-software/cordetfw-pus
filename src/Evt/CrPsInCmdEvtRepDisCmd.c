@@ -39,7 +39,7 @@ static unsigned int nOfRep5s8;
  *
  * @constraint The number of (5,8) reports needed to carry all disabled event identifiers
  * must be smaller than EVT_MAX_N5s8. Violation of this constraint results in the application
- * error code being set to #CrIllNOf5s8.
+ * error code being set to #CrPsIllNOf5s8.
  *
  * @param smDesc The descriptor of the state machine encapsulating the (5,7) command.
  */
@@ -73,7 +73,7 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   nOfRep5s8 = nOfFull5s8 + nOfPartial5s8;
   if (nOfRep5s8 > EVT_MAX_N5S8) {
     nOfRep5s8 = EVT_MAX_N5S8;
-    CrFwSetAppErrCode(crIllNOf5s8);
+    CrFwSetAppErrCode(crPsIllNOf5s8);
   }
 
   /* Retrieve the full (5,8) Reports */

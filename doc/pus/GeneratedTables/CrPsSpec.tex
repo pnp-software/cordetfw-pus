@@ -255,7 +255,7 @@ Update Action & Load the SID definition from the RDL \\\hline
 Description & Periodic housekeeping report \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL  \\\hline
 Discriminant & Structure Identifier \\\hline
-Destination & For pre-defined housekeeping reports, the initial destination is pre-defined. For all housekeeping reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
+Destination & For pre-defined housekeeping reports, the default destination is HK\_\-DEST. For all other housekeeping reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
 Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
 Ready Check & Run the procedure of figure \ref{fig:Rep3s25Ready} \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -267,7 +267,7 @@ Update Action & Load the value of the simply-commutated data items from the data
 Description & Periodic Diagnostic Report (3,26) \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL \\\hline
 Discriminant & Structure Identifier \\\hline
-Destination & For pre-defined diagnostic reports, the initial destination is pre-defined. For all diagnostic reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
+Destination & For pre-defined diagnostic reports, the default destination is HK\_\-DEST. For all other diagnostic reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
 Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
 Ready Check & Run the procedure of figure \ref{fig:Rep3s25Ready} \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
