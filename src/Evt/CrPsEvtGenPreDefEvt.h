@@ -1,7 +1,7 @@
 /**
  * @file
  *
- * Module to generate the pre-defined event of the PUS Extension of the CORDET
+ * Module to generate the pre-defined events of the PUS Extension of the CORDET
  * Framework.
  * For each pre-defined event, this module offers a function which takes
  * as parameters the event identifier and the event parameters
