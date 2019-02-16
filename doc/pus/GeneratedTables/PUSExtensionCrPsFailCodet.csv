@@ -4,8 +4,8 @@ Value|Name|Description|verFailData
 131|VER\_OUTLOADER\_FD|Failure code for start actions when the Load operation in the OutLoader has failed|None
 132|VER\_SID\_IN\_USE|A (3,1) or (3,2) command attempted to create a new report with a SID which is already in use|The SID in use
 133|VER\_FULL\_RDL|A (3,1) or (3,2) command attempted to create a new report at a time when the RDL is already full|None
-134|VER\_RDL\_CONSTR|A (3,1) or (3,2) command attempted to create a new report which configuration data which violate an RDL constraint of table \ref{tab:repDefDataStruct}|The identifier of the violated constraint
-135|VER\_DUPL\_DI|A (3,1) or (3,2) command carried the same data item identifier twice|The duplicated data item identifier
+134|VER\_ILL\_DI\_ID|A service 3 command carried an illegal data item identifier|The illegal data item identifier
+135|VER\_ILL\_NID|A service 3 ommand carried too many data item identifiers|The number of data item identifiers
 136|VER\_ILL\_SID|A service 3 command had an invalid SID|The invalid SID
 137|VER\_ENABLED\_SID|A (3,3) or (3,4) command attempted to enabled a SID which is already enabled|The enabled SID
 138|VER\_SID\_START\_FD|All the instructions in a service 3 command have been rejected|None

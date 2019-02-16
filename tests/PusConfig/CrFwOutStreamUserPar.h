@@ -26,11 +26,10 @@
 #define CR_FW_OUTSTREAM_USERPAR_H_
 
 /* Include framework files */
+#include <CrPsOutStreamStub.h>
 #include "OutStream/CrFwOutStream.h"
 #include "BaseCmp/CrFwResetProc.h"
 /* Include test suite files */
-#include "CrFwOutStreamStub.h"
-/* Include PUS Extension files */
 #include "CrPsConstants.h"
 
 /**
@@ -80,8 +79,8 @@
  * <code>::CrFwPcktHandover_t</code>.
  * No default is defined at framework level for this function.
  */
-#define CR_FW_OUTSTREAM_PCKTHANDOVER {&CrFwOutStreamStubPcktHandover, \
-									  &CrFwOutStreamStubPcktHandover}
+#define CR_FW_OUTSTREAM_PCKTHANDOVER {&CrPsOutStreamStubPcktHandover, \
+									  &CrPsOutStreamStubPcktHandover}
 
 /**
  * The functions implementing the Initialization Check of the OutStream components.
@@ -116,8 +115,8 @@
  * An application-specific Initialization Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_INITACTION {&CrFwOutStreamDefInitAction, \
-								   &CrFwOutStreamDefInitAction}
+#define CR_FW_OUTSTREAM_INITACTION {&CrPsOutStreamDefInitAction, \
+								   &CrPsOutStreamDefInitAction}
 
 /**
  * The functions implementing the Configuration Check of the OutStream components.
@@ -152,8 +151,8 @@
  * An application-specific Configuration Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_CONFIGACTION {&CrFwOutStreamDefConfigAction, \
-								     &CrFwOutStreamDefConfigAction}
+#define CR_FW_OUTSTREAM_CONFIGACTION {&CrPsOutStreamDefConfigAction, \
+								     &CrPsOutStreamDefConfigAction}
 
 /**
  * The functions implementing the Shutdown Action of the OutStream components.
@@ -169,7 +168,7 @@
  * An application-specific Shutdown Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrFwOutStreamDefShutdownAction, \
-							     	   &CrFwOutStreamStubShutdown}
+#define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrPsOutStreamDefShutdownAction, \
+							     	   &CrPsOutStreamStubShutdown}
 
 #endif /* CR_FW_OUTSTREAM_USERPAR_H_ */

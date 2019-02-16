@@ -25,7 +25,7 @@
 #include "FwSmConstants.h"
 
 /**
- * Test the functions in the event configuration module.
+ * Test the functions in the event configuration module (CrPsEvtConfig.h).
  * The following actions are performed:
  * - The position and severity of an event identifier are retrieved using function
  *   #CrPsEvtConfigGetEidPos and their correctness is verified

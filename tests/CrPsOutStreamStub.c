@@ -3,7 +3,6 @@
  *
  * Implementation of OutStream stub.
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
@@ -16,12 +15,13 @@
  * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
-#include <stdlib.h>
-#include "CrFwOutStreamStub.h"
+#include "CrPsOutStreamStub.h"
 #include "CrFwRepErrStub.h"
+
 /* Include configuration files */
 #include "CrFwOutStreamUserPar.h"
 #include "CrFwCmpData.h"
+
 /* Include FW Profile files */
 #include "FwSmConstants.h"
 #include "FwSmConfig.h"
@@ -29,6 +29,7 @@
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 #include "FwPrConstants.h"
+
 /* Include framework files */
 #include "OutStream/CrFwOutStream.h"
 #include "BaseCmp/CrFwBaseCmp.h"
@@ -36,6 +37,18 @@
 #include "Pckt/CrFwPckt.h"
 #include "CrFwTime.h"
 #include "CrFwRepErr.h"
+
+#include <stdlib.h>
+#include <assert.h>
+
+/** Size of ring buffer where the incoming packets are stored */
+#define CR_PS_OUTSTREAMSTUB_N 10
+
+/** Ring buffer where the incoming packets are stored */
+static CrFwPckt_t ringBuffer[CR_PS_OUTSTREAMSTUB_N*CR_FW_MAX_PCKT_LENGTH];
+
+/** Ring buffer pointer (pointer to the next free location in the ring buffer) */
+static unsigned int ringBufferPtr = 0;
 
 /** Counter incremented every time the packet hand-over operation is called */
 static CrFwCounterU1_t pcktHandOverCnt = 0;
@@ -53,40 +66,59 @@ static CrFwBool_t actionFlag = 1;
 static CrFwCounterU1_t shutdownCnt = 0;
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrFwOutStreamStubPcktHandover(CrFwPckt_t pckt) {
-	(void)(pckt);
+CrFwBool_t CrPsOutStreamStubPcktHandover(CrFwPckt_t pckt) {
+	unsigned int i;
+
 	pcktHandOverCnt++;
+
+	if (pcktHandOverFlag == 1) {
+	    for (i=0; i<CR_FW_MAX_PCKT_LENGTH; i++)
+	        ringBuffer[ringBufferPtr*CR_FW_MAX_PCKT_LENGTH+i] = pckt[i];
+	    ringBufferPtr++;
+	    if (ringBufferPtr == CR_PS_OUTSTREAMSTUB_N)
+	        ringBufferPtr = 0;
+	}
+
 	return pcktHandOverFlag;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwCounterU1_t CrFwOutStreamStubGetHandoverCnt() {
+CrFwPckt_t CrPsOutStreamStubGetPckt(unsigned int i) {
+    assert(i < (CR_PS_OUTSTREAMSTUB_N+1));
+    if (ringBufferPtr > i)
+        return &ringBuffer[(ringBufferPtr-i-1)*CR_FW_MAX_PCKT_LENGTH];
+
+    return &ringBuffer[(CR_PS_OUTSTREAMSTUB_N-(i-ringBufferPtr))*CR_FW_MAX_PCKT_LENGTH];
+}
+
+/* ---------------------------------------------------------------------------------------------*/
+CrFwCounterU1_t CrPsOutStreamStubGetHandoverCnt() {
 	return pcktHandOverCnt;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwCounterU1_t CrFwOutStreamStubGetShutdownCnt() {
+CrFwCounterU1_t CrPsOutStreamStubGetShutdownCnt() {
 	return shutdownCnt;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-void CrFwOutStreamStubSetHandoverFlag(CrFwBool_t flag) {
+void CrPsOutStreamStubSetHandoverFlag(CrFwBool_t flag) {
 	pcktHandOverFlag = flag;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-void CrFwOutStreamStubDummyCheck(FwPrDesc_t prDesc) {
+void CrPsOutStreamStubDummyCheck(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	outStreamData->outcome = (CrFwOutcome_t)checkFlag;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-void CrFwOutStreamStubSetCheckFlag(CrFwBool_t flag) {
+void CrPsOutStreamStubSetCheckFlag(CrFwBool_t flag) {
 	checkFlag = flag;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-void CrFwOutStreamStubInitAction(FwPrDesc_t prDesc) {
+void CrPsOutStreamStubInitAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	if (cmpSpecificData->seqCnt == NULL)
@@ -95,19 +127,19 @@ void CrFwOutStreamStubInitAction(FwPrDesc_t prDesc) {
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-void CrFwOutStreamStubConfigAction(FwPrDesc_t prDesc) {
+void CrPsOutStreamStubConfigAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	CrFwOutStreamDefConfigAction(prDesc);
 	outStreamData->outcome = (CrFwOutcome_t)actionFlag;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-void CrFwOutStreamStubSetActionFlag(CrFwBool_t flag) {
+void CrPsOutStreamStubSetActionFlag(CrFwBool_t flag) {
 	actionFlag = flag;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-void CrFwOutStreamStubShutdown(FwSmDesc_t smDesc) {
+void CrPsOutStreamStubShutdown(FwSmDesc_t smDesc) {
 	shutdownCnt++;
 	CrFwOutStreamDefShutdownAction(smDesc);
 }

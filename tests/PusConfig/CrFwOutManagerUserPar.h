@@ -27,10 +27,10 @@
 #define CR_FW_OUTMANAGER_USERPAR_H_
 
 /* Include framework files */
+#include <CrPsOutStreamStub.h>
 #include "OutStream/CrFwOutStream.h"
 #include "BaseCmp/CrFwResetProc.h"
 /* Include test suite files */
-#include "CrFwOutStreamStub.h"
 
 /**
  * The number of OutManager components in the application.

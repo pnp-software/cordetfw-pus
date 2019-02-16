@@ -51,13 +51,13 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   /* Check legality constraints on command parameters - Check legality of SID */
   sid = getHkCreHkCmdSID(pckt);
   if (sid == 0) {
-    CrFwSetSmOutcome(smDesc, VER_RDL_CONSTR);
+    CrFwSetSmOutcome(smDesc, VER_ILL_SID);
     setDpVerFailData(1);
     return;
   }
 
   if (sid > HK_MAX_SID) {
-    CrFwSetSmOutcome(smDesc, VER_RDL_CONSTR);
+    CrFwSetSmOutcome(smDesc, VER_ILL_SID);
     setDpVerFailData(1);
     return;
   }
@@ -65,7 +65,7 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   /* Check legality constraints on command parameters - Check legality of number of parameters */
   N1 = getHkCreHkCmdN1(pckt);
   if (N1 > HK_MAX_N_SIMPLE) {
-    CrFwSetSmOutcome(smDesc, VER_RDL_CONSTR);
+    CrFwSetSmOutcome(smDesc, VER_ILL_NID);
     setDpVerFailData(6);
     return;
   }
@@ -77,12 +77,12 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
     parId = getHkCreHkCmdN1ParamId(pckt, i);
     len = len + getDpSize(parId);
     if (getHkCreHkCmdN1ParamId(pckt, i) == 0) {
-      CrFwSetSmOutcome(smDesc, VER_RDL_CONSTR);
+      CrFwSetSmOutcome(smDesc, VER_ILL_DP_ID);
       setDpVerFailData(9);
       return;
     }
     if (getHkCreHkCmdN1ParamId(pckt, i) > HK_MAX_ID) {
-      CrFwSetSmOutcome(smDesc, VER_RDL_CONSTR);
+      CrFwSetSmOutcome(smDesc, VER_ILL_DP_ID);
       setDpVerFailData(9);
       return;
     }
@@ -102,12 +102,6 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   if (rep3s25 == NULL) {
     CrFwRepErrKind(psOutFactoryFail, 0, 0, HK_TYPE, HKREP_STYPE, 0);
     CrFwSetSmOutcome(smDesc, VER_REP_CR_FD);
-    return;
-  }
-
-  /* Load the report in the OutLoader */
-  if (CrFwOutLoaderLoad(rep3s25) == 0) {
-    CrFwSetSmOutcome(smDesc, VER_OUTLOADER_FD);
     return;
   }
 
@@ -133,6 +127,9 @@ void CrPsInCmdHkCreHkCmdProgressAction(FwSmDesc_t smDesc) {
   parId = getHkCreHkCmdN1ParamIdArray(pckt);
 
   CCrPsHkConfigHkRep(rep3s25, rdlSlot, sid, N1, dest, collectionInt, parId);
+
+  /* Load the report in the OutLoader */
+  CrFwOutLoaderLoad(rep3s25);
 
   /* Set outcome to 'success' and completion outcome to 'completed' */
   CrFwSetSmOutcome(smDesc, 1);

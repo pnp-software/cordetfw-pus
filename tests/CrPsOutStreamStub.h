@@ -2,10 +2,13 @@
  * @file
  * @ingroup CrTestSuiteGroup
  * Interface for the OutStream stub.
- * The OutStream stub is used in the CORDET Test Suite to verify the implementation
- * of the OutStream component (see <code>CrFwOutStream.h</code>).
+ * The OutStream stub is used in the test suite of the PUS Extension
+ * of the CORDET Framework.
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
+ * This stup is configured by default to accept the handover of a packet
+ * and to store it in a ring buffer.
+ * A function is provided to access the entries in the ring buffer.
+ *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
@@ -18,8 +21,8 @@
  * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
-#ifndef CRFW_OUTSTREAMSTUB_H_
-#define CRFW_OUTSTREAMSTUB_H_
+#ifndef CRPS_OUTSTREAMSTUB_H_
+#define CRPS_OUTSTREAMSTUB_H_
 
 /* Include configuration files */
 #include "CrFwUserConstants.h"
@@ -36,24 +39,26 @@
 /**
  * Dummy implementation of an initialization or configuration check for an OutStream.
  * The outcome of this check is given by the value of a settable flag (<code>checkFlag</code>)
- * whose value is set through function <code>::CrFwOutStreamStubSetCheckFlag</code>.
+ * whose value is set through function <code>::CrPsOutStreamStubSetCheckFlag</code>
+ * (the default value represents "initialization successful").
  * @param prDesc the initialization or configuration procedure descriptor (this parameter
  * is not used).
  */
-void CrFwOutStreamStubDummyCheck(FwPrDesc_t prDesc);
+void CrPsOutStreamStubDummyCheck(FwPrDesc_t prDesc);
 
 /**
  * Set the value of the check flag which determines the outcome of the dummy check of
- * <code>::CrFwOutStreamStubDummyCheck</code>.
+ * <code>::CrPsOutStreamStubDummyCheck</code> (the default value represents "check successful").
  * @param flag the check flag
  */
-void CrFwOutStreamStubSetCheckFlag(CrFwBool_t flag);
+void CrPsOutStreamStubSetCheckFlag(CrFwBool_t flag);
 
 /**
  * Dummy implementation of a configuration action for an OutStream.
  * The outcome of this implementation is given by the value of a settable flag
  * (<code>actionFlag</code>) whose value is set through function
- * <code>::CrFwOutStreamStubSetActionFlag</code>.
+ * <code>::CrPsOutStreamStubSetActionFlag</code>.
+ * The default value of the settable flag represents "action successful".
  *
  * Like all application-specific OutStream Initialization Actions, this function
  * also calls the default OutStream Initialization Action (<code>::CrFwOutStreamDefInitAction</code>)
@@ -66,13 +71,14 @@ void CrFwOutStreamStubSetCheckFlag(CrFwBool_t flag);
  * @param prDesc the initialization or configuration procedure descriptor (this parameter
  * is not used).
  */
-void CrFwOutStreamStubInitAction(FwPrDesc_t prDesc);
+void CrPsOutStreamStubInitAction(FwPrDesc_t prDesc);
 
 /**
  * Dummy implementation of a configuration action for an OutStream.
  * The outcome of this implementation is given by the value of a settable flag
  * (<code>actionFlag</code>) whose value is set through function
- * <code>::CrFwOutStreamStubSetActionFlag</code>.
+ * <code>::CrPsOutStreamStubSetActionFlag</code>.
+ * The default value of the settable flag represents "action successful".
  *
  * Like all application-specific OutStream Configuration Actions, this function
  * also calls the default OutStream Configuration Action.
@@ -80,57 +86,76 @@ void CrFwOutStreamStubInitAction(FwPrDesc_t prDesc);
  * @param prDesc the initialization or configuration procedure descriptor (this parameter
  * is not used).
  */
-void CrFwOutStreamStubConfigAction(FwPrDesc_t prDesc);
+void CrPsOutStreamStubConfigAction(FwPrDesc_t prDesc);
 
 /**
  * Set the value of the action flag which determines the outcome of the initialization of
  * configuration action.
+ * The default value of the settable flag represents "action successful".
  * @param flag the action flag
  */
-void CrFwOutStreamStubSetActionFlag(CrFwBool_t flag);
+void CrPsOutStreamStubSetActionFlag(CrFwBool_t flag);
 
 /**
  * Stub function implementing the hand-over operation for the OutStream.
  * This function increments a counter when it is called and returns
  * the value of a pre-defined flag.
  * The value of the counter can be read with function
- * <code>::CrFwOutStreamStubGetHandoverCnt</code>.
+ * <code>::CrPsOutStreamStubGetHandoverCnt</code>.
  * The value of the flag can be set with function
- * <code>::CrFwOutStreamStubSetHandoverFlag</code>.
+ * <code>::CrPsOutStreamStubSetHandoverFlag</code>.
+ * If flag <code>::CrPsOutStreamStubSetHandoverFlag</code> is true, then
+ * the a copy of the packet is stored in a ring buffer.
+ * The entries in the ring buffer can be retrieved using function
+ * <code>::CrPsOutStreamStubGetPckt</code>.
  * @param pckt the packet (not used in this stub)
  * @return the value of flag <code>pcktHandOverFlag</code>
  */
-CrFwBool_t CrFwOutStreamStubPcktHandover(CrFwPckt_t pckt);
+CrFwBool_t CrPsOutStreamStubPcktHandover(CrFwPckt_t pckt);
 
 /**
  * Return the value of the handover counter which is incremented
- * by the packet handover function in <code>::CrFwOutStreamStubPcktHandover</code>.
+ * by the packet handover function in <code>::CrPsOutStreamStubPcktHandover</code>.
  * @return the value of the handover counter
  */
-CrFwCounterU1_t CrFwOutStreamStubGetHandoverCnt();
+CrFwCounterU1_t CrPsOutStreamStubGetHandoverCnt();
 
 /**
  * Set the value of the handover flag which determines the outcome of the packet
- * handover in <code>::CrFwOutStreamStubPcktHandover</code>.
+ * handover in <code>::CrPsOutStreamStubPcktHandover</code>.
+ * The default value causes the OoutStream to accept the packet handover.
  * @param flag the handover flag
  */
-void CrFwOutStreamStubSetHandoverFlag(CrFwBool_t flag);
+void CrPsOutStreamStubSetHandoverFlag(CrFwBool_t flag);
 
 /**
  * Stub function implementing the shutdown operation for an OutStream.
  * This function increments a counter and then calls the default shutdown
  * operation (<code>::CrFwOutStreamDefShutdownAction</code>).
  * The value of the counter can be read with function
- * <code>::CrFwOutStreamStubGetHandoverCnt</code>.
+ * <code>::CrPsOutStreamStubGetHandoverCnt</code>.
  * @param smDesc the state machine descriptor of the OutStream
  */
-void CrFwOutStreamStubShutdown(FwSmDesc_t smDesc);
+void CrPsOutStreamStubShutdown(FwSmDesc_t smDesc);
 
 /**
  * Return the value of the shutdown counter which is incremented
- * by the packet shutdown function in <code>::CrFwOutStreamStubShutdown</code>.
+ * by the packet shutdown function in <code>::CrPsOutStreamStubShutdown</code>.
  * @return the value of the shutdown counter
  */
-CrFwCounterU1_t CrFwOutStreamStubGetShutdownCnt();
+CrFwCounterU1_t CrPsOutStreamStubGetShutdownCnt();
 
-#endif /* CRFW_OUTSTREAMSTUB_H_ */
+/**
+ * Return the pointed to the i-th most recent packet handed over to the
+ * OutStream through function <code>CrPsOutStreamStubPcktHandover</code>.
+ * The capacity of the rin buffer is given by constant #CR_PS_OUTSTREAMSTUB_N.
+ *
+ * @param the index of the packet to be returned (a value of zero returns the
+ * last packet entered in the ring buffer; a value of 1 returns the last-but-one
+ * packet entered in the ring buffer; and so on)
+ * @return the pointer to the i-th most recent packet handed over to the
+ * OutStream stub
+ */
+CrFwPckt_t CrPsOutStreamStubGetPckt(unsigned int i);
+
+#endif /* CRPS_OUTSTREAMSTUB_H_ */
