@@ -14,6 +14,8 @@
  */
 
 #include "CrPsOutCmpHkRep.h"
+#include "DataPool/CrPsDpHk.h"
+#include "CrPsHkConfig.h"
 
 /* --------------------------------------------------------------------------- */
 /**

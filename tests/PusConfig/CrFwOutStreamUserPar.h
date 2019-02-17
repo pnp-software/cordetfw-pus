@@ -26,7 +26,7 @@
 #define CR_FW_OUTSTREAM_USERPAR_H_
 
 /* Include framework files */
-#include <CrPsOutStreamStub.h>
+#include "CrPsOutStreamStub.h"
 #include "OutStream/CrFwOutStream.h"
 #include "BaseCmp/CrFwResetProc.h"
 /* Include test suite files */
@@ -115,8 +115,8 @@
  * An application-specific Initialization Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_INITACTION {&CrPsOutStreamDefInitAction, \
-								   &CrPsOutStreamDefInitAction}
+#define CR_FW_OUTSTREAM_INITACTION {&CrFwOutStreamDefInitAction, \
+								   &CrFwOutStreamDefInitAction}
 
 /**
  * The functions implementing the Configuration Check of the OutStream components.
@@ -151,8 +151,8 @@
  * An application-specific Configuration Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_CONFIGACTION {&CrPsOutStreamDefConfigAction, \
-								     &CrPsOutStreamDefConfigAction}
+#define CR_FW_OUTSTREAM_CONFIGACTION {&CrFwOutStreamDefConfigAction, \
+								     &CrFwOutStreamDefConfigAction}
 
 /**
  * The functions implementing the Shutdown Action of the OutStream components.
@@ -168,7 +168,7 @@
  * An application-specific Shutdown Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrPsOutStreamDefShutdownAction, \
+#define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrFwOutStreamDefShutdownAction, \
 							     	   &CrPsOutStreamStubShutdown}
 
 #endif /* CR_FW_OUTSTREAM_USERPAR_H_ */

@@ -18,6 +18,15 @@
 #include "CrPsTypes.h"
 #include "Pckt/CrPsPcktHk.h"
 #include "CrPsServTypeId.h"
+#include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpVer.h"
+
+/* Include CORDET Framework Files */
+#include "OutLoader/CrFwOutLoader.h"
+#include "InCmd/CrFwInCmd.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "CrFwRepErr.h"
 
 static FwSmDesc_t rep3s25;
 static int rdlSlot;
@@ -77,12 +86,12 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
     parId = getHkCreHkCmdN1ParamId(pckt, i);
     len = len + getDpSize(parId);
     if (getHkCreHkCmdN1ParamId(pckt, i) == 0) {
-      CrFwSetSmOutcome(smDesc, VER_ILL_DP_ID);
+      CrFwSetSmOutcome(smDesc, VER_ILL_DI_ID);
       setDpVerFailData(9);
       return;
     }
     if (getHkCreHkCmdN1ParamId(pckt, i) > HK_MAX_ID) {
-      CrFwSetSmOutcome(smDesc, VER_ILL_DP_ID);
+      CrFwSetSmOutcome(smDesc, VER_ILL_DI_ID);
       setDpVerFailData(9);
       return;
     }
@@ -126,7 +135,7 @@ void CrPsInCmdHkCreHkCmdProgressAction(FwSmDesc_t smDesc) {
   collectionInt = getHkCreHkCmdCollectionInterval(pckt);
   parId = getHkCreHkCmdN1ParamIdArray(pckt);
 
-  CCrPsHkConfigHkRep(rep3s25, rdlSlot, sid, N1, dest, collectionInt, parId);
+  CrPsHkConfigHkRep(rep3s25, rdlSlot, sid, N1, dest, collectionInt, parId);
 
   /* Load the report in the OutLoader */
   CrFwOutLoaderLoad(rep3s25);

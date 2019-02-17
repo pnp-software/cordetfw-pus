@@ -19,6 +19,14 @@
 #include "CrFwUserConstants.h"
 #include "CrPsConstants.h"
 #include "DataPool/CrPsDp.h"
+#include "DataPool/CrPsDpHk.h"
+
+/* Include CORDET Framework Files */
+#include "OutCmp/CrFwOutCmp.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
+
+/* Include FW Profie Files */
+#include "FwSmConfig.h"
 
 #include <assert.h>
 
@@ -29,7 +37,7 @@ static CrPsParId_t lstId[HK_N_REP_DEF*HK_MAX_N_ITEMS];
 static int rdlIndexBuf[HK_N_REP_DEF];
 
 /* ----------------------------------------------------------------------------------- */
-static int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
+int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
   int i;
 
   for (i=0; i<HK_N_REP_DEF; i++)
@@ -38,7 +46,6 @@ static int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
 
   return -1;
 }
-
 
 /* ----------------------------------------------------------------------------------- */
 void CrPsHkConfigInit() {
@@ -79,7 +86,7 @@ int CrPsHkConfigClearSid(CrPsSID_t sid) {
 }
 
 /* ----------------------------------------------------------------------------------- */
-void CCrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
+void CrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
                     CrFwDestSrc_t dest, CrPsCycleCnt_t collectionInt, CrPsParId_t* parId) {
   CrPsNPar_t i;
   CrFwPckt_t pckt = CrFwOutCmpGetPckt(rep);
@@ -107,7 +114,7 @@ void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep) {
   CrPsParId_t parId;
   size_t elementLength;
   unsigned int nOfElements;
-  CrFwPckt_t pckt = CrFwOutCmptGetPckt(hkRep);
+  CrFwPckt_t pckt = CrFwOutCmpGetPckt(hkRep);
 
   pos = LEN_HK_REP;
   for (i=0; i<getDpHkNSimpleItem(rdlSlot); i++) {

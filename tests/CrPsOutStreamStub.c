@@ -45,7 +45,7 @@
 #define CR_PS_OUTSTREAMSTUB_N 10
 
 /** Ring buffer where the incoming packets are stored */
-static CrFwPckt_t ringBuffer[CR_PS_OUTSTREAMSTUB_N*CR_FW_MAX_PCKT_LENGTH];
+static CrFwPckt_t ringBuffer[CR_PS_OUTSTREAMSTUB_N];
 
 /** Ring buffer pointer (pointer to the next free location in the ring buffer) */
 static unsigned int ringBufferPtr = 0;
@@ -73,7 +73,7 @@ CrFwBool_t CrPsOutStreamStubPcktHandover(CrFwPckt_t pckt) {
 
 	if (pcktHandOverFlag == 1) {
 	    for (i=0; i<CR_FW_MAX_PCKT_LENGTH; i++)
-	        ringBuffer[ringBufferPtr*CR_FW_MAX_PCKT_LENGTH+i] = pckt[i];
+	        ringBuffer[ringBufferPtr][i] = pckt[i];
 	    ringBufferPtr++;
 	    if (ringBufferPtr == CR_PS_OUTSTREAMSTUB_N)
 	        ringBufferPtr = 0;
@@ -86,9 +86,9 @@ CrFwBool_t CrPsOutStreamStubPcktHandover(CrFwPckt_t pckt) {
 CrFwPckt_t CrPsOutStreamStubGetPckt(unsigned int i) {
     assert(i < (CR_PS_OUTSTREAMSTUB_N+1));
     if (ringBufferPtr > i)
-        return &ringBuffer[(ringBufferPtr-i-1)*CR_FW_MAX_PCKT_LENGTH];
+        return ringBuffer[(ringBufferPtr-i-1)];
 
-    return &ringBuffer[(CR_PS_OUTSTREAMSTUB_N-(i-ringBufferPtr))*CR_FW_MAX_PCKT_LENGTH];
+    return ringBuffer[CR_PS_OUTSTREAMSTUB_N-(i-ringBufferPtr)];
 }
 
 /* ---------------------------------------------------------------------------------------------*/
@@ -119,13 +119,17 @@ void CrPsOutStreamStubSetCheckFlag(CrFwBool_t flag) {
 
 /* ---------------------------------------------------------------------------------------------*/
 void CrPsOutStreamStubInitAction(FwPrDesc_t prDesc) {
+    int i;
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	if (cmpSpecificData->seqCnt == NULL)
 		CrFwOutStreamDefInitAction(prDesc);
 	outStreamBaseData->outcome = (CrFwOutcome_t)actionFlag;
-}
 
+	/* Allocate memory for ring buffer where incoming packets are stored */
+	for (i=0; i<CR_PS_OUTSTREAMSTUB_N; i++)
+       ringBuffer[i] = (CrFwPckt_t)malloc(CR_FW_MAX_PCKT_LENGTH);
+}
 /* ---------------------------------------------------------------------------------------------*/
 void CrPsOutStreamStubConfigAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamData = (CrFwCmpData_t*)FwPrGetData(prDesc);
