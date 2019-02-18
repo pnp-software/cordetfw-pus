@@ -115,8 +115,8 @@
  * An application-specific Initialization Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_INITACTION {&CrFwOutStreamDefInitAction, \
-								   &CrFwOutStreamDefInitAction}
+#define CR_FW_OUTSTREAM_INITACTION {&CrPsOutStreamStubInitAction, \
+								   &CrPsOutStreamStubInitAction}
 
 /**
  * The functions implementing the Configuration Check of the OutStream components.

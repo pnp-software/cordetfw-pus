@@ -17,6 +17,8 @@
 #include "DataPool/CrPsDpHk.h"
 #include "CrPsHkConfig.h"
 
+static int rdlPos;
+
 /* --------------------------------------------------------------------------- */
 /**
  * The Ready Check performs the following actions:
@@ -39,7 +41,7 @@
  */
 CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
   CrFwBool_t temp;
-  int rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
+  rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
   CrPsCycleCnt_t cycleCnt;
 
   if (getDpHkCycleCntItem(rdlPos) == getDpHkPeriodItem(rdlPos))
@@ -65,8 +67,6 @@ CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
  * @return The repeat check result.
  */
 CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
-  int rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
-
   if (getDpHkSidItem(rdlPos) == 0)
     return 0;
   else
@@ -82,6 +82,5 @@ CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
  * @param smDesc The state machine descriptor.
  */
 void CrPsOutCmpHkRepUpdateAction(FwSmDesc_t smDesc) {
-  int rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
   CrPsHkConfigUpdateRep(rdlPos, smDesc);
 }

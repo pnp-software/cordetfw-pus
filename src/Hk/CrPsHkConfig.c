@@ -128,7 +128,7 @@ void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep) {
 int CrPsHkConfigGetFreeRdlSlot() {
   int i;
   for (i=0; i<HK_N_REP_DEF; i++)
-    if (getDpHkSidItem(i) != 0)
+    if (getDpHkSidItem(i) == 0)
       return i;
 
   return -1;

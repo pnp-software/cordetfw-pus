@@ -96,7 +96,7 @@ CrFwBool_t CrPsHkTestCase1() {
       return 0;
 
   /* Attempt to set enable status of a non-existent SID */
-  if (CrPsHkConfigSetSidEnableStatus(0, 1) != -1)
+  if (CrPsHkConfigSetSidEnableStatus(HK_MAX_SID+1, 1) != -1)
       return 0;
 
   /* Set the enable status of an existing SID */
@@ -165,7 +165,7 @@ CrFwBool_t CrPsHkTestCase2() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
-  setHkCreHkCmdSID(pckt,0);                             /* Illegal SID */
+  setHkCreHkCmdSID(pckt,HK_MAX_SID+1);                             /* Illegal SID */
   setHkCreHkCmdCollectionInterval(pckt, 0);
   setHkCreHkCmdN1(pckt, HK_MAX_N_SIMPLE+1);             /* Illegal number of data items */
   for (i=0; i<HK_MAX_N_SIMPLE+1; i++)
