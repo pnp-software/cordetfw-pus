@@ -15,13 +15,21 @@
 
 #include "CrPsOutCmpHkRep.h"
 #include "DataPool/CrPsDpHk.h"
+#include "Pckt/CrPsPcktHk.h"
 #include "CrPsHkConfig.h"
+#include "OutCmp/CrFwOutCmp.h"
 
-static int rdlPos;
+static short int rdlPos;
 
 /* --------------------------------------------------------------------------- */
 /**
  * The Ready Check performs the following actions:
+ *
+ * If the report is no longer defined in the RDL, then the Ready Check returns
+ * 'not ready'.
+ *
+ * If, instead, the report is defined in the RDL, then the outcome of the
+ * Ready Check is determined as follows:
  *
  * (a) If the report's cycle counter in the RDL is equal to the report's
  * period in the RDL, then the report's cycle counter in the RDL is reset to
@@ -41,8 +49,14 @@ static int rdlPos;
  */
 CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
   CrFwBool_t temp;
-  rdlPos = CrPsHkConfigGetRdlIndex(smDesc);
+  CrPsSID_t sid;
+  CrFwPckt_t pckt = CrFwOutCmpGetPckt(smDesc);
   CrPsCycleCnt_t cycleCnt;
+
+  sid = getHkRepSID(pckt);
+  rdlPos = CrPsHkConfigGetRdlSlot(sid);
+  if (rdlPos == -1)
+      return 0;
 
   if (getDpHkCycleCntItem(rdlPos) == getDpHkPeriodItem(rdlPos))
       setDpHkCycleCntItem(rdlPos, 0);

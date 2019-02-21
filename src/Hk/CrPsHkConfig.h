@@ -34,6 +34,14 @@
  * Some of RDL data structures are defined in the data pool.
  * The others are defined in this module.
  *
+ * In order to establish the link between a housekeeping report and the RDL slot where its
+ * definition is stored, the following is done:
+ * - An array is defined with size #HK_MAX_SID (the maximum value of a SID)
+ * - The j-th element of this array is equal to -1 if the report with SID equal to j is not
+ *   in the RDL (i.e. if it is not being generated) and is otherwise equal to the index of the
+ *   RDL slot where the report is defined.
+ * .
+ *
  * @limitation The over-sampling mechanism for housekeeping reports is not supported
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
@@ -68,33 +76,15 @@
 void CrPsHkConfigInit();
 
 /**
- * Set the enable status of the argument structure identifier (SID).
- * This function scans all the Report Definitions in the RDL and, if it finds
- * one with the SID equal to the argument SID, it sets its enable status to
- * <code>enableStatus</code> and returns the slot occupied by the SID in the RDL (starting
- * from zero).
- * If no report definition with the argument SID is found, the function returns -1.
- *
- * @param sid the Structure Identifier (SID)
- * @param enableStatus the enable status
- * @return the slot (starting from zero) where the argument SID is stored in the RDL or -1
- * if the argument SID is not found in the RDL
- */
-int CrPsHkConfigSetSidEnableStatus(CrPsSID_t sid, CrFwBool_t enableStatus);
-
-/**
  * Clear the argument Stucture Identifier (SID) from the RDL.
- * This function scans all the Report Definitions in the RDL and, if it finds
- * one with the SID equal to the argument SID, it removes it from the RDL.
+ * This function retrieves the index of the RDL slot where the argument SID is defined and
+ * then removes the definition from the RDL.
  * The SID is removed by setting the 'sid' field of the RDL entry to zero.
- * The function returns the index of the RDL slot where the argument SID has been found
- * (the first slot has index 0) or -1 if the argument SID was not found in the RDL.
+ * If the argument SID is not defined in the RDL, then the behaviour of the function is undefined.
  *
  * @param sid the Structure Identifier (SID) to be removed from the RDL
- * @return the slot (starting from zero) where the argument SID is stored in the RDL or -1
- * if the argument SID is not found in the RDL
  */
-int CrPsHkConfigClearSid(CrPsSID_t sid);
+void CrPsHkConfigClearSid(CrPsSID_t sid);
 
 /**
  * Configure a new housekeeping report and store its definition in the RDL.
@@ -102,7 +92,9 @@ int CrPsHkConfigClearSid(CrPsSID_t sid);
  * collection interval, and list of identifiers of items.
  * The initial enable state of the newly created packet is set to: 'disabled'.
  * The packet is defined at the rdlPos-th slot in the RDL.
- * No check is done to verify that this slot is free.
+ * No check is done to verify that this slot is free and no checks are done on the
+ * legality of the other function parameters (out-of-limit values might result
+ * in memory corruption).
  *
  * @constraint Since the collection interval of housekeeping packets is defined as an
  * integer number of HK_COLLECT_PER periods, housekeeping reports shall be loaded into
@@ -119,7 +111,7 @@ int CrPsHkConfigClearSid(CrPsSID_t sid);
  * @return the slot (starting from zero) where the argument SID has been inserted in the RDL or -1
  * if no empty slot in the RDL has been found
  */
-void CrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
+void CrPsHkConfigHkRep(FwSmDesc_t rep, short int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
                                 CrFwDestSrc_t dest, CrPsCycleCnt_t collectionInt, CrPsParId_t* parId);
 
 /**
@@ -132,7 +124,7 @@ void CrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsN
  * index zero)
  * @param hkRep the housekeeping report
  */
-void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep);
+void CrPsHkConfigUpdateRep(short int rdlSlot, FwSmDesc_t hkRep);
 
 /**
  * Get the index of the RDL slot where the report with the argument SID is stored (the index of the first slot
@@ -143,7 +135,7 @@ void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep);
  * @return the index of the RDL slot where the report with the argument SID is stored (the index of the first slot
  * is zero)
  */
-int CrPsHkConfigGetRdlSlot(CrPsSID_t sid);
+short int CrPsHkConfigGetRdlSlot(CrPsSID_t sid);
 
 /**
  * Get the index of a free RDL slot.
@@ -151,33 +143,7 @@ int CrPsHkConfigGetRdlSlot(CrPsSID_t sid);
  *
  * @return the index of a free RDL slot or -1 if the RDL is full
  */
-int CrPsHkConfigGetFreeRdlSlot();
-
-/**
- * Set up a link between a housekeeping report and the index of the RDL slot where
- * the definition of that report is stored.
- *
- * An RDL slot holds the definition of a housekeeping report.
- * A report needs to know where its definition is stored in the RDL.
- * This function allows a link to be established between a report and the index
- * of its definition in the RDL.
- * Function #CrPsHkConfigGetRdlIndex allows the reference to the RDL index to be
- * retrieved from the report.
- *
- * @param rep a housekeeping report of type (3,25) or (3,26)
- * @param rdlPos the index of the RDL slot where the report's definition is stored
- */
-void CrPsHkConfigLinkRepToRdlIndex(FwSmDesc_t rep, int rdlPos);
-
-/**
- * Return the index of the RDL slot where the definition of a housekeeping report
- * is stored.
- * This function uses the link set up through function #CrPsHkConfigLinkRepToRdlIndex.
- *
- * @param rep a housekeeping report of type (3,25) or (3,26)
- * @return the index of the RDL slot where the report's definition is stored
- */
-int CrPsHkConfigGetRdlIndex(FwSmDesc_t rep);
+short int CrPsHkConfigGetFreeRdlSlot();
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSHKCONFIG_H_ */

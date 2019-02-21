@@ -58,6 +58,7 @@
 /* Include system files */
 #include <stdlib.h>
 #include <unistd.h>
+#include <assert.h>
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsHkTestCase1() {
@@ -95,32 +96,20 @@ CrFwBool_t CrPsHkTestCase1() {
   if (CrPsHkConfigGetRdlSlot(SID_N_OF_EVT) != rdlPos)
       return 0;
 
-  /* Attempt to set enable status of a non-existent SID */
-  if (CrPsHkConfigSetSidEnableStatus(HK_MAX_SID+1, 1) != -1)
-      return 0;
-
-  /* Set the enable status of an existing SID */
-  if (CrPsHkConfigSetSidEnableStatus(SID_N_OF_EVT, 1) != rdlPos)
-      return 0;
-
   /* Fill up the RDL and then attempt to get a free slot */
   for (i=0; i<HK_N_REP_DEF-2; i++) {
       rdlPos = CrPsHkConfigGetFreeRdlSlot();
       if (rdlPos == -1)
           return 0;
-      CrPsHkConfigHkRep(rep, rdlPos, SID_N_OF_EVT+100+i, HK_NOFITEMS_SID_N_OF_EVT, 0, 2, parId1);
+      CrPsHkConfigHkRep(rep, rdlPos, i+SID_HK_CNT+1, HK_NOFITEMS_SID_N_OF_EVT, 0, 2, parId1);
+      assert((i+SID_HK_CNT)<HK_MAX_SID);    /* Check that we have used a legal SID */
   }
   if (CrPsHkConfigGetFreeRdlSlot() != -1)
       return 0;
 
-  /* Attempt to clear a non-existent SID */
-  if (CrPsHkConfigClearSid(0) != -1)
-      return 0;
-
-  /* Clear the SIDs inserted to fill up the RDL (but leave the two pre-defined SIDs */
+  /* Clear the SIDs inserted to fill up the RDL (but leave the two pre-defined SIDs) */
   for (i=0; i<HK_N_REP_DEF-2; i++) {
-      if (CrPsHkConfigClearSid(SID_N_OF_EVT+100+i) == -1)
-          return 0;
+      CrPsHkConfigClearSid(i+SID_HK_CNT+1);
   }
 
   /* Check application errors */
@@ -135,7 +124,7 @@ CrFwBool_t CrPsHkTestCase2() {
   CrFwPckt_t pckt;
   FwSmDesc_t inCmd, rep;
   FwSmDesc_t outRegistry, outFactory, outLoader, outManager;
-  int rdlPos, i;
+  short int rdlPos, i;
   CrPsParId_t parId[1] = {1};
 
   CrFwSetAppErrCode(crNoAppErr);
@@ -186,7 +175,7 @@ CrFwBool_t CrPsHkTestCase2() {
       rdlPos = CrPsHkConfigGetFreeRdlSlot();
       if (rdlPos == -1)
           return 0;
-      CrPsHkConfigHkRep(rep, rdlPos, 120+i, 1, 0, 2, parId);
+      CrPsHkConfigHkRep(rep, rdlPos, i+SID_HK_CNT+1, 1, 0, 2, parId);
   }
 
   /* Execute and terminate the InCommand  (this simulates the action of an InManager) */
@@ -206,7 +195,7 @@ CrFwBool_t CrPsHkTestCase2() {
   /* ---------------------------------------- Step 2 ---------------------------*/
   /* Remove RDL entries added for this test */
   for (i=0; i<HK_N_REP_DEF-2; i++) {
-      rdlPos = CrPsHkConfigClearSid(120+i);
+      CrPsHkConfigClearSid(i+SID_HK_CNT+1);
       if (rdlPos == -1)
           return 0;
   }
@@ -224,6 +213,19 @@ CrFwBool_t CrPsHkTestCase2() {
       return 0;
 
   /* ---------------------------------------- Step 3 ---------------------------*/
+  /* Change the InCommand's SID to be equal to zero and verify that the cmd is again rejected */
+  setHkCreHkCmdSID(pckt,0);      /* Legal SID */
+  inCmd = CrFwInFactoryMakeInCmd(pckt);
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+  if (!CrFwInCmdIsInTerminated(inCmd))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,4,VER_ILL_SID,0) != 1)
+      return 0;
+
+  /* ---------------------------------------- Step 3 ---------------------------*/
   /* Change the InCommand's SID to be legal and verify that now it is rejected because
    * of the illegal parameter identifier */
   setHkCreHkCmdSID(pckt,HK_MAX_SID);      /* Legal SID */
@@ -232,14 +234,14 @@ CrFwBool_t CrPsHkTestCase2() {
   CrFwInCmdTerminate(inCmd);
   if (!CrFwInCmdIsInTerminated(inCmd))
     return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,4,VER_ILL_DI_ID,0) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,4,VER_ILL_DI_ID,0) != 1)
       return 0;
 
   /* ---------------------------------------- Step 3 ---------------------------*/
-  /* Change the InCommand's SID to be legal and verify that now it is rejected because
-   * of the illegal parameter identifier */
+  /* Change the InCommand's SID to be equal to a predefind SID and change its parameter
+   * identifier to be legal and verify that the cmd is rejected because the SID is in use */
   setHkCreHkCmdSID(pckt,SID_N_OF_EVT);      /* SID already in use */
   setHkCreHkCmdN1ParamId(pckt, 0, DpIdParamsLowest);  /* Legal parameter ID */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -247,14 +249,14 @@ CrFwBool_t CrPsHkTestCase2() {
   CrFwInCmdTerminate(inCmd);
   if (!CrFwInCmdIsInTerminated(inCmd))
     return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 5)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,4,VER_SID_IN_USE,0) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,4,4,VER_SID_IN_USE,0) != 1)
       return 0;
 
   /* ---------------------------------------- Step 4 ---------------------------*/
   /* Change the InCommand's SID to be legal and verify that now it is rejected because
-   * of the illegal parameter identifier */
+   * of the illegal number of parameter identifiers */
   setHkCreHkCmdSID(pckt,HK_MAX_SID);      /* Legal SID */
   setHkCreHkCmdN1ParamId(pckt, 0, DpIdParamsLowest);  /* The first parameter ID is now legal */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -262,9 +264,9 @@ CrFwBool_t CrPsHkTestCase2() {
   CrFwInCmdTerminate(inCmd);
   if (!CrFwInCmdIsInTerminated(inCmd))
     return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 6)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,4,VER_ILL_NID,0) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,5,4,VER_ILL_NID,0) != 1)
       return 0;
 
   /* ---------------------------------------------------------------------------*/

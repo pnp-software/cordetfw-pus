@@ -31,15 +31,12 @@
  * - Use function #CrPsHkConfigHkRep to load the pre-defined HK reports (SID #LEN_HK_REP_SID_HK_CNT
  *   and #LEN_HK_REP_SID_N_OF_EVT) and then verify that the corresponding SIDs are found in
  *   the RDL at the expected location
- * - Attempt to set the enable state of a non-existent SID and verify that the request is rejected
- * - Set the enable state of an existing SID and verify that the request is carried out
  * - Fill up the RDL and then verify that no free RDL slot can be retrieved
- * - Attempt to clear a non-existent SID and verify that the clear attempt is rejected
- * - Clear all SIDs but those pre-defined for testing purposes by the PUS Extension
+ * - Clear all SIDs but those pre-defined for testing purposes by the PUS Extension and verify success
+ *   of clear operation
  * .
- * @verify Hk Config, Operation to set the enable/disable a SID
  * @verify Hk Config, Operation to set the define report in the RDL
- * @verify Hk Config, Operation to set the clear a SID
+ * @verify Hk Config, Operation to clear a SID from the RDL
  *
  * @return 1 if the test was successful, 0 otherwise
  */

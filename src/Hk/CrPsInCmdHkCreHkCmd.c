@@ -29,7 +29,7 @@
 #include "CrFwRepErr.h"
 
 static FwSmDesc_t rep3s25;
-static int rdlSlot;
+static short int rdlSlot;
 static CrPsSID_t sid;
 static CrPsNPar_t N1;
 static CrFwPckt_t pckt;

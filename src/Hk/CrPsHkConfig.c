@@ -25,7 +25,7 @@
 #include "OutCmp/CrFwOutCmp.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 
-/* Include FW Profie Files */
+/* Include FW Profile Files */
 #include "FwSmConfig.h"
 
 #include <assert.h>
@@ -33,19 +33,9 @@
 /* List of identifiers of data items in the report */
 static CrPsParId_t lstId[HK_N_REP_DEF*HK_MAX_N_ITEMS];
 
-/* RDL Index Buffer (the i-th element of this array holds the integer i) */
-static int rdlIndexBuf[HK_N_REP_DEF];
-
-/* ----------------------------------------------------------------------------------- */
-int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
-  int i;
-
-  for (i=0; i<HK_N_REP_DEF; i++)
-    if (getDpHkSidItem(i) == sid)
-      return i;
-
-  return -1;
-}
+/* If the report with a SID equal to j is pending in the RDL, then rdlIndex[j] holds
+ * the index of the RDL slot where the report is loaded. Otherwise, rdlIndex[j] is equal to -1.  */
+static short int rdlIndex[HK_MAX_SID];
 
 /* ----------------------------------------------------------------------------------- */
 void CrPsHkConfigInit() {
@@ -55,38 +45,26 @@ void CrPsHkConfigInit() {
   if (DpIdParamsHighest >= DpIdVarsLowest)
     CrFwSetAppErrCode(crPsDpParVarIdOverlap);
 
-  /* Initialize RDL to be empty (an RDL slot is empty if its SID is equal to 0)
-   * and initialize the RDL Index Buffer */
-  for (i=0; i<HK_N_REP_DEF; i++) {
+  /* Initialize RDL to be empty (an RDL slot is empty if its SID is equal to 0) */
+  for (i=0; i<HK_N_REP_DEF; i++)
     setDpHkSidItem(i, 0);
-    rdlIndexBuf[i] = i;
-  }
 }
 
 /* ----------------------------------------------------------------------------------- */
-int CrPsHkConfigSetSidEnableStatus(CrPsSID_t sid, CrFwBool_t enableStatus) {
-  int rdlPos;
-
-  rdlPos = CrPsHkConfigGetRdlSlot(sid);
-  if (rdlPos > -1)
-    setDpHkIsEnabledItem(rdlPos, enableStatus);
-
-  return rdlPos;
+void CrPsHkConfigSetSidEnableStatus(CrPsSID_t sid, CrFwBool_t enableStatus) {
+  short int rdlPos = rdlIndex[sid];
+  setDpHkIsEnabledItem(rdlPos, enableStatus);
 }
 
 /* ----------------------------------------------------------------------------------- */
-int CrPsHkConfigClearSid(CrPsSID_t sid) {
-  int rdlPos;
-
-  rdlPos = CrPsHkConfigGetRdlSlot(sid);
-  if (rdlPos > -1)
-    setDpHkSidItem(rdlPos, 0);
-
-  return rdlPos;
+void CrPsHkConfigClearSid(CrPsSID_t sid) {
+  short int rdlPos = rdlIndex[sid];
+  setDpHkSidItem(rdlPos, 0);
+  rdlIndex[sid] = -1;
 }
 
 /* ----------------------------------------------------------------------------------- */
-void CrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
+void CrPsHkConfigHkRep(FwSmDesc_t rep, short int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
                     CrFwDestSrc_t dest, CrPsCycleCnt_t collectionInt, CrPsParId_t* parId) {
   CrPsNPar_t i;
   CrFwPckt_t pckt = CrFwOutCmpGetPckt(rep);
@@ -105,11 +83,11 @@ void CrPsHkConfigHkRep(FwSmDesc_t rep, unsigned int rdlPos, CrPsSID_t sid, CrPsN
     lstId[rdlPos*HK_MAX_N_ITEMS + i] = parId[i];
 
   /* Set up the link between the report and the RDL slot where it is defined */
-  CrPsHkConfigLinkRepToRdlIndex(rep, rdlPos);
+  rdlIndex[sid] = rdlPos;
 }
 
 /* ----------------------------------------------------------------------------------- */
-void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep) {
+void CrPsHkConfigUpdateRep(short int rdlSlot, FwSmDesc_t hkRep) {
   int i, pos;
   CrPsParId_t parId;
   size_t elementLength;
@@ -125,7 +103,7 @@ void CrPsHkConfigUpdateRep(int rdlSlot, FwSmDesc_t hkRep) {
 }
 
 /* ----------------------------------------------------------------------------------- */
-int CrPsHkConfigGetFreeRdlSlot() {
+short int CrPsHkConfigGetFreeRdlSlot() {
   int i;
   for (i=0; i<HK_N_REP_DEF; i++)
     if (getDpHkSidItem(i) == 0)
@@ -135,12 +113,6 @@ int CrPsHkConfigGetFreeRdlSlot() {
 }
 
 /* ----------------------------------------------------------------------------------- */
-void CrPsHkConfigLinkRepToRdlIndex(FwSmDesc_t rep, int rdlPos) {
-  FwSmSetData(rep, &rdlIndexBuf[rdlPos]);
-}
-
-/* ----------------------------------------------------------------------------------- */
-int CrPsHkConfigGetRdlIndex(FwSmDesc_t rep) {
-  int* rdlPos = FwSmGetData(rep);
-  return (*rdlPos);
+short int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
+  return rdlIndex[sid];
 }
