@@ -61,13 +61,13 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   sid = getHkCreHkCmdSID(pckt);
   if (sid == 0) {
     CrFwSetSmOutcome(smDesc, VER_ILL_SID);
-    setDpVerFailData(1);
+    setDpVerFailData(sid);
     return;
   }
 
   if (sid > HK_MAX_SID) {
     CrFwSetSmOutcome(smDesc, VER_ILL_SID);
-    setDpVerFailData(1);
+    setDpVerFailData(sid);
     return;
   }
 
@@ -75,7 +75,7 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   N1 = getHkCreHkCmdN1(pckt);
   if (N1 > HK_MAX_N_SIMPLE) {
     CrFwSetSmOutcome(smDesc, VER_ILL_NID);
-    setDpVerFailData(6);
+    setDpVerFailData(N1);
     return;
   }
 
@@ -85,14 +85,14 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   for (i=0; i<N1; i++) {
     parId = getHkCreHkCmdN1ParamId(pckt, i);
     len = len + getDpSize(parId);
-    if (getHkCreHkCmdN1ParamId(pckt, i) == 0) {
+    if (parId == 0) {
       CrFwSetSmOutcome(smDesc, VER_ILL_DI_ID);
-      setDpVerFailData(9);
+      setDpVerFailData(parId);
       return;
     }
-    if (getHkCreHkCmdN1ParamId(pckt, i) > HK_MAX_ID) {
+    if (parId > HK_MAX_ID) {
       CrFwSetSmOutcome(smDesc, VER_ILL_DI_ID);
-      setDpVerFailData(9);
+      setDpVerFailData(parId);
       return;
     }
   }

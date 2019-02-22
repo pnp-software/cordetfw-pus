@@ -80,7 +80,7 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmp(FwSmDesc_t outManager, int i,
  * @param failCode the expected value of the failure code at the i-th position in the POCL (or zero if
  * no check on the discriminant is desired)
  * @param failData the expected value of the failure data at the i-th position in the POCL (only checked
- * if the discriminant is non-zero)
+ * if the discriminant is non-zero and the value of <code>failData</code> is non-zero)
  * @return true if the i-th entry in the POCL has the stated sub-type, failure code, and failure data, false otherwise
  */
 CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmdRejRep(FwSmDesc_t outManager, int i,
@@ -103,5 +103,36 @@ FwSmDesc_t CrPsTestUtilitiesGetItemFromInManager(FwSmDesc_t inManager, int i);
  * @return the entry in the i-th element of the POCL (starting from zero)
  */
 FwSmDesc_t CrPsTestUtilitiesGetItemFromOutManager(FwSmDesc_t outManager, int i);
+
+/**
+ * Clear all entries in the RDL.
+ */
+void CrPsTestUtilitiesClearRDL();
+
+/**
+ * Reset the framework components in preparation for a new test.
+ * This function:
+ * - Sets the application error code to 'no error'
+ * - Initializes and configures the OutManager
+ * - Initializes and configures the OutLoader
+ * - Initializes and configures the OutFactory
+ * - Initializes and configures the OutRegistry
+ * - Initializes and configures the InManager
+ * - Initializes and configures the InFactory
+ * .
+ */
+void CrPsTestUtilitiesResetFw();
+
+/**
+ * Create a (3,1) command for test purposes.
+ * Source and destination are both set to zero.
+ * The acknowledge flags are set to: 'no acknowledge'.
+ * The sequence and group numbers are set to 1.
+ * @param sid the SID of the new command
+ * @param N1 the number of data items in the new command
+ * @param parId the array holding the identifiers of the data items in the command
+ *
+ */
+FwSmDesc_t CrPsTestUtilitiesMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId);
 
 #endif /* CRPS_TESTUTILITIES_H_ */

@@ -49,7 +49,11 @@ CrFwBool_t CrPsHkTestCase1();
  *   (1,4) report with error code VER_FULL_RDL
  * - Bring the RDL back to its original state and then execute a (3,1) command with an illegal SID
  *   and verify that the command is rejected with a (1,4) report with error code VER_ILL_SID
+ * - Execute a (3,1) command with an SID equal to zero
+ *   and verify that the command is rejected with a (1,4) report with error code VER_ILL_SID
  * - Execute a (3,1) command with an illegal parameter identifier
+ *   and verify that the command is rejected with a (1,4) report with error code VER_ILL_DI_ID
+ * - Execute a (3,1) command with a parameter identifier equal to zero
  *   and verify that the command is rejected with a (1,4) report with error code VER_ILL_DI_ID
  * - Execute a (3,1) command with a SID which is already in use
  *   and verify that the command is rejected with a (1,4) report with error code VER_SID_IN_USE
@@ -65,6 +69,25 @@ CrFwBool_t CrPsHkTestCase1();
  * @return 1 if the test was successful, 0 otherwise
  */
 CrFwBool_t CrPsHkTestCase2();
+
+/**
+ * Verify execution of a nominal command to create a new housekeeping report and execution of
+ * the report is has loaded.
+ * The following actions are performed:
+ * - One (3,1) command is created to load a HK report with two data pool items and it is verified that
+ *   the report is loaded in the OutManager
+ * - It is verified that the newly created HK report is disabled in the RDL and then
+ *   the OutManager is executed and it is verified that no report is generated
+ * .
+ * @verify Create HK Command, Successful execution with error code VER_FULL_RDL
+ * @verify Create HK Command, Start Failure with error code VER_ILL_SID
+ * @verify Create HK Command, Start Failure with error code VER_ILL_DP_ID
+ * @verify Create HK Command, Start Failure with error code VER_ILL_NID
+ * @verify Create HK Command, Start Failure with error code VER_SID_IN_USE
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase3();
 
 
 

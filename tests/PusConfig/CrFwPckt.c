@@ -65,6 +65,7 @@
 #include "CrPsServTypeId.h"
 #include "Pckt/CrPsPcktEvt.h"
 #include "Pckt/CrPsPcktVer.h"
+#include "Pckt/CrPsPcktHk.h"
 
 #include <stdlib.h>
 
@@ -300,8 +301,16 @@ CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt) {
 		        break;
 		    }
 		    break;
-		case 3:
-			// return getHkCreateCmdRepStrucId(pckt);
+		case HK_TYPE:
+          switch (servSubType) {
+            case HKREP_STYPE:
+              return getHkRepSID(pckt);
+            case HKDIAGREP_STYPE:
+              return getHkDiagRepSID(pckt);
+            default:
+              break;
+          }
+          break;
 		case EVT_TYPE:
 		    switch (servSubType) {
 		      case EVTREP1_STYPE:

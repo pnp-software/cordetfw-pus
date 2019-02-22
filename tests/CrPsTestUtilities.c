@@ -23,8 +23,21 @@
 
 /* Include framework files */
 #include "CrFwCmpData.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "BaseCmp/CrFwBaseCmp.h"
 #include "OutManager/CrFwOutManager.h"
 #include "Pckt/CrFwPckt.h"
+#include "DataPool/CrPsDpHk.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "InFactory/CrFwInFactory.h"
+#include "OutManager/CrFwOutManager.h"
+#include "InManager/CrFwInManager.h"
+#include "InRegistry/CrFwInRegistry.h"
+#include "OutRegistry/CrFwOutRegistry.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "CrPsServTypeId.h"
+#include "Pckt/CrPsPcktHk.h"
+#include "Hk/CrPsHkConfig.h"
 
 /*-----------------------------------------------------------------------------*/
 CrFwPckt_t CrPsTestUtilitiesCreateSAmple1Pckt(CrFwDestSrc_t dest, CrFwBool_t accAck, CrFwBool_t startAck,
@@ -86,8 +99,9 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmdRejRep(FwSmDesc_t outManager, int 
   if (failCode != 0) {
     if (getVerFailedPrgrRepTcFailCode(pckt) != failCode)
       return 0;
-    if (getVerFailedPrgrRepTcFailData(pckt) != failData)
-      return 0;
+    if (failData != 0)
+      if (getVerFailedPrgrRepTcFailData(pckt) != failData)
+        return 0;
   }
 
   return 1;
@@ -108,4 +122,72 @@ FwSmDesc_t CrPsTestUtilitiesGetItemFromOutManager(FwSmDesc_t outManager, int i) 
   outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   return outManagerCSData->pocl[i];
+}
+
+/*-----------------------------------------------------------------------------*/
+void CrPsTestUtilitiesClearRDL() {
+  int i;
+  CrPsSID_t sid;
+
+  for (i=0; i<HK_N_REP_DEF; i++)
+    setDpHkSidItem(i, 0);
+
+  for (sid=1; sid<HK_MAX_SID; sid++)
+    CrPsHkConfigClearSid(sid);
+}
+
+/*-----------------------------------------------------------------------------*/
+void CrPsTestUtilitiesResetFw() {
+  FwSmDesc_t outFactory, outLoader, outRegistry, outManager;
+  FwSmDesc_t inFactory, inRegistry, inManager;
+
+  CrFwSetAppErrCode(crNoAppErr);
+
+  outManager = CrFwOutManagerMake(0);
+  CrFwCmpInit(outManager);
+  CrFwCmpReset(outManager);
+  outFactory = CrFwOutFactoryMake();
+  CrFwCmpInit(outFactory);
+  CrFwCmpReset(outFactory);
+  outLoader = CrFwOutLoaderMake();
+  CrFwCmpInit(outLoader);
+  CrFwCmpReset(outLoader);
+  outRegistry = CrFwOutRegistryMake();
+  CrFwCmpInit(outRegistry);
+  CrFwCmpReset(outRegistry);
+
+  inManager = CrFwInManagerMake(0);
+  CrFwCmpInit(inManager);
+  CrFwCmpReset(inManager);
+  inFactory = CrFwInFactoryMake();
+  CrFwCmpInit(inFactory);
+  CrFwCmpReset(inFactory);
+  inRegistry = CrFwInRegistryMake();
+  CrFwCmpInit(inRegistry);
+  CrFwCmpReset(inRegistry);
+
+}
+
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsTestUtilitiesMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId) {
+  CrFwPckt_t pckt;
+  int i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKCREHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkCreHkCmdSID(pckt,sid);
+  setHkCreHkCmdCollectionInterval(pckt, 0);
+  setHkCreHkCmdN1(pckt, N1);
+  for (i=0; i<N1; i++)
+      setHkCreHkCmdN1ParamId(pckt, i, parId[i]);  /* The first parameter ID is illegal */
+
+  return CrFwInFactoryMakeInCmd(pckt);
+
 }

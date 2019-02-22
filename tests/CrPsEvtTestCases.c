@@ -124,23 +124,11 @@ CrFwBool_t CrPsEvtTestCase1() {
 CrFwBool_t CrPsEvtTestCase2() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
-  FwSmDesc_t outRegistry, outFactory, outLoader, outManager;
+  FwSmDesc_t outManager;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Initialize and reset the framework components */
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
-  outFactory = CrFwOutFactoryMake();
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  outLoader = CrFwOutLoaderMake();
-  CrFwCmpInit(outLoader);
-  CrFwCmpReset(outLoader);
 
   /* Initialize all event related data pool entries */
   setDpEvtLastEvtEid_1(0);
@@ -183,12 +171,6 @@ CrFwBool_t CrPsEvtTestCase2() {
   if (getDpEvtNOfDetectedEvts_1() != 1)
       return 0;
 
-  /* Reset all components used in the test case */
-  CrFwCmpReset(outLoader);
-  CrFwCmpReset(outManager);
-  CrFwCmpReset(outFactory);
-  CrFwCmpReset(outRegistry);
-
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
       return 0;
@@ -200,23 +182,11 @@ CrFwBool_t CrPsEvtTestCase2() {
 CrFwBool_t CrPsEvtTestCase3() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
-  FwSmDesc_t outRegistry, outFactory, outLoader, outManager;
+  FwSmDesc_t outManager;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Initialize and reset the framework components */
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
-  outFactory = CrFwOutFactoryMake();
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  outLoader = CrFwOutLoaderMake();
-  CrFwCmpInit(outLoader);
-  CrFwCmpReset(outLoader);
 
   /* Initialize all event related data pool entries */
   setDpEvtLastEvtEid_2(0);
@@ -255,12 +225,6 @@ CrFwBool_t CrPsEvtTestCase3() {
   if (getDpEvtNOfDetectedEvts_2() != 1)
       return 0;
 
-  /* Reset all components used in the test case */
-  CrFwCmpReset(outLoader);
-  CrFwCmpReset(outManager);
-  CrFwCmpReset(outFactory);
-  CrFwCmpReset(outRegistry);
-
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
       return 0;
@@ -272,23 +236,11 @@ CrFwBool_t CrPsEvtTestCase3() {
 CrFwBool_t CrPsEvtTestCase4() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
-  FwSmDesc_t outRegistry, outFactory, outLoader, outManager;
+  FwSmDesc_t outManager;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Initialize and reset the framework components */
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
-  outFactory = CrFwOutFactoryMake();
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  outLoader = CrFwOutLoaderMake();
-  CrFwCmpInit(outLoader);
-  CrFwCmpReset(outLoader);
 
   /* Initialize all event related data pool entries */
   setDpEvtLastEvtEid_3(0);
@@ -331,12 +283,6 @@ CrFwBool_t CrPsEvtTestCase4() {
   if (getDpEvtNOfDetectedEvts_3() != 1)
       return 0;
 
-  /* Reset all components used in the test case */
-  CrFwCmpReset(outLoader);
-  CrFwCmpReset(outManager);
-  CrFwCmpReset(outFactory);
-  CrFwCmpReset(outRegistry);
-
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
       return 0;
@@ -348,23 +294,11 @@ CrFwBool_t CrPsEvtTestCase4() {
 CrFwBool_t CrPsEvtTestCase5() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
-  FwSmDesc_t outRegistry, outFactory, outLoader, outManager;
+  FwSmDesc_t outManager;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Initialize and reset the framework components */
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
-  outFactory = CrFwOutFactoryMake();
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  outLoader = CrFwOutLoaderMake();
-  CrFwCmpInit(outLoader);
-  CrFwCmpReset(outLoader);
 
   /* Initialize all event related data pool entries */
   setDpEvtLastEvtEid_4(0);
@@ -403,12 +337,6 @@ CrFwBool_t CrPsEvtTestCase5() {
   if (getDpEvtNOfDetectedEvts_4() != 1)
       return 0;
 
-  /* Reset all components used in the test case */
-  CrFwCmpReset(outLoader);
-  CrFwCmpReset(outManager);
-  CrFwCmpReset(outFactory);
-  CrFwCmpReset(outRegistry);
-
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
       return 0;
@@ -420,18 +348,10 @@ CrFwBool_t CrPsEvtTestCase5() {
 CrFwBool_t CrPsEvtTestCase6() {
   CrFwPckt_t pckt;
   FwSmDesc_t inCmd;
-  FwSmDesc_t outRegistry, inFactory;
   CrFwCmdRepIndex_t evt1Index, evt4Index;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Instantiate and configure InFactory, InLoader and InStream */
-  inFactory = CrFwInFactoryMake();
-  CrFwCmpInit(inFactory);
-  CrFwCmpReset(inFactory);
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
 
   /* Initialize all event related data pool entries */
   setDpEvtNOfDisabledEid_1(0);
@@ -564,17 +484,13 @@ CrFwBool_t CrPsEvtTestCase6() {
   if (CrFwOutRegistryIsDiscriminantEnabled(evt4Index, EVT_DUMMY_4) != 1)
     return 0;
 
-  /*Release the InCommand */
+  /*Release the InCommand and reset the fw components*/
   CrFwInFactoryReleaseInCmd(inCmd);
-
-  /* Reset all components used in the test case */
-  CrFwCmpReset(inFactory);
-  CrFwCmpReset(outRegistry);
+  CrPsTestUtilitiesResetFw();
 
   /* Check that no packets are allocated */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
-
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -587,27 +503,12 @@ CrFwBool_t CrPsEvtTestCase6() {
 CrFwBool_t CrPsEvtTestCase7() {
   CrFwPckt_t pckt;
   FwSmDesc_t inCmd;
-  FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader;
+  FwSmDesc_t outManager;
   CrFwCmdRepIndex_t evt1Index;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Instantiate and configure InFactory, InLoader, OutManager and InStream */
-  inFactory = CrFwInFactoryMake();
-  CrFwCmpInit(inFactory);
-  CrFwCmpReset(inFactory);
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
-  outFactory = CrFwOutFactoryMake();
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  outLoader = CrFwOutLoaderMake();
-  CrFwCmpInit(outLoader);
-  CrFwCmpReset(outLoader);
 
   /* Initialize all event related data pool entries */
   setDpEvtNOfDisabledEid_1(0);
@@ -727,20 +628,13 @@ CrFwBool_t CrPsEvtTestCase7() {
   if (!CrFwInCmdIsInAborted(inCmd))
     return 0;
 
-  /*Release the InCommand */
+  /*Release the InCommand and reset the fw components */
   CrFwInFactoryReleaseInCmd(inCmd);
-
-  /* Reset all components used in the test case */
-  CrFwCmpReset(inFactory);
-  CrFwCmpReset(outRegistry);
-  CrFwCmpReset(outManager);
-  CrFwCmpReset(outFactory);
-  CrFwCmpReset(outLoader);
+  CrPsTestUtilitiesResetFw();
 
   /* Check that no packets are allocated */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
-
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -754,26 +648,13 @@ CrFwBool_t CrPsEvtTestCase7() {
 CrFwBool_t CrPsEvtTestCase8() {
   CrFwPckt_t pckt, pckt1, pckt2;
   FwSmDesc_t inCmd, rep5s8;
-  FwSmDesc_t outRegistry, inFactory, outFactory, outManager, outLoader, outStream;
+  FwSmDesc_t outStream, outManager;
 
   CrFwSetAppErrCode(crNoAppErr);
 
   /* Instantiate and configure InFactory, InLoader, OutManager and InStream */
-  inFactory = CrFwInFactoryMake();
-  CrFwCmpInit(inFactory);
-  CrFwCmpReset(inFactory);
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
-  outFactory = CrFwOutFactoryMake();
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
+  CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  outLoader = CrFwOutLoaderMake();
-  CrFwCmpInit(outLoader);
-  CrFwCmpReset(outLoader);
   outStream = CrFwOutStreamMake(0);     /* OutStream associated to destination EVT_DEST */
   CrFwCmpInit(outStream);
   CrFwCmpReset(outStream);
@@ -895,12 +776,8 @@ CrFwBool_t CrPsEvtTestCase8() {
   if (getEvtDisRepEventId(pckt2,0) != EVT_DUMMY_3)
     return 0;
 
-  /* Reset all components used in the test case */
-  CrFwCmpReset(inFactory);
-  CrFwCmpReset(outRegistry);
-  CrFwCmpReset(outManager);
-  CrFwCmpReset(outFactory);
-  CrFwCmpReset(outLoader);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
 
   /* Check that no packets are allocated */
   if (CrFwPcktGetNOfAllocated() != 0)
@@ -915,27 +792,14 @@ CrFwBool_t CrPsEvtTestCase8() {
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsEvtTestCase9() {
-  FwSmDesc_t outRegistry, outFactory, outLoader, outManager, inCmd;
+  FwSmDesc_t inCmd;
   FwSmDesc_t outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
   unsigned int i;
   CrFwPckt_t pckt;
   CrFwCounterU2_t errRepPos;
 
-  CrFwSetAppErrCode(crNoAppErr);
-
-  /* Initialize and reset the framework components */
-  outRegistry = CrFwOutRegistryMake();
-  CrFwCmpInit(outRegistry);
-  CrFwCmpReset(outRegistry);
-  outFactory = CrFwOutFactoryMake();
-  CrFwCmpInit(outFactory);
-  CrFwCmpReset(outFactory);
-  outManager = CrFwOutManagerMake(0);
-  CrFwCmpInit(outManager);
-  CrFwCmpReset(outManager);
-  outLoader = CrFwOutLoaderMake();
-  CrFwCmpInit(outLoader);
-  CrFwCmpReset(outLoader);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
 
   /* Fill the outfactory */
   for (i=0;i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP;i++)
@@ -1006,11 +870,8 @@ CrFwBool_t CrPsEvtTestCase9() {
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
 
-  /* Reset all components used in the test case */
-  CrFwCmpReset(outRegistry);
-  CrFwCmpReset(outManager);
-  CrFwCmpReset(outFactory);
-  CrFwCmpReset(outLoader);
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
 
   /* Check that no packets are allocated */
   if (CrFwPcktGetNOfAllocated() != 0)
