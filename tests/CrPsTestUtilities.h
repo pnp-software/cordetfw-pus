@@ -113,21 +113,25 @@ void CrPsTestUtilitiesClearRDL();
  * Reset the framework components in preparation for a new test.
  * This function:
  * - Sets the application error code to 'no error'
- * - Initializes and configures the OutManager
+ * - Initializes and configures the frist OutManager
  * - Initializes and configures the OutLoader
  * - Initializes and configures the OutFactory
  * - Initializes and configures the OutRegistry
- * - Initializes and configures the InManager
+ * - Initializes and configures the first InManager
  * - Initializes and configures the InFactory
+ * - Initializes and configures the first OutStream
  * .
  */
 void CrPsTestUtilitiesResetFw();
 
 /**
  * Create a (3,1) command for test purposes.
- * Source and destination are both set to zero.
- * The acknowledge flags are set to: 'no acknowledge'.
- * The sequence and group numbers are set to 1.
+ * The command is configured according to the function parameters and:
+ * - Source and destination are both set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * - The collection interval is set to 1
+ * .
  * @param sid the SID of the new command
  * @param N1 the number of data items in the new command
  * @param parId the array holding the identifiers of the data items in the command

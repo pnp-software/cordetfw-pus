@@ -138,7 +138,7 @@ void CrPsTestUtilitiesClearRDL() {
 
 /*-----------------------------------------------------------------------------*/
 void CrPsTestUtilitiesResetFw() {
-  FwSmDesc_t outFactory, outLoader, outRegistry, outManager;
+  FwSmDesc_t outFactory, outLoader, outRegistry, outManager, outStream;
   FwSmDesc_t inFactory, inRegistry, inManager;
 
   CrFwSetAppErrCode(crNoAppErr);
@@ -155,6 +155,9 @@ void CrPsTestUtilitiesResetFw() {
   outRegistry = CrFwOutRegistryMake();
   CrFwCmpInit(outRegistry);
   CrFwCmpReset(outRegistry);
+  outStream = CrFwOutStreamMake(0);
+  CrFwCmpInit(outStream);
+  CrFwCmpReset(outStream);
 
   inManager = CrFwInManagerMake(0);
   CrFwCmpInit(inManager);
@@ -183,10 +186,10 @@ FwSmDesc_t CrPsTestUtilitiesMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* p
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
   setHkCreHkCmdSID(pckt,sid);
-  setHkCreHkCmdCollectionInterval(pckt, 0);
+  setHkCreHkCmdCollectionInterval(pckt, 1);
   setHkCreHkCmdN1(pckt, N1);
   for (i=0; i<N1; i++)
-      setHkCreHkCmdN1ParamId(pckt, i, parId[i]);  /* The first parameter ID is illegal */
+      setHkCreHkCmdN1ParamId(pckt, i, parId[i]);
 
   return CrFwInFactoryMakeInCmd(pckt);
 

@@ -96,10 +96,19 @@ void CrPsHkConfigClearSid(CrPsSID_t sid);
  * legality of the other function parameters (out-of-limit values might result
  * in memory corruption).
  *
+ * This function is used for defining pre-defined housekeeping reports where parameter
+ * <code>parId</code> holds the list of the identifiers of the data items carried by
+ * the housekeeping report.
+ * The function to be used for defining new housekeeping reports in response to a
+ * (3,1) or (3,2) command is #CrPsHkConfigHkRepOnBoard.
+ * This function uses as an input the (3,1) or (3,2) command packet.
+ * The difference is important when the data in the packet are byte-swapped.
+ *
  * @constraint Since the collection interval of housekeeping packets is defined as an
  * integer number of HK_COLLECT_PER periods, housekeeping reports shall be loaded into
  * an OutManager which is activated with a period of length HK_COLLECT_PER
  *
+ * @param the housekeeping report to be configured
  * @param rdlPos the slot in the RDL where the new packet is loaded (the first slot has index zero)
  * @param sid the Structure Identifier (SID) of the new packet
  * @param nOfItems the number of items in the new packet
@@ -108,11 +117,23 @@ void CrPsHkConfigClearSid(CrPsSID_t sid);
  * @param dest the destination of the new packet
  * @param parId the array holding the identifiers of the <code>nOfItems</code> items in the
  * new packet
- * @return the slot (starting from zero) where the argument SID has been inserted in the RDL or -1
- * if no empty slot in the RDL has been found
  */
 void CrPsHkConfigHkRep(FwSmDesc_t rep, short int rdlPos, CrPsSID_t sid, CrPsNPar_t nOfItems,
                                 CrFwDestSrc_t dest, CrPsCycleCnt_t collectionInt, CrPsParId_t* parId);
+
+/**
+ * Configure a housekeeping report and its RDL definition on the basis of the data in the
+ * Housekeeping Create Command.
+ * The report is configured as follows:
+ * - The enable status is set to: 'disabled'
+ * - The destination is the same as the source of the Housekeeping Create Command
+ * - The number and identifiers of the data pool items are taken from the Housekeeping Create Command
+ * . *
+ * @param the housekeeping report to be configured
+ * @param rdlPos the slot in the RDL where the new packet is loaded (the first slot has index zero)
+ * @param createCmd the (3,1) or (3,2) command which creates the housekeeping report
+ */
+void CrPsHkConfigHkRepOnBoard(FwSmDesc_t rep, short int rdlPos, FwSmDesc_t createCmd);
 
 /**
  * Collect the value of the data pool items in the packet defined in the <code>rdlSlot</code>-th slot of the RDL

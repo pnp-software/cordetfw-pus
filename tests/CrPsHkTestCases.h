@@ -76,14 +76,16 @@ CrFwBool_t CrPsHkTestCase2();
  * The following actions are performed:
  * - One (3,1) command is created to load a HK report with two data pool items and it is verified that
  *   the report is loaded in the OutManager
- * - It is verified that the newly created HK report is disabled in the RDL and then
- *   the OutManager is executed and it is verified that no report is generated
+ * - The OutManager is executed and it is verified that no HK report is generated (because, by default,
+ *   it is disabled)
+ * - The HK report is enabled in the RDL and then the OutManager is executed again and it is verified
+ *   that it is generated and that its destination is the same as the source of the (3,1) command
+ * - It is verified that the report is generated at each execution of the OutManager and that the data
+ *   it carries are updated at each generation
  * .
- * @verify Create HK Command, Successful execution with error code VER_FULL_RDL
- * @verify Create HK Command, Start Failure with error code VER_ILL_SID
- * @verify Create HK Command, Start Failure with error code VER_ILL_DP_ID
- * @verify Create HK Command, Start Failure with error code VER_ILL_NID
- * @verify Create HK Command, Start Failure with error code VER_SID_IN_USE
+ * @verify Create HK Command, Successful execution
+ * @verify HK Report, Execution while disabled
+ * @verify HK Report, Execution while enabled with collection period equal to 1
  *
  * @return 1 if the test was successful, 0 otherwise
  */

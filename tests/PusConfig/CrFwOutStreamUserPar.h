@@ -151,8 +151,8 @@
  * An application-specific Configuration Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_CONFIGACTION {&CrFwOutStreamDefConfigAction, \
-								     &CrFwOutStreamDefConfigAction}
+#define CR_FW_OUTSTREAM_CONFIGACTION {&CrPsOutStreamStubConfigAction, \
+								     &CrPsOutStreamStubConfigAction}
 
 /**
  * The functions implementing the Shutdown Action of the OutStream components.

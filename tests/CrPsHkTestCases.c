@@ -55,6 +55,7 @@
 #include "CrPsOutStreamStub.h"
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpHk.h"
+#include "DataPool/CrPsDpFct.h"
 
 /* Include system files */
 #include <stdlib.h>
@@ -287,13 +288,18 @@ CrFwBool_t CrPsHkTestCase3() {
   FwSmDesc_t inCmd;
   FwSmDesc_t outManager = CrFwOutManagerMake(0);
   CrPsSID_t preDefSID = 1;
-  CrPsParId_t parId[2] = {DpIdnOfAllocatedInCmd, DpIdnOfAllocatedInRep};
+  CrPsParId_t parId[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrFwDestSrc_t src3s1 = EVT_DEST;
+  CrFwPckt_t pckt;
+  short int rdlPos;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
 
-  /* Create a (3,1) command */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);;
+  /* Create a (3,1) command and set its source */
+  inCmd = CrPsTestUtilitiesMake3s1(preDefSID, HK_NOFITEMS_SID_N_OF_EVT, parId);
+  pckt = CrFwInCmdGetPckt(inCmd);
+  CrFwPcktSetSrc(pckt, src3s1);
 
   /* Execute and terminate the InCommand  (this simulates the action of an InManager) */
   CrFwCmpExecute(inCmd);
@@ -309,12 +315,40 @@ CrFwBool_t CrPsHkTestCase3() {
   if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,HK_TYPE,HKREP_STYPE,preDefSID) != 1)
       return 0;
 
+  /* Execute the OutManager and verify that no HK report is generated */
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt()>0)
+      return 0;
+
+  /* Enable the pending HK report in the RDL, execute it again and check that the report is generated */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID);
+  setDpHkIsEnabledItem(rdlPos, 1);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 1)
+      return 0;
+  pckt = CrPsOutStreamStubGetPckt(0);
+  if (CrFwPcktGetDest(pckt) != src3s1)
+      return 0;
+
+  /* Execute OutManager twice and verify that the report is generated twice */
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 3)
+      return 0;
+
+  /* Verify that the content of the report is updated at each execution */
+  setDpEvtNOfDetectedEvts_1(111);   /* This is the first item in the HK report */
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 4)
+      return 0;
+  pckt = CrPsOutStreamStubGetPckt(0);
+  CrPsNEvtRep_t temp = getHkRep_SID_N_OF_EVTnOfDetectedEvts_1(pckt);
+  if ((temp != 111) && (temp != 111*256))   /* The check covers both endianness cases */
+      return 0;
 
 
 
 
-
-  /* ---------------------------------------------------------------------------*/
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
 

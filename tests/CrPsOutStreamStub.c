@@ -84,9 +84,11 @@ CrFwBool_t CrPsOutStreamStubPcktHandover(CrFwPckt_t pckt) {
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwPckt_t CrPsOutStreamStubGetPckt(unsigned int i) {
-    assert(i < (CR_PS_OUTSTREAMSTUB_N+1));
-    if (ringBufferPtr > i)
-        return ringBuffer[(ringBufferPtr-i-1)];
+    assert(i < CR_PS_OUTSTREAMSTUB_N);
+
+    i = i + 1;
+    if (ringBufferPtr >= i)
+        return ringBuffer[(ringBufferPtr-i)];
 
     return ringBuffer[CR_PS_OUTSTREAMSTUB_N-(i-ringBufferPtr)];
 }
@@ -134,6 +136,7 @@ void CrPsOutStreamStubInitAction(FwPrDesc_t prDesc) {
 void CrPsOutStreamStubConfigAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	CrFwOutStreamDefConfigAction(prDesc);
+	pcktHandOverCnt = 0;
 	outStreamData->outcome = (CrFwOutcome_t)actionFlag;
 }
 

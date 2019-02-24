@@ -75,7 +75,8 @@ void CrPsOutStreamStubInitAction(FwPrDesc_t prDesc);
 
 /**
  * Dummy implementation of a configuration action for an OutStream.
- * The outcome of this implementation is given by the value of a settable flag
+ * This function resets the handover counter to zero.
+ * The outcome of the action is given by the value of a settable flag
  * (<code>actionFlag</code>) whose value is set through function
  * <code>::CrPsOutStreamStubSetActionFlag</code>.
  * The default value of the settable flag represents "action successful".
@@ -146,7 +147,7 @@ void CrPsOutStreamStubShutdown(FwSmDesc_t smDesc);
 CrFwCounterU1_t CrPsOutStreamStubGetShutdownCnt();
 
 /**
- * Return the pointed to the i-th most recent packet handed over to the
+ * Return the pointer to the i-th most recent packet handed over to the
  * OutStream through function <code>CrPsOutStreamStubPcktHandover</code>.
  * The capacity of the rin buffer is given by constant #CR_PS_OUTSTREAMSTUB_N.
  *

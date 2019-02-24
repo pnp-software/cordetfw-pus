@@ -656,8 +656,6 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
   outStream = CrFwOutStreamMake(0);     /* OutStream associated to destination EVT_DEST */
-  CrFwCmpInit(outStream);
-  CrFwCmpReset(outStream);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)

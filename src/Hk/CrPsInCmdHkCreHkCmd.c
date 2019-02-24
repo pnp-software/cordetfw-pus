@@ -81,7 +81,7 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
 
   /* Check legality constraints on command parameters - Check legality of parameter identifiers */
   /* Also: compute the length of the (3,25) packet -- this is useful later                      */
-  len = LEN_HK_REP + 2;     /* Include length of checksum at end of packet                      */
+  len = LEN_HK_REP;
   for (i=0; i<N1; i++) {
     parId = getHkCreHkCmdN1ParamId(pckt, i);
     len = len + getDpSize(parId);
@@ -131,11 +131,7 @@ void CrPsInCmdHkCreHkCmdProgressAction(FwSmDesc_t smDesc) {
   CrPsParId_t* parId;
 
   /* Configure the (3,25) report */
-  dest = CrFwInCmdGetSrc(smDesc);
-  collectionInt = getHkCreHkCmdCollectionInterval(pckt);
-  parId = getHkCreHkCmdN1ParamIdArray(pckt);
-
-  CrPsHkConfigHkRep(rep3s25, rdlSlot, sid, N1, dest, collectionInt, parId);
+  CrPsHkConfigHkRepOnBoard(rep3s25, rdlSlot, smDesc);
 
   /* Load the report in the OutLoader */
   CrFwOutLoaderLoad(rep3s25);
