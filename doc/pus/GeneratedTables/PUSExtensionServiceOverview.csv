@@ -24,6 +24,8 @@ TM(3,25)|Rep|Housekeeping Parameter Report|321
 TM(3,26)|DiagRep|Diagnostic Parameter Report|321
 TC(3,27)|OneShotHkCmd|Generate One-Shot Report for Housekeeping Parameters|332
 TC(3,28)|OneShotDiagCmd|Generate One-Shot Report for Diagnostic Parameters|332
+TC(3,31)|ModPerHkCmd|Modify Collection Interval of Housekeeping Report Structure|332
+TC(3,32)|ModPerDiagCmd|Modify Collection Interval of Diagnostic Report Structure|332
 TM(5,1)|Rep1|Informative Event Report (Level 1)|321
 TM(5,2)|Rep2|Low Severity Event Report (Level 2)|321
 TM(5,3)|Rep3|Medium Severity Event Report (Level 3)|321

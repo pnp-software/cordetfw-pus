@@ -7,7 +7,7 @@
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{PUS Extension}
 \SetDocAuthor{Alessandro Pasetti}
-\SetCheckedBy{Marcel Opprecht}
+\SetCheckedBy{n.a.}
 \maketitle
 
 
@@ -462,6 +462,14 @@ With reference to the last bullet, it is noted that the set of supported types i
 \item \textit{Variables}: data items whose value is autonomously updated by the host application as part of its normal operation
 \end{itemize}
 
+The CORDET Framework makes the following assumptions about the range of identifiers of the data pool items:
+
+\begin{itemize}
+\item The identifiers of the data pool parameters are contiguous within range: [\texttt{DpIdParamsLowest},\texttt{DpIdParamsHighest}]
+\item The identifiers of the data pool variables are contiguous within range: [\texttt{DpIdVarsLowest},\texttt{DpIdVarsHighest}]
+\item The ranges of the parameter identifiers is contiguous to the range of the variable identifiers (i.e. \texttt{DpIdVarsLowest} is equal to: \texttt{DpIdParamsHighest}+1)
+\end{itemize}
+
 In practice, the data pool is the means through which a component can access data belonging to other components. Note that this specification is silent about the physical location of the data items in the data pool, which can be either the components which own the data item (in which case the data pool only offers a link to the data items), or the data pool itself, or a mixed solution where some data items reside in the data pool and others in peripheral components. 
 
 This specification is similarly silent about the internal structure of data items and, in particular, it neither restricts them to be of primitive type nor does it mandate an array-like structure for them. Any such restrictions or options must be introduced at implementation level.
@@ -880,7 +888,8 @@ The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct
 \hline
 8 & \texttt{lstNSampRep} & List of numbers (\texttt{nRep[1]} .. \texttt{nRep[nGroup]}) of data items in each super-commutated group & Each \texttt{nRep[i]} is in range: 1..HK\_MAX\_N\_REP \\
 \hline
-9 & \texttt{lstId} & List of identifiers of data items in the report & Not more than HK\_MAX\_N\_ITEMS data items and each identifier is in range: 1..HK\_MAX\_ID \\
+9 & \texttt{lstId} & List of identifiers of data items in the report & Not more than HK\_MAX\_N\_ITEMS data items and each identifier is in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}]
+ \\
 \hline
 10 & \texttt{sampleBufId} & The identifier of the sampling buffer holding the super-commutated data item values & An integer in the range: 1..HK\_N\_SAMP\_BUF \\
 \hline
@@ -1303,7 +1312,8 @@ The PUS Extension of the CORDET Framework provides the following commands to con
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of Parameter Monitor}{tab:pmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
-\texttt{dataItemId} & Identifier of the data item monitored by the parameter monitor & Integer in range: 1..HK\_MAX\_ID \\
+\texttt{dataItemId} & Identifier of the data item monitored by the parameter monitor & Integer in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}]
+ \\
 \hline
 \texttt{monPrId} & Identifier of the Monitor Procedure which checks the parameter value & See section \ref{sec:MonProc} \\
 \hline
@@ -1327,7 +1337,7 @@ The PUS Extension of the CORDET Framework provides the following commands to con
 \hline
 \texttt{fMonList} & The list of MON\_N\_FPMON identifiers of the functional monitor to which the parameter monitor belongs (or zero if the parameter monitor does not belong to a functional monitor) & Integer in range: 0..MON\_N\_FMON \\
 \hline
-\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: 1..HK\_MAX\_ID \\
+\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}] \\
 \hline
 \texttt{valMask} & Mask used for validity check & Unsigned integer  \\
 \hline
@@ -1397,7 +1407,7 @@ The destination of the (12,12) report is the "service 12 user". This is either p
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Check Transition}{tab:chkTransAttr}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
-\texttt{dataItemId} & Identifier of the data item where the monitoring violation was detected & Integer in range: 1..HK\_MAX\_ID \\
+\texttt{dataItemId} & Identifier of the data item where the monitoring violation was detected & Integer in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}] \\
 \hline
 \texttt{monId} & Identifier of the Parameter Monitor which detected the violation & Integer in range: 1..MON\_N\_PMON \\
 \hline
@@ -1457,7 +1467,7 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \hline
 \texttt{isEnabled} & The flag indicating whether the functional monitor is enabled & Boolean flag \\
 \hline
-\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: 1..HK\_MAX\_ID \\
+\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}] \\
 \hline
 \texttt{valMask} & Mask used for validity check & Unsigned integer  \\
 \hline

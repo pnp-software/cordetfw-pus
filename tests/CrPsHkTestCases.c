@@ -237,10 +237,10 @@ CrFwBool_t CrPsHkTestCase2() {
       return 0;
 
   /* ---------------------------------------- Step 3 ---------------------------*/
-  /* Create a (3,1) command to have a data item identifier equal to zero and then execute and verify error */
+  /* Create a (3,1) command to have an illegal data item identifier and then execute and verify error */
   inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
-  setHkCreHkCmdN1ParamId(pckt, 0, 0);
+  setHkCreHkCmdN1ParamId(pckt, 0, DpIdVarsHighest+1);
 
   CrFwCmpExecute(inCmd);
   CrFwInCmdTerminate(inCmd);
@@ -248,7 +248,7 @@ CrFwBool_t CrPsHkTestCase2() {
     return 0;
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != HK_N_REP_DEF+6)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,5,4,VER_ILL_DI_ID,0) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,5,4,VER_ILL_DI_ID,DpIdVarsHighest+1) != 1)
       return 0;
 
   /* ---------------------------------------- Step 3 ---------------------------*/
@@ -292,6 +292,7 @@ CrFwBool_t CrPsHkTestCase3() {
   CrFwDestSrc_t src3s1 = EVT_DEST;
   CrFwPckt_t pckt;
   short int rdlPos;
+  CrPsCycleCnt_t collectionInt;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -346,8 +347,29 @@ CrFwBool_t CrPsHkTestCase3() {
   if ((temp != 111) && (temp != 111*256))   /* The check covers both endianness cases */
       return 0;
 
+  /* Change execution period and verify the generation frequency changes too */
+  collectionInt = 3;
+  setDpHkPeriodItem(rdlPos, collectionInt);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 5)
+      return 0;
 
-
+  /* Set cycle counter and period to zero and verify that report is generated only once */
+  setDpHkPeriodItem(rdlPos, 0);
+  setDpHkCycleCntItem(rdlPos, 0);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 6)
+      return 0;
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 6)
+      return 0;
 
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd);

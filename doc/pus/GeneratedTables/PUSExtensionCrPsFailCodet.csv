@@ -7,8 +7,8 @@ Value|Name|Description|verFailData
 134|VER\_ILL\_DI\_ID|A service 3 command carried an illegal data item identifier|The illegal data item identifier
 135|VER\_ILL\_NID|A service 3 ommand carried too many data item identifiers|The number of data item identifiers
 136|VER\_ILL\_SID|A service 3 command had an invalid SID|The invalid SID
-137|VER\_ENABLED\_SID|A (3,3) or (3,4) command attempted to enabled a SID which is already enabled|The enabled SID
-138|VER\_SID\_START\_FD|All the instructions in a service 3 command have been rejected|None
+137|VER\_ENB\_SID|A service 3 command encountered an enabled SID|The enabled SID
+138|VER\_MI\_S3\_FD|A multi-instruction service 3 command has failed|None
 139| VER\_FACT\_PRGR\_FD|The progress action of a multi-instruction service 3 command has failed to retrieve a report from the OutFactory|The SID for which the retrieval from the OutFactory was attempted
 140|VER\_ILL\_EID|The start action of a service 5 command has encountered an illegal Event Identifier (EID)|The illegal EID
 141|VER\_EID\_ST\_FD|All the instructions in a service 5 command have been rejected|None

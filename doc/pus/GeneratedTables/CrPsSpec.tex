@@ -136,9 +136,9 @@ Description & Delete one or more housekeeping report definitions \\\hline
 Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure of \ref{fig:Cmd3s3Start} to identify the valid SIDs in the command argument \\\hline
-Progress Action & Delete the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action and then set the action outcome to 'completed' \\\hline
-Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is illegal, then: the illegal SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is legal but enabled, the SID is loaded into verFailData and the Success Outcome is set to VER\_\-ENB\_\-SID\newline (c) If the SID is legal and disabled, then the SID definition is deleted from the Report Definition List (RDL)\newline (d) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal or enabled SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -148,8 +148,8 @@ Description & Delete one or more diagnostic report definitions \\\hline
 Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure of \ref{fig:Cmd3s3Start} to identify the valid SIDs in the command argument \\\hline
-Progress Action & Delete the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action and then set the action outcome to 'completed' \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is illegal, then: the illegal SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is legal but enabled, the SID is loaded into verFailData and the Success Outcome is set to VER\_\-ENB\_\-SID\newline (c) If the SID is legal and disabled, then the SID definition is deleted from the Report Definition List (RDL)\newline (d) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
@@ -160,9 +160,9 @@ Description & Enable the periodic generation of one or more housekeeping report 
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart} \\\hline
-Progress Action & For the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action: set enabled flag to true and set the cycle counter to 0. Set the action outcome to 'completed' \\\hline
-Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is illegal, then: the illegal SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is legal, then the SID definition in the Report Definition List (RDL) is enabled\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -172,9 +172,9 @@ Description & Disable the periodic generation of one or more housekeeping report
 Parameters & List of SIDs to be disabled \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart} \\\hline
-Progress Action & Set to false the enable flag of the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action and then set the action outcome to 'completed' \\\hline
-Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is illegal, then: the illegal SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is legal, then the SID definition in the Report Definition List (RDL) is disabled\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -184,8 +184,8 @@ Description & Enable the periodic generation of one or more diagnostic report st
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart} \\\hline
-Progress Action & For the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action: set enabled flag to true and set the cycle counter to 0. Set the action outcome to 'completed' \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is illegal, then: the illegal SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is legal, then the SID definition in the Report Definition List (RDL) is enabled\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
@@ -196,7 +196,7 @@ Description & Disable the periodic generation of one or more diagnostic report s
 Parameters & List of SIDs to be disabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart} \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & \#TM(3,60 \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
@@ -208,7 +208,7 @@ Description & This command carries a list of SIDs. For each SID, it triggers the
 Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart} \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & Run the procedure Progress Action of Report Service 3 Structure of figure \ref{fig:Cmd3s9Prgr} \\\hline
 Termination Action & Set action outcome to 'success' if all valid SIDs in the command were successfully processed by the progress action; set it to 'failure' otherwise \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
@@ -232,7 +232,7 @@ Description & This command carries a list of SIDs. For each SID, it triggers the
 Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart} \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & Run the procedure Progress Action of Report Service 3 Structure of figure \ref{fig:Cmd3s9Prgr} \\\hline
 Termination Action & Set action outcome to 'success' if all valid SIDs in the command were successfully processed by the progress action; set it to 'failure' otherwise \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
@@ -278,7 +278,7 @@ Update Action & Load the value of the simply-commutated data items from the data
 \begin{pnptable}{#1}{Specification of HkOneShotHkCmd Component}{tab:InCmdHkOneShotHkCmdSpec}{Name & HkOneShotHkCmd(3,27)}
 Description & Command (3,27) to generate a one-shot housekeeping report \\\hline
 Parameters & The list of SIDs for which the one-shot report is to be generated \\\hline
-Discriminant & SID to be generated in one-shot mode \\\hline
+Discriminant & None \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Run the procedure Start Action of Multi-SID Command of figure 9.3 \\\hline
 Progress Action & Run the procedure Progress Action of Generate One-Shot Housekeeping Report of figure 9.6 \\\hline
@@ -290,7 +290,7 @@ Abort Action & Do nothing \\\hline
 \begin{pnptable}{#1}{Specification of HkOneShotDiagCmd Component}{tab:InCmdHkOneShotDiagCmdSpec}{Name & HkOneShotDiagCmd(3,28)}
 Description & Command (3,28) to generate a one-shot diagnostic report \\\hline
 Parameters & The list of SIDs for which the one-shot report is to be generated \\\hline
-Discriminant & SID to be generated in one-shot mode \\\hline
+Discriminant & None \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Run the procedure Start Action of Multi-SID Command of figure 9.3 \\\hline
 Progress Action & Run the procedure Progress Action of Generate One-Shot Housekeeping Report of figure 9.6 \\\hline
@@ -353,7 +353,7 @@ Parameters & List of event identifiers to be enabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The event identifiers are processed in sequence and in the order in which they are stored in the event report. Each event identifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-EID\newline (b) If the event identified is legal, then: its enable status is set to 'enabled'; the value of nDisabledEid x ('x' is the severity level of the EID) is decremented; and the Success Outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
+Progress Action & The event identifiers (EIDs) are processed in sequence and in the order in which they are stored in the command. Each event identifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-EID\newline (b) If the event identifier is legal, then: its enable status is set to 'enabled'; the value of nDisabledEid x ('x' is the severity level of the EID) is decremented; and the Success Outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
 Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-ILL\_\-EID and the number of failed progress steps (which corresponds to the number of illegal event identifier in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}

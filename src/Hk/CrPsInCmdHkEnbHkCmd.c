@@ -12,30 +12,69 @@
 #include "CrPsInCmdHkEnbHkCmd.h"
 
 /**
- * Start action of TC(3,5) HkEnbHkCmd.
- * Run the procedure Start Action of Multi-SID Command of figure
- * \image html CrPsCmd3SidStart.png "Start Action of Multi-SID
- * Command"
+ * Progress action of TC(3,5) HkEnbHkCmd.
+ * The Structure Identifiers (SIDs) are processed in sequence and in the order
+ * in which they are stored in the command. Each SID is processed in an
+ * execution cycle. Each execution cycle counts as a progress step. At each
+ * execution, the progress action performs the following actions:
+ *
+ * (a) If the SID is illegal, then: the illegal SID is loaded into verFailData
+ * and the Success Outcome is set to VER_ILL_SID
+ * (b) If the SID is legal, then the SID definition in the Report Definition
+ * List (RDL) is enabled
+ * (c) The Completion Outcome of the action is set to 'completed' if all SIDs
+ * carried by the command have been processed; otherwise it is set to 'not
+ * completed'.
  * @param smDesc The state machine descriptor.
  */
-void CrPsInCmdHkEnbHkCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkEnbHkCmdStartAction");
-   return ;
+void CrPsInCmdHkEnbHkCmdProgressAction(FwSmDesc_t smDesc) {
+    CrFwPckt_t hkPckt = CrFwInCmdGetPckt(smDesc);
+    CrPsNSID_t nSid;
+    CrPsSID_t sid;
+    CrFwProgressStepId_t progressStepId;
+
+    /* Get the progress step identifier */
+    progressStepId = CrFwInCmdGetProgressStepId(smDesc);
+
+    /* Get the number of SIDs in the command */
+    nSid = getHkEnbHkCmdN(hkPckt);
+
+    /* Get the SID to be process in the current cycle */
+    sid = getHkEnbHkCmdSID(hkPckt, progressStepId);
+
+    /* Get the RDL slot for the argument SID */
+    rdlPos = CrPsHkConfigGetRdlSlot(sid);
+
+
+
+
+
+    /* Update progress step identifier */
+    progressStepId++;
+    CrFwInCmdSetProgressStepId(smDesc, progressStepId);
+
+    /* Set completion outcome */
+    if (progressStepId < nEvtId)
+      CrFwInCmdSetProgressActionCompleted(smDesc, 0);
+    else
+      CrFwInCmdSetProgressActionCompleted(smDesc, 1);
+
 }
 
 /**
- * Progress action of TC(3,5) HkEnbHkCmd.
- * For the entries in the RDL corresponding to the SIDs which have been
- * identified as valid by the Start Action: set enabled flag to true and set
- * the cycle counter to 0. Set the action outcome to ’completed’
+ * Termination action of TC(3,5) HkEnbHkCmd.
+ * The action outcome is set to 'success' if all progress steps were
+ * successful. Otherwise, the action outcome is set to VER_MI_S3_FD and the
+ * number of failed progress steps (which corresponds to the number of illegal
+ * SIDs in the command) is loaded in verFailData.
  * @param smDesc The state machine descriptor.
  */
-void CrPsInCmdHkEnbHkCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkEnbHkCmdProgressAction");
-   return ;
+void CrPsInCmdHkEnbHkCmdTerminationAction(FwSmDesc_t smDesc) {
+    CrFwProgressStepId_t nOfFailedSteps = CrFwInCmdGetNOfProgressFailure(smDesc);
+    if (nOfFailedSteps > 0) {
+      setDpVerFailData(nOfFailedSteps);
+      CrFwSetSmOutcome(smDesc, VER_MI_S3_FD);
+    } else
+      CrFwSetSmOutcome(smDesc, 1);
 }
 

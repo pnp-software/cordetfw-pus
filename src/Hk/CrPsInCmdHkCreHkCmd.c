@@ -85,12 +85,12 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   for (i=0; i<N1; i++) {
     parId = getHkCreHkCmdN1ParamId(pckt, i);
     len = len + getDpSize(parId);
-    if (parId == 0) {
+    if (parId < DpIdParamsLowest) {
       CrFwSetSmOutcome(smDesc, VER_ILL_DI_ID);
       setDpVerFailData(parId);
       return;
     }
-    if (parId > HK_MAX_ID) {
+    if (parId > DpIdVarsHighest) {
       CrFwSetSmOutcome(smDesc, VER_ILL_DI_ID);
       setDpVerFailData(parId);
       return;

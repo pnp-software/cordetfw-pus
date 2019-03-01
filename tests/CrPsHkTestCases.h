@@ -82,10 +82,16 @@ CrFwBool_t CrPsHkTestCase2();
  *   that it is generated and that its destination is the same as the source of the (3,1) command
  * - It is verified that the report is generated at each execution of the OutManager and that the data
  *   it carries are updated at each generation
+ * - The generation period is modified in the RDL and it is verified that a matching change in the generation
+ *   frequency of the report occurs
+ * - The generation period and the cycle counter are set to zero and it is verified that the report is
+ *   only generated once (one-shot mode)
  * .
  * @verify Create HK Command, Successful execution
  * @verify HK Report, Execution while disabled
  * @verify HK Report, Execution while enabled with collection period equal to 1
+ * @verify HK Report, Execution while enabled with collection period greater than 1
+ * @verify HK Report, Execution while enabled with collection period equal to zero
  *
  * @return 1 if the test was successful, 0 otherwise
  */
