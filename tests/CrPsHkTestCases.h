@@ -23,6 +23,8 @@
 #include "CrFwConstants.h"
 /* Include FW Profile files */
 #include "FwSmConstants.h"
+/* Include PUS Extension Files */
+#include "Pckt/CrPsPcktHk.h"
 
 /**
  * Test the functions in the housekeeping configuration module (CrPsHkConfig.h).
@@ -71,7 +73,7 @@ CrFwBool_t CrPsHkTestCase1();
 CrFwBool_t CrPsHkTestCase2();
 
 /**
- * Verify execution of a nominal command to create a new housekeeping report and execution of
+ * Verify execution of a nominal command to create a new housekeeping report and verify the execution of
  * the report is has loaded.
  * The following actions are performed:
  * - One (3,1) command is created to load a HK report with two data pool items and it is verified that
@@ -96,6 +98,119 @@ CrFwBool_t CrPsHkTestCase2();
  * @return 1 if the test was successful, 0 otherwise
  */
 CrFwBool_t CrPsHkTestCase3();
+
+/**
+ * Verify execution of a command to enable a housekeeping report.
+ * The following actions are performed:
+ * - One (3,5) command is created carrying 2 legal SIDs neither of which is loaded in the RDL and it is verified
+ *   that executing the command twice results in the generation of two (1,6) and one (1,8) reports
+ * - One (3,5) command is created carrying one legal and loaded SID and one out-of-range SID and it is verified
+ *   that executing the command twice results in the first SID being enabled
+ * - One (3,5) command is created carrying two loaded SIDs and it is verified
+ *   that executing the command twice results in the both SIDs being enabled
+ * .
+ * @verify Enable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
+ * @verify Enable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
+ * @verify Enable Generation of a HK Report Structure, All SIDs are loaded in the RDL
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase4();
+
+/**
+ * Verify execution of a command to disable a housekeeping report.
+ * The following actions are performed:
+ * - One (3,5) command is created carrying 2 legal SIDs neither of which is loaded in the RDL and it is verified
+ *   that executing the command twice results in the generation of two (1,6) and one (1,8) reports
+ * - One (3,5) command is created carrying one legal and loaded SID and one out-of-range SID and it is verified
+ *   that executing the command twice results in the first SID being disabled
+ * - One (3,5) command is created carrying two loaded SIDs and it is verified
+ *   that executing the command twice results in the both SIDs being disabled
+ * .
+ * @verify Disable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
+ * @verify Disable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
+ * @verify Disable Generation of a HK Report Structure, All SIDs are loaded in the RDL
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase5();
+
+/**
+ * Verify execution of a command to delete a housekeeping report.
+ * The following actions are performed:
+ * - One (3,3) command is created carrying 3 SIDs of which one is not loaded, one is illegal and one is enabled
+ *   and it is verified
+ *   that executing the command three results in the generation of three (1,6) and one (1,8) reports
+ * - One (3,3) command is created carrying one legal, loaded and disabled SID and it is verified
+ *   that executing the command results in the SID being deleted
+ * .
+ * @verify Delete HK Report Structure, SID is not loaded in the RDL
+ * @verify Delete HK Report Structure, SID is illegal
+ * @verify Delete HK Report Structure, SID is enabled
+ * @verify Delete HK Report Structure, SID is loaded and disabled
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase6();
+
+/**
+ * Create a (3,1) command for test purposes.
+ * The command is configured according to the function parameters and:
+ * - Source and destination are both set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * - The collection interval is set to 1
+ * .
+ * @param sid the SID of the new command
+ * @param N1 the number of data items in the new command
+ * @param parId the array holding the identifiers of the data items in the command
+ *
+ */
+FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId);
+
+/**
+ * Create a (3,3) command for test purposes.
+ * The command is configured according to the function parameters and:
+ * - Source and destination are both set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * - The collection interval is set to 1
+ * .
+ * @param sid the SIDs to be deleted
+ * @param N1 the number of SIDs in the command
+ *
+ */
+FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1);
+
+/**
+ * Create a (3,5) command for test purposes.
+ * The command is configured according to the function parameters and:
+ * - Source and destination are both set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * - The collection interval is set to 1
+ * .
+ * @param sid the SIDs to be enabled
+ * @param N1 the number of SIDs in the command
+ *
+ */
+FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1);
+
+/**
+ * Create a (3,6) command for test purposes.
+ * The command is configured according to the function parameters and:
+ * - Source and destination are both set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * - The collection interval is set to 1
+ * .
+ * @param sid the SIDs to be disabled
+ * @param N1 the number of SIDs in the command
+ *
+ */
+FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1);
+
+
 
 
 

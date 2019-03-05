@@ -648,14 +648,13 @@ CrFwBool_t CrPsEvtTestCase7() {
 CrFwBool_t CrPsEvtTestCase8() {
   CrFwPckt_t pckt, pckt1, pckt2;
   FwSmDesc_t inCmd, rep5s8;
-  FwSmDesc_t outStream, outManager;
+  FwSmDesc_t outManager;
 
   CrFwSetAppErrCode(crNoAppErr);
 
   /* Instantiate and configure InFactory, InLoader, OutManager and InStream */
   CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
-  outStream = CrFwOutStreamMake(0);     /* OutStream associated to destination EVT_DEST */
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)

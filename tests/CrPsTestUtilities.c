@@ -171,26 +171,3 @@ void CrPsTestUtilitiesResetFw() {
 
 }
 
-/*-----------------------------------------------------------------------------*/
-FwSmDesc_t CrPsTestUtilitiesMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId) {
-  CrFwPckt_t pckt;
-  int i;
-
-  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
-  CrFwPcktSetCmdRepType(pckt,crCmdType);
-  CrFwPcktSetServType(pckt,HK_TYPE);
-  CrFwPcktSetServSubType(pckt,HKCREHKCMD_STYPE);
-  CrFwPcktSetSrc(pckt,0);
-  CrFwPcktSetDest(pckt,0);
-  CrFwPcktSetGroup(pckt,1);
-  CrFwPcktSetAckLevel(pckt,0,0,0,0);
-  CrFwPcktSetSeqCnt(pckt,1);
-  setHkCreHkCmdSID(pckt,sid);
-  setHkCreHkCmdCollectionInterval(pckt, 1);
-  setHkCreHkCmdN1(pckt, N1);
-  for (i=0; i<N1; i++)
-      setHkCreHkCmdN1ParamId(pckt, i, parId[i]);
-
-  return CrFwInFactoryMakeInCmd(pckt);
-
-}

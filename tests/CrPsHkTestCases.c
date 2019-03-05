@@ -13,6 +13,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  */
 
+#include "CrPsHkTestCases.h"
+
 /* Include FW Profile files */
 #include "FwSmConstants.h"
 #include "FwSmConfig.h"
@@ -138,7 +140,7 @@ CrFwBool_t CrPsHkTestCase2() {
   outManager = CrFwOutManagerMake(0);
 
   /* Create a (3,1) command */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
+  inCmd = CrPsHkTestCaseMake3s1(1, 2, parId);
 
   /* Check type and sub-type of the InCommand*/
   if (CrFwInCmdGetServType(inCmd) != HK_TYPE)
@@ -178,7 +180,7 @@ CrFwBool_t CrPsHkTestCase2() {
   }
 
   /* Create a (3,1) command with illegal SID and then execute and verify error */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
+  inCmd = CrPsHkTestCaseMake3s1(1, 2, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
   setHkCreHkCmdSID(pckt,HK_MAX_SID+1);
 
@@ -193,7 +195,7 @@ CrFwBool_t CrPsHkTestCase2() {
 
   /* ---------------------------------------- Step 3 ---------------------------*/
   /* Create a (3,1) command with SID equal to zero and then execute and verify error */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
+  inCmd = CrPsHkTestCaseMake3s1(1, 2, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
   setHkCreHkCmdSID(pckt,0);
 
@@ -208,7 +210,7 @@ CrFwBool_t CrPsHkTestCase2() {
 
   /* ---------------------------------------- Step 4 ---------------------------*/
   /* Create a (3,1) command to have an illegal number of data items and then execute and verify error */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
+  inCmd = CrPsHkTestCaseMake3s1(1, 2, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
   setHkCreHkCmdN1(pckt, HK_MAX_N_SIMPLE+1);
 
@@ -223,7 +225,7 @@ CrFwBool_t CrPsHkTestCase2() {
 
   /* ---------------------------------------- Step 3 ---------------------------*/
   /* Create a (3,1) command to have an illegal data item identifier and then execute and verify error */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
+  inCmd = CrPsHkTestCaseMake3s1(1, 2, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
   setHkCreHkCmdN1ParamId(pckt, 0, DpIdParamsLowest-1);
 
@@ -238,7 +240,7 @@ CrFwBool_t CrPsHkTestCase2() {
 
   /* ---------------------------------------- Step 3 ---------------------------*/
   /* Create a (3,1) command to have an illegal data item identifier and then execute and verify error */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
+  inCmd = CrPsHkTestCaseMake3s1(1, 2, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
   setHkCreHkCmdN1ParamId(pckt, 0, DpIdVarsHighest+1);
 
@@ -253,7 +255,7 @@ CrFwBool_t CrPsHkTestCase2() {
 
   /* ---------------------------------------- Step 3 ---------------------------*/
   /* Change the InCommand's SID to be equal to 1 and then execute and verify error */
-  inCmd = CrPsTestUtilitiesMake3s1(1, 2, parId);
+  inCmd = CrPsHkTestCaseMake3s1(1, 2, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
   setHkCreHkCmdSID(pckt,1);
 
@@ -298,7 +300,7 @@ CrFwBool_t CrPsHkTestCase3() {
   CrPsTestUtilitiesResetFw();
 
   /* Create a (3,1) command and set its source */
-  inCmd = CrPsTestUtilitiesMake3s1(preDefSID, HK_NOFITEMS_SID_N_OF_EVT, parId);
+  inCmd = CrPsHkTestCaseMake3s1(preDefSID, HK_NOFITEMS_SID_N_OF_EVT, parId);
   pckt = CrFwInCmdGetPckt(inCmd);
   CrFwPcktSetSrc(pckt, src3s1);
 
@@ -387,3 +389,424 @@ CrFwBool_t CrPsHkTestCase3() {
 
   return 1;
 }
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase4() {
+  FwSmDesc_t inCmd3s5, inCmd3s1;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
+  CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsSID_t sid[2] = {1, 2};
+  CrPsSID_t preDefSID1 = 1;
+  CrPsSID_t preDefSID2 = 2;
+  int nOfOutCmp, rdlPos;
+
+  /* Reset the framework components and clear the RDL*/
+  CrPsTestUtilitiesResetFw();
+  CrPsHkConfigInit();
+
+  /* Create a (3,5) command and execute it */
+  inCmd3s5 = CrPsHkTestCaseMake3s5(sid, 2);
+  CrFwCmpExecute(inCmd3s5);
+  CrFwInCmdTerminate(inCmd3s5);
+
+  /*check that the InCommand is in PROGRESS state and one (1,6) report was generated */
+  if (!CrFwInCmdIsInProgress(inCmd3s5))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,0,6,VER_ILL_SID,1) != 1)
+      return 0;
+
+  /* Execute the command again and verify that it terminates */
+  CrFwCmpExecute(inCmd3s5);
+  CrFwInCmdTerminate(inCmd3s5);
+  if (!CrFwInCmdIsInAborted(inCmd3s5))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_ILL_SID,2) != 1)
+      return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,8,VER_MI_S3_FD,2) != 1)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
+  /* Load two HK reports */
+
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID2, HK_NOFITEMS_SID_HK_CNT, parId2);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+
+  /* Create a (3,5) command with one loaded and one illegal SID */
+  sid[0] = preDefSID1;
+  sid[1] = HK_MAX_SID+1;    /* Illegal SID */
+  inCmd3s5 = CrPsHkTestCaseMake3s5(sid, 2);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s5);
+  CrFwInCmdTerminate(inCmd3s5);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp)
+      return 0;
+  CrFwCmpExecute(inCmd3s5);
+  CrFwInCmdTerminate(inCmd3s5);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp+2)
+      return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp,6,VER_ILL_SID,HK_MAX_SID+1) != 1)
+      return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+1,8,VER_MI_S3_FD,1) != 1)
+      return 0;
+
+  /* Check that the first SID is now enabled */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
+  if (getDpHkIsEnabledItem(rdlPos) != 0)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
+  /* Create a (3,5) command with two loaded SIDs */
+  sid[0] = preDefSID1;
+  sid[1] = preDefSID2;
+  inCmd3s5 = CrPsHkTestCaseMake3s5(sid, 2);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s5);
+  CrFwInCmdTerminate(inCmd3s5);
+  CrFwCmpExecute(inCmd3s5);
+  CrFwInCmdTerminate(inCmd3s5);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp)
+      return 0;
+
+  /* Check that both SIDs are now enabled */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
+  if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd3s5);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase5() {
+  FwSmDesc_t inCmd3s6, inCmd3s1;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
+  CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsSID_t sid[2] = {1, 2};
+  CrPsSID_t preDefSID1 = 1;
+  CrPsSID_t preDefSID2 = 2;
+  int nOfOutCmp, rdlPos;
+
+  /* Reset the framework components and clear the RDL*/
+  CrPsTestUtilitiesResetFw();
+  CrPsHkConfigInit();
+
+  /* Create a (3,6) command and execute it */
+  inCmd3s6 = CrPsHkTestCaseMake3s6(sid, 2);
+  CrFwCmpExecute(inCmd3s6);
+  CrFwInCmdTerminate(inCmd3s6);
+
+  /*check that the InCommand is in PROGRESS state and one (1,6) report was generated */
+  if (!CrFwInCmdIsInProgress(inCmd3s6))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,0,6,VER_ILL_SID,1) != 1)
+      return 0;
+
+  /* Execute the command again and verify that it terminates */
+  CrFwCmpExecute(inCmd3s6);
+  CrFwInCmdTerminate(inCmd3s6);
+  if (!CrFwInCmdIsInAborted(inCmd3s6))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_ILL_SID,2) != 1)
+      return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,8,VER_MI_S3_FD,2) != 1)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
+  /* Load two HK reports and then enable them */
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID2, HK_NOFITEMS_SID_HK_CNT, parId2);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  setDpHkIsEnabledItem(rdlPos, 1);
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
+  setDpHkIsEnabledItem(rdlPos, 1);
+
+  /* Create a (3,6) command with one loaded and one illegal SID */
+  sid[0] = preDefSID1;
+  sid[1] = HK_MAX_SID+1;    /* Illegal SID */
+  inCmd3s6 = CrPsHkTestCaseMake3s6(sid, 2);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s6);
+  CrFwInCmdTerminate(inCmd3s6);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp)
+      return 0;
+  CrFwCmpExecute(inCmd3s6);
+  CrFwInCmdTerminate(inCmd3s6);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp+2)
+      return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp,6,VER_ILL_SID,HK_MAX_SID+1) != 1)
+      return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+1,8,VER_MI_S3_FD,1) != 1)
+      return 0;
+
+  /* Check that the first SID is now disabled */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (getDpHkIsEnabledItem(rdlPos) != 0)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
+  if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
+  /* Create a (3,6) command with two loaded SIDs */
+  sid[0] = preDefSID1;
+  sid[1] = preDefSID2;
+  inCmd3s6 = CrPsHkTestCaseMake3s6(sid, 2);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s6);
+  CrFwInCmdTerminate(inCmd3s6);
+  CrFwCmpExecute(inCmd3s6);
+  CrFwInCmdTerminate(inCmd3s6);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp)
+      return 0;
+
+  /* Check that both SIDs are now disabled */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (getDpHkIsEnabledItem(rdlPos) != 0)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
+  if (getDpHkIsEnabledItem(rdlPos) != 0)
+      return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd3s6);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase6() {
+  FwSmDesc_t inCmd3s3, inCmd3s1;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
+  CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsSID_t sid[3];
+  CrPsSID_t preDefSID1 = 1;
+  CrPsSID_t preDefSID2 = 2;
+  int nOfOutCmp, rdlPos;
+
+  /* Reset the framework components and clear the RDL*/
+  CrPsTestUtilitiesResetFw();
+  CrPsHkConfigInit();
+
+  /* Load two HK reports and then enable the first oe */
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
+  int temp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  temp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID2, HK_NOFITEMS_SID_HK_CNT, parId2);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  setDpHkIsEnabledItem(rdlPos, 1);
+  temp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+
+  /* Create a (3,3) command and execute */
+  sid[0] = preDefSID2+1;        /* Not loaded SID */
+  sid[1] = HK_MAX_SID+1;        /* Illegal SID */
+  sid[2] = preDefSID1;          /* Enabled SID */
+  inCmd3s3 = CrPsHkTestCaseMake3s3(sid, 3);
+  CrFwCmpExecute(inCmd3s3);
+  CrFwInCmdTerminate(inCmd3s3);
+
+  /* Check that the InCommand is in PROGRESS state and one (1,6) report was generated */
+  if (!CrFwInCmdIsInProgress(inCmd3s3))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,0,6,VER_ILL_SID,preDefSID2+1) != 1)
+      return 0;
+
+  /* Execute the command again and check that it is in PROGRESS state and one (1,6) report was generated */
+  CrFwCmpExecute(inCmd3s3);
+  CrFwInCmdTerminate(inCmd3s3);
+  if (!CrFwInCmdIsInProgress(inCmd3s3))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_ILL_SID,HK_MAX_SID+1) != 1)
+      return 0;
+
+  /* Execute the command again and verify that it terminates */
+  CrFwCmpExecute(inCmd3s3);
+  CrFwInCmdTerminate(inCmd3s3);
+  if (!CrFwInCmdIsInAborted(inCmd3s3))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_ENB_SID,preDefSID1) != 1)
+      return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_MI_S3_FD,3) != 1)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
+  /* Create a (3,3) command with one loaded, legal and disabled SID */
+  sid[0] = preDefSID2;
+  inCmd3s3 = CrPsHkTestCaseMake3s6(sid, 1);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s3);
+  CrFwInCmdTerminate(inCmd3s3);
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
+      return 0;
+
+  /* Check that the second SID has been deleted */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
+  if (getDpHkIsEnabledItem(rdlPos) != -1)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (getDpHkIsEnabledItem(rdlPos) == -1)
+      return 0;
+
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd3s3);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId) {
+  CrFwPckt_t pckt;
+  int i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKCREHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkCreHkCmdSID(pckt,sid);
+  setHkCreHkCmdCollectionInterval(pckt, 1);
+  setHkCreHkCmdN1(pckt, N1);
+  for (i=0; i<N1; i++)
+      setHkCreHkCmdN1ParamId(pckt, i, parId[i]);
+
+  return CrFwInFactoryMakeInCmd(pckt);
+}
+
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1) {
+  CrFwPckt_t pckt;
+  CrPsNSID_t i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKDELHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkEnbHkCmdN(pckt, N1);
+  for (i=0; i<N1; i++)
+      setHkEnbHkCmdSID(pckt, i, sid[i]);
+
+  return CrFwInFactoryMakeInCmd(pckt);
+}
+
+
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1) {
+  CrFwPckt_t pckt;
+  CrPsNSID_t i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKENBHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkEnbHkCmdN(pckt, N1);
+  for (i=0; i<N1; i++)
+      setHkEnbHkCmdSID(pckt, i, sid[i]);
+
+  return CrFwInFactoryMakeInCmd(pckt);
+}
+
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1) {
+  CrFwPckt_t pckt;
+  CrPsNSID_t i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKDISHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkEnbHkCmdN(pckt, N1);
+  for (i=0; i<N1; i++)
+      setHkEnbHkCmdSID(pckt, i, sid[i]);
+
+  return CrFwInFactoryMakeInCmd(pckt);
+}
+

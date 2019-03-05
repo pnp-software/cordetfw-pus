@@ -124,19 +124,4 @@ void CrPsTestUtilitiesClearRDL();
  */
 void CrPsTestUtilitiesResetFw();
 
-/**
- * Create a (3,1) command for test purposes.
- * The command is configured according to the function parameters and:
- * - Source and destination are both set to zero.
- * - The acknowledge flags are set to: 'no acknowledge'.
- * - The sequence and group numbers are set to 1.
- * - The collection interval is set to 1
- * .
- * @param sid the SID of the new command
- * @param N1 the number of data items in the new command
- * @param parId the array holding the identifiers of the data items in the command
- *
- */
-FwSmDesc_t CrPsTestUtilitiesMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId);
-
 #endif /* CRPS_TESTUTILITIES_H_ */

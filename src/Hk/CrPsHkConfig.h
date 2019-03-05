@@ -36,7 +36,7 @@
  *
  * In order to establish the link between a housekeeping report and the RDL slot where its
  * definition is stored, the following is done:
- * - An array is defined with size #HK_MAX_SID (the maximum value of a SID)
+ * - The SID Position Array is defined with size #HK_MAX_SID (the maximum value of a SID)
  * - The j-th element of this array is equal to -1 if the report with SID equal to j is not
  *   in the RDL (i.e. if it is not being generated) and is otherwise equal to the index of the
  *   RDL slot where the report is defined.
@@ -63,10 +63,8 @@
  * This function must be called before the houekeeping service can be used in the host application.
  * The function should typically be called as part of the initialization of the host application.
  * The following actions are performed:
- * - Verify that the range of data pool identifiers for the parameters and the variables do not
- *   overlap and set the application error code to #crPsDpParVarIdOverlap if they do
  * - The RDL is initialized to be empty
- * - Instantiate the Ready Check Procedures (one for each RDL slot)
+ * - The SID Position Array is initialized to -1 (indicating that no SID is loaded in the RDL)
  * .
  * @constraint If an application needs pre-defined housekeeping reports, it must define them in the
  * RDL as part of its initialization using function #CrPsHkConfigHkRep. For packets defined in the
@@ -150,7 +148,8 @@ void CrPsHkConfigUpdateRep(short int rdlSlot, FwSmDesc_t hkRep);
 /**
  * Get the index of the RDL slot where the report with the argument SID is stored (the index of the first slot
  * is zero).
- * If no report with the argument SID is defined in the RDL, a value of -1 is returned.
+ * If the SID is out-of-range (i.e. if it is greater than #HK_MAX_SID) or if no report with the argument SID
+ * is defined in the RDL, a value of -1 is returned.
  *
  * @param sid the structure identifier (SID)
  * @return the index of the RDL slot where the report with the argument SID is stored (the index of the first slot

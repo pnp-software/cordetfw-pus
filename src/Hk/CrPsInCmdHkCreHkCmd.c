@@ -126,9 +126,6 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
  * @param smDesc The state machine descriptor.
  */
 void CrPsInCmdHkCreHkCmdProgressAction(FwSmDesc_t smDesc) {
-  CrFwDestSrc_t dest;
-  CrPsCycleCnt_t collectionInt;
-  CrPsParId_t* parId;
 
   /* Configure the (3,25) report */
   CrPsHkConfigHkRepOnBoard(rep3s25, rdlSlot, smDesc);

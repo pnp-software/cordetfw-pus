@@ -49,6 +49,10 @@ void CrPsHkConfigInit() {
   /* Initialize RDL to be empty (an RDL slot is empty if its SID is equal to 0) */
   for (i=0; i<HK_N_REP_DEF; i++)
     setDpHkSidItem(i, 0);
+
+  /* Initialize of RDL Slot Index */
+  for (i=0; i<HK_MAX_SID; i++)
+    rdlIndex[i] = -1;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -150,5 +154,7 @@ short int CrPsHkConfigGetFreeRdlSlot() {
 
 /* ----------------------------------------------------------------------------------- */
 short int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
+  if (sid > HK_MAX_SID)
+    return -1;
   return rdlIndex[sid];
 }
