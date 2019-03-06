@@ -638,31 +638,29 @@ CrFwBool_t CrPsHkTestCase6() {
 
   /* Load two HK reports and then enable the first oe */
   inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
-  int temp = CrFwOutFactoryGetNOfAllocatedOutCmp();
   CrFwCmpExecute(inCmd3s1);
   CrFwInCmdTerminate(inCmd3s1);
-  temp = CrFwOutFactoryGetNOfAllocatedOutCmp();
   inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID2, HK_NOFITEMS_SID_HK_CNT, parId2);
   CrFwCmpExecute(inCmd3s1);
   CrFwInCmdTerminate(inCmd3s1);
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
   setDpHkIsEnabledItem(rdlPos, 1);
-  temp = CrFwOutFactoryGetNOfAllocatedOutCmp();
 
   /* Create a (3,3) command and execute */
   sid[0] = preDefSID2+1;        /* Not loaded SID */
   sid[1] = HK_MAX_SID+1;        /* Illegal SID */
   sid[2] = preDefSID1;          /* Enabled SID */
   inCmd3s3 = CrPsHkTestCaseMake3s3(sid, 3);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
   CrFwCmpExecute(inCmd3s3);
   CrFwInCmdTerminate(inCmd3s3);
 
   /* Check that the InCommand is in PROGRESS state and one (1,6) report was generated */
   if (!CrFwInCmdIsInProgress(inCmd3s3))
     return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 1)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,0,6,VER_ILL_SID,preDefSID2+1) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp,6,VER_ILL_SID,preDefSID2+1) != 1)
       return 0;
 
   /* Execute the command again and check that it is in PROGRESS state and one (1,6) report was generated */
@@ -670,9 +668,9 @@ CrFwBool_t CrPsHkTestCase6() {
   CrFwInCmdTerminate(inCmd3s3);
   if (!CrFwInCmdIsInProgress(inCmd3s3))
     return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 2)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_ILL_SID,HK_MAX_SID+1) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+1,6,VER_ILL_SID,HK_MAX_SID+1) != 1)
       return 0;
 
   /* Execute the command again and verify that it terminates */
@@ -680,31 +678,29 @@ CrFwBool_t CrPsHkTestCase6() {
   CrFwInCmdTerminate(inCmd3s3);
   if (!CrFwInCmdIsInAborted(inCmd3s3))
     return 0;
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 4)
     return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_ENB_SID,preDefSID1) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+2,6,VER_ENB_SID,preDefSID1) != 1)
       return 0;
-  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_MI_S3_FD,3) != 1)
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+3,8,VER_MI_S3_FD,3) != 1)
       return 0;
 
   /* -------------------------------------------------------------------------- */
   /* Create a (3,3) command with one loaded, legal and disabled SID */
   sid[0] = preDefSID2;
-  inCmd3s3 = CrPsHkTestCaseMake3s6(sid, 1);
-  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  inCmd3s3 = CrPsHkTestCaseMake3s3(sid, 1);
   CrFwCmpExecute(inCmd3s3);
   CrFwInCmdTerminate(inCmd3s3);
-  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 4)
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 4)
       return 0;
 
   /* Check that the second SID has been deleted */
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
-  if (getDpHkIsEnabledItem(rdlPos) != -1)
+  if (getDpHkSidItem(rdlPos) != 0)
       return 0;
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
-  if (getDpHkIsEnabledItem(rdlPos) == -1)
+  if (getDpHkSidItem(rdlPos) == 0)
       return 0;
-
 
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd3s3);
