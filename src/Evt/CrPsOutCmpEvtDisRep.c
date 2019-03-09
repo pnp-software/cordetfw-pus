@@ -52,8 +52,8 @@ void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
   unsigned int nextSevLevel, nextPos;
 
   /* Compute the number of event identifiers to be stored in this report */
-  sizeOfEvtId = getDpSize(DpIdlastEvtEid_1);
-  sizeOfEvtN = getDpSize(DpIdnOfDisabledEid_1);
+  sizeOfEvtId = getDpSize(DpIdlastEvtEid)/4;
+  sizeOfEvtN = getDpSize(DpIdnOfDisabledEid)/4;
   sizeOfHeader = sizeof(TmHeader_t);
   nEvtEid = (CrFwOutCmpGetLength(smDesc) - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
 

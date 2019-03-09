@@ -265,7 +265,7 @@ typedef enum {
 #define CR_FW_MAX_NOF_PCKTS 255
 
 /** The maximum length of a packet in bytes */
-#define CR_FW_MAX_PCKT_LENGTH 32
+#define CR_FW_MAX_PCKT_LENGTH 36
 
 /** The identifier of the host application */
 #define CR_FW_HOST_APP_ID 10

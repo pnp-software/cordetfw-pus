@@ -169,7 +169,7 @@ CrFwBool_t CrPsEvtTestCase7();
  * - Disable TWO event identifiers and then instantiate a command of type (5,7) and execute
  *   it and verify that it triggers the generation of one (5,8) report carrying the disabled
  *   identifier
- * - Disable 8 event identifiers  and then instantiate a command of type (5,7) and execute
+ * - Disable 12 event identifiers  and then instantiate a command of type (5,7) and execute
  *   it and verify that it triggers the generation of two (5,8) reports carrying the disabled
  *   identifiers
  * .

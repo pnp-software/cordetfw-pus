@@ -29,7 +29,7 @@ static CrPsEvtId_t listOfEid_2[N_OF_DER_PCKT_EVT_REP2] = LIST_OF_DER_PCKT_EVT_RE
 static CrPsEvtId_t listOfEid_3[N_OF_DER_PCKT_EVT_REP3] = LIST_OF_DER_PCKT_EVT_REP3;
 static CrPsEvtId_t listOfEid_4[N_OF_DER_PCKT_EVT_REP4] = LIST_OF_DER_PCKT_EVT_REP4;
 
-/* The i-th element of these arrays holds the idenable status of the i-th event identifier */
+/* The i-th element of these arrays holds the enable status of the i-th event identifier */
 static CrFwBool_t isEidDisabled_1[N_OF_DER_PCKT_EVT_REP1];
 static CrFwBool_t isEidDisabled_2[N_OF_DER_PCKT_EVT_REP2];
 static CrFwBool_t isEidDisabled_3[N_OF_DER_PCKT_EVT_REP3];
@@ -80,7 +80,7 @@ int CrPsEvtConfigGetEidPos(CrPsEvtId_t evtId, unsigned int severityLevel) {
       upper = pos;
     else
       lower = pos;
-    /* Loop terminate either when lower and upper are equal or when they differ by 1 */
+    /* Loop terminates either when lower and upper are equal or when they differ by 1 */
     if ((upper - lower) <= 1) {
       if (listOfEid[lower] == evtId)
         return lower;

@@ -295,6 +295,7 @@ CrFwBool_t CrPsHkTestCase3() {
   CrFwPckt_t pckt;
   short int rdlPos;
   CrPsCycleCnt_t collectionInt;
+  CrPsNEvtRep_t SID_N_OF_EVTnOfDetectedEvts[4];
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -340,13 +341,13 @@ CrFwBool_t CrPsHkTestCase3() {
       return 0;
 
   /* Verify that the content of the report is updated at each execution */
-  setDpEvtNOfDetectedEvts_1(111);   /* This is the first item in the HK report */
+  setDpEvtNOfDetectedEvtsItem(0,111);   /* This is the first item in the HK report */
   CrFwCmpExecute(outManager);
   if (CrPsOutStreamStubGetHandoverCnt() != 4)
       return 0;
   pckt = CrPsOutStreamStubGetPckt(0);
-  CrPsNEvtRep_t temp = getHkRep_SID_N_OF_EVTnOfDetectedEvts_1(pckt);
-  if ((temp != 111) && (temp != 111*256))   /* The check covers both endianness cases */
+  getHkRep_SID_N_OF_EVTnOfDetectedEvts(pckt, SID_N_OF_EVTnOfDetectedEvts);
+  if ((SID_N_OF_EVTnOfDetectedEvts[0] != 111) && (SID_N_OF_EVTnOfDetectedEvts[0] != 111*256))   /* The check covers both endianness cases */
       return 0;
 
   /* Change execution period and verify the generation frequency changes too */

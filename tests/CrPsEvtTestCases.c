@@ -125,15 +125,16 @@ CrFwBool_t CrPsEvtTestCase2() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
   FwSmDesc_t outManager;
+  int sevLevel = 1;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
 
   /* Initialize all event related data pool entries */
-  setDpEvtLastEvtEid_1(0);
-  setDpEvtLastEvtTime_1(0);
-  setDpEvtNOfDetectedEvts_1(0);
+  setDpEvtLastEvtEidItem(sevLevel-1,0);
+  setDpEvtLastEvtTimeItem(sevLevel-1, 0);
+  setDpEvtNOfDetectedEvtsItem(sevLevel-1, 0);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -164,11 +165,11 @@ CrFwBool_t CrPsEvtTestCase2() {
   CrFwCmpExecute(outManager);
 
   /* Check observables related to level 1 events */
-  if (getDpEvtLastEvtEid_1() != EVT_DUMMY_1)
+  if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_1)
       return 0;
-  if (abs(getDpEvtLastEvtTime_1()-CrFwGetCurrentTime()) < 0.001)
+  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
-  if (getDpEvtNOfDetectedEvts_1() != 1)
+  if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;
 
   /* Check application errors */
@@ -183,15 +184,16 @@ CrFwBool_t CrPsEvtTestCase3() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
   FwSmDesc_t outManager;
+  int sevLevel = 2;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
 
   /* Initialize all event related data pool entries */
-  setDpEvtLastEvtEid_2(0);
-  setDpEvtLastEvtTime_2(0);
-  setDpEvtNOfDetectedEvts_2(0);
+  setDpEvtLastEvtEidItem(sevLevel-1,0);
+  setDpEvtLastEvtTimeItem(sevLevel-1, 0);
+  setDpEvtNOfDetectedEvtsItem(sevLevel-1, 0);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -218,11 +220,11 @@ CrFwBool_t CrPsEvtTestCase3() {
   CrFwCmpExecute(outManager);
 
   /* Check observables related to event */
-  if (getDpEvtLastEvtEid_2() != EVT_DUMMY_2)
+  if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_2)
       return 0;
-  if (abs(getDpEvtLastEvtTime_2()-CrFwGetCurrentTime()) < 0.001)
+  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
-  if (getDpEvtNOfDetectedEvts_2() != 1)
+  if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;
 
   /* Check application errors */
@@ -237,15 +239,16 @@ CrFwBool_t CrPsEvtTestCase4() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
   FwSmDesc_t outManager;
+  int sevLevel = 3;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
 
   /* Initialize all event related data pool entries */
-  setDpEvtLastEvtEid_3(0);
-  setDpEvtLastEvtTime_3(0);
-  setDpEvtNOfDetectedEvts_3(0);
+  setDpEvtLastEvtEidItem(sevLevel-1,0);
+  setDpEvtLastEvtTimeItem(sevLevel-1, 0);
+  setDpEvtNOfDetectedEvtsItem(sevLevel-1, 0);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -276,11 +279,11 @@ CrFwBool_t CrPsEvtTestCase4() {
   CrFwCmpExecute(outManager);
 
   /* Check observables related to level 1 events */
-  if (getDpEvtLastEvtEid_3() != EVT_DUMMY_3)
+  if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_3)
       return 0;
-  if (abs(getDpEvtLastEvtTime_3()-CrFwGetCurrentTime()) < 0.001)
+  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
-  if (getDpEvtNOfDetectedEvts_3() != 1)
+  if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;
 
   /* Check application errors */
@@ -295,15 +298,16 @@ CrFwBool_t CrPsEvtTestCase5() {
   CrFwPckt_t pckt;
   FwSmDesc_t rep;
   FwSmDesc_t outManager;
+  int sevLevel = 4;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
   outManager = CrFwOutManagerMake(0);
 
   /* Initialize all event related data pool entries */
-  setDpEvtLastEvtEid_4(0);
-  setDpEvtLastEvtTime_4(0);
-  setDpEvtNOfDetectedEvts_4(0);
+  setDpEvtLastEvtEidItem(sevLevel-1,0);
+  setDpEvtLastEvtTimeItem(sevLevel-1, 0);
+  setDpEvtNOfDetectedEvtsItem(sevLevel-1, 0);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -330,11 +334,11 @@ CrFwBool_t CrPsEvtTestCase5() {
   CrFwCmpExecute(outManager);
 
   /* Check observables related to event */
-  if (getDpEvtLastEvtEid_4() != EVT_DUMMY_4)
+  if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_4)
       return 0;
-  if (abs(getDpEvtLastEvtTime_4()-CrFwGetCurrentTime()) < 0.001)
+  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
-  if (getDpEvtNOfDetectedEvts_4() != 1)
+  if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;
 
   /* Check application errors */
@@ -354,8 +358,8 @@ CrFwBool_t CrPsEvtTestCase6() {
   CrPsTestUtilitiesResetFw();
 
   /* Initialize all event related data pool entries */
-  setDpEvtNOfDisabledEid_1(0);
-  setDpEvtNOfDisabledEid_4(0);
+  setDpEvtNOfDisabledEidItem(0,0);
+  setDpEvtNOfDisabledEidItem(3, 0);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -402,7 +406,7 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that only the first EID has been disabled */
-  if (getDpEvtNOfDisabledEid_1() != 1)
+  if (getDpEvtNOfDisabledEidItem(0) != 1)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 0)
     return 0;
@@ -418,7 +422,7 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that both EIDs have been disabled */
-  if (getDpEvtNOfDisabledEid_4() != 1)
+  if (getDpEvtNOfDisabledEidItem(3) != 1)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 0)
     return 0;
@@ -461,7 +465,7 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that only the first EID has been enabled */
-  if (getDpEvtNOfDisabledEid_1() != 0)
+  if (getDpEvtNOfDisabledEidItem(0) != 0)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 1)
     return 0;
@@ -477,7 +481,7 @@ CrFwBool_t CrPsEvtTestCase6() {
     return 0;
 
   /* Check that both EIDs have been disabled */
-  if (getDpEvtNOfDisabledEid_4() != 0)
+  if (getDpEvtNOfDisabledEidItem(3) != 0)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 1)
     return 0;
@@ -511,8 +515,8 @@ CrFwBool_t CrPsEvtTestCase7() {
   outManager = CrFwOutManagerMake(0);
 
   /* Initialize all event related data pool entries */
-  setDpEvtNOfDisabledEid_1(0);
-  setDpEvtNOfDisabledEid_2(0);
+  setDpEvtNOfDisabledEidItem(0, 0);
+  setDpEvtNOfDisabledEidItem(1, 0);
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
@@ -666,9 +670,9 @@ CrFwBool_t CrPsEvtTestCase8() {
 
   /* Disable two event identifiers */
   CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_1, 0);
-  setDpEvtNOfDisabledEid_1(1);
+  setDpEvtNOfDisabledEidItem(0,1);
   CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_3, 0);
-  setDpEvtNOfDisabledEid_3(1);
+  setDpEvtNOfDisabledEidItem(2,1);
 
   /* Create a (5,7) Packet */
   pckt = CrFwPcktMake(LEN_EVT_REPDISCMD);
@@ -718,13 +722,22 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_1, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_DOWN_ABORT, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_UP_ABORT, 0);
-  setDpEvtNOfDisabledEid_1(3);
+  setDpEvtNOfDisabledEidItem(0, 3);
+
+  CrPsEvtConfigSetEidEnableStatus (EVT_CLST_FULL, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_2, 0);
+  setDpEvtNOfDisabledEidItem(1, 2);
+
   CrPsEvtConfigSetEidEnableStatus (EVT_MON_LIM_I, 0);
+  CrPsEvtConfigSetEidEnableStatus (EVT_MON_LIM_R, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_MON_DEL_R, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_MON_DEL_I, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_FMON_FAIL, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_3, 0);
-  setDpEvtNOfDisabledEid_3(5);
+  setDpEvtNOfDisabledEidItem(2, 6);
+
+  CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_4, 0);
+  setDpEvtNOfDisabledEidItem(3, 1);
 
   /* Create a (5,7) Packet */
   pckt = CrFwPcktMake(LEN_EVT_REPDISCMD);
@@ -766,11 +779,11 @@ CrFwBool_t CrPsEvtTestCase8() {
 
   /* The following checks are dangerous because the outCmp has already been released!!!!
    * They only work because the pckt of the released outCmp has not yet been overwritten */
-  if (getEvtDisRepN(pckt1) != 7)
+  if (getEvtDisRepN(pckt1) != 9)
     return 0;
-  if (getEvtDisRepN(pckt2) != 1)
+  if (getEvtDisRepN(pckt2) != 3)
     return 0;
-  if (getEvtDisRepEventId(pckt2,0) != EVT_DUMMY_3)
+  if (getEvtDisRepEventId(pckt2,0) != EVT_FMON_FAIL)
     return 0;
 
   /* Reset the framework components */

@@ -21,16 +21,16 @@
 
 /**
  * Enable check of TM(5,1) EvtRep1.
- * Update service 5 observable nOfDetectedEvt x (’x’ is the event severity
- * level) and then retrieve the enable status from the Out-Registry as a
- * function of the report type, sub-type and discriminant
+ * This function is also used as enable check for the other event sub-types
+ * (TM(5,2) to TM(5,4)).
  * @param smDesc The state machine descriptor.
  * @return The enable check result.
  */
 CrFwBool_t CrPsOutCmpEvtRep1EnableCheck(FwSmDesc_t smDesc) {
-  CrPsNEvtRep_t nOfEvt = getDpEvtNOfDetectedEvts_1();
+  CrFwServSubType_t sevLevelIndex = CrFwOutCmpGetServSubType(smDesc)-1;
+  CrPsNEvtRep_t nOfEvt = getDpEvtNOfDetectedEvtsItem(sevLevelIndex);
   nOfEvt++;
-  setDpEvtNOfDetectedEvts_1(nOfEvt);
+  setDpEvtNOfDetectedEvtsItem(sevLevelIndex, nOfEvt);
 
   CrFwBool_t enableStatus = CrFwOutRegistryIsEnabled(smDesc);
   return enableStatus;
@@ -38,29 +38,31 @@ CrFwBool_t CrPsOutCmpEvtRep1EnableCheck(FwSmDesc_t smDesc) {
 
 /**
  * Update action of TM(5,1) EvtRep1.
- * Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x
- * (’x’ is the event severity level). Note that the parameter values are set
- * by the application which creates the event report at the time it creates
- * the event report.
+ * This function is also used as update action for the other event sub-types
+ * (TM(5,2) to TM(5,4)).
  *
  * Set the destination of the event report.
  * @param smDesc The state machine descriptor.
  */
 void CrPsOutCmpEvtRep1UpdateAction(FwSmDesc_t smDesc) {
   CrPsEightBit_t Time[6];
+  CrFwServSubType_t sevLevelIndex = CrFwOutCmpGetServSubType(smDesc)-1;
   CrFwPckt_t pckt = CrFwOutCmpGetPckt(smDesc);
 
-  CrPsNEvtRep_t nOfGenEvt = getDpEvtNOfGenEvtRep_1();
-  setDpEvtNOfGenEvtRep_1(nOfGenEvt++);
+  /* Update observable recording number of generated events */
+  CrPsNEvtRep_t nOfGenEvt = getDpEvtNOfGenEvtRepItem(0);
+  setDpEvtNOfGenEvtRepItem(sevLevelIndex, nOfGenEvt++);
 
+  /* Update observable recording EID of last generated event */
   CrPsEvtId_t lastEvtEid = getEvtRep1EventId(pckt);
-  setDpEvtLastEvtEid_1(lastEvtEid);
+  setDpEvtLastEvtEidItem(sevLevelIndex,lastEvtEid);
 
+  /* Update observable recording time-stamp of last generated event */
   getTmHeaderTime(pckt, &Time);
   unsigned int coarseTime = Time[0]*0x1000000 + Time[1]*0x10000 + Time[2]*0x100 + Time[3];
   unsigned int fineTime = Time[4]*0x100 + Time[5];
   CrFwTime_t lastEvtTime = (CrFwTime_t)coarseTime + (CrFwTime_t)fineTime/65536.0;
-  setDpEvtLastEvtTime_1(lastEvtTime);
+  setDpEvtLastEvtTimeItem(sevLevelIndex, lastEvtTime);
 
   CrFwOutCmpSetDest(smDesc, EVT_DEST);
 }

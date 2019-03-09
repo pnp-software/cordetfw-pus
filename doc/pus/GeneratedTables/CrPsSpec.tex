@@ -137,7 +137,7 @@ Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL but is already enabled, the SID is loaded into verFailData and the Success Outcome is set to VER\_\-ENB\_\-SID\newline (c) If the SID is loaded in the RDL and is disabled, then its definition is deleted from the RDL\newline (d) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is currently not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is currently loaded in the RDL but is already enabled, the SID is loaded into verFailData and the Success Outcome is set to VER\_\-ENB\_\-SID\newline (c) If the SID is legal and currently loaded in the RDL and is disabled, then its definition is deleted from the RDL\newline (d) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
 Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of unknown or enabled SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
@@ -149,7 +149,7 @@ Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL but is already enabled, the SID is loaded into verFailData and the Success Outcome is set to VER\_\-ENB\_\-SID\newline (c) If the SID is loaded in the RDL and is disabled, then its definition is deleted from the RDL\newline (d) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is currently not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is currently loaded in the RDL but is already enabled, the SID is loaded into verFailData and the Success Outcome is set to VER\_\-ENB\_\-SID\newline (c) If the SID is legal and currently loaded in the RDL and is disabled, then its definition is deleted from the RDL\newline (d) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
@@ -232,7 +232,7 @@ Description & This command carries a list of SIDs. For each SID, it triggers the
 Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Default implementation (set action outcome to 'success') \\\hline
+Start Action & \#TM(3,5) \\\hline
 Progress Action & Run the procedure Progress Action of Report Service 3 Structure of figure \ref{fig:Cmd3s9Prgr} \\\hline
 Termination Action & Set action outcome to 'success' if all valid SIDs in the command were successfully processed by the progress action; set it to 'failure' otherwise \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
@@ -310,16 +310,28 @@ Termination Action & The action outcome is set to 'success' if all progress step
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
+\def \printInCmdHkModPerDiagCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkModPerDiagCmd Component}{tab:InCmdHkModPerDiagCmdSpec}{Name & HkModPerDiagCmd(3,32)}
+Description & Command (3,31) to modify the collection period of a diagnostic report \\\hline
+Parameters & The list of SIDs for which the collection interval is modified and their new collection interval \\\hline
+Discriminant & SID to be generated in one-shot mode \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & \#TM(3,31,) \\\hline
+Termination Action & \#TM(3,5) \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
 \def \printOutCmpEvtRepaSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtRep1 Component}{tab:OutCmpEvtRepaSpec}{Name & EvtRep1(5,1)}
 Description & Informative event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printOutCmpEvtRepbSpec#1 {
@@ -328,10 +340,10 @@ Description & Low severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printOutCmpEvtRepcSpec#1 {
@@ -340,10 +352,10 @@ Description & Medium severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printOutCmpEvtRepdSpec#1 {
@@ -352,10 +364,10 @@ Description & High severity event report  \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
 Discriminant & Event Identifier \\\hline
 Destination & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
-Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printInCmdEvtEnbCmdSpec#1 {

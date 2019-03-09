@@ -54,26 +54,8 @@ void CrPsInCmdEvtDisCmdProgressAction(FwSmDesc_t smDesc) {
     setDpVerFailData(eid);
     CrFwSetSmOutcome(smDesc, VER_ILL_EID);
   } else {
-    switch (sevLevel) {
-      case 1:
-        nOfDisabledEvt = getDpEvtNOfDisabledEid_1();
-        setDpEvtNOfDisabledEid_1(nOfDisabledEvt+1);
-        break;
-      case 2:
-        nOfDisabledEvt = getDpEvtNOfDisabledEid_2();
-        setDpEvtNOfDisabledEid_2(nOfDisabledEvt+1);
-        break;
-      case 3:
-        nOfDisabledEvt = getDpEvtNOfDisabledEid_3();
-        setDpEvtNOfDisabledEid_3(nOfDisabledEvt+1);
-        break;
-      case 4:
-        nOfDisabledEvt = getDpEvtNOfDisabledEid_4();
-        setDpEvtNOfDisabledEid_4(nOfDisabledEvt+1);
-        break;
-      default:
-        CrFwSetAppErrCode(CrPsEvtIllSevLevel);
-    }
+    nOfDisabledEvt = getDpEvtNOfDisabledEidItem(sevLevel-1);
+    setDpEvtNOfDisabledEidItem(sevLevel-1,nOfDisabledEvt+1);
     CrFwSetSmOutcome(smDesc, 1);
   }
 
@@ -87,21 +69,3 @@ void CrPsInCmdEvtDisCmdProgressAction(FwSmDesc_t smDesc) {
   else
     CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
-
-/**
- * Termination action of TC(5,5) EvtEnbCmd.
- * The action outcome is set to 'success' if all progress steps were
- * successful. Otherwise, the action outcome is set to VER_ILL_EID and the
- * number of failed progress steps (which corresponds to the number of illegal
- * event identifier in the command) is loaded in verFailData.
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdEvtDisCmdTerminationAction(FwSmDesc_t smDesc) {
-  CrFwProgressStepId_t nOfFailedSteps = CrFwInCmdGetNOfProgressFailure(smDesc);
-  if (nOfFailedSteps > 0) {
-    setDpVerFailData(nOfFailedSteps);
-    CrFwSetSmOutcome(smDesc, VER_ILL_EID);
-  } else
-    CrFwSetSmOutcome(smDesc, 1);
-}
-

@@ -67,7 +67,7 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
    /* Get the number of EIDs in the command */
    nEvtId = getEvtEnbCmdN(evtPckt);
 
-   /* Get the event identifier to be process in the current cycle */
+   /* Get the event identifier to be processed in the current cycle */
    eid = getEvtEnbCmdEventId(evtPckt, progressStepId);
 
    /* Try to enable the argument event identifier */
@@ -77,26 +77,8 @@ void CrPsInCmdEvtEnbCmdProgressAction(FwSmDesc_t smDesc) {
      setDpVerFailData(eid);
      CrFwSetSmOutcome(smDesc, VER_ILL_EID);
    } else {
-     switch (sevLevel) {
-       case 1:
-         nOfDisabledEvt = getDpEvtNOfDisabledEid_1();
-         setDpEvtNOfDisabledEid_1(nOfDisabledEvt-1);
-         break;
-       case 2:
-         nOfDisabledEvt = getDpEvtNOfDisabledEid_2();
-         setDpEvtNOfDisabledEid_2(nOfDisabledEvt-1);
-         break;
-       case 3:
-         nOfDisabledEvt = getDpEvtNOfDisabledEid_3();
-         setDpEvtNOfDisabledEid_3(nOfDisabledEvt-1);
-         break;
-       case 4:
-         nOfDisabledEvt = getDpEvtNOfDisabledEid_4();
-         setDpEvtNOfDisabledEid_4(nOfDisabledEvt-1);
-         break;
-       default:
-         CrFwSetAppErrCode(CrPsEvtIllSevLevel);
-     }
+     nOfDisabledEvt = getDpEvtNOfDisabledEidItem(sevLevel-1);
+     setDpEvtNOfDisabledEidItem(sevLevel-1,nOfDisabledEvt-1);
      CrFwSetSmOutcome(smDesc, 1);
    }
 

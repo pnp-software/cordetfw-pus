@@ -50,11 +50,11 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
 
   /* Compute number of disabled events */
-  nDisabledEvt = getDpEvtNOfDisabledEid_1() + getDpEvtNOfDisabledEid_2() + getDpEvtNOfDisabledEid_3() + getDpEvtNOfDisabledEid_4();
+  nDisabledEvt = getDpEvtNOfDisabledEidItem(0) + getDpEvtNOfDisabledEidItem(1) + getDpEvtNOfDisabledEidItem(2) + getDpEvtNOfDisabledEidItem(3);
 
   /* Compute number of (5,8) packets required to report the disabled event identifiers */
-  sizeOfEvtId = getDpSize(DpIdlastEvtEid_1);
-  sizeOfEvtN = getDpSize(DpIdnOfDisabledEid_1);
+  sizeOfEvtId = getDpSize(DpIdlastEvtEid)/4;
+  sizeOfEvtN = getDpSize(DpIdnOfDisabledEid)/4;
   sizeOfHeader = sizeof(TmHeader_t);
   maxNOfEid = (CR_FW_MAX_PCKT_LENGTH - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
   nOfFull5s8 = nDisabledEvt/maxNOfEid;
