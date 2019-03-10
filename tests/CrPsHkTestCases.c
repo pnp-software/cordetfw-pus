@@ -807,3 +807,25 @@ FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1) {
   return CrFwInFactoryMakeInCmd(pckt);
 }
 
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNSID_t N1) {
+  CrFwPckt_t pckt;
+  CrPsNSID_t i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKMODPERHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkEnbHkCmdN(pckt, N1);
+  for (i=0; i<N1; i++) {
+      getHkModPerHkCmdSID(pckt, i, sid[i]);
+      getHkModPerHkCmdCollecInt(pckt, i, period[i]);
+  }
+
+  return CrFwInFactoryMakeInCmd(pckt);
+}

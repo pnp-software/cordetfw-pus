@@ -154,6 +154,24 @@ CrFwBool_t CrPsHkTestCase5();
 CrFwBool_t CrPsHkTestCase6();
 
 /**
+ * Verify execution of a command to modify the collection period of a housekeeping report.
+ * The following actions are performed:
+ * - One (3,25) report is created and loaded with a collection period of 1 and it is verified that
+ *   the report is generated at each execution of its OutManager
+ * - One (3,31) command is created carrying the SID of the report created at the previous step,
+ *   one out-of-range SID, and
+ *   one SID which is within range but not currently loaded; the command is executed and it is
+ *   verified that the period of the housekeeping report has been modified as expected
+ * .
+ * @verify Modify HK Report Collection Interval, SID is loaded in the RDL
+ * @verify Modify HK Report Collection Interval, SID is not loaded in the RDL
+ * @verify Modify HK Report Collection Interval, SID is out-of-range
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase7();
+
+/**
  * Create a (3,1) command for test purposes.
  * The command is configured according to the function parameters and:
  * - Source and destination are both set to zero.
@@ -210,6 +228,22 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1);
  */
 FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1);
 
+/**
+ * Create a (3,31) command for test purposes.
+ * The command is configured according to the function parameters and:
+ * - Source and destination are both set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * - The collection interval is set to 1
+ * .
+ * @param sid the SIDs to be  whose collection interval (period) is to
+ * be modified
+ * @param period the modified collection intervals (period)
+ * @param N1 the number of SIDs whose collection interval (period) is to
+ * be modified
+ *
+ */
+FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNSID_t N1);
 
 
 

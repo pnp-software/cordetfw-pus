@@ -28,25 +28,44 @@
  * completed'.
  * @param smDesc The state machine descriptor.
  */
-void CrPsInCmdHkModPerHkCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkModPerHkCmdProgressAction");
-   return ;
-}
+void CrPsInCmdHkModPerHkCmdProgressAction(FwSmDesc_t smDesc)  {
+    CrFwPckt_t hkPckt = CrFwInCmdGetPckt(smDesc);
+    CrPsNSID_t nSid;
+    CrPsSID_t sid;
+    CrFwProgressStepId_t progressStepId;
+    short int rdlPos;
+    CrPsCycleCnt_t period;
 
-/**
- * Termination action of TC(3,31) HkModPerHkCmd.
- * The action outcome is set to 'success' if all progress steps were
- * successful. Otherwise, the action outcome is set to VER_MI_S3_FD and the
- * number of failed progress steps (which corresponds to the number of unknown
- * SIDs in the command) is loaded in verFailData.
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdHkModPerHkCmdTerminationAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkModPerHkCmdTerminationAction");
-   return ;
+    /* Get the progress step identifier */
+    progressStepId = CrFwInCmdGetProgressStepId(smDesc);
+
+    /* Get the number of SIDs in the command */
+    nSid = getHkModPerHkCmdN(hkPckt);
+
+    /* Get the SID to be process in the current cycle */
+    sid = getHkModPerHkCmdSID(hkPckt, progressStepId);
+
+    /* Get the RDL slot for the argument SID */
+    rdlPos = CrPsHkConfigGetRdlSlot(sid);
+
+    /* Modify SID's period (if the SID is loaded in the RDL) */
+    if (rdlPos < 0) {
+      setDpVerFailData(sid);
+      CrFwSetSmOutcome(smDesc, VER_ILL_SID);
+    } else {
+      period = getHkModPerHkCmdCollectInt(hkPckt,progressStepId);
+      setDpHkPeriodItem(rdlPos,period);
+      CrFwSetSmOutcome(smDesc, 1);
+    }
+
+    /* Update progress step identifier */
+    progressStepId++;
+    CrFwInCmdSetProgressStepId(smDesc, progressStepId);
+
+    /* Set completion outcome */
+    if (progressStepId < nSid)
+      CrFwInCmdSetProgressActionCompleted(smDesc, 0);
+    else
+      CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
 
