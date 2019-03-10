@@ -168,7 +168,7 @@
  * An application-specific Shutdown Action should therefore include a call
  * to this function.
  */
-#define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrFwOutStreamDefShutdownAction, \
+#define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrPsOutStreamStubShutdown, \
 							     	   &CrPsOutStreamStubShutdown}
 
 #endif /* CR_FW_OUTSTREAM_USERPAR_H_ */

@@ -9,7 +9,13 @@
  * @copyright P&P Software GmbH
  */
 
-#include "CrPsInCmdHkModPerHkCmd.h"
+#include "CrPsInCmdHkEnbHkCmd.h"
+#include "InCmd/CrFwInCmd.h"
+#include "Pckt/CrPsPcktHk.h"
+#include "Hk/CrPsHkConfig.h"
+#include "DataPool/CrPsDpVer.h"
+#include "DataPool/CrPsDpHk.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 /**
  * Progress action of TC(3,31) HkModPerHkCmd.
@@ -53,7 +59,7 @@ void CrPsInCmdHkModPerHkCmdProgressAction(FwSmDesc_t smDesc)  {
       setDpVerFailData(sid);
       CrFwSetSmOutcome(smDesc, VER_ILL_SID);
     } else {
-      period = getHkModPerHkCmdCollectInt(hkPckt,progressStepId);
+      period = getHkModPerHkCmdCollectionInterval(hkPckt,progressStepId);
       setDpHkPeriodItem(rdlPos,period);
       CrFwSetSmOutcome(smDesc, 1);
     }
