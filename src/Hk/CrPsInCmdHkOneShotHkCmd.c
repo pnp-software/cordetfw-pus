@@ -10,80 +10,71 @@
  */
 
 #include "CrPsInCmdHkOneShotHkCmd.h"
-
-/**
- * Validity check of TC(3,27) HkOneShotHkCmd.
- *
- * @param smDesc The state machine descriptor.
- * @return The validity check result.
- */
-CrFwBool_t CrPsInCmdHkOneShotHkCmdValidityCheck(FwPrDesc_t prDesc)
-{
-   CRFW_UNUSED(prDesc);
-   DBG("CrPsInCmdHkOneShotHkCmdValidityCheck");
-   return 1;
-}
-
-/**
- * Ready check of TC(3,27) HkOneShotHkCmd.
- * Return 'command is ready'
- * @param smDesc The state machine descriptor.
- * @return The ready check result.
- */
-CrFwBool_t CrPsInCmdHkOneShotHkCmdReadyCheck(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkOneShotHkCmdReadyCheck");
-   return 1;
-}
-
-/**
- * Start action of TC(3,27) HkOneShotHkCmd.
- * Run the procedure Start Action of Multi-SID Command of figure 9.3
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdHkOneShotHkCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkOneShotHkCmdStartAction");
-   return ;
-}
+#include "InCmd/CrFwInCmd.h"
+#include "Pckt/CrPsPcktHk.h"
+#include "Hk/CrPsHkConfig.h"
+#include "DataPool/CrPsDpVer.h"
+#include "DataPool/CrPsDpHk.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 /**
  * Progress action of TC(3,27) HkOneShotHkCmd.
- * Run the procedure Progress Action of Generate One-Shot Housekeeping Report
- * of figure 9.6
+ * The Structure Identifiers (SIDs) are processed in sequence and in the order
+ * in which they are stored in the command. Each SID is processed in an
+ * execution cycle. Each execution cycle counts as a progress step. At each
+ * execution, the progress action performs the following actions:
+ *
+ * (a) If the SID is not loaded in the Report Definition List (RDL), then: the
+ * unknown SID is loaded into verFailData and the Success Outcome is set to
+ * VER_ILL_SID
+ * (b) If the SID is loaded in the RDL, then: the SID is enabled, its cycle counter
+ * in the RDL is set equal to its period in the RDL, and the outcome of the action
+ * is set to 'success'
+ * (c) The Completion Outcome of the action is set to 'completed' if all SIDs
+ * carried by the command have been processed; otherwise it is set to 'not
+ * completed'
+ *
  * @param smDesc The state machine descriptor.
  */
-void CrPsInCmdHkOneShotHkCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkOneShotHkCmdProgressAction");
-   return ;
+void CrPsInCmdHkOneShotHkCmdProgressAction(FwSmDesc_t smDesc)  {
+    CrFwPckt_t hkPckt = CrFwInCmdGetPckt(smDesc);
+    CrPsNSID_t nSid;
+    CrPsSID_t sid;
+    CrFwProgressStepId_t progressStepId;
+    short int rdlPos;
+    CrPsCycleCnt_t period;
+
+    /* Get the progress step identifier */
+    progressStepId = CrFwInCmdGetProgressStepId(smDesc);
+
+    /* Get the number of SIDs in the command */
+    nSid = getHkOneShotHkCmdN(hkPckt);
+
+    /* Get the SID to be process in the current cycle */
+    sid = getHkOneShotHkCmdSID(hkPckt, progressStepId);
+
+    /* Get the RDL slot for the argument SID */
+    rdlPos = CrPsHkConfigGetRdlSlot(sid);
+
+    /* Enable SID (if the SID is loaded in the RDL) */
+    if (rdlPos < 0) {
+      setDpVerFailData(sid);
+      CrFwSetSmOutcome(smDesc, VER_ILL_SID);
+    } else {
+      setDpHkIsEnabledItem(rdlPos,1);
+      period = getDpHkPeriodItem(rdlPos);
+      setDpHkCycleCntItem(rdlPos, period);
+      CrFwSetSmOutcome(smDesc, 1);
+    }
+
+    /* Update progress step identifier */
+    progressStepId++;
+    CrFwInCmdSetProgressStepId(smDesc, progressStepId);
+
+    /* Set completion outcome */
+    if (progressStepId < nSid)
+      CrFwInCmdSetProgressActionCompleted(smDesc, 0);
+    else
+      CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
 
-/**
- * Termination action of TC(3,27) HkOneShotHkCmd.
- * Set action outcome to ’success’ if all valid SIDs in the command were
- * successfully processed by the progress action; set it to ’failure’
- * otherwise
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdHkOneShotHkCmdTerminationAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkOneShotHkCmdTerminationAction");
-   return ;
-}
-
-/**
- * Abort action of TC(3,27) HkOneShotHkCmd.
- * Do nothing
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdHkOneShotHkCmdAbortAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdHkOneShotHkCmdAbortAction");
-   return ;
-}

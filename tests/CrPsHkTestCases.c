@@ -730,8 +730,6 @@ CrFwBool_t CrPsHkTestCase7() {
   CrPsSID_t preDefSID1 = 1;
   int nOfOutCmp, rdlPos;
   CrFwCounterU1_t nOfGenOutCmp;
-  CrFwPckt_t pckt;
-  CrFwDestSrc_t src3s1 = EVT_DEST;
 
   /* Reset the framework components and clear the RDL*/
   CrPsTestUtilitiesResetFw();
@@ -739,8 +737,6 @@ CrFwBool_t CrPsHkTestCase7() {
 
   /* Load one HK report and enable it */
   inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
-  pckt = CrFwInCmdGetPckt(inCmd3s1);
-  CrFwPcktSetSrc(pckt, src3s1);         /* The src of the (3,1) is the destination of the (3,25) */
   CrFwCmpExecute(inCmd3s1);
   CrFwInCmdTerminate(inCmd3s1);
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
@@ -803,11 +799,112 @@ CrFwBool_t CrPsHkTestCase7() {
   CrFwCmpExecute(outManager);
   CrFwCmpExecute(outManager);
   CrFwCmpExecute(outManager);
-  if (CrPsOutStreamStubGetHandoverCnt() != nOfGenOutCmp+1)
+  if (CrPsOutStreamStubGetHandoverCnt() != nOfGenOutCmp+4)  /* 3 service 1 reports + 1 HK report */
       return 0;
 
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd3s31);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase8() {
+  FwSmDesc_t inCmd3s27, inCmd3s1;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsSID_t sid[3];
+  CrPsSID_t preDefSID1 = 2;
+  int nOfOutCmp, rdlPos;
+  CrFwCounterU1_t nOfGenOutCmp;
+  CrFwPckt_t pckt;
+
+  /* Reset the framework components and clear the RDL*/
+  CrPsTestUtilitiesResetFw();
+  CrPsHkConfigInit();
+
+  /* Load one HK report and set its period to zero */
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
+  pckt = CrFwInCmdGetPckt(inCmd3s1);
+  setHkCreHkCmdCollectionInterval(pckt, 0);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+
+  /* Execute the OutManager 3 times and verify that the (3,25) report is not generated */
+  nOfGenOutCmp = CrPsOutStreamStubGetHandoverCnt();
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != nOfGenOutCmp)
+      return 0;
+  if (getDpHkCycleCntItem(rdlPos) != 3)
+      return 0;
+
+  /* Create a (3,27) command */
+  sid[0] = preDefSID1+1;        /* Not loaded SID */
+  sid[1] = HK_MAX_SID+1;        /* Illegal SID */
+  sid[2] = preDefSID1;          /* Loaded SID */
+  inCmd3s27 = CrPsHkTestCaseMake3s27(sid, 3);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s27);
+  CrFwInCmdTerminate(inCmd3s27);
+
+  /* Check that the InCommand is in PROGRESS state and one (1,6) report was generated */
+  if (!CrFwInCmdIsInProgress(inCmd3s27))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp,6,VER_ILL_SID,preDefSID1+1) != 1)
+      return 0;
+
+  /* Execute the command again and check that it is in PROGRESS state and one (1,6) report was generated */
+  CrFwCmpExecute(inCmd3s27);
+  CrFwInCmdTerminate(inCmd3s27);
+  if (!CrFwInCmdIsInProgress(inCmd3s27))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 2)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+1,6,VER_ILL_SID,HK_MAX_SID+1) != 1)
+      return 0;
+
+  /* Execute the command again and verify that it terminates */
+  CrFwCmpExecute(inCmd3s27);
+  CrFwInCmdTerminate(inCmd3s27);
+  if (!CrFwInCmdIsInAborted(inCmd3s27))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 3)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+2,8,VER_MI_S3_FD,2) != 1)
+      return 0;
+
+  /* Verify that the cycle counter of the (3,25) has been modified and that the report is enabled */
+  if (getDpHkCycleCntItem(rdlPos) != getDpHkPeriodItem(rdlPos))
+      return 0;
+  if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+
+  /* Execute again the OutManager 3 times and verify that the (3,25) is only generated once */
+  nOfGenOutCmp = CrPsOutStreamStubGetHandoverCnt();
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != nOfGenOutCmp+4)      /* 3 service 1 reports + 1 HK report */
+      return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd3s27);
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -833,7 +930,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parI
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,HK_TYPE);
   CrFwPcktSetServSubType(pckt,HKCREHKCMD_STYPE);
-  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);
   CrFwPcktSetDest(pckt,0);
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
@@ -856,7 +953,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,HK_TYPE);
   CrFwPcktSetServSubType(pckt,HKDELHKCMD_STYPE);
-  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);
   CrFwPcktSetDest(pckt,0);
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
@@ -878,7 +975,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,HK_TYPE);
   CrFwPcktSetServSubType(pckt,HKENBHKCMD_STYPE);
-  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);
   CrFwPcktSetDest(pckt,0);
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
@@ -899,7 +996,28 @@ FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,HK_TYPE);
   CrFwPcktSetServSubType(pckt,HKDISHKCMD_STYPE);
-  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkEnbHkCmdN(pckt, N1);
+  for (i=0; i<N1; i++)
+      setHkEnbHkCmdSID(pckt, i, sid[i]);
+
+  return CrFwInFactoryMakeInCmd(pckt);
+}
+
+/*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1) {
+  CrFwPckt_t pckt;
+  CrPsNSID_t i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKONESHOTHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,EVT_DEST);
   CrFwPcktSetDest(pckt,0);
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
@@ -920,7 +1038,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNS
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt,HK_TYPE);
   CrFwPcktSetServSubType(pckt,HKMODPERHKCMD_STYPE);
-  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetSrc(pckt,EVT_DEST);
   CrFwPcktSetDest(pckt,0);
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);

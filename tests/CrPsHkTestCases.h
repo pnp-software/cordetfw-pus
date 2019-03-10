@@ -172,9 +172,30 @@ CrFwBool_t CrPsHkTestCase6();
 CrFwBool_t CrPsHkTestCase7();
 
 /**
+ * Verify execution of a command to generate a one-shot housekeeping report.
+ * The following actions are performed:
+ * - One (3,25) report is created and loaded; it is left disabled and it is verified that, when
+ *   its OutManager is executed, the report is not generated
+ * - One (3,27) command is created carrying the SID of the report created at the previous step,
+ *   one out-of-range SID, and
+ *   one SID which is within range but not currently loaded; the command is executed and then
+ *   the OutManager of the report is executed and it is
+ *   verified that the report is generated
+ * .
+ * @verify Generated One-Shot Report for HK Parameters, SID is loaded in the RDL
+ * @verify Generated One-Shot Report for HK Parameters, SID is not loaded in the RDL
+ * @verify Generated One-Shot Report for HK Parameters, SID is out-of-range
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase8();
+
+/**
  * Create a (3,1) command for test purposes.
  * The command is configured according to the function parameters and:
- * - Source and destination are both set to zero.
+ * - Source is set to EVT_DEST (this is the destination to which
+ *   the Stub OutStream CrPsOutStreamStub.h is attached).
+ * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
  * - The collection interval is set to 1
@@ -189,7 +210,9 @@ FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parI
 /**
  * Create a (3,3) command for test purposes.
  * The command is configured according to the function parameters and:
- * - Source and destination are both set to zero.
+ * - Source is set to EVT_DEST (this is the destination to which
+ *   the Stub OutStream CrPsOutStreamStub.h is attached).
+ * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
  * - The collection interval is set to 1
@@ -203,7 +226,9 @@ FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1);
 /**
  * Create a (3,5) command for test purposes.
  * The command is configured according to the function parameters and:
- * - Source and destination are both set to zero.
+ * - Source is set to EVT_DEST (this is the destination to which
+ *   the Stub OutStream CrPsOutStreamStub.h is attached).
+ * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
  * - The collection interval is set to 1
@@ -217,7 +242,9 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1);
 /**
  * Create a (3,6) command for test purposes.
  * The command is configured according to the function parameters and:
- * - Source and destination are both set to zero.
+ * - Source is set to EVT_DEST (this is the destination to which
+ *   the Stub OutStream CrPsOutStreamStub.h is attached).
+ * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
  * - The collection interval is set to 1
@@ -229,9 +256,27 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1);
 FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1);
 
 /**
+ * Create a (3,27) command for test purposes.
+ * The command is configured according to the function parameters and:
+ * - Source is set to EVT_DEST (this is the destination to which
+ *   the Stub OutStream CrPsOutStreamStub.h is attached).
+ * - Destination is set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * - The collection interval is set to 1
+ * .
+ * @param sid the SIDs to be generated in one-shot mode
+ * @param N1 the number of SIDs in the command
+ *
+ */
+FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1);
+
+/**
  * Create a (3,31) command for test purposes.
  * The command is configured according to the function parameters and:
- * - Source and destination are both set to zero.
+ * - Source is set to EVT_DEST (this is the destination to which
+ *   the Stub OutStream CrPsOutStreamStub.h is attached).
+ * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
  * - The collection interval is set to 1
