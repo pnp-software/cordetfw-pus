@@ -34,7 +34,7 @@ static unsigned int nOfRep5s8;
  * Retrieve as many (5,8) reports from OutFactory as are needed
  * to hold the list of disabled event identifiers and set action
  * outcome to 'success’ if all retrievals succeed. If any of the
- * retrievals fail, generate error report OUTFACTORY FAILED and
+ * retrievals fail, generate error report OUTFACTORY FAIL and
  * set outcome of Start Action to ’failed’
  *
  * @constraint The number of (5,8) reports needed to carry all disabled event identifiers
@@ -81,6 +81,7 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
     rep5s8[i] = CrFwOutFactoryMakeOutCmp(EVT_TYPE, EVTDISREP_STYPE, 0, sizeFull5s8);
     if (rep5s8[i] == NULL) {
       CrFwSetSmOutcome(smDesc, VER_CRE_FD);
+      CrFwRepErrKind(psOutFactoryFail, 0, 0, EVT_TYPE, EVTDISREP_STYPE, 0);
       return;
     }
   }
@@ -90,6 +91,7 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
     rep5s8[i+nOfFull5s8] = CrFwOutFactoryMakeOutCmp(EVT_TYPE, EVTDISREP_STYPE, 0, sizePartial5s8);
     if (rep5s8[i+nOfFull5s8] == NULL) {
       CrFwSetSmOutcome(smDesc, VER_CRE_FD);
+      CrFwRepErrKind(psOutFactoryFail, 0, 0, EVT_TYPE, EVTDISREP_STYPE, 0);
       return;
     }
   }
