@@ -165,5 +165,16 @@ short int CrPsHkConfigGetRdlSlot(CrPsSID_t sid);
  */
 short int CrPsHkConfigGetFreeRdlSlot();
 
+/**
+ * Get the identifier of the i-th data pool item in the SID at RDL slot <code>rdlSlot<\code>.
+ * No check is done on the legality of the function parameters or on whether a
+ * SID is currently defined at slot <code>rdlSlot<\code>.
+ * The argument i starts at zero.
+ *
+ * @param rdlSlot the index of the RDL slot
+ * @param i the index within the SID definition (starting from zero)
+ */
+CrPsParId_t CrPsHkConfigGetParamId(short int rdlSlot, CrPsNPar_t i);
+
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSHKCONFIG_H_ */

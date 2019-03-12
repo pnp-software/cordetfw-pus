@@ -191,6 +191,24 @@ CrFwBool_t CrPsHkTestCase7();
 CrFwBool_t CrPsHkTestCase8();
 
 /**
+ * Verify execution of a command to generate a Housekeeping Parameter Report Structure Report.
+ * The following actions are performed:
+ * - Two (3,25) reports are created and loaded
+ * - One (3,9) command is created carrying the SIDs of the two reports and an illegal SID
+ *   and it is verified that execution of the command causes two (3,10) reports to be generated
+ *   and that their content matches the definition of the SIDs
+ * - It is verified that a (1,6) report is generated in response to the illegal SID
+ * .
+ * @verify Report Housekeeping Parameter Report Structure, SID is loaded in the RDL
+ * @verify Report Housekeeping Parameter Report Structure, SID is illegal
+ * @verify Housekeeping Parameter Report Structure Report
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase9();
+
+
+/**
  * Create a (3,1) command for test purposes.
  * The command is configured according to the function parameters and:
  * - Source is set to EVT_DEST (this is the destination to which
@@ -215,7 +233,6 @@ FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parI
  * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
- * - The collection interval is set to 1
  * .
  * @param sid the SIDs to be deleted
  * @param N1 the number of SIDs in the command
@@ -231,7 +248,6 @@ FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1);
  * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
- * - The collection interval is set to 1
  * .
  * @param sid the SIDs to be enabled
  * @param N1 the number of SIDs in the command
@@ -247,13 +263,28 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1);
  * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
- * - The collection interval is set to 1
  * .
  * @param sid the SIDs to be disabled
  * @param N1 the number of SIDs in the command
  *
  */
 FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1);
+
+/**
+ * Create a (3,9) command for test purposes.
+ * The command is configured according to the function parameters and:
+ * - Source is set to EVT_DEST (this is the destination to which
+ *   the Stub OutStream CrPsOutStreamStub.h is attached).
+ * - Destination is set to zero.
+ * - The acknowledge flags are set to: 'no acknowledge'.
+ * - The sequence and group numbers are set to 1.
+ * .
+ * @param sid the SIDs for which structure reports should be generated
+ * @param N1 the number of SIDs for which structure reports are to be
+ * generated
+ *
+ */
+FwSmDesc_t CrPsHkTestCaseMake3s9(CrPsSID_t* sid, CrPsNSID_t N1);
 
 /**
  * Create a (3,27) command for test purposes.
@@ -263,7 +294,6 @@ FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1);
  * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
- * - The collection interval is set to 1
  * .
  * @param sid the SIDs to be generated in one-shot mode
  * @param N1 the number of SIDs in the command
@@ -279,7 +309,6 @@ FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1);
  * - Destination is set to zero.
  * - The acknowledge flags are set to: 'no acknowledge'.
  * - The sequence and group numbers are set to 1.
- * - The collection interval is set to 1
  * .
  * @param sid the SIDs to be  whose collection interval (period) is to
  * be modified
@@ -289,8 +318,5 @@ FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1);
  *
  */
 FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNSID_t N1);
-
-
-
 
 #endif /* CRPS_HKTESTCASES_H_ */

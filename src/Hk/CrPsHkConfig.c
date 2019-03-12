@@ -158,3 +158,8 @@ short int CrPsHkConfigGetRdlSlot(CrPsSID_t sid) {
     return -1;
   return rdlIndex[sid];
 }
+
+/* ----------------------------------------------------------------------------------- */
+CrPsParId_t CrPsHkConfigGetParamId(short int rdlSlot, CrPsNPar_t i) {
+  return lstId[rdlSlot*HK_MAX_N_ITEMS + i];
+}

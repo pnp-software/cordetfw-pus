@@ -859,13 +859,14 @@ CrFwBool_t CrPsEvtTestCase9() {
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
   /* Execute and terminate the InCommand (this simulates the action of an InManager) */
+  errRepPos = CrFwRepErrStubGetPos();
   CrFwCmpExecute(inCmd);
   CrFwInCmdTerminate(inCmd);
 
   /* Verify generation of error report */
-  if (CrFwRepErrStubGetPos() != errRepPos+3)
+  if (CrFwRepErrStubGetPos() != errRepPos+2)    /* One for (5,8) and one for (1,4) */
       return 0;
-  if (CrFwRepErrStubGetErrCode(errRepPos+2) != psOutFactoryFail)
+  if (CrFwRepErrStubGetErrCode(errRepPos+1) != psOutFactoryFail)
       return 0;
 
   /* The Error Code has been set by the OutFactory and must be reset */
