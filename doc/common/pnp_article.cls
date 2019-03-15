@@ -109,7 +109,7 @@
 \lhead{ \includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_2.png}}
 \chead{\url{www.pnp-software.com} \\}
 \rhead{\GetDocRefNumber \\ Revision \GetDocIssue \\ Date \today}
-\lfoot{\textcopyright2017 P\&P Software GmbH. All Rights Reserved.}
+\lfoot{\textcopyright2019 P\&P Software GmbH. All Rights Reserved.}
 \cfoot{\vspace{5mm}
 %{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}
 }
@@ -403,7 +403,7 @@ The following documents of the exact issue and/or revision shown form a part of 
 
 \newcommand{\listofreferencedocs}[2][../common/RefDoc.csv]{
 The following documents are for reference and/or guideline only.
-\pnpcsvtable[filter equal={#2}{RD}]{|c|p{6cm}|p{4.3cm}|c|}{Reference documents}{tab:refdoc}{Ref & Description & Doc. Number & Iss.}{#1}
+\pnpcsvtable[filter equal={#2}{RD}]{|c|p{7.5cm}|c|c|}{Referenced documents}{tab:refdoc}{Ref & Description & Doc. Number & Iss.}{#1}
 {\Id & \Title & \Nr & \Issue}
 }
 
