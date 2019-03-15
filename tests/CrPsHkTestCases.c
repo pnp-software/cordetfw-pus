@@ -920,6 +920,114 @@ CrFwBool_t CrPsHkTestCase8() {
   return 1;
 }
 
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase9() {
+  FwSmDesc_t inCmd3s9, inCmd3s1, rep3s10;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
+  CrPsSID_t sid[3];
+  CrPsSID_t preDefSID1 = 2;
+  CrPsSID_t preDefSID2 = 5;
+  CrFwPckt_t pckt;
+  CrFwOutFactoryPoolIndex_t nOfOutCmp;
+
+  /* Reset the framework components and clear the RDL*/
+  CrPsTestUtilitiesResetFw();
+  CrPsHkConfigInit();
+
+  /* Load two HK reports  */
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID2, HK_NOFITEMS_SID_HK_CNT, parId2);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+
+  /* Create a (3,9) command */
+  sid[0] = preDefSID1;          /* Loaded SID */
+  sid[1] = HK_MAX_SID+1;        /* Illegal SID */
+  sid[2] = preDefSID2;          /* Loaded SID */
+  inCmd3s9 = CrPsHkTestCaseMake3s9(sid, 3);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s9);
+  CrFwInCmdTerminate(inCmd3s9);
+
+  /* Check that the InCommand is in PROGRESS state and one (3,10) report was generated */
+  if (!CrFwInCmdIsInProgress(inCmd3s9))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,nOfOutCmp,HK_TYPE,HKREPSTRUCTHKREP_STYPE,0) != 1)
+      return 0;
+
+  /* Execute the command again and check that it is in PROGRESS state and one (1,6) report was generated */
+  CrFwCmpExecute(inCmd3s9);
+  CrFwInCmdTerminate(inCmd3s9);
+  if (!CrFwInCmdIsInProgress(inCmd3s9))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 2)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,nOfOutCmp+1,6,VER_ILL_SID,HK_MAX_SID+1) != 1)
+      return 0;
+
+  /* Execute the command again and verify that it terminates and one more (3,10) and (1,8) report was generated */
+  CrFwCmpExecute(inCmd3s9);
+  CrFwInCmdTerminate(inCmd3s9);
+  if (!CrFwInCmdIsInAborted(inCmd3s9))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 4)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,nOfOutCmp+2,HK_TYPE,HKREPSTRUCTHKREP_STYPE,0) != 1)
+      return 0;
+
+  /* Verify the content of the first (3,10) report */
+  rep3s10 = CrPsTestUtilitiesGetItemFromOutManager(outManager, nOfOutCmp);
+  pckt = CrFwOutCmpGetPckt(rep3s10);
+  if (getHkRepStructHkRepSID(pckt) != preDefSID1)
+    return 0;
+  if (getHkRepStructHkRepPerGenActionStatus(pckt) != 0)
+    return 0;
+  if (getHkRepStructHkRepCollectionInterval(pckt) != 1)
+    return 0;
+  if (getHkRepStructHkRepN1(pckt) != HK_NOFITEMS_SID_N_OF_EVT)
+    return 0;
+  if (getHkRepStructHkRepN1ParamId(pckt, 0) != parId1[0])
+    return 0;
+  if (getHkRepStructHkRepN1ParamId(pckt, 1) != parId1[1])
+    return 0;
+
+  /* Verify the content of the second (3,10) report */
+  rep3s10 = CrPsTestUtilitiesGetItemFromOutManager(outManager, nOfOutCmp+2);
+  pckt = CrFwOutCmpGetPckt(rep3s10);
+  if (getHkRepStructHkRepSID(pckt) != preDefSID2)
+    return 0;
+  if (getHkRepStructHkRepPerGenActionStatus(pckt) != 0)
+    return 0;
+  if (getHkRepStructHkRepCollectionInterval(pckt) != 1)
+    return 0;
+  if (getHkRepStructHkRepN1(pckt) != HK_NOFITEMS_SID_HK_CNT)
+    return 0;
+  if (getHkRepStructHkRepN1ParamId(pckt, 0) != parId2[0])
+    return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd3s9);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
 
 /*-----------------------------------------------------------------------------*/
 FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId) {
@@ -1009,6 +1117,27 @@ FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1) {
 }
 
 /*-----------------------------------------------------------------------------*/
+FwSmDesc_t CrPsHkTestCaseMake3s9(CrPsSID_t* sid, CrPsNSID_t N1) {
+  CrFwPckt_t pckt;
+  CrPsNSID_t i;
+
+  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt,HK_TYPE);
+  CrFwPcktSetServSubType(pckt,HKREPSTRUCTHKCMD_STYPE);
+  CrFwPcktSetSrc(pckt,EVT_DEST);
+  CrFwPcktSetDest(pckt,0);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,0,0,0,0);
+  CrFwPcktSetSeqCnt(pckt,1);
+  setHkRepStructHkCmdN(pckt, N1);
+  for (i=0; i<N1; i++)
+      setHkRepStructHkCmdSID(pckt, i, sid[i]);
+
+  return CrFwInFactoryMakeInCmd(pckt);
+}
+
+/*-----------------------------------------------------------------------------*/
 FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPckt_t pckt;
   CrPsNSID_t i;
@@ -1022,9 +1151,9 @@ FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
-  setHkEnbHkCmdN(pckt, N1);
+  setHkOneShotHkCmdN(pckt, N1);
   for (i=0; i<N1; i++)
-      setHkEnbHkCmdSID(pckt, i, sid[i]);
+      setHkOneShotHkCmdSID(pckt, i, sid[i]);
 
   return CrFwInFactoryMakeInCmd(pckt);
 }
@@ -1043,7 +1172,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNS
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
-  setHkEnbHkCmdN(pckt, N1);
+  setHkModPerHkCmdN(pckt, N1);
   for (i=0; i<N1; i++) {
       setHkModPerHkCmdSID(pckt, i, sid[i]);
       setHkModPerHkCmdCollectionInterval(pckt, i, period[i]);

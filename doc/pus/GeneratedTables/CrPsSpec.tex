@@ -138,7 +138,7 @@ Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its enable status in the RDL is set to 'enabled', its cycle counter is set to equal to its period, and the outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'\newline \newline The action at point (b) causes the report to be generated at the next execution cycle. If the report's period is different from zero, then the report will be be generated periodically (i.e. this command changes the phase of generation of a periodic report but not its period). If the users wishes to have just one instance of the report, it should define it with a period equal to zero. \\\hline
-Termination Action &  The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -162,7 +162,7 @@ Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its cycle counter in the RDL is set to equal to its period and the outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'\newline \newline The action at point (b) causes the report to be generated at the next execution cycle. If the report's period is different from zero, then its period generation will continue with the same period (i.e. this command changes the phase of generation of a periodic report but not its period). In all cases, the report is only generated if it is enabled. This command has no effect on a report which is disabled. \\\hline
-Termination Action &  The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -174,7 +174,7 @@ Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its definition in the RDL is disabled and the action outcome is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
-Termination Action &  The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -197,8 +197,8 @@ Parameters & List of SIDs to be disabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & \#TM(3,60 \\\hline
-Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its definition in the RDL is disabled and the action outcome is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -209,8 +209,8 @@ Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then a request is made to retrieve a (3,10) report from the OutFactory\newline (c) If the (3,10) is successfully retrieved from the OutFactory, it is configured to have the same destination as the source of the (3,9) command and then it is loaded in the OutLoader and the outcome of the action is set to 'success'; \newline (d) If, instead, no (3,10) report is returned by the OutFactory, error report OUTFACTORY\_\-FAILED is generated and the action outcome is set to VER\_\-REP\_\-CR\_\-FD\newline (e) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
-Termination Action &  The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then a request is made to retrieve from the OutFactory a report to report the SID structure \newline (c) If the report is successfully retrieved from the OutFactory, it is configured to have the same destination as the source of the command and to carry the definition of the SID and then it is loaded in the OutLoader and the outcome of the progress action is set to 'success'; \newline (d) If, instead, no report is returned by the OutFactory, error report OUTFACTORY\_\-FAIL is generated and the action outcome is set to VER\_\-CRE\_\-FD\newline (e) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -223,7 +223,7 @@ Destination & The destination is set equal to the source of the (3,9) command wh
 Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & The SID definition is loaded from the RDL \\\hline
+Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
 \def \printInCmdHkRepStructDiagCmdSpec#1 {
@@ -233,8 +233,8 @@ Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then a request is made to retrieve a (3,10) report from the OutFactory\newline (c) If the (3,10) is successfully retrieved from the OutFactory, it is configured to have the same destination as the source of the (3,9) command and then it is loaded in the OutLoader and the outcome of the action is set to 'success'; \newline (d) If, instead, no (3,10) report is returned by the OutFactory, error report OUTFACTORY\_\-FAILED is generated and the action outcome is set to VER\_\-REP\_\-CR\_\-FD\newline (e) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
-Termination Action & \#TC(3,5) \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then a request is made to retrieve from the OutFactory a report to report the SID structure \newline (c) If the report is successfully retrieved from the OutFactory, it is configured to have the same destination as the source of the command and to carry the definition of the SID and then it is loaded in the OutLoader and the outcome of the progress action is set to 'success'; \newline (d) If, instead, no report is returned by the OutFactory, error report OUTFACTORY\_\-FAIL is generated and the action outcome is set to VER\_\-CRE\_\-FD\newline (e) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -247,7 +247,7 @@ Destination & The destination is set equal to the source of the (3,11) command w
 Enable Check & Default implementation (report is always enabled) \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & The SID definition is loaded from the RDL \\\hline
+Update Action & Default implementation (do nothing) \\\hline
 \end{pnptable}}
 
 \def \printOutCmpHkRepSpec#1 {
@@ -281,9 +281,9 @@ Parameters & The list of SIDs for which the one-shot report is to be generated \
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its cycle counter in the RDL is set to zero and the outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed' \\\hline
-Termination Action &  The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
-Abort Action & Do nothing \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then: the SID is enabled, its cycle counter in the RDL is set equal to its period in the RDL, and the outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'\newline \newline Action (b) causes the target report to be generated at its next execution. If the period P of the target report was zero, then the report will not be generated again. If, instead, the period P of the target report was non-zero, then the report will be generated periodically with period P. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
 \def \printInCmdHkOneShotDiagCmdSpec#1 {
@@ -293,9 +293,9 @@ Parameters & The list of SIDs for which the one-shot report is to be generated \
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its cycle counter in the RDL is set to zero and the outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed' \\\hline
-Termination Action & \#TC(3,5) \\\hline
-Abort Action & Do nothing \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then: the SID is enabled, its cycle counter in the RDL is set equal to its period in the RDL, and the outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'\newline \newline Action (b) causes the target report to be generated at its next execution. If the period P of the target report was zero, then the report will not be generated again. If, instead, the period P of the target report was non-zero, then the report will be generated periodically with period P. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
 \def \printInCmdHkModPerHkCmdSpec#1 {
@@ -306,7 +306,7 @@ Discriminant & SID whose collection interval is to be modified \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
 Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its period is set to the value specified in the command\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
-Termination Action &  The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -317,8 +317,8 @@ Parameters & The list of SIDs for which the collection interval is modified and 
 Discriminant & SID whose collection interval is to be modified \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & \#TC(3,31,) \\\hline
-Termination Action & \#TM(3,5) \\\hline
+Progress Action & The Structure Identifiers (SIDs) are processed in sequence and in the order in which they are stored in the command. Each SID is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the SID is not loaded in the Report Definition List (RDL), then: the unknown SID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-SID\newline (b) If the SID is loaded in the RDL, then its period is set to the value specified in the command\newline (c) The Completion Outcome of the action is set to 'completed' if all SIDs carried by the command have been processed; otherwise it is set to 'not completed'. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-MI\_\-S3\_\-FD and the number of failed progress steps (which corresponds to the number of illegal SIDs in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -400,7 +400,7 @@ Description & This command triggers the generation of a (5,8) report holding the
 Parameters & None \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & (a) Compute the number N of (5,8) reports required to hold all the disabled event identifiers. \newline (b) Retrieve N reports of type (5,8)  from the OutFactory\newline (c) Set the action outcome to 'success' if all retrievals are successful; otherwise, generate error report OUTFACTORY FAILED and set the action outcome to VER\_\-REP\_\-CR\_\-FD.\newline \newline NB: The maximum number of (5,8) reports required in response to a single (5,7) commands is given by framework configuration parameter EVT\_\-MAX\_\-N5S8. If N is greater than EVT\_\-MAX\_\-N58, the behaviour of the framework is undefined. \\\hline
+Start Action & (a) Compute the number N of (5,8) reports required to hold all the disabled event identifiers. \newline (b) Retrieve N reports of type (5,8)  from the OutFactory\newline (c) Set the action outcome to 'success' if all retrievals are successful; otherwise, generate error report OUTFACTORY FAIL and set the action outcome to VER\_\-REP\_\-CR\_\-FD.\newline \newline NB: The maximum number of (5,8) reports required in response to a single (5,7) commands is given by framework configuration parameter EVT\_\-MAX\_\-N5S8. If N is greater than EVT\_\-MAX\_\-N58, the behaviour of the framework is undefined. \\\hline
 Progress Action & Configure the (5,8) reports with a destination equal to the source of the (5,7) command, load them into the OutLoader, and set the action outcome to 'success'. \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
