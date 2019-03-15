@@ -393,7 +393,7 @@ CrFwBool_t CrPsHkTestCase3() {
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsHkTestCase4() {
-  FwSmDesc_t inCmd3s5, inCmd3s1;
+  FwSmDesc_t inCmd3s5, inCmd3s1, inCmd3s7;
   FwSmDesc_t outManager = CrFwOutManagerMake(0);
   CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
   CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
@@ -401,6 +401,7 @@ CrFwBool_t CrPsHkTestCase4() {
   CrPsSID_t preDefSID1 = 1;
   CrPsSID_t preDefSID2 = 2;
   int nOfOutCmp, rdlPos;
+  CrFwPckt_t pckt;
 
   /* Reset the framework components and clear the RDL*/
   CrPsTestUtilitiesResetFw();
@@ -488,8 +489,29 @@ CrFwBool_t CrPsHkTestCase4() {
   if (getDpHkIsEnabledItem(rdlPos) != 1)
       return 0;
 
-  /*Release the InCommand */
+  /* -------------------------------------------------------------------------- */
+  /* Disable SID */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  setDpHkIsEnabledItem(rdlPos, 0);
+
+  /* Create a (3,6) command with one loaded SID */
+  sid[0] = preDefSID1;
+  inCmd3s7 = CrPsHkTestCaseMake3s5(sid, 2);
+  pckt = CrFwInCmdGetPckt(inCmd3s7);
+  CrFwPcktSetServSubType(pckt, HKENBDIAGCMD_STYPE);
+
+  CrFwCmpExecute(inCmd3s7);
+  CrFwInCmdTerminate(inCmd3s7);
+
+  /* Check that SID is now enabled */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
+  /*Release the InCommands */
   CrFwInFactoryReleaseInCmd(inCmd3s5);
+  CrFwInFactoryReleaseInCmd(inCmd3s7);
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -507,7 +529,7 @@ CrFwBool_t CrPsHkTestCase4() {
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsHkTestCase5() {
-  FwSmDesc_t inCmd3s6, inCmd3s1;
+  FwSmDesc_t inCmd3s6, inCmd3s1, inCmd3s8;
   FwSmDesc_t outManager = CrFwOutManagerMake(0);
   CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
   CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
@@ -515,6 +537,7 @@ CrFwBool_t CrPsHkTestCase5() {
   CrPsSID_t preDefSID1 = 1;
   CrPsSID_t preDefSID2 = 2;
   int nOfOutCmp, rdlPos;
+  CrFwPckt_t pckt;
 
   /* Reset the framework components and clear the RDL*/
   CrPsTestUtilitiesResetFw();
@@ -605,6 +628,26 @@ CrFwBool_t CrPsHkTestCase5() {
   if (getDpHkIsEnabledItem(rdlPos) != 0)
       return 0;
 
+  /* -------------------------------------------------------------------------- */
+  /* Enable SID */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  setDpHkIsEnabledItem(rdlPos, 1);
+
+  /* Create a (3,8) command with one loaded SID */
+  sid[0] = preDefSID1;
+  inCmd3s8 = CrPsHkTestCaseMake3s6(sid, 2);
+  pckt = CrFwInCmdGetPckt(inCmd3s8);
+  CrFwPcktSetServSubType(pckt, HKENBDIAGCMD_STYPE);
+
+  CrFwCmpExecute(inCmd3s8);
+  CrFwInCmdTerminate(inCmd3s8);
+
+  /* Check that the SID is now disabled */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (getDpHkIsEnabledItem(rdlPos) != 0)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd3s6);
 
@@ -624,24 +667,30 @@ CrFwBool_t CrPsHkTestCase5() {
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsHkTestCase6() {
-  FwSmDesc_t inCmd3s3, inCmd3s1;
+  FwSmDesc_t inCmd3s3, inCmd3s1, inCmd3s4;
   FwSmDesc_t outManager = CrFwOutManagerMake(0);
-  CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
   CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
+  CrPsParId_t parId3[2] = {1, 2};
   CrPsSID_t sid[3];
   CrPsSID_t preDefSID1 = 1;
   CrPsSID_t preDefSID2 = 2;
+  CrPsSID_t preDefSID3 = 6;
   int nOfOutCmp, rdlPos;
+  CrFwPckt_t pckt;
 
   /* Reset the framework components and clear the RDL*/
   CrPsTestUtilitiesResetFw();
   CrPsHkConfigInit();
 
-  /* Load two HK reports and then enable the first one */
+  /* Load three HK reports and then enable the first one */
   inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
   CrFwCmpExecute(inCmd3s1);
   CrFwInCmdTerminate(inCmd3s1);
   inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID2, HK_NOFITEMS_SID_HK_CNT, parId2);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID3, 2, parId3);
   CrFwCmpExecute(inCmd3s1);
   CrFwInCmdTerminate(inCmd3s1);
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
@@ -697,10 +746,33 @@ CrFwBool_t CrPsHkTestCase6() {
 
   /* Check that the second SID has been deleted */
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
-  if (getDpHkSidItem(rdlPos) != 0)
+  if (rdlPos != -1)
       return 0;
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
-  if (getDpHkSidItem(rdlPos) == 0)
+  if (rdlPos == -1)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID3);
+  if (rdlPos == -1)
+      return 0;
+
+  /* -------------------------------------------------------------------------- */
+  /* Create a (3,4) command with one loaded, legal and disabled SID */
+  sid[0] = preDefSID3;
+  inCmd3s4 = CrPsHkTestCaseMake3s3(sid, 1);
+  pckt = CrFwInCmdGetPckt(inCmd3s4);
+  CrFwPcktSetServSubType(pckt, HKDELDIAGCMD_STYPE);
+  CrFwCmpExecute(inCmd3s4);
+  CrFwInCmdTerminate(inCmd3s4);
+
+  /* Check that the first and third SID have been deleted */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID2);
+  if (rdlPos != -1)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+  if (rdlPos == -1)
+      return 0;
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID3);
+  if (rdlPos != -1)
       return 0;
 
   /*Release the InCommand */
@@ -722,7 +794,7 @@ CrFwBool_t CrPsHkTestCase6() {
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsHkTestCase7() {
-  FwSmDesc_t inCmd3s31, inCmd3s1;
+  FwSmDesc_t inCmd3s31, inCmd3s1, inCmd3s32;
   FwSmDesc_t outManager = CrFwOutManagerMake(0);
   CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
   CrPsSID_t sid[3];
@@ -730,6 +802,7 @@ CrFwBool_t CrPsHkTestCase7() {
   CrPsSID_t preDefSID1 = 1;
   int nOfOutCmp, rdlPos;
   CrFwCounterU1_t nOfGenOutCmp;
+  CrFwPckt_t pckt;
 
   /* Reset the framework components and clear the RDL*/
   CrPsTestUtilitiesResetFw();
@@ -802,8 +875,24 @@ CrFwBool_t CrPsHkTestCase7() {
   if (CrPsOutStreamStubGetHandoverCnt() != nOfGenOutCmp+4)  /* 3 service 1 reports + 1 HK report */
       return 0;
 
+  /* Create a (3,32) command */
+  sid[0] = preDefSID1;    /* Loaded SID */
+  period[0] = 10;
+  inCmd3s32 = CrPsHkTestCaseMake3s31(sid, period, 1);
+  pckt = CrFwInCmdGetPckt(inCmd3s32);
+  CrFwPcktSetServSubType(pckt, HKMODPERDIAGCMD_STYPE);
+  CrFwCmpExecute(inCmd3s32);
+  CrFwInCmdTerminate(inCmd3s32);
+
+  /* Check that the InCommand has terminated execution and the period has been modified as expected */
+  if (!CrFwInCmdIsInTerminated(inCmd3s32))
+    return 0;
+  if (getDpHkPeriodItem(rdlPos) != period[0])
+      return 0;
+
   /*Release the InCommand */
   CrFwInFactoryReleaseInCmd(inCmd3s31);
+  CrFwInFactoryReleaseInCmd(inCmd3s32);
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -1028,6 +1117,223 @@ CrFwBool_t CrPsHkTestCase9() {
   return 1;
 }
 
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase10() {
+  FwSmDesc_t inCmd;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsSID_t preDefSID = 1;
+  CrPsParId_t parId[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrFwDestSrc_t src3s1 = EVT_DEST;
+  CrFwPckt_t pckt;
+  short int rdlPos;
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Create a (3,2) command and set its source */
+  inCmd = CrPsHkTestCaseMake3s1(preDefSID, HK_NOFITEMS_SID_N_OF_EVT, parId);
+  pckt = CrFwInCmdGetPckt(inCmd);
+  CrFwPcktSetServSubType(pckt, HKCREDIAGCMD_STYPE);
+  CrFwPcktSetSrc(pckt, src3s1);
+
+  /* Execute and terminate the InCommand  (this simulates the action of an InManager) */
+  CrFwCmpExecute(inCmd);
+  CrFwInCmdTerminate(inCmd);
+
+  /*check that the InCommand is in TERMINATED state*/
+  if (!CrFwInCmdIsInTerminated(inCmd))
+    return 0;
+
+  /* Check that there is a pending OutComponent of type (3,26) */
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,0,HK_TYPE,HKDIAGREP_STYPE,preDefSID) != 1)
+      return 0;
+
+  /* Execute the OutManager and verify that no HK report is generated */
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt()>0)
+      return 0;
+
+  /* Enable the pending HK report in the RDL, execute it again and check that the report is generated */
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID);
+  setDpHkIsEnabledItem(rdlPos, 1);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 1)
+      return 0;
+  pckt = CrPsOutStreamStubGetPckt(0);
+  if (CrFwPcktGetDest(pckt) != src3s1)
+      return 0;
+
+  /* Execute OutManager twice and verify that the report is generated twice */
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != 3)
+      return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase11() {
+  FwSmDesc_t inCmd3s1, inCmd3s28;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsSID_t sid[3];
+  CrPsSID_t preDefSID1 = 2;
+  int nOfOutCmp, rdlPos;
+  CrFwCounterU1_t nOfGenOutCmp;
+  CrFwPckt_t pckt;
+
+  /* Reset the framework components and clear the RDL*/
+  CrPsTestUtilitiesResetFw();
+  CrPsHkConfigInit();
+
+  /* Load one diagnostic report and set its period to zero */
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
+  pckt = CrFwInCmdGetPckt(inCmd3s1);
+  CrFwPcktSetServSubType(pckt, HKDIAGREP_STYPE);
+  setHkCreHkCmdCollectionInterval(pckt, 0);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+  rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
+
+  /* Execute the OutManager 3 times and verify that the (3,26) report is not generated */
+  nOfGenOutCmp = CrPsOutStreamStubGetHandoverCnt();
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != nOfGenOutCmp)
+      return 0;
+  if (getDpHkCycleCntItem(rdlPos) != 3)
+      return 0;
+
+  /* Create a (3,28) command */
+  sid[0] = preDefSID1;      /* Loaded SID */
+  inCmd3s28 = CrPsHkTestCaseMake3s27(sid, 1);
+  pckt = CrFwInCmdGetPckt(inCmd3s28);
+  CrFwPcktSetServSubType(pckt, HKONESHOTDIAGCMD_STYPE);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s28);
+  CrFwInCmdTerminate(inCmd3s28);
+
+  /* Check that the InCommand has terminated */
+  if (!CrFwInCmdIsInTerminated(inCmd3s28))
+    return 0;
+
+  /* Verify that the cycle counter of the (3,26) has been modified and that the report is enabled */
+  if (getDpHkCycleCntItem(rdlPos) != getDpHkPeriodItem(rdlPos))
+      return 0;
+  if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+
+  /* Execute again the OutManager 3 times and verify that the (3,26) is only generated once */
+  nOfGenOutCmp = CrPsOutStreamStubGetHandoverCnt();
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  CrFwCmpExecute(outManager);
+  if (CrPsOutStreamStubGetHandoverCnt() != nOfGenOutCmp+1)
+      return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd3s28);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
+
+/*-----------------------------------------------------------------------------*/
+CrFwBool_t CrPsHkTestCase12() {
+  FwSmDesc_t inCmd3s11, inCmd3s1, rep3s12;
+  FwSmDesc_t outManager = CrFwOutManagerMake(0);
+  CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
+  CrPsSID_t sid[1];
+  CrPsSID_t preDefSID1 = 2;
+  CrFwPckt_t pckt;
+  CrFwOutFactoryPoolIndex_t nOfOutCmp;
+
+  /* Reset the framework components and clear the RDL*/
+  CrPsTestUtilitiesResetFw();
+  CrPsHkConfigInit();
+
+  /* Load one HK report */
+  inCmd3s1 = CrPsHkTestCaseMake3s1(preDefSID1, HK_NOFITEMS_SID_N_OF_EVT, parId1);
+  CrFwCmpExecute(inCmd3s1);
+  CrFwInCmdTerminate(inCmd3s1);
+
+  /* Create a (3,11) command */
+  sid[0] = preDefSID1;          /* Loaded SID */
+  inCmd3s11 = CrPsHkTestCaseMake3s9(sid, 1);
+  pckt = CrFwInCmdGetPckt(inCmd3s11);
+  CrFwPcktSetServSubType(pckt, HKREPSTRUCTDIAGCMD_STYPE);
+  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+  CrFwCmpExecute(inCmd3s11);
+  CrFwInCmdTerminate(inCmd3s11);
+
+  /* Check that the InCommand is in terminated state and one (3,12) report was generated */
+  if (!CrFwInCmdIsInTerminated(inCmd3s11))
+    return 0;
+  if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 1)
+    return 0;
+  if (CrPsTestUtilitiesCheckOutManagerCmp(outManager,nOfOutCmp,HK_TYPE,HKREPSTRUCTDIAGREP_STYPE,0) != 1)
+      return 0;
+
+  /* Verify the content of the (3,12) report */
+  rep3s12 = CrPsTestUtilitiesGetItemFromOutManager(outManager, nOfOutCmp);
+  pckt = CrFwOutCmpGetPckt(rep3s12);
+  if (getHkRepStructHkRepSID(pckt) != preDefSID1)
+    return 0;
+  if (getHkRepStructHkRepPerGenActionStatus(pckt) != 0)
+    return 0;
+  if (getHkRepStructHkRepCollectionInterval(pckt) != 1)
+    return 0;
+  if (getHkRepStructHkRepN1(pckt) != HK_NOFITEMS_SID_N_OF_EVT)
+    return 0;
+  if (getHkRepStructHkRepN1ParamId(pckt, 0) != parId1[0])
+    return 0;
+  if (getHkRepStructHkRepN1ParamId(pckt, 1) != parId1[1])
+    return 0;
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd3s11);
+
+  /* Reset the framework components */
+  CrPsTestUtilitiesResetFw();
+
+  /* Check that no packets are allocated */
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crNoAppErr)
+      return 0;
+
+  return 1;
+}
 
 /*-----------------------------------------------------------------------------*/
 FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId) {

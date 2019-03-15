@@ -36,7 +36,7 @@ static CrPsParId_t lstId[HK_N_REP_DEF*HK_MAX_N_ITEMS];
 
 /* If the report with a SID equal to j is pending in the RDL, then rdlIndex[j] holds
  * the index of the RDL slot where the report is loaded. Otherwise, rdlIndex[j] is equal to -1.  */
-static short int rdlIndex[HK_MAX_SID];
+static short int rdlIndex[HK_MAX_SID+1];
 
 /* ----------------------------------------------------------------------------------- */
 void CrPsHkConfigInit() {
@@ -51,7 +51,7 @@ void CrPsHkConfigInit() {
     setDpHkSidItem(i, 0);
 
   /* Initialize of RDL Slot Index */
-  for (i=0; i<HK_MAX_SID; i++)
+  for (i=1; i<HK_MAX_SID+1; i++)
     rdlIndex[i] = -1;
 }
 

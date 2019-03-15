@@ -74,7 +74,7 @@ CrFwBool_t CrPsHkTestCase2();
 
 /**
  * Verify execution of a nominal command to create a new housekeeping report and verify the execution of
- * the report is has loaded.
+ * the report it has loaded.
  * The following actions are performed:
  * - One (3,1) command is created to load a HK report with two data pool items and it is verified that
  *   the report is loaded in the OutManager
@@ -108,10 +108,13 @@ CrFwBool_t CrPsHkTestCase3();
  *   that executing the command twice results in the first SID being enabled
  * - One (3,5) command is created carrying two loaded SIDs and it is verified
  *   that executing the command twice results in the both SIDs being enabled
+ * - One (3,7) command is created carrying one SID and it is verified
+ *   that executing the command once results in the SID being enabled
  * .
  * @verify Enable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
  * @verify Enable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
  * @verify Enable Generation of a HK Report Structure, All SIDs are loaded in the RDL
+ * @verify Enable Generation of a Diagnostic Report Structure, One loaded SID
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -126,10 +129,13 @@ CrFwBool_t CrPsHkTestCase4();
  *   that executing the command twice results in the first SID being disabled
  * - One (3,5) command is created carrying two loaded SIDs and it is verified
  *   that executing the command twice results in the both SIDs being disabled
+ * - One (3,8) command is created carrying one SID and it is verified
+ *   that executing the command once results in the SID being disabled
  * .
  * @verify Disable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
  * @verify Disable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
  * @verify Disable Generation of a HK Report Structure, All SIDs are loaded in the RDL
+ * @verify Disable Generation of a Diagnostic Report Structure, One loaded SID
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -143,11 +149,14 @@ CrFwBool_t CrPsHkTestCase5();
  *   that executing the command three results in the generation of three (1,6) and one (1,8) reports
  * - One (3,3) command is created carrying one legal, loaded and disabled SID and it is verified
  *   that executing the command results in the SID being deleted
+ * - One (3,4) command is created carrying one legal, loaded and disabled SID and it is verified
+ *   that executing the command results in the SID being deleted
  * .
  * @verify Delete HK Report Structure, SID is not loaded in the RDL
  * @verify Delete HK Report Structure, SID is illegal
  * @verify Delete HK Report Structure, SID is enabled
  * @verify Delete HK Report Structure, SID is loaded and disabled
+ * @verify Delete Diagnostic Report Structure, SID is loaded and disabled
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -162,10 +171,14 @@ CrFwBool_t CrPsHkTestCase6();
  *   one out-of-range SID, and
  *   one SID which is within range but not currently loaded; the command is executed and it is
  *   verified that the period of the housekeeping report has been modified as expected
+ * - One (3,32) command is created carrying the SID of the report created at the previous step;
+ *   the command is executed and it is
+ *   verified that the period of the housekeeping report has been modified as expected
  * .
  * @verify Modify HK Report Collection Interval, SID is loaded in the RDL
  * @verify Modify HK Report Collection Interval, SID is not loaded in the RDL
  * @verify Modify HK Report Collection Interval, SID is out-of-range
+ * @verify Modify Diagnostic Report Collection Interval, SID is loaded in the RDL
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -182,9 +195,9 @@ CrFwBool_t CrPsHkTestCase7();
  *   the OutManager of the report is executed and it is
  *   verified that the report is generated
  * .
- * @verify Generated One-Shot Report for HK Parameters, SID is loaded in the RDL
- * @verify Generated One-Shot Report for HK Parameters, SID is not loaded in the RDL
- * @verify Generated One-Shot Report for HK Parameters, SID is out-of-range
+ * @verify Generate One-Shot Report for HK Parameters, SID is loaded in the RDL
+ * @verify Generate One-Shot Report for HK Parameters, SID is not loaded in the RDL
+ * @verify Generate One-Shot Report for HK Parameters, SID is out-of-range
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -207,6 +220,51 @@ CrFwBool_t CrPsHkTestCase8();
  */
 CrFwBool_t CrPsHkTestCase9();
 
+/**
+ * Verify execution of a nominal command to create a new diagnostic report and verify the execution of
+ * the diagnostic report it has loaded.
+ * The following actions are performed:
+ * - One (3,2) command is created to load a HK report with two data pool items and it is verified that
+ *   the report is loaded in the OutManager
+ * - The report is enabled and then the OutManager is executed and it is verified that the HK report
+ *   is generated
+ * .
+ * @verify Create Diagnostic Report Command, Successful execution
+ * @verify Diagnostic Report, Execution while enabled with collection period equal to 1
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase10();
+
+/**
+ * Verify execution of a command to generate a one-shot diagnostic report.
+ * The following actions are performed:
+ * - One (3,26) report is created and loaded; it is left disabled and it is verified that, when
+ *   its OutManager is executed, the report is not generated
+ * - One (3,28) command is created carrying the SID of the report created at the previous step;
+ *   the command is executed and then the OutManager of the report is executed and it is
+ *   verified that the report is generated
+ * .
+ * @verify Generate One-Shot Report for Diagnostic Parameters, SID is loaded in the RDL
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase11();
+
+/**
+ * Verify execution of a command to generate a Diagnostic Parameter Report Structure Report.
+ * The following actions are performed:
+ * - One (3,26) report is created and loaded
+ * - One (3,11) command is created carrying the SID of the report
+ *   and it is verified that execution of the command causes one (3,12) report to be generated
+ *   and that its content matches the definition of the SID
+ * .
+ * @verify Report Diagnostic Parameter Report Structure, SID is loaded in the RDL
+ * @verify Diagnostic Parameter Report Structure Report
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsHkTestCase12();
 
 /**
  * Create a (3,1) command for test purposes.

@@ -64,6 +64,7 @@ void CrPsInCmdHkDelHkCmdProgressAction(FwSmDesc_t smDesc) {
     setDpVerFailData(sid);
     CrFwSetSmOutcome(smDesc, VER_ILL_SID);
   }
+
   if (getDpHkIsEnabledItem(rdlPos) == 1) {
     setDpVerFailData(sid);
     CrFwSetSmOutcome(smDesc, VER_ENB_SID);

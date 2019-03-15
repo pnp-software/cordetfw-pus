@@ -28,7 +28,7 @@
 #include "OutFactory/CrFwOutFactory.h"
 #include "CrFwRepErr.h"
 
-static FwSmDesc_t rep3s25;
+static FwSmDesc_t rep;
 static short int rdlSlot;
 static CrPsSID_t sid;
 static CrPsNPar_t N1;
@@ -37,8 +37,10 @@ static CrFwPckt_t pckt;
 /* ------------------------------------------------------------------------------------ */
 /**
  * Start action of TC(3,1) HkCreHkCmd.
+ * This start action is implemented to also serve as start action for the (3,2) command.
+ *
  * @limitation The following rejection criterium for the (3,1) command is not implemented:
- * reject command if any parameter identifiers are duplicated
+ * reject command if any parameter identifiers are duplicated.
  *
  * @param smDesc The state machine descriptor.
  */
@@ -46,9 +48,13 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   CrPsNPar_t i;
   CrFwPcktLength_t len;
   CrPsParId_t parId;
+  CrFwServSubType_t servSubType;
 
   /* Get the raw command packet */
   pckt = CrFwInCmdGetPckt(smDesc);
+
+  /* Get the service sub-type */
+  servSubType = CrFwInCmdGetServSubType(smDesc);
 
   /* Check if there are free slots in the RDL */
   rdlSlot = CrPsHkConfigGetFreeRdlSlot();
@@ -104,11 +110,15 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
     return;
   }
 
-  /* Retrieve the (3,25) packet from the OutFactory */
-  rep3s25 = CrFwOutFactoryMakeOutCmp(HK_TYPE, HKREP_STYPE, 0, len);
+  /* Retrieve the report packet from the OutFactory */
+  if (servSubType == HKCREHKCMD_STYPE)
+    rep = CrFwOutFactoryMakeOutCmp(HK_TYPE, HKREP_STYPE, 0, len);
+  else
+    rep = CrFwOutFactoryMakeOutCmp(HK_TYPE, HKDIAGREP_STYPE, 0, len);
 
-  /* If (3,25) packet generation failed, generate error report */
-  if (rep3s25 == NULL) {
+
+  /* If report packet generation failed, generate error report */
+  if (rep == NULL) {
     CrFwRepErrKind(psOutFactoryFail, 0, 0, HK_TYPE, HKREP_STYPE, 0);
     CrFwSetSmOutcome(smDesc, VER_REP_CR_FD);
     return;
@@ -121,17 +131,18 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
 /* ------------------------------------------------------------------------------------ */
 /**
  * Progress action of TC(3,1) HkCreHkCmd.
+ * This implementation is also intended to serve as progress action for TC(3,2).
  * Add the definition of the new report to the RDL, set its enabled status to
  * ’disabled’, and set the action outcome to ’completed’
  * @param smDesc The state machine descriptor.
  */
 void CrPsInCmdHkCreHkCmdProgressAction(FwSmDesc_t smDesc) {
 
-  /* Configure the (3,25) report */
-  CrPsHkConfigHkRepOnBoard(rep3s25, rdlSlot, smDesc);
+  /* Configure the housekeeping report */
+  CrPsHkConfigHkRepOnBoard(rep, rdlSlot, smDesc);
 
   /* Load the report in the OutLoader */
-  CrFwOutLoaderLoad(rep3s25);
+  CrFwOutLoaderLoad(rep);
 
   /* Set outcome to 'success' and completion outcome to 'completed' */
   CrFwSetSmOutcome(smDesc, 1);
