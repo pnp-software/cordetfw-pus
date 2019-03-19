@@ -143,6 +143,8 @@ if [ "$FWPROFILE" == "YES" ]
     cp $EDITOR_PATH/CrPsPcktAccFail/CrPsPcktAccFail.h ./src/Ver
     cp $EDITOR_PATH/CrPsPcktReroutingFail/CrPsPcktReroutingFail.c ./src/Ver
     cp $EDITOR_PATH/CrPsPcktReroutingFail/CrPsPcktReroutingFail.h ./src/Ver
+    cp $EDITOR_PATH/CrPsDataPool/CrPsDataPool.c ./src/DataPool
+    cp $EDITOR_PATH/CrPsDataPool/CrPsDataPool.h ./src/DataPool
     
     cp $EDITOR_PATH/CrPs*/*.png ./doc/images
     cp $EDITOR_PATH/CrPs*/*.json ./doc/json

@@ -294,7 +294,7 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
   }
 
 % pnpcsvtable
-% arg[1] - optional argument in square brackets: a filter argument, or the comma/semicolon separator (default is comma), or
+% arg[1] - optional argument in square brackets: a filter argument, or the comma/semicolon separator (default is the pipe), or
 %          "respect underscore=true". The latter will cause unwanted separators to be appended at the bottom of the table
 % arg[2] - Table spec
 % arg[3] - Caption

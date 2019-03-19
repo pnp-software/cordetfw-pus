@@ -18,21 +18,9 @@
 %---------------------------------------------
 \newenvironment{crReq}[2]
 {
-\begin{longtable}{|l|p{11.8cm}|}
-\caption{#2}\label{tab:Req-#1} \\
-\hline
-\rowcolor{light-gray}
-\textbf{Req. ID} & \textbf{Requirement Text}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Req. ID} & \textbf{Requirement Text}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbReq}{\cat=Category,\type=Type,\id=Id,\reqText=Text}
-{\DTLiffirstrow{}{\\\hline}P-\cat-\id/\type & \textit{\reqText}}\\\hline
+\pnpcsvtable[filter equal={\Category}{#1}]{|l|p{11.8cm}|}{#2}{tab:Req-#1}{\textbf{Req. ID} & \textbf{Requirement Text}}{PusExtensionReq.csv}{P-\Category-\Id/\Type & \textit{\Text}}
 }
-{\end{longtable}}
+
 
 %---------------------------------------------
 % Define Environment for Adaptation Point Tables 
@@ -41,22 +29,8 @@
 %---------------------------------------------
 \newenvironment{crAp}[2]
 {
-\begin{longtable}{|l|p{4.7cm}|p{6.9cm}|}
-\caption{#2}\label{tab:AP-#1} \\
-\hline
-\rowcolor{light-gray}
-\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Close-Out Value}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Close-Out Value}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbAP}{\cat=Category,\origin=Origin,\id=Id,\ap=AP,\defValue=DefValue}
-{\DTLiffirstrow{}{\\\hline}P-\cat-\id & \ap\ (\origin) & \defValue}\\\hline
+\pnpcsvtable[filter equal={\Category}{#1}]{|l|p{4.7cm}|p{6.9cm}|}{#2}{tab:AP-#1}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Close-Out Value}}{PusExtensionAP.csv}{P-\Category-\Id & \AP (\Origin) & \DefValue}
 }
-{\end{longtable}}
-
 
 
 
@@ -268,7 +242,7 @@ A derived component closes an adaptation point of its base component when it def
 
 %----------------------------------------------------------------------------------
 \subsection{Compliance to PUS Requirements}\label{sec:ComplianceToPus}
-The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of [PS-SP]. In order to provide visibility over the level of compliance to the PUS requirements of [PS-SP], appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is compliant to the PUS requirements. Some points related to the compliance to the PUS deserve a special discussion which is presented below. 
+The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of [PS-SP]. In order to provide visibility over the level of compliance to the PUS requirements of [PS-SP], appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. Some points related to the compliance to the PUS deserve a special discussion which is presented below. 
 
 There are some terminological differences between PUS and CORDET. For clarity, table \ref{tab:termPusCr} lists PUS-specific terms and gives the corresponding term or concept in the CORDET world. 
 
@@ -297,6 +271,13 @@ The PUS is not always clear about the conditions for the generation of service 1
  
 \subsubsection{Time-Tagging of Reports}
 Clause 5.4.2.1 of the PUS leaves applications the option to generate the time-tag of a report either before or after the time the report collects its data. In the CORDET Framework, the time-stamp of a report represents the time when an application makes a request to issue that report (this is after the report data have been collected). 
+
+\subsubsection{Multi-Response Commands}
+Clause 5.4.11.3.2a states that a command triggering a response whose size exceeds the maximum packet size should be rejected. Exceptions have been made to this rule in the following cases:
+
+\begin{itemize}
+\item Command (5,7) to report the list of disabled event definitions generates multiple resports if one single report is not sufficient to hold all disabled event definitions.
+\end{itemize}
 
 \newpage
 \begin{longtable}{|l|>{\raggedright\arraybackslash}p{10cm}|}
@@ -337,7 +318,7 @@ The CORDET Framework defines a number of attributes for commands and reports. Ta
 
 The PUS Extension of the CORDET Framework extends the range of command and report attributes to include all command and report attributes defined by the PUS: the components which implement PUS commands and reports provide operations to access all the attributes defined at PUS level. 
 
-Within the framework, commands and reports are handled as instances of components of type InReport (for incoming reports), InCommand (for incoming command), or OutComponent (for out-going commands and reports). Commands and reports arrive at and leave the framework through the OutStream and InStream components, which constitute the external interfaces of the framework. At these interfaces, commands and reports are encapsulated in packets (sequences of bytes which carry all the data in the report or command). In the framework extension, these packets comply to the command and report layout defined by the PUS and the PUS Extension provides operation to encode and decode the packets, i.e. to set and read the values of any PUS-defined parameter in a packet. 
+Within the framework, commands and reports are handled as instances of components of type \textit{InReport} (for incoming reports), \textit{InCommand} (for incoming command), or \textit{OutComponent} (for out-going commands and reports). Commands and reports arrive at and leave the framework through the \textit{OutStream} and \textit{InStream} components, which constitute the external interfaces of the framework. At these interfaces, commands and reports are encapsulated in \textit{packets} (sequences of bytes which carry all the data in the report or command). In the framework extension, these packets comply to the command and report layout defined by the PUS and the PUS Extension provides operation to encode and decode the packets, i.e. to set and read the values of any PUS-defined parameter in a packet. 
 
 \begin{longtable}{|c|>{\raggedright\arraybackslash}p{11cm}|}
 \caption{Mapping of CORDET Attributes to PUS Attributes}\label{tab:pcktAttPus} \\
@@ -362,7 +343,6 @@ Within the framework, commands and reports are handled as instances of component
 \hline
 \texttt{ProgressStep} & The progress step of an incoming command \\
 \hline
-
 \texttt{TimeStamp} & Time field in data field header of telemetry packets; not present in telecommand packets \\
 \hline
 \texttt{Discriminant} & Service-specific mapping to parameter which determines command or report layout, see section \ref{sec:mapDisc} \\
@@ -387,16 +367,18 @@ Within the framework, commands and reports are handled as instances of component
 \hline
 \texttt{ParLength} & The parameter length is the total packet length (in bytes) minus 10 for command packets and the total packet length (in bytes) minus 16 for report packets \\
 \hline
+Crc & The CRC of a command or report packet \\
+\hline
 \end{longtable}  
 
 
 %----------------------------------------------------------------------------------
 \subsection{Mapping of Discriminant Attribute}\label{sec:mapDisc}
-The CORDET discriminant is an optional attribute of a command or report. It is defined when the layout or the behaviour of a command or report are not exclusively determined by the command or report type and sub-type. In such cases, the discriminant becomes the determinant of the command or report layout and behaviour. The PUS does not have the concept of discriminant but some of its services use a particular field for the same purpose. For instance, the Event Identifier (EID) of service 5 reports determines the layout of a service 5 report and hence serves the same purpose as the CORDET discriminant. Similarly, some commands or reports carry variable-length blocks of data; in such cases, the parameter which defines the length of the data block acts as a discriminant. Bearing in mind these considerations, the PUS Extension maps the CORDET discriminant to the following PUS parameters:
+The CORDET discriminant is an optional attribute of a command or report. It is defined when the layout or the behaviour of a command or report are not exclusively determined by the command or report type and sub-type. In such cases, the discriminant determines of the command or report layout and behaviour. The PUS does not have the concept of discriminant but some of its services use a particular field for the same purpose. For instance, the Event Identifier (EID) of service 5 reports determines the layout of a service 5 report and hence serves the same purpose as the CORDET discriminant. Similarly, some commands or reports carry variable-length blocks of data; in such cases, the parameter which defines the length of the data block acts as a discriminant. Bearing in mind these considerations, the PUS Extension maps the CORDET discriminant to the following PUS parameters:
 
 \begin{itemize}
 \item The Failure Identifier (FID) for service 1 failure reports
-\item The Structure Identifier (SID) for (3,25) reports
+\item The Structure Identifier (SID) for (3,25) and (3,26) reports
 \item The Event Identifier (EID) for reports (5,1) to (5,4)
 \end{itemize}
 
@@ -448,8 +430,8 @@ With reference to the last bullet, it is noted that the set of supported types i
 The CORDET Framework makes the following assumptions about the range of identifiers of the data pool items:
 
 \begin{itemize}
-\item The identifiers of the data pool parameters are contiguous within range: [\texttt{DpIdParamsLowest},\texttt{DpIdParamsHighest}]
-\item The identifiers of the data pool variables are contiguous within range: [\texttt{DpIdVarsLowest},\texttt{DpIdVarsHighest}]
+\item The identifiers of the data pool parameters are contiguous within range: [\texttt{DpIdParamsLowest}, \texttt{DpIdParamsHighest}]
+\item The identifiers of the data pool variables are contiguous within range: [\texttt{DpIdVarsLowest}, \texttt{DpIdVarsHighest}]
 \item The ranges of the parameter identifiers is contiguous to the range of the variable identifiers (i.e. \texttt{DpIdVarsLowest} is equal to: \texttt{DpIdParamsHighest}+1)
 \end{itemize}
 
@@ -459,33 +441,13 @@ This specification is similarly silent about the internal structure of data item
 
 %---------------------------------------------------------------------------------
 \subsection{Data Pool Behaviour}\label{sec:dpBehaviour}
-The Data Pool Component - like all other CORDET Components - is an extension of the Base Component of section 3.2 of [CR-SP]. It does not add any behaviour to the Base Component but it specializes some of its adaptation points as described below.
+The behaviour of the Data Pool Component is captured by the Data Pool State Machine of figure \ref{fig:CrPsDataPool}. The data pool can be in two states: READY and LOADING. In state READY, its data items can be accessed by the user application. It is an application constraint that no attempt is made to access the data pool data when the data pool is not in READY.
 
-The Initialization Procedure\footnote{It is recalled that the Base Component defines three procedures: the \textit{Initialization Procedure}, the \textit{Configuration Procedure}, and the \textit{Execution Procedure}. These two procedures are inherited by all components derived from the Base Component. They are therefore also inherited by the Data Pool Component.} of the Data Pool Component creates the data structures needed by the component. At one extreme, if an implementation chooses to locate all data items inside the Data Pool Component, then its Initialization Procedure is responsible for creating the data structures which host the data items. At the other extreme, in an implementation where data items remain located in their originating components and where the data pool only acts as a kind of data switch-board, the Initialization Procedure does nothing and always returns "initialization successful".
+In state LOADING, the value of its data items is "loaded". The loading process is entirely application-specific: the Data Pool Loading Procedure is an adaptation point. In a typical implementation, the user application maintains two sets of data pool values and uses the loading process to switch between them. In another typical implementation, the user application maintains the default values in EEPROM and loads them at application initialization.
 
-When the Data Pool is reset, the current values of its data items are initialized with their default values. The Configuration Procedure is therefore responsible for initializing the data item values with their default values. 
+\pnpfigure[scale=0.5]{The Data Pool State Machine}{fig:CrPsDataPool}{CrPsDataPool.png}
 
-This specification does not say where the default values of the data items are stored in relation to their current values. At implementation level, two basic options are possible:
-
-\begin{enumerate}
-\item The default values are stored alongside the current values (i.e. in RAM)
-\item The default values are stored in some other memory area (e.g. in an EEPROM or in a remote location)
-\end{enumerate}
-
-In the first case, the initialization of the data items simply involves a copy across two locations in RAM. in the second case, the initialization may be a potentially lengthy process involving the retrieval of the data item values from an external memory bank or from a remote location. The Data Pool Component covers both options and its Configuration Procedure is therefore defined as follows:
-
-\begin{itemize}
-\item The Configuration Action starts the process whereby the default values of the data items are acquired and copied to their current values
-\item The Configuration Check returns "success" if the initialization of the data item values can be done in zero logical execution time\footnote{The concept of \textit{logical execution time} is introduced in [FW-SP] as part of the FW Profile Definition. The logical execution time of a behaviour is the execution time of that behaviour on a processor with infinite speed and in the absence of pre-emption by higher-priority activities or blocking by lower-priority activities. Essentially, a behaviour has zero logical execution time if it includes neither "wait" operations nor synchronization operations with external devices or threads.} or else when the initialization has completed 
-\end{itemize}
-
-In the case where the initialization of the data item values is not an operation with zero logical execution time, then the Data Pool Component must be sent at least two \texttt{Reset} commands before it can enter the CONFIGURED state: the first \texttt{Reset} command starts the acquisition of the default values of the data items and the second \texttt{Reset} command verifies that the acquisition has terminated. Obviously, there is nothing to stop an application from using a "polling" approach and sending a sequence of \texttt{Reset} commands until the Data Pool Component has entered its CONFIGURED state. Note that, in line with requirements AST-5 and AST-7 in [CR-SP], it is the responsibility of the application to send as many \texttt{Reset} commands as needed to the Data Pool Component during the application start-up and application reset process.
-
-The data items in the data pool should be kept up-to-date. Two options are possible in this respect: (a) the data items are refreshed by the components which own them or (b) the data items are periodically refreshed by the data pool itself. In case (a), the data pool is entirely passive. In case (b), it must implement the refresh function. A mixed solution where some data items are refreshed by the data pool component while others are refreshed by external components is also possible. Since refreshing should only be done when the data pool is in state CONFIGURED, it is natural to allocate the refresh function to the Execution Procedure of the Data Pool Component. 
-
-The framework uses option (a) for all data items under its control with the exception of the debug variables of service 3 (see section \ref{sec:serv3SupCommDataItems}). Users are free to choose between the two options for their data items. If they choose option (b), they must extend the Execution Procedure of the Data Pool Component accordingly.
-
-Finally, the Data Pool Component offers an \texttt{update} operation to support service 3 and it offers operations to give read-write access to the current values of the data items. The mode of access to these values (through functions which returns pointers to the data items or through functions which return their values) is not specified and is left to the implementation to decide. Also, no limitation is specified on which components can access the data items in the data pool: any component can access any data item in read-write mode. Such limitations, if needed, may be added at implementation level. 
+The data items in the data pool should be kept up-to-date. Two options are possible in this respect: (a) the data items are refreshed by the components which own them or (b) the data items are periodically refreshed by the data pool itself. In case (a), the data pool is entirely passive. In case (b), it must implement the refresh function. A mixed solution where some data items are refreshed by the data pool component while others are refreshed by external components is also possible. Since refreshing should only be done when the data pool is in state READY. For this purpose, the Data Pool component offers the \texttt{Refresh} operation which can be used to update the values of the data items. This operation is an adaptation point for the PUS Extension. 
 
 %---------------------------------------------------------------------------------
 \subsection{Service Observability Concept}\label{sec:servObsConcept}
