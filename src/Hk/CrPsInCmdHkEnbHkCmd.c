@@ -40,6 +40,7 @@ void CrPsInCmdHkEnbHkCmdProgressAction(FwSmDesc_t smDesc) {
     CrPsSID_t sid;
     CrFwProgressStepId_t progressStepId;
     short int rdlPos;
+    CrFwDestSrc_t inCmdSrc;
 
     /* Get the progress step identifier */
     progressStepId = CrFwInCmdGetProgressStepId(smDesc);
@@ -47,18 +48,22 @@ void CrPsInCmdHkEnbHkCmdProgressAction(FwSmDesc_t smDesc) {
     /* Get the number of SIDs in the command */
     nSid = getHkEnbHkCmdN(hkPckt);
 
+    /* Get the source of the command (which will become the destination of the SID) */
+    inCmdSrc = CrFwInCmdGetSrc(smDesc);
+
     /* Get the SID to be process in the current cycle */
     sid = getHkEnbHkCmdSID(hkPckt, progressStepId);
 
     /* Get the RDL slot for the argument SID */
     rdlPos = CrPsHkConfigGetRdlSlot(sid);
 
-    /* Enable SID (if the SID is loaded in the RDL) */
+    /* Enable SID and set its destination (if the SID is loaded in the RDL) */
     if (rdlPos < 0) {
       setDpVerFailData(sid);
       CrFwSetSmOutcome(smDesc, VER_ILL_SID);
     } else {
       setDpHkIsEnabledItem(rdlPos,1);
+      setDpHkDestItem(rdlPos, inCmdSrc);
       CrFwSetSmOutcome(smDesc, 1);
     }
 

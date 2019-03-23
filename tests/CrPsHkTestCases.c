@@ -402,6 +402,7 @@ CrFwBool_t CrPsHkTestCase4() {
   CrPsSID_t preDefSID2 = 2;
   int nOfOutCmp, rdlPos;
   CrFwPckt_t pckt;
+  CrFwDestSrc_t inCmdSrc = 99;
 
   /* Reset the framework components and clear the RDL*/
   CrPsTestUtilitiesResetFw();
@@ -494,18 +495,21 @@ CrFwBool_t CrPsHkTestCase4() {
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
   setDpHkIsEnabledItem(rdlPos, 0);
 
-  /* Create a (3,6) command with one loaded SID */
+  /* Create a (3,7) command with one loaded SID and with non-standard source */
   sid[0] = preDefSID1;
   inCmd3s7 = CrPsHkTestCaseMake3s5(sid, 2);
+  CrFwInCmdSetSrc(inCmd3s7, inCmdSrc);
   pckt = CrFwInCmdGetPckt(inCmd3s7);
   CrFwPcktSetServSubType(pckt, HKENBDIAGCMD_STYPE);
 
   CrFwCmpExecute(inCmd3s7);
   CrFwInCmdTerminate(inCmd3s7);
 
-  /* Check that SID is now enabled */
+  /* Check that SID is now enabled and that it has the expected destination */
   rdlPos = CrPsHkConfigGetRdlSlot(preDefSID1);
   if (getDpHkIsEnabledItem(rdlPos) != 1)
+      return 0;
+  if (getDpHkDestItem(rdlPos) != inCmdSrc)
       return 0;
 
   /* -------------------------------------------------------------------------- */

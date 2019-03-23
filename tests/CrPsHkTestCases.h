@@ -110,6 +110,7 @@ CrFwBool_t CrPsHkTestCase3();
  *   that executing the command twice results in the both SIDs being enabled
  * - One (3,7) command is created carrying one SID and it is verified
  *   that executing the command once results in the SID being enabled
+ *   and that the SID's destination matches the command's source
  * .
  * @verify Enable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
  * @verify Enable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
