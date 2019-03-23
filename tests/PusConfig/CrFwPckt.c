@@ -37,6 +37,9 @@
  *   (the 4 least significant bits of the APID)
  * - The destination of a command is mapped to the PID part of the APID
  * - The source of a report is mapped to the PID part of the APID
+ * - The CRC of a command or report is assumed to be in the last two bytes of
+ *   the report or command packet. The function to set the CRC arbitrarily sets
+ *   the CRC field to 0xFFFF.
  * .
  *
  * The setter functions for the packet attributes assume that the packet length is
@@ -452,6 +455,18 @@ CrFwGroup_t CrFwPcktGetGroup(CrFwPckt_t pckt) {
 		return (getTcHeaderAPID(pckt) % 16);
 }
 
+/*-----------------------------------------------------------------------------------------*/
+void CrFwPcktComputeAndSetCrc(CrFwPckt_t pckt) {
+    CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
+    CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
+    (*loc) = 0xFFFF;
+}
 
+/*-----------------------------------------------------------------------------------------*/
+CrFwCrc_t CrFwPcktGetCrc(CrFwPckt_t pckt) {
+  CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
+  CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
+  return (*loc);
+}
 
 

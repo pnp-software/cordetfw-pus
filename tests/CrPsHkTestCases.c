@@ -346,6 +346,9 @@ CrFwBool_t CrPsHkTestCase3() {
   if (CrPsOutStreamStubGetHandoverCnt() != 4)
       return 0;
   pckt = CrPsOutStreamStubGetPckt(0);
+  int temp1 = CrFwPcktGetServType(pckt);
+  int temp2 = CrFwPcktGetServSubType(pckt);     // DEBUG
+
   getHkRep_SID_N_OF_EVTnOfDetectedEvts(pckt, SID_N_OF_EVTnOfDetectedEvts);
   if ((SID_N_OF_EVTnOfDetectedEvts[0] != 111) && (SID_N_OF_EVTnOfDetectedEvts[0] != 111*256))   /* The check covers both endianness cases */
       return 0;
@@ -498,9 +501,9 @@ CrFwBool_t CrPsHkTestCase4() {
   /* Create a (3,7) command with one loaded SID and with non-standard source */
   sid[0] = preDefSID1;
   inCmd3s7 = CrPsHkTestCaseMake3s5(sid, 2);
-  CrFwInCmdSetSrc(inCmd3s7, inCmdSrc);
   pckt = CrFwInCmdGetPckt(inCmd3s7);
   CrFwPcktSetServSubType(pckt, HKENBDIAGCMD_STYPE);
+  CrFwPcktSetSrc(pckt, inCmdSrc);
 
   CrFwCmpExecute(inCmd3s7);
   CrFwInCmdTerminate(inCmd3s7);

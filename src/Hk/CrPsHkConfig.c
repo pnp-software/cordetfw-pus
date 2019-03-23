@@ -134,7 +134,7 @@ void CrPsHkConfigUpdateRep(short int rdlSlot, FwSmDesc_t hkRep) {
   unsigned int nOfElements;
   CrFwPckt_t pckt = CrFwOutCmpGetPckt(hkRep);
 
-  pos = LEN_HK_REP;
+  pos = LEN_HK_REP - sizeof(CrFwCrc_t);
   for (i=0; i<getDpHkNSimpleItem(rdlSlot); i++) {
     parId = lstId[rdlSlot*HK_MAX_N_ITEMS + i];
     getDpValueEx(parId, &pckt[pos], &elementLength, &nOfElements);

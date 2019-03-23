@@ -46,7 +46,7 @@ void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
   unsigned int evtSevLevel, evtPos;
   unsigned int nEvtEid;
   CrPsEvtId_t eid;
-  size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
+  size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader, sizeOfCrc;
   CrFwPckt_t res5s8Pckt;
   CrPsNEvtId_t i;
   unsigned int nextSevLevel, nextPos;
@@ -55,7 +55,8 @@ void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
   sizeOfEvtId = getDpSize(DpIdlastEvtEid)/4;
   sizeOfEvtN = getDpSize(DpIdnOfDisabledEid)/4;
   sizeOfHeader = sizeof(TmHeader_t);
-  nEvtEid = (CrFwOutCmpGetLength(smDesc) - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
+  sizeOfCrc = sizeof(CrFwCrc_t);
+  nEvtEid = (CrFwOutCmpGetLength(smDesc) - sizeOfHeader - sizeOfEvtN - sizeOfCrc)/sizeOfEvtId;
 
   /* Populate the (5,8) report */
   res5s8Pckt = CrFwOutCmpGetPckt(smDesc);

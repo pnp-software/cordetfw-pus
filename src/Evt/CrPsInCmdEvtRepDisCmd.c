@@ -47,7 +47,7 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   CrPsNEvtId_t nDisabledEvt;
   unsigned int nOfEidsInPartial5s8, maxNOfEid;
   unsigned int sizeFull5s8, sizePartial5s8, nOfFull5s8, nOfPartial5s8, i;
-  size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader;
+  size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader, sizeOfCrc;
 
   /* Compute number of disabled events */
   nDisabledEvt = getDpEvtNOfDisabledEidItem(0) + getDpEvtNOfDisabledEidItem(1) + getDpEvtNOfDisabledEidItem(2) + getDpEvtNOfDisabledEidItem(3);
@@ -56,7 +56,8 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   sizeOfEvtId = getDpSize(DpIdlastEvtEid)/4;
   sizeOfEvtN = getDpSize(DpIdnOfDisabledEid)/4;
   sizeOfHeader = sizeof(TmHeader_t);
-  maxNOfEid = (CR_FW_MAX_PCKT_LENGTH - sizeOfHeader - sizeOfEvtN)/sizeOfEvtId;
+  sizeOfCrc = sizeof(CrFwCrc_t);
+  maxNOfEid = (CR_FW_MAX_PCKT_LENGTH - sizeOfHeader - sizeOfCrc - sizeOfEvtN)/sizeOfEvtId;
   nOfFull5s8 = nDisabledEvt/maxNOfEid;
   if ((nDisabledEvt - nOfFull5s8*maxNOfEid) > 0)
     nOfPartial5s8 = 1;
@@ -64,9 +65,9 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
     nOfPartial5s8 = 0;
 
   /* Compute the size of the (5,8) reports */
-  sizeFull5s8 = sizeOfHeader + sizeOfEvtN + maxNOfEid*sizeOfEvtId;
+  sizeFull5s8 = sizeOfHeader + sizeOfEvtN + maxNOfEid*sizeOfEvtId + sizeOfCrc;
   nOfEidsInPartial5s8 = nDisabledEvt % maxNOfEid;
-  sizePartial5s8 = sizeOfHeader + sizeOfEvtN + nOfEidsInPartial5s8*sizeOfEvtId;
+  sizePartial5s8 = sizeOfHeader + sizeOfEvtN + nOfEidsInPartial5s8*sizeOfEvtId + sizeOfCrc;
   assert(sizePartial5s8 < sizeFull5s8);
 
   /* Check that the number of requested (5,8) reports is legal */

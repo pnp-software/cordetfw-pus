@@ -56,6 +56,9 @@ typedef unsigned char CrFwGroup_t;
 /** Type used for the command or report destination and source. */
 typedef unsigned char CrFwDestSrc_t;
 
+/** Type for the TM/TC crc. The length of the crc is 16bits. */
+typedef unsigned short CrFwCrc_t;
+
 /** Type used for the discriminant of a command or report. */
 typedef unsigned short CrFwDiscriminant_t;
 
@@ -106,9 +109,6 @@ typedef unsigned char CrFwPcktVersion_t;
  * flags is 2 bits.
  */
 typedef unsigned char CrFwPcktSeqFlags_t;
-
-/** Type for the TM/TC crc. The length of the crc is 16bits. */
-typedef unsigned short CrFwPcktCrc_t;
 
 /** Type used for the application time. */
 typedef float CrFwTime_t;

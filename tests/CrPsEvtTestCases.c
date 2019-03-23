@@ -718,7 +718,7 @@ CrFwBool_t CrPsEvtTestCase8() {
     return 0;
 
   /*----------------------------------- Step 2 ------------------------------------------*/
-  /* Disable 8 event identifiers */
+  /* Disable 12 event identifiers */
   CrPsEvtConfigSetEidEnableStatus (EVT_DUMMY_1, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_DOWN_ABORT, 0);
   CrPsEvtConfigSetEidEnableStatus (EVT_UP_ABORT, 0);
@@ -779,11 +779,11 @@ CrFwBool_t CrPsEvtTestCase8() {
 
   /* The following checks are dangerous because the outCmp has already been released!!!!
    * They only work because the pckt of the released outCmp has not yet been overwritten */
-  if (getEvtDisRepN(pckt1) != 9)
+  if (getEvtDisRepN(pckt1) != 8)
     return 0;
-  if (getEvtDisRepN(pckt2) != 3)
+  if (getEvtDisRepN(pckt2) != 4)
     return 0;
-  if (getEvtDisRepEventId(pckt2,0) != EVT_FMON_FAIL)
+  if (getEvtDisRepEventId(pckt2,0) != EVT_MON_DEL_I)
     return 0;
 
   /* Reset the framework components */
