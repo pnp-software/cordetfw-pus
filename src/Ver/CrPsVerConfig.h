@@ -1,6 +1,6 @@
 /**
  * @file CrPsVerConfig.c
- * @ingroup Serv1
+ * @ingroup man_ver
  *
  * @brief Define functions to configure the Request Verification Service (service 11).
  * This module defines:

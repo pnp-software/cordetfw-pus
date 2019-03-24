@@ -1,6 +1,7 @@
 /**
  * @file
- * @ingroup CrTestSuiteGroup
+ * @ingroup PUSTestsuite
+ *
  * The CORDET Framework defines an interface for reporting the outcome of an
  * InCommand (see <code>CrFwRepInCmdOutcome.h</code>).
  * A stub implementation for this interface is provided in <code>CrFwRepInCmdOutcomeStub.c</code>.

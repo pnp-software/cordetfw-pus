@@ -1,7 +1,7 @@
 /**
  * @file CrFwCmpData.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
+ *
  * Definition of the Framework Component Data (FCD) Type.
  * Each Framework Component has one instance of a FCD.
  * This data structure is used to exchange input and output data with the actions

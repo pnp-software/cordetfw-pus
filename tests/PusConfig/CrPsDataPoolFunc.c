@@ -1,6 +1,6 @@
 /**
  * @file CrPsDataPoolMain.c
- * @ingroup PUSTestconfig
+ * @ingroup man_config
  *
  * Default implementation of the Data Pool Adaptation Points covering the
  * behaviour associated to the Data Pool State Machine.

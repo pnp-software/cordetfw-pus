@@ -1,6 +1,7 @@
 /**
  * @file
- * @ingroup CrTestSuiteGroup
+ * @ingroup PUSTestsuite
+ *
  * The CORDET Framework defines an interface for generating error reports (see
  * <code>CrFwRepErr.h</code>).
  * A stub implementation for this interface is provided in <code>CrFwRepErr.c</code>.

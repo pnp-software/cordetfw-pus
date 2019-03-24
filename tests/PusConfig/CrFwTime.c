@@ -1,7 +1,6 @@
 /**
  * @file CrFwTime.c
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
  *
  * Default implementation of the time interface of <code>CrFwTime.h</code>.
  * The implementation of this interface is one of the adaptation points of the

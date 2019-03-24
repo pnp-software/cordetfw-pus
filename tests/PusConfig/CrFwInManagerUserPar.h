@@ -1,7 +1,7 @@
 /**
  * @file CrFwInManagerUserPar.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
+ *
  * User-modifiable parameters for the InManager components (see <code>CrFwInManager.h</code>).
  * This file defines all the user-modifiable parameters for the InManager.
  * Users will normally have to modify this file as part of the framework instantiation process.

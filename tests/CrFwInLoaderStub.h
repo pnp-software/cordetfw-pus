@@ -1,6 +1,7 @@
 /**
  * @file
- * @ingroup CrTestSuiteGroup
+ * @ingroup PUSTestsuite
+ *
  * Declaration of the stub for the InLoader Component (see <code>CrFwInLoader.h</code>).
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>

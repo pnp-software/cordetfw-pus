@@ -1,5 +1,6 @@
 /**
  * @file
+ * @ingroup PUSTestsuite
  *
  * Implementation of OutStream stub.
  *

@@ -1,7 +1,6 @@
 /**
  * @file CrFwUserConstants.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
  *
  * Header file to define all user-configurable constants and types for the CORDET
  * Framework (the non-configurable constants and types are defined in

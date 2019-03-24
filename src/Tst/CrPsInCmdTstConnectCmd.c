@@ -1,6 +1,6 @@
 /**
  * @file CrPsTstConnectCmd.c
- * @ingroup Serv17
+ * @ingroup man_ver7
  * @ingroup InCmd
  *
  * @brief Implementation of the Perform Connection Test in-coming command (17,3).

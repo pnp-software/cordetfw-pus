@@ -1,5 +1,6 @@
 /**
  * @file
+ * @ingroup man_hk
  *
  * Implementation of the configuration interface for the Housekeeping Service.
  *

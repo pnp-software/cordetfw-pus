@@ -1,6 +1,6 @@
 /**
  * @file
- * @ingroup CrTestSuiteGroup
+ * @ingroup man_config
  *
  * Default implementation of the Application Start-Up Procedure of <code>CrFwAppStartUpProc.h</code>.
  * The implementation of this procedure is one of the adaptation points of the

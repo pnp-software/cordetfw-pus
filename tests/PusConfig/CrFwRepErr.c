@@ -1,7 +1,6 @@
 /**
  * @file CrFwRepErr.c
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
  *
  * Implementation of the error reporting interface of <code>CrFwRepErr.h</code>
  * for the PUS Extension of the CORDET Framework.

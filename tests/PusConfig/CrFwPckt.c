@@ -1,7 +1,6 @@
 /**
  * @file CrFwPckt.c
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
  *
  * Default implementation of the packet interface of <code>CrFwPckt.h</code>.
  * The implementation of this interface is one of the adaptation points of the

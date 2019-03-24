@@ -1,6 +1,6 @@
 /**
  * @file CrPsCmd17s3StartFunc.c
- * @ingroup Serv17
+ * @ingroup man_ver7
  * @ingroup procedures 
  *
  * @brief This procedure is run by the Start Action of the command (17,3)

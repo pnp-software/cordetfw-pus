@@ -1,6 +1,6 @@
 /**
  * @file
- * @ingroup CrTestSuiteGroup
+ * @ingroup man_config
  *
  * Implementation of the InCommand Outcome Reporting interface of
  * <code>CrFwRepInCmdOutcome.h</code>.
@@ -33,7 +33,6 @@
 #include "CrFwUserConstants.h"
 #include "CrFwRepInCmdOutcome.h"
 #include "Pckt/CrFwPckt.h"
-#include "CrFwVerServUserPar.h"
 
 /* Include PUS Extension files */
 #include "CrPsTypes.h"

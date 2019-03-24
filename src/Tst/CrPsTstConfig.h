@@ -1,6 +1,6 @@
 /**
  * @file CrPsTstConfig.c
- * @ingroup Serv17
+ * @ingroup man_ver7
  *
  * @brief Define functions to configure the Test Service (service 17).
  * This module defines:

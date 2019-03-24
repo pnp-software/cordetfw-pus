@@ -1,7 +1,7 @@
 /**
  * @file CrFwInStreamUserPar.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
+ *
  * User-modifiable parameters for the InStream components (see <code>CrFwInStream.h</code>).
  * This file defines all the user-modifiable parameters for the InStream.
  * Users will normally have to modify this file as part of framework instantiation process.

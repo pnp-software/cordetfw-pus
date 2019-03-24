@@ -1,7 +1,6 @@
 /**
  * @file CrFwOutManagerUserPar.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
  *
  * User-modifiable parameters for the OutManager components (see <code>CrFwOutManager.h</code>).
  * This file defines all the user-modifiable parameters for the OutManager.

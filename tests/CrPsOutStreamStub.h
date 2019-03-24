@@ -1,6 +1,7 @@
 /**
  * @file
- * @ingroup CrTestSuiteGroup
+ * @ingroup PUSTestsuite
+ *
  * Interface for the OutStream stub.
  * The OutStream stub is used in the test suite of the PUS Extension
  * of the CORDET Framework.

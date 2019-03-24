@@ -1,7 +1,7 @@
 /**
  * @file CrFwInLoaderUserPar.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
+ *
  * User-modifiable parameters for the InLoader components (see <code>CrFwInLoader.h</code>).
  * This file defines all the user-modifiable parameters for the InLoader.
  * Users will normally have to modify this file as part of the framework instantiation process.

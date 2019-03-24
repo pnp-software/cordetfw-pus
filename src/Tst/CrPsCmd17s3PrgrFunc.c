@@ -1,6 +1,6 @@
 /**
  * @file CrPsCmd17s3PrgrFunc.c
- * @ingroup Serv17
+ * @ingroup man_ver7
  * @ingroup procedures 
  *
  * @brief Define functions implementing the Progress Action of the command (17,3) of <code>CrPsCmd17s3Prgr.h</code>.

@@ -1,7 +1,6 @@
 /**
  * @file CrFwOutLoaderUserPar.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
  *
  * User-modifiable parameters for the OutLoader component (see <code>CrFwOutLoader.h</code>).
  *

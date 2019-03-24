@@ -1,7 +1,9 @@
 /**
  * @file
+ * @ingroup PUSTestsuite
  *
  * Implementation of stub for InLoader component.
+ * This stub is used in the Test Suite of the PUS Extension of the CORDET Framework.
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved

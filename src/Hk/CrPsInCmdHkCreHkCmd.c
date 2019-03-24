@@ -1,8 +1,11 @@
 /**
  * @file
- * @ingroup gen_cfw
+ * @ingroup man_hk
  *
  * Implementation of TC(3,1) HkCreHkCmd as an incoming command.
+ * The header file CrPsInCmdHkCreHkCmd.h for this body file was
+ * generated automatically by the CORDET Editor.
+ * This file also implements the TC(3,2) to create a diagnostic report definition.
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
@@ -35,15 +38,6 @@ static CrPsNPar_t N1;
 static CrFwPckt_t pckt;
 
 /* ------------------------------------------------------------------------------------ */
-/**
- * Start action of TC(3,1) HkCreHkCmd.
- * This start action is implemented to also serve as start action for the (3,2) command.
- *
- * @limitation The following rejection criterium for the (3,1) command is not implemented:
- * reject command if any parameter identifiers are duplicated.
- *
- * @param smDesc The state machine descriptor.
- */
 void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   CrPsNPar_t i;
   CrFwPcktLength_t len;
@@ -129,13 +123,6 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/**
- * Progress action of TC(3,1) HkCreHkCmd.
- * This implementation is also intended to serve as progress action for TC(3,2).
- * Add the definition of the new report to the RDL, set its enabled status to
- * ’disabled’, and set the action outcome to ’completed’
- * @param smDesc The state machine descriptor.
- */
 void CrPsInCmdHkCreHkCmdProgressAction(FwSmDesc_t smDesc) {
 
   /* Configure the housekeeping report */

@@ -1,6 +1,7 @@
 /**
  * @file
- * @ingroup CrTestSuiteGroup
+ * @ingroup PUSTestsuite
+ *
  * Interface for the InStream stub.
  * The InStream stub is used in the CORDET Test Suite to verify the implementation
  * of the InStream component (see <code>CrFwInStream.h</code>).

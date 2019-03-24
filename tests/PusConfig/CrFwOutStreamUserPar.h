@@ -1,7 +1,7 @@
 /**
  * @file CrFwOutStreamUserPar.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
+ *
  * User-modifiable parameters for the OutStream components (see <code>CrFwOutStream.h</code>).
  * This file defines all the user-modifiable parameters for the OutStream.
  * Users will normally have to modify this file as part of framework instantiation process.

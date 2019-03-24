@@ -1,5 +1,6 @@
 /*
  * @file CrPsVerConfig.c
+ * @ingroup man_ver
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved

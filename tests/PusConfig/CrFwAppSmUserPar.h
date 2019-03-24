@@ -1,6 +1,7 @@
 /**
  * @file
- * @ingroup crConfigGroup
+ * @ingroup man_config
+ *
  * User-modifiable parameters for the Application State Machine (see <code>CrFwAppSm.h</code>).
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>

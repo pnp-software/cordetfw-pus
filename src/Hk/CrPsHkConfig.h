@@ -1,5 +1,6 @@
 /**
  * @file
+ * @ingroup man_hk
  *
  * Interface for configuring the Housekeeping Reporting Service.
  *

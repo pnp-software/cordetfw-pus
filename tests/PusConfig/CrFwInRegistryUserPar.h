@@ -1,7 +1,6 @@
 /**
  * @file CrFwInRegistryUserPar.h
- * @ingroup PUSTestsuite
- * @ingroup PUSTestconfig 
+ * @ingroup man_config
  *
  * @brief User-modifiable parameters for the InRegistry component (see <code>CrFwInRegistry.h</code>).
  *
