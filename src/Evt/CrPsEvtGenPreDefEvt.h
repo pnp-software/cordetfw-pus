@@ -1,5 +1,6 @@
 /**
  * @file
+ * @ingroup man_evt
  *
  * Module to generate the pre-defined events of the PUS Extension of the CORDET
  * Framework.

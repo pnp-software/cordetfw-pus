@@ -1,5 +1,6 @@
 /**
  * @file
+ * @ingroup man_evt
  *
  * Implementation of CrPsEvtGenPreDefEvt.h.
  *

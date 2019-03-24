@@ -1,6 +1,5 @@
-/** @defgroup psExt PUS Extension 
- * @brief  Implementation of most commonly used services of the 
- * Packet Utilization Service (PUS).
+/** @defgroup psExt PUS Extension of the CORDET Framework
+ * @brief  Implementation of Packet Utilization Standard (PUS) services.
  *
  * The CORDET Framework is built around the <i>CORDET Service Concept</i>.
  * A service consists of a set of logically related commands and reports.
@@ -9,7 +8,7 @@
  * This life-cycle is independent of the specific content and actions of 
  * a command or report.
  * The CORDET Framework provides components which enforce this life-cycle but
- * it does not provide support for any specific command or report.
+ * it does not support any specific command or report.
  *
  * The service concept of the CORDET Framework is the same as the service concept
  * of the Packet Utilization Standard (PUS).
@@ -133,19 +132,7 @@
  * pool item may be included in a housekeeping/diagnostic report.
  */
 
- 
- 
-
-
-
-
-
-
-
-
-
- 
- /** @defgroup Serv5 Event Reporting Service 
+  /** @defgroup man_evt Event Reporting Service 
  * @ingroup psExt
  *
  * @brief Implementation of Event Reporting Service (PUS Service 5) 
@@ -167,17 +154,7 @@
  * pre-defined at framework level.
  */
 
- /** @defgroup Serv13 Large Packet Transfer Service 
- * @ingroup psExt
- *
- * Implementation of Large Packet Transfer Service (PUS Service 13) 
- * 
- * The Large Packet Transfer Service provides the capabilities to perform a <i>down-transfer</i>
- * (namely a transfer of large packet from the service provider to the service user) and an
- * <i>up-transfer</i> (namely a transfer of a large packet from the service user to the service provider).
- */
-
- /** @defgroup Serv17 Test Service 
+ /** @defgroup man_tst Test Service 
  * @ingroup psExt
  *
  * Implementation of Test Service (PUS Service 17)
@@ -201,25 +178,4 @@
  * #AreYouAliveTimeOut from the sending of the (17,1) command.
  */
 
- 
-
-
- 
-
- /** @defgroup Utilities Utility Functions for the PUS Extension 
- * @ingroup psExt
- *
- * Implementation of utility functions for the PUS Extenstion
- */
-
- /** @defgroup PUSTestconfig PUS Configuration Files   
- * @ingroup psExt
- *
- * Configuration files for the test suite of the PUS Extension
- *
- * The PUS Test Suite is an application which instantiates the PUS Extension of the CORDET
- * Framework. 
- * The files in this module contain the configurable information which must be tuned for
- * each instantiation of the framework. 
- */
 

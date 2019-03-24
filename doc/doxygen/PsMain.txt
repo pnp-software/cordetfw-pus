@@ -1,17 +1,21 @@
 /**
 * @mainpage Introduction
 *
+* The PUS Extension of the CORDET Framework is a specification 
 * The <a href="https://www.pnp-software.com/cordetfw">CORDET Framework</a> is a 
 * software framework for service-oriented embedded applications. 
-* The CORDET Framework uses the same service concept as the <strong>Packet Utilization Standard</strong> (PUS).
-* The PUS has been introduced by the European Space Agency (ESA) to define the protocol through which 
+* The CORDET Framework uses the same service concept as the 
+* <a href="https://ecss.nl/standard/ecss-e-st-70-41c-space-engineering-telemetry-and-telecommand-packet-utilization-15-april-2016/">Packet Utilization Standard</a> (PUS).
+* The PUS has been introduced by the <a href="https://www.esa.int/">European Space Agency</a> 
+* (ESA) to define the protocol through which 
 * on-board applications make their services available to each other and to the ground. 
-* A C-language implementation of the CORDET Framework is available from 
-* <a href="https://github.com/pnp-software/cordetfw">here</a>.
 *
 * The CORDET Framework only covers the management of generic services but does not specify any concrete services. 
 * The PUS pre-defines a number of services. 
-* The <b>PUS Extension of the CORDET Framework</a> extends the CORDET Framework to support a subset of those services. 
+* The <i>PUS Extension of the CORDET Framework</i> extends the CORDET Framework 
+* to support a subset of those services. 
+* The <i>C3 Implementation</i> is a C-language implementation of the PUS Extension 
+* of the CORDET Framework.
 *
 * <h3>Test Suite</h3>
 * The PUS Extension of the CORDET Framework is provided with a unit <i>test suite</i>.
@@ -23,22 +27,16 @@
 * <h3>State Machine and Procedure Code</h3>
 * The PUS Extension of the CORDET Framework is partly specified through state machines
 * and activity diagrams compliant with the 
-* <b><a href="https://www.pnp-software.com/fwprofile/">FW Profile</a></b>.
+* <i><a href="https://www.pnp-software.com/fwprofile/">FW Profile</a></i>.
 * The PUS Extension of the CORDET Framework uses a C-language implementation of the 
 * FW Profile to implement these state machines and procedures.
 * Its code is not covered by this web site.
 * Its doxygen documentation is available 
 * <a href="https://www.pnp-software.com/fwprofile/download.html">here</a>.
 *
-* <h3>CORDET Framework Code</h3>
-* The C-language implementation of the PUS Extension of the CORDET Framework uses the 
-* C-language implementation of the CORDET Framework. 
-* Its code is not covered by this web site.
-* Its doxygen documentation is available 
-* <a href="https://www.pnp-software.com/cordetfw/download.html">here</a>.
-*
 * <h3>CORDET Framework Editor</h3>
-* The CORDET Framework Editor is a web-based tool for modelling PUS-based applications.
+* The <a href="https://www.pnp-software.com/cordetfw">CORDET Framework Editor</a> 
+* is a web-based tool for modelling PUS-based applications.
 * It allows the services supported by a PUS application to be defined in terms of
 * their commands and reports and it allows commands and reports to be defined in
 * terms of the parameters they carry (syntactical definition) and in terms of the

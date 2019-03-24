@@ -1,5 +1,6 @@
 /**
  * @file
+ * @ingroup man_evt
  *
  * Implementation of the configuration interface for the Event Reporting Service.
  *

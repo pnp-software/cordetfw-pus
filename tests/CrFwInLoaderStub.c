@@ -19,13 +19,13 @@
 
 #include "CrFwUserConstants.h"
 
-/** Return value of function <code>CrFwInLoaderStubGetReroutingDestination</code>. */
+/** Return value of function #CrFwInLoaderStubGetReroutingDestination. */
 static CrFwDestSrc_t reroutingDest = 0;
 
 /* ---------------------------------------------------------------------------------------------*/
 /**
- * Function to set the return value of function <code>::CrFwInLoaderTestCaseGetReroutingDestination</code>.
- * @param retValue the return value of function <code>::CrFwInLoaderTestCaseGetReroutingDestination</code>.
+ * Function to set the return value of function #CrFwInLoaderStubGetReroutingDestination.
+ * @param retValue the return value of function #CrFwInLoaderStubGetReroutingDestination.
  */
 void CrFwInLoaderStubSetReroutingDest(CrFwDestSrc_t retValue) {
 	reroutingDest = retValue;

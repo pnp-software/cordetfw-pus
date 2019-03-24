@@ -4,14 +4,7 @@
  *
  * @brief User-modifiable parameters for the InRegistry component (see <code>CrFwInRegistry.h</code>).
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
- * @copyright P&P Software GmbH, 2013, All Rights Reserved
- *
- * @author Christian Reimers <christian.reimers@univie.ac.at>
- * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- *
- * last modification: 22.01.2018
  *
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
