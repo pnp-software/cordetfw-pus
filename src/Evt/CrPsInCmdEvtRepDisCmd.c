@@ -21,6 +21,7 @@
 #include "InCmd/CrFwInCmd.h"
 #include "OutFactory/CrFwOutFactory.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "CrFwRepErr.h"
 
 #include <assert.h>
 

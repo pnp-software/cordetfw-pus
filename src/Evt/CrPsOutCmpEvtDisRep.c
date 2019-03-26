@@ -24,13 +24,11 @@
 #include <assert.h>
 
 void CrPsOutCmpEvtDisRepUpdateAction(FwSmDesc_t smDesc) {
-  unsigned int evtSevLevel, evtPos;
   unsigned int nEvtEid;
   CrPsEvtId_t eid;
   size_t sizeOfEvtId, sizeOfEvtN, sizeOfHeader, sizeOfCrc;
   CrFwPckt_t res5s8Pckt;
   CrPsNEvtId_t i;
-  unsigned int nextSevLevel, nextPos;
 
   /* Compute the number of event identifiers to be stored in this report */
   sizeOfEvtId = getDpSize(DpIdlastEvtEid)/4;

@@ -25,6 +25,7 @@
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "CrFwUserConstants.h"
 #include "OutLoader/CrFwOutLoader.h"
+#include "OutCmp/CrFwOutCmp.h"
 #include "CrFwRepErr.h"
 
 

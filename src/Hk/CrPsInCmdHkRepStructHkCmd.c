@@ -19,6 +19,10 @@
 #include "DataPool/CrPsDpVer.h"
 #include "DataPool/CrPsDpHk.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "OutCmp/CrFwOutCmp.h"
+#include "OutLoader/CrFwOutLoader.h"
+#include "OutFactory/CrFwOutFactory.h"
+#include "CrFwRepErr.h"
 #include "CrPsServTypeId.h"
 
 void CrPsInCmdHkRepStructHkCmdProgressAction(FwSmDesc_t smDesc) {
