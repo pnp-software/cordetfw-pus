@@ -37,6 +37,7 @@
 #include "OutCmp/CrFwOutCmp.h"
 #include "CrFwRepInCmdOutcome.h"
 #include "InCmd/CrFwInCmd.h"
+#include "CrFwRepErr.h"
 
 /** PUS Extension function definitions */
 #include "DataPool/CrPsDp.h"
@@ -59,7 +60,7 @@ static CrPsThirteenBit_t tcPcktId;
 /** Action for node N1. */
 void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
-  FwPrDesc_t inPckt;
+  CrFwPckt_t inPckt;
 
   /* Generate error report INLOADER_INV_DEST */
   inPckt = CrPsVerConfigGetInPckt();
@@ -92,17 +93,15 @@ void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc) {
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
-void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {  FwSmDesc_t inCmd;
+void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
   CrFwDestSrc_t inPcktSrc;
   CrFwPckt_t inPckt, outPckt;
   CrPsSixteenBit_t tcPcktSeqCtrl;
-  CrFwOutcome_t failCode;
-  CrPsFailData_t failData;
   CrFwServType_t type;
   CrFwServSubType_t subType;
   CrFwDiscriminant_t disc;
   CrPsThreeBit_t tcPcktVersNmb;
-  CrPsNOfCmd_t nOfCmds;
 
   /* Configure report (1,10) */
   inPckt = CrPsVerConfigGetInPckt();
@@ -165,7 +164,7 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc) {
 
 /** Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc) {
-  FwPrDesc_t inPckt;
+  CrFwPckt_t inPckt;
 
   /* [ Packet encapsulates a report ] */
   inPckt = CrPsVerConfigGetInPckt();

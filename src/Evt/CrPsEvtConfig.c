@@ -143,7 +143,7 @@ unsigned int CrPsEvtConfigSetEidEnableStatus (CrPsEvtId_t evtId, CrFwBool_t enab
 
 /* ------------------------------------------------------------------------------------------------ */
 CrFwBool_t CrPsEvtConfigGetEidEnableStatus (CrPsEvtId_t evtId) {
-  unsigned int pos;
+  int pos;
   CrFwBool_t* isEidDisabled = NULL;
 
   pos = CrPsEvtConfigGetEidPos(evtId, 1);

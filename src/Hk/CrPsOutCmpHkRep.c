@@ -52,6 +52,7 @@ CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
 
 /* --------------------------------------------------------------------------- */
 CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
+  (void)smDesc;
   if (getDpHkSidItem(rdlPos) == 0)
     return 0;
   else
