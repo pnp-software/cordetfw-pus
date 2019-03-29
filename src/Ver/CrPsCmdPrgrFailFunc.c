@@ -81,6 +81,7 @@ void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
 void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
   CrFwDestSrc_t inPcktSrc;
   CrFwPckt_t inPckt, outPckt;
   CrPsSixteenBit_t tcPcktSeqCtrl;

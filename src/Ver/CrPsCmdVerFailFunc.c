@@ -58,6 +58,7 @@ CrFwServSubType_t repSubType;
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
 void CrPsCmdVerFailN2(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
   CrFwRepInCmdOutcome_t outcome = CrPsVerConfigGetOutcome();
 
   /* Retrieve an OutComponent of type (1,2), (1,4) or (1,8) from the OutFactory */
@@ -101,6 +102,7 @@ void CrPsCmdVerFailN3(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
 void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
   FwSmDesc_t inCmd;
   CrFwDestSrc_t inCmdSrc;
   CrFwPckt_t inPckt, outPckt;

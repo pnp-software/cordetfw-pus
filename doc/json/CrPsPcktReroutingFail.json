@@ -2,7 +2,7 @@
      "editorVersion": "5.01",
      "states": [
           {
-               "id": 448,
+               "id": 1,
                "attrs": {
                     "x": 502,
                     "y": 164,
@@ -24,9 +24,9 @@
                "selected": false
           },
           {
-               "id": 449,
+               "id": 2,
                "attrs": {
-                    "x": 288,
+                    "x": 287,
                     "y": 306,
                     "width": 154,
                     "height": 44,
@@ -34,8 +34,8 @@
                     "rx": 10,
                     "ry": 10,
                     "fill": "#fff",
-                    "stroke": "#6599FF",
-                    "stroke-width": 2,
+                    "stroke": "#666",
+                    "stroke-width": 1,
                     "fill-opacity": 100
                },
                "fwprop": {
@@ -60,10 +60,10 @@
                     "exitAp": false,
                     "embedSmId": null
                },
-               "selected": true
+               "selected": false
           },
           {
-               "id": 451,
+               "id": 6,
                "attrs": {
                     "x": 505,
                     "y": 256,
@@ -87,7 +87,7 @@
                "selected": false
           },
           {
-               "id": 452,
+               "id": 7,
                "attrs": {
                     "x": 213,
                     "y": 178,
@@ -110,9 +110,9 @@
                "selected": false
           },
           {
-               "id": 454,
+               "id": 9,
                "attrs": {
-                    "x": 581,
+                    "x": 579,
                     "y": 306,
                     "width": 184,
                     "height": 44,
@@ -149,7 +149,7 @@
                "selected": false
           },
           {
-               "id": 456,
+               "id": 11,
                "attrs": {
                     "x": 659,
                     "y": 401,
@@ -173,7 +173,7 @@
                "selected": false
           },
           {
-               "id": 457,
+               "id": 12,
                "attrs": {
                     "x": 421,
                     "y": 464,
@@ -212,7 +212,7 @@
                "selected": false
           },
           {
-               "id": 459,
+               "id": 14,
                "attrs": {
                     "x": 351,
                     "y": 472,
@@ -234,7 +234,7 @@
                "selected": false
           },
           {
-               "id": 460,
+               "id": 15,
                "attrs": {
                     "x": 594,
                     "y": 464,
@@ -273,9 +273,9 @@
                "selected": false
           },
           {
-               "id": 462,
+               "id": 17,
                "attrs": {
-                    "x": 599,
+                    "x": 596,
                     "y": 546,
                     "width": 160,
                     "height": 44,
@@ -312,7 +312,7 @@
                "selected": false
           },
           {
-               "id": 464,
+               "id": 19,
                "attrs": {
                     "x": 269,
                     "y": 526,
@@ -335,7 +335,7 @@
                "selected": false
           },
           {
-               "id": 466,
+               "id": 21,
                "attrs": {
                     "x": 584,
                     "y": 634,
@@ -374,7 +374,7 @@
                "selected": false
           },
           {
-               "id": 468,
+               "id": 23,
                "attrs": {
                     "x": 612,
                     "y": 178,
@@ -397,7 +397,7 @@
                "selected": false
           },
           {
-               "id": 470,
+               "id": 25,
                "attrs": {
                     "x": 721,
                     "y": 301,
@@ -458,8 +458,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 448,
-               "stateToID": 451,
+               "stateFromID": 1,
+               "stateToID": 6,
                "selected": false
           },
           {
@@ -474,12 +474,12 @@
                          ],
                          [
                               "L",
-                              363,
+                              365,
                               268
                          ],
                          [
                               "L",
-                              364,
+                              364.50000000000006,
                               298
                          ]
                     ],
@@ -507,7 +507,7 @@
                "shifty": -2,
                "vertexes": [
                     {
-                         "x": 363,
+                         "x": 365,
                          "y": 268,
                          "hasMoved": true
                     }
@@ -516,14 +516,14 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 451,
-               "stateToID": 449,
+               "stateFromID": 6,
+               "stateToID": 2,
                "selected": false
           },
           {
                "attrs": {
                     "fill": "none",
-                    "stroke": "#000",
+                    "stroke": "red",
                     "path": [
                          [
                               "M",
@@ -542,7 +542,7 @@
                          ],
                          [
                               "L",
-                              671.5,
+                              670.5,
                               298
                          ]
                     ],
@@ -556,11 +556,11 @@
                     "identifier": "",
                     "guardFunc": "CrPsPcktReroutingFailG1E",
                     "actionFunc": "",
-                    "guardType": "define function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
-                    "guardDesc": "Packet encapsulates a command ",
+                    "guardDesc": "Else",
                     "guardAp": false,
                     "actionDesc": "",
                     "actionAp": false,
@@ -584,9 +584,9 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 451,
-               "stateToID": 454,
-               "selected": false
+               "stateFromID": 6,
+               "stateToID": 9,
+               "selected": true
           },
           {
                "attrs": {
@@ -595,13 +595,13 @@
                     "path": [
                          [
                               "M",
-                              672.364705882353,
+                              671,
                               355
                          ],
                          [
                               "L",
-                              671.7024882336182,
-                              383.1442500712282
+                              671,
+                              383
                          ]
                     ],
                     "stroke-width": 2,
@@ -626,8 +626,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 454,
-               "stateToID": 456,
+               "stateFromID": 9,
+               "stateToID": 11,
                "selected": false
           },
           {
@@ -642,12 +642,12 @@
                          ],
                          [
                               "L",
-                              495,
+                              497,
                               413
                          ],
                          [
                               "L",
-                              496.17808219178085,
+                              497,
                               456
                          ]
                     ],
@@ -675,7 +675,7 @@
                "shifty": -8,
                "vertexes": [
                     {
-                         "x": 495,
+                         "x": 497,
                          "y": 413,
                          "hasMoved": true
                     }
@@ -684,8 +684,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 456,
-               "stateToID": 457,
+               "stateFromID": 11,
+               "stateToID": 12,
                "selected": false
           },
           {
@@ -695,12 +695,12 @@
                     "path": [
                          [
                               "M",
-                              364.828025477707,
+                              364,
                               355
                          ],
                          [
                               "L",
-                              364.13375796178343,
+                              364,
                               464
                          ]
                     ],
@@ -726,8 +726,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 449,
-               "stateToID": 459,
+               "stateFromID": 2,
+               "stateToID": 14,
                "selected": false
           },
           {
@@ -768,8 +768,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 457,
-               "stateToID": 459,
+               "stateFromID": 12,
+               "stateToID": 14,
                "selected": false
           },
           {
@@ -815,8 +815,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 456,
-               "stateToID": 460,
+               "stateFromID": 11,
+               "stateToID": 15,
                "selected": false
           },
           {
@@ -826,12 +826,12 @@
                     "path": [
                          [
                               "M",
-                              675.6463414634146,
+                              674.6585365853658,
                               513
                          ],
                          [
                               "L",
-                              677.1707317073171,
+                              675.2682926829268,
                               538
                          ]
                     ],
@@ -857,8 +857,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 460,
-               "stateToID": 462,
+               "stateFromID": 15,
+               "stateToID": 17,
                "selected": false
           },
           {
@@ -920,8 +920,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 466,
-               "stateToID": 459,
+               "stateFromID": 21,
+               "stateToID": 14,
                "selected": false
           },
           {
@@ -931,12 +931,12 @@
                     "path": [
                          [
                               "M",
-                              678.0795454545455,
+                              676,
                               595
                          ],
                          [
                               "L",
-                              677.0227272727273,
+                              676,
                               626
                          ]
                     ],
@@ -962,8 +962,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 462,
-               "stateToID": 466,
+               "stateFromID": 17,
+               "stateToID": 21,
                "selected": false
           },
           {
@@ -1004,8 +1004,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 468,
-               "stateToID": 470,
+               "stateFromID": 23,
+               "stateToID": 25,
                "selected": false
           }
      ],
@@ -1015,8 +1015,8 @@
           "attrs": {
                "x": 0,
                "y": 120,
-               "width": 1514,
-               "height": 845,
+               "width": 1517,
+               "height": 795,
                "r": 0,
                "rx": 0,
                "ry": 0,

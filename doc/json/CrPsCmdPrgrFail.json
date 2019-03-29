@@ -57,8 +57,8 @@
                     "rx": 10,
                     "ry": 10,
                     "fill": "#fff",
-                    "stroke": "#6599FF",
-                    "stroke-width": 2,
+                    "stroke": "#666",
+                    "stroke-width": 1,
                     "fill-opacity": 100
                },
                "fwprop": {
@@ -84,10 +84,10 @@
                     "embedSmId": null,
                     "derived": []
                },
-               "selected": true
+               "selected": false
           },
           {
-               "id": 6,
+               "id": 8,
                "attrs": {
                     "x": 659,
                     "y": 401,
@@ -111,7 +111,7 @@
                "selected": false
           },
           {
-               "id": 7,
+               "id": 9,
                "attrs": {
                     "x": 421,
                     "y": 464,
@@ -151,7 +151,7 @@
                "selected": false
           },
           {
-               "id": 9,
+               "id": 11,
                "attrs": {
                     "x": 329,
                     "y": 472,
@@ -173,12 +173,12 @@
                "selected": false
           },
           {
-               "id": 10,
+               "id": 12,
                "attrs": {
-                    "x": 594,
-                    "y": 464,
-                    "width": 154,
-                    "height": 44,
+                    "x": 579,
+                    "y": 532,
+                    "width": 184,
+                    "height": 90,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -201,7 +201,7 @@
                     "entryCode": "",
                     "doCode": "",
                     "exitCode": "",
-                    "entryDesc": "Configure report and\nload it in the OutLoader",
+                    "entryDesc": "Configure report and\nload it in the OutLoader;\nincrement data pool variable\nnOfPrgrFailed; and update\ndata pool variable pcktIdPrgrFailed, \nand prgrStepFailed",
                     "doDesc": "",
                     "exitDesc": "",
                     "entryAp": false,
@@ -209,116 +209,14 @@
                     "exitAp": false,
                     "embedSmId": null,
                     "derived": []
-               },
-               "selected": false
-          },
-          {
-               "id": 12,
-               "attrs": {
-                    "x": 595,
-                    "y": 551,
-                    "width": 152,
-                    "height": 44,
-                    "r": 10,
-                    "rx": 10,
-                    "ry": 10,
-                    "fill": "#fff",
-                    "stroke": "#666",
-                    "stroke-width": 1,
-                    "fill-opacity": 100
-               },
-               "fwprop": {
-                    "autoid": 5,
-                    "type": "state",
-                    "note": "",
-                    "identifier": "N5",
-                    "entryFunc": "CrPsCmdPrgrFailN5",
-                    "doFunc": "",
-                    "exitFunc": "",
-                    "entryType": "define function",
-                    "doType": "call function",
-                    "exitType": "call function",
-                    "entryCode": "",
-                    "doCode": "",
-                    "exitCode": "",
-                    "entryDesc": "Increment data pool\nvariable nOfPrgrFailed",
-                    "doDesc": "",
-                    "exitDesc": "",
-                    "entryAp": false,
-                    "doAp": false,
-                    "exitAp": false,
-                    "embedSmId": null,
-                    "derived": []
-               },
-               "selected": false
-          },
-          {
-               "id": 14,
-               "attrs": {
-                    "x": 574,
-                    "y": 626,
-                    "width": 200,
-                    "height": 56,
-                    "r": 10,
-                    "rx": 10,
-                    "ry": 10,
-                    "fill": "#fff",
-                    "stroke": "#666",
-                    "stroke-width": 1,
-                    "fill-opacity": 100
-               },
-               "fwprop": {
-                    "autoid": 6,
-                    "type": "state",
-                    "note": "",
-                    "identifier": "N6",
-                    "entryFunc": "CrPsCmdPrgrFailN6",
-                    "doFunc": "",
-                    "exitFunc": "",
-                    "entryType": "define function",
-                    "doType": "call function",
-                    "exitType": "call function",
-                    "entryCode": "",
-                    "doCode": "",
-                    "exitCode": "",
-                    "entryDesc": "Update data pool variable\npcktIdPrgrFailed, failCodePrgrFailed,\nand prgrStepFailed",
-                    "doDesc": "",
-                    "exitDesc": "",
-                    "entryAp": false,
-                    "doAp": false,
-                    "exitAp": false,
-                    "embedSmId": null,
-                    "derived": []
-               },
-               "selected": false
-          },
-          {
-               "id": 18,
-               "attrs": {
-                    "x": 842,
-                    "y": 640,
-                    "width": 26,
-                    "height": 26,
-                    "r": 13,
-                    "rx": 13,
-                    "ry": 13,
-                    "fill": "#000",
-                    "stroke": "#666",
-                    "stroke-width": 1,
-                    "fill-opacity": 100
-               },
-               "fwprop": {
-                    "autoid": 2,
-                    "type": "final",
-                    "note": ""
                },
                "selected": false
           },
           {
                "id": 19,
                "attrs": {
-                    "x": 788,
-                    "y": 336,
+                    "x": 726,
+                    "y": 390,
                     "width": 250,
                     "height": 116,
                     "r": 0,
@@ -385,8 +283,8 @@
           {
                "id": 24,
                "attrs": {
-                    "x": 746,
-                    "y": 482,
+                    "x": 759,
+                    "y": 574,
                     "width": 6,
                     "height": 6,
                     "r": 6,
@@ -446,7 +344,7 @@
                     "y": 0
                },
                "stateFromID": 4,
-               "stateToID": 6,
+               "stateToID": 8,
                "selected": false
           },
           {
@@ -461,12 +359,12 @@
                          ],
                          [
                               "L",
-                              495,
+                              497,
                               413
                          ],
                          [
                               "L",
-                              496.17808219178085,
+                              497,
                               456
                          ]
                     ],
@@ -495,7 +393,7 @@
                "shifty": -8,
                "vertexes": [
                     {
-                         "x": 495,
+                         "x": 497,
                          "y": 413,
                          "hasMoved": true
                     }
@@ -504,8 +402,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 6,
-               "stateToID": 7,
+               "stateFromID": 8,
+               "stateToID": 9,
                "selected": false
           },
           {
@@ -547,8 +445,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 7,
-               "stateToID": 9,
+               "stateFromID": 9,
+               "stateToID": 11,
                "selected": false
           },
           {
@@ -564,7 +462,7 @@
                          [
                               "L",
                               671,
-                              456
+                              524
                          ]
                     ],
                     "stroke-width": 2,
@@ -588,101 +486,15 @@
                     "note": "",
                     "derived": []
                },
-               "shiftx": -27,
-               "shifty": 4,
+               "shiftx": -34,
+               "shifty": -23,
                "vertexes": [],
                "shiftxy": {
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 6,
-               "stateToID": 10,
-               "selected": false
-          },
-          {
-               "attrs": {
-                    "fill": "none",
-                    "stroke": "#000",
-                    "path": [
-                         [
-                              "M",
-                              671,
-                              513
-                         ],
-                         [
-                              "L",
-                              671,
-                              543
-                         ]
-                    ],
-                    "stroke-width": 2,
-                    "stroke-linecap": "round",
-                    "stroke-linejoin": "round",
-                    "stroke-dasharray": ""
-               },
-               "fwprop": {
-                    "order": 1,
-                    "identifier": "",
-                    "guardFunc": "",
-                    "actionFunc": "",
-                    "guardType": "call function",
-                    "actionType": "call function",
-                    "guardCode": "",
-                    "actionCode": "",
-                    "derived": []
-               },
-               "shiftx": 0,
-               "shifty": 0,
-               "vertexes": [],
-               "shiftxy": {
-                    "x": 0,
-                    "y": 0
-               },
-               "stateFromID": 10,
+               "stateFromID": 8,
                "stateToID": 12,
-               "selected": false
-          },
-          {
-               "attrs": {
-                    "fill": "none",
-                    "stroke": "#000",
-                    "path": [
-                         [
-                              "M",
-                              672,
-                              600
-                         ],
-                         [
-                              "L",
-                              672.6666666666667,
-                              618
-                         ]
-                    ],
-                    "stroke-width": 2,
-                    "stroke-linecap": "round",
-                    "stroke-linejoin": "round",
-                    "stroke-dasharray": ""
-               },
-               "fwprop": {
-                    "order": 1,
-                    "identifier": "",
-                    "guardFunc": "",
-                    "actionFunc": "",
-                    "guardType": "call function",
-                    "actionType": "call function",
-                    "guardCode": "",
-                    "actionCode": "",
-                    "derived": []
-               },
-               "shiftx": 0,
-               "shifty": 0,
-               "vertexes": [],
-               "shiftxy": {
-                    "x": 0,
-                    "y": 0
-               },
-               "stateFromID": 12,
-               "stateToID": 14,
                "selected": false
           },
           {
@@ -735,12 +547,12 @@
                     "path": [
                          [
                               "M",
-                              832.1868131868131,
+                              834,
                               256
                          ],
                          [
                               "L",
-                              829,
+                              834,
                               314
                          ],
                          [
@@ -768,7 +580,7 @@
                "shifty": 0,
                "vertexes": [
                     {
-                         "x": 829,
+                         "x": 834,
                          "y": 314,
                          "hasMoved": true
                     }
@@ -788,61 +600,18 @@
                     "path": [
                          [
                               "M",
-                              779,
-                              653.4198895027623
+                              851,
+                              511
                          ],
                          [
                               "L",
-                              834,
-                              653.1160220994475
-                         ]
-                    ],
-                    "stroke-width": 2,
-                    "stroke-linecap": "round",
-                    "stroke-linejoin": "round",
-                    "stroke-dasharray": ""
-               },
-               "fwprop": {
-                    "order": 1,
-                    "identifier": "",
-                    "guardFunc": "",
-                    "actionFunc": "",
-                    "guardType": "call function",
-                    "actionType": "call function",
-                    "guardCode": "",
-                    "actionCode": "",
-                    "derived": []
-               },
-               "shiftx": 0,
-               "shifty": 0,
-               "vertexes": [],
-               "shiftxy": {
-                    "x": 0,
-                    "y": 0
-               },
-               "stateFromID": 14,
-               "stateToID": 18,
-               "selected": false
-          },
-          {
-               "attrs": {
-                    "fill": "none",
-                    "stroke": "#000",
-                    "path": [
-                         [
-                              "M",
-                              912.3076923076923,
-                              457
+                              851,
+                              577
                          ],
                          [
                               "L",
-                              912,
-                              485
-                         ],
-                         [
-                              "L",
-                              760,
-                              485
+                              773,
+                              577
                          ]
                     ],
                     "stroke-width": 2,
@@ -864,8 +633,8 @@
                "shifty": 0,
                "vertexes": [
                     {
-                         "x": 912,
-                         "y": 485,
+                         "x": 851,
+                         "y": 577,
                          "hasMoved": true
                     }
                ],
@@ -876,6 +645,59 @@
                "stateFromID": 19,
                "stateToID": 24,
                "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              574,
+                              577
+                         ],
+                         [
+                              "L",
+                              342,
+                              577
+                         ],
+                         [
+                              "L",
+                              342,
+                              506
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "function",
+                    "actionType": "function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 342,
+                         "y": 577,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 12,
+               "stateToID": 11,
+               "selected": false
           }
      ],
      "globals": {
@@ -884,8 +706,8 @@
           "attrs": {
                "x": 0,
                "y": 120,
-               "width": 1514,
-               "height": 845,
+               "width": 1517,
+               "height": 795,
                "r": 0,
                "rx": 0,
                "ry": 0,

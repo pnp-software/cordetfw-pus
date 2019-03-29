@@ -464,7 +464,7 @@
                     "guardCode": "return 1;",
                     "actionCode": "",
                     "derived": [],
-                    "guardDesc": "time elapsed since command execution\nstarted equal or greater than areYouAliveTimeOut ",
+                    "guardDesc": "time elapsed since command execution\nstarted equal to or greater than areYouAliveTimeOut ",
                     "guardAp": false,
                     "actionDesc": "",
                     "actionAp": false,

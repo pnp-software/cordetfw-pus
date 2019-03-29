@@ -164,6 +164,7 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc) {
 
 /** Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
   CrFwPckt_t inPckt;
 
   /* [ Packet encapsulates a report ] */

@@ -11,8 +11,8 @@
  * The procedure created by this file is shown in the figure below.
  * @image html CrPsCmd17s3Prgr.png
  *
- * @author FW Profile code generator version 5.01
- * @date Created on: Oct 7 2018 19:16:3
+ * @author FW Profile code generator version 5.23
+ * @date Created on: Mar 29 2019 23:3:34
  */
 
 /** Make sure to include this header file only once */
@@ -100,7 +100,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc);
  * Guard on the Control Flow from DECISION1 to N3.
  * <pre>
  * time elapsed since command execution
- * started equal or greater than areYouAliveTimeOut 
+ * started equal to or greater than areYouAliveTimeOut 
  * </pre>
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.

@@ -58,6 +58,7 @@ void CrPsInCmdTstConnectCmdStartAction(FwSmDesc_t smDesc) {
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsInCmdTstConnectCmdProgressAction(FwSmDesc_t smDesc) {
+  (void)smDesc;
   FwPrDesc_t prgrPr;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command */

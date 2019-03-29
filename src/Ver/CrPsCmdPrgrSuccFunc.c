@@ -79,6 +79,7 @@ void CrPsCmdPrgrSuccN3(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
 void CrPsCmdPrgrSuccN4(FwPrDesc_t prDesc) {
+    CRFW_UNUSED(prDesc);
     FwSmDesc_t inCmd;
     CrFwDestSrc_t inCmdSrc;
     CrFwPckt_t inPckt, outPckt;

@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * This header file declares the function to create one instance of the CrPsCmdPrgrFail procedure.
  * The procedure is configured with a set of function pointers representing the non-default
  * actions and guards of the procedure. Some of these functions may also be declared in
@@ -12,8 +11,8 @@
  * The procedure created by this file is shown in the figure below.
  * @image html CrPsCmdPrgrFail.png
  *
- * @author FW Profile code generator version 5.01
- * @date Created on: Sep 22 2018 13:58:26
+ * @author FW Profile code generator version 5.23
+ * @date Created on: Mar 29 2019 23:3:34
  */
 
 /** Make sure to include this header file only once */

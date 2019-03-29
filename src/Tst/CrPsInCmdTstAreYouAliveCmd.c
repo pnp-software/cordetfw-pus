@@ -23,6 +23,7 @@
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutCmp/CrFwOutCmp.h"
 #include "OutLoader/CrFwOutLoader.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "CrFwCmpData.h"
 #include "CrFwRepErr.h"
 

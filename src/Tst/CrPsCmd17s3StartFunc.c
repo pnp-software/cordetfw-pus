@@ -151,7 +151,6 @@ void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc) {
 /* Action for node N8. */
 void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc) {
   CrPsTstData_t* prTstData;
-  CrFwCmpData_t* cmpData;
   FwSmDesc_t cmd17s3;
 
   /* Set outcome of Start Action to 'failure' with failure code VER_REP_CR_FD */

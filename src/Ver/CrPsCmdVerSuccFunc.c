@@ -38,6 +38,7 @@
 #include "OutCmp/CrFwOutCmp.h"
 #include "CrFwRepInCmdOutcome.h"
 #include "InCmd/CrFwInCmd.h"
+#include "CrFwRepErr.h"
 
 /** PUS Extension function definitions */
 #include "DataPool/CrPsDp.h"
@@ -58,6 +59,7 @@ static CrFwServSubType_t repSubType;
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
 void CrPsCmdVerSuccN2(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
   CrFwRepInCmdOutcome_t outcome = CrPsVerConfigGetOutcome();
 
   /* Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory */
@@ -93,6 +95,7 @@ void CrPsCmdVerSuccN3(FwPrDesc_t prDesc) {
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
 void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
+  CRFW_UNUSED(prDesc);
   FwSmDesc_t inCmd;
   CrFwDestSrc_t inCmdSrc;
   CrFwPckt_t inPckt, outPckt;

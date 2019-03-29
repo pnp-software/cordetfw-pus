@@ -1,8 +1,8 @@
 /**
  * @file CrPsCmd17s3Prgr.c
  *
- * @author FW Profile code generator version 5.01
- * @date Created on: Oct 7 2018 19:16:3
+ * @author FW Profile code generator version 5.23
+ * @date Created on: Mar 29 2019 23:3:34
  */
 
 #include "CrPsCmd17s3Prgr.h"
@@ -10,13 +10,14 @@
 /** FW Profile function definitions */
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
+#include "FwPrCore.h"
 
 /** CrPsCmd17s3Prgr function definitions */
 #include <stdlib.h>
 
 /** Guard on the Control Flow from DECISION1 to N3. */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
-{
+{	(void)prDesc;
 	return 1;
 }
 
