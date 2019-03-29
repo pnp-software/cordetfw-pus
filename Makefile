@@ -44,7 +44,7 @@ OBJS_TSC = $(patsubst %,$(ODIR)/%,$(SRCS_TSC:.c=.o))
 OBJS_DIR = $(dir $(OBJS_FW) $(OBJS_CR) $(OBJS_TE) $(OBJS_TSC))
 
 # Executables
-MAIN = $(ODIR)/CrFwTestSuite
+MAIN = $(ODIR)/CrPsTestSuite
 
 .PHONY: clean test create_dir coverage run-test coverage-info coverage-cp info
 
