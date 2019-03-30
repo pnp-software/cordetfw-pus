@@ -3,45 +3,45 @@ DP|1|New AP|Data Pool Load Procedure|Procedure does nothing and terminates when 
 DP|7|New AP|Definition of Data Items in the Data Pool Component|The default data pool implements the observables and the parameters for the services supported by the PUS Extension|For each service \texttt{srv}, the associated observables and parameters are implemented in module \texttt{DataPool/CrPsDpSrv} together with the setter and getter functions to access their value
 DP|8|New AP|Operation to access the Current Value of a Data Item|Getter and setter methods are provided for all observables and the parameters for the services supported by the PUS Extension|See previous adaptation point
 DP|9|New AP|Data Pool Refresh Operation|Operation does nothing|Module \texttt{CrPsDataPoolFunc}
-OCM|1|Closes OCM-1|Initialization Check in Initialization Procedure of OutComponent|Always returns 'check successful'|
-OCM|2|Closes OCM-2|Initialization Action in Initialization Procedure of OutComponent|Do nothing and return 'action successful'|
-OCM|3|Closes OCM-3|Configuration Check in Reset Procedure of OutComponent|Always returns 'check successful'|
-OCM|4|Closes OCM-4|Configuration Action in Reset Procedure of OutComponent|Do nothing and return 'action successful'|
-OCM|5|Closes OCM-5|Shutdown Action in Base Component of OutComponent|Do nothing|
-OCM|6|Closes OCM-6|Execution Procedure of OutComponent|Do nothing|
-OCM|7|Closes OCM-7|Service Type Attribute of OutComponent|Set equal to PUS service type|
-OCM|8|Closes OCM-8|Command/Report Sub-Type Attribute of OutComponent|Set equal to PUS service sub-type|
-OCM|9|Closes OCM-9|Destination Attribute of OutComponent|See definition of individual reports|
-OCM|10|Closes OCM-10|Acknowledge Level Attribute of OutComponent|Not relevant to out-going report|
-OCM|11|Closes OCM-11|Discriminant Attribute of OutComponent|See definition of individual reports|
-OCM|12|Closes OCM-12|Parameter Attribute of OutComponent|See definition of individual reports|
-OCM|13|Closes OCM-13|Enable Check Operation of OutComponent|See definition of individual reports|
-OCM|14|Closes OCM-14|Ready Check Operation of OutComponent|See definition of individual reports|
-OCM|15|Closes OCM-15|Repeat Check Operation of OutComponent|See definition of individual reports|
-OCM|16|Closes OCM-16|Update Action of OutComponent|See definition of individual reports|
-OCM|17|Closes OCM-17|Serialize Operation of OutComponent|Build a packet with the layout specified by the PUS|
-OCM|18|Closes OCM-18|Operation to Report Invalid Destination of an OutComponent|Generate SNDPCKT\_INV\_DEST Error Report |
-ICM|1|Closes ICM-1|Initialization Check in Initialization Procedure of InCommand|Returns 'check successful' if information for initializing InCommand using data in incoming packet is valid|
-ICM|2|Closes ICM-2|Initialization Action in Initialization Procedure of InCommand|Use information in incoming packet to initialize InCommand and return “action successful' |
-ICM|3|Closes ICM-3|Configuration Check in Reset Procedure of InCommand|Returns 'check successful' if packet length and checksum are correct|
-ICM|4|Closes ICM-4|Configuration Action in Reset Procedure of InCommand|Use information in incoming packet to configure InCommand and return “action successful' |
-ICM|5|Closes ICM-5|Shutdown Action of InCommand|Release all resources allocated to the InCommand|
-ICM|6|Closes ICM-6|Execution Procedure of InCommand|Do nothing|
-ICM|7|Closes ICM-7|Ready Check of InCommand|See definition of individual commands|
-ICM|8|Closes ICM-8|Start Action of InCommand|See definition of individual commands|
-ICM|9|Closes ICM-9|Progress Action of InCommand|See definition of individual commands|
-ICM|10|Closes ICM-10|Termination Action of InCommand|See definition of individual commands|
-ICM|11|Closes ICM-11|Abort Action of InCommand|See definition of individual commands|
-ICM|12|Closes ICM-12|Operation to Report Start Failed for InCommand |See definition of service 1|
-ICM|13|Closes ICM-13|Operation to Report Start Successful for InCommand |See definition of service 1|
-ICM|14|Closes ICM-14|Operation to Report Progress Failed for InCommand|See definition of service 1|
-ICM|15|Closes ICM-15|Operation to Report Progress Successful for InCommand |See definition of service 1|
-ICM|16|Closes ICM-16|Operation to Report Termination Failed for InCommand |See definition of service 1|
-ICM|17|Closes ICM-17|Operation to Report Report Termination Successful for InCommand |See definition of service 1|
-ICM|18|Closes ICM-18|Service Type Attribute of InCommand|Set equal to PUS service type|
-ICM|19|Closes ICM-19|Command Sub-Type Attribute of InCommand|Set equal to PUS service sub-type|
-ICM|20|Closes ICM-20|Discriminant Attribute of InCommand|See definition of individual commands|
-ICM|21|Closes ICM-21|Parameter Attributes of InCommand|See definition of individual commands|
+OCM|1|Closes OCM-1|Initialization Check in Initialization Procedure of OutComponent|Always returns 'check successful'|OutComponents are provided by the OutFactory in the CONFIGURED state and their initialization, configuration, and execution actions and checks are set by OutFactory. This AP is therefore closed in the implementation of  \texttt{CrFwOutFactory.c}
+OCM|2|Closes OCM-2|Initialization Action in Initialization Procedure of OutComponent|Do nothing and return 'action successful'|See close-out of OCM-1
+OCM|3|Closes OCM-3|Configuration Check in Reset Procedure of OutComponent|Always returns 'check successful'|See close-out of OCM-1
+OCM|4|Closes OCM-4|Configuration Action in Reset Procedure of OutComponent|Do nothing and return 'action successful'|See close-out of OCM-1
+OCM|5|Closes OCM-5|Shutdown Action in Base Component of OutComponent|Do nothing|See close-out of OCM-1
+OCM|6|Closes OCM-6|Execution Procedure of OutComponent|Do nothing|See close-out of OCM-1
+OCM|7|Closes OCM-7|Service Type Attribute of OutComponent|Set equal to PUS service type|Service identifiers for supported services are defined in \texttt{CrPsServTypesId.h}
+OCM|8|Closes OCM-8|Command/Report Sub-Type Attribute of OutComponent|Set equal to PUS service sub-type|Sub-service identifiers for supported services are defined in \texttt{CrPsServTypesId.h}
+OCM|9|Closes OCM-9|Destination Attribute of OutComponent|See definition of individual reports|Destination is set at the point of instantiation of a report according to the rules defined in the report definition tables
+OCM|10|Closes OCM-10|Acknowledge Level Attribute of OutComponent|Not relevant to out-going report|n.a.
+OCM|11|Closes OCM-11|Discriminant Attribute of OutComponent|See definition of individual reports|Destination is set at the point of instantiation of a report according to the rules defined in the report definition tables
+OCM|12|Closes OCM-12|Parameter Attribute of OutComponent|See definition of individual reports|Parameters for reports in service Xyz are set using the setter functions generated by the CORDET Editor in  \textt{CrPsPcktXyz.h}
+OCM|13|Closes OCM-13|Enable Check Operation of OutComponent|See definition of individual reports|The report-specific checks and actions are defined through CR\_FW\_OUTCMP\_INIT\_KIND\_DESC in \texttt{CrFwOutFactoryUserPar.h}. This header file is generated by the CORDET Framework to match the definition of the behaviour of each type of report.
+OCM|14|Closes OCM-14|Ready Check Operation of OutComponent|See definition of individual reports|See close-out of OCM-13
+OCM|15|Closes OCM-15|Repeat Check Operation of OutComponent|See definition of individual reports|See close-out of OCM-13
+OCM|16|Closes OCM-16|Update Action of OutComponent|See definition of individual reports|See close-out of OCM-13
+OCM|17|Closes OCM-17|Serialize Operation of OutComponent|Build a packet with the layout specified by the PUS|See close-out of OCM-13
+OCM|18|Closes OCM-18|Operation to Report Invalid Destination of an OutComponent|Generate SNDPCKT\_INV\_DEST Error Report |Error reports are generated throug calls to functions defined by interface \texttt{CrFwRepErr.h}. The error codes are defined by enumerated type \texttt{CrFwRepErrCode_t}. The interface must be implemented by applications and the enumerated type may be extended by applications.
+ICM|1|Closes ICM-1|Initialization Check in Initialization Procedure of InCommand|Always returns 'check successful'|Incoming commands are provided by the \texttt{CrFwInfactory} in the CONFIGURED state which configures them to have an initilization check which is always successful.
+ICM|2|Closes ICM-2|Initialization Action in Initialization Procedure of InCommand|Do nothing|Incoming commands are provided by the \texttt{CrFwInfactory} in the CONFIGURED state which configures them to have an initialization action which does nothing
+ICM|3|Closes ICM-3|Configuration Check in Reset Procedure of InCommand|Returns 'check successful' if packet length and checksum are correct|Incoming commands are provided by the \texttt{CrFwInfactory} in the CONFIGURED state which configures them to have a configuration check which calls function TBD which verifies TBD
+ICM|4|Closes ICM-4|Configuration Action in Reset Procedure of InCommand|Use information in incoming packet to configure InCommand and return “action successful' |Incoming commands are provided by the \texttt{CrFwInfactory} in the CONFIGURED state which configures them to have a configuration action which does nothing.
+ICM|5|Closes ICM-5|Shutdown Action of InCommand|Release all resources allocated to the InCommand|Incoming commands are provided by the \texttt{CrFwInfactory} in the CONFIGURED state which configures them to have a shutdown action which does nothing
+ICM|6|Closes ICM-6|Execution Procedure of InCommand|Do nothing|Incoming commands are provided by the \texttt{CrFwInfactory} in the CONFIGURED state which configures them to have an execution action which does nothing
+ICM|7|Closes ICM-7|Ready Check of InCommand|See definition of individual commands|The command-specific checks and actions are defined through CR\_FW\_INCMD\_INIT\_KIND\_DESC in \texttt{CrFwInFactoryUserPar.h}. This header file is generated by the CORDET Framework to match the definition of the behaviour of each type of command.
+ICM|8|Closes ICM-8|Start Action of InCommand|See definition of individual commands|See close-out of ICM-7
+ICM|9|Closes ICM-9|Progress Action of InCommand|See definition of individual commands|See close-out of ICM-7
+ICM|10|Closes ICM-10|Termination Action of InCommand|See definition of individual commands|See close-out of ICM-7
+ICM|11|Closes ICM-11|Abort Action of InCommand|See definition of individual commands|See close-out of ICM-7
+ICM|12|Closes ICM-12|Operation to Report Start Failed for InCommand |See definition of service 1|Operation to report outcome of acceptance, start, execution and termination checks are implemented by function \texttt{CrFwRepInCmdOutcome} which generates service 1 reports
+ICM|13|Closes ICM-13|Operation to Report Start Successful for InCommand |See definition of service 1|See close-out of ICM-12
+ICM|14|Closes ICM-14|Operation to Report Progress Failed for InCommand|See definition of service 1|See close-out of ICM-12
+ICM|15|Closes ICM-15|Operation to Report Progress Successful for InCommand |See definition of service 1|See close-out of ICM-12
+ICM|16|Closes ICM-16|Operation to Report Termination Failed for InCommand |See definition of service 1|See close-out of ICM-12
+ICM|17|Closes ICM-17|Operation to Report Report Termination Successful for InCommand |See definition of service 1|See close-out of ICM-12
+ICM|18|Closes ICM-18|Service Type Attribute of InCommand|Set equal to PUS service type|Service identifiers for supported services are defined in \texttt{CrPsServTypesId.h}
+ICM|19|Closes ICM-19|Command Sub-Type Attribute of InCommand|Set equal to PUS service sub-type|Sub-service identifiers for supported services are defined in \texttt{CrPsServTypesId.h}
+ICM|20|Closes ICM-20|Discriminant Attribute of InCommand|See definition of individual commands|Discriminants are set at the point of instantiation of a command
+ICM|21|Closes ICM-21|Parameter Attributes of InCommand|See definition of individual commands|Parameters for commands in service Xyz are read using the getter functions generated by the CORDET Editor in  \textt{CrPsPcktXyz.h}
 S1|1|Closes ILD-12|Operation to Report Packet Destination Invalid by InLoader|Run the Packet Re-Routing Failure Procedure of figure \ref{fig:PcktReroutingFail}|
 S1|2|Closes ILD-14|Operation to Report Acceptance Failure by InLoader|Run the Packet Acceptance Failure Procedure of figure \ref{fig:PcktAccFail}|
 S1|3|Closes ILD-13|Operation to Report Acceptance Success by InLoader|Run the Command Verification Success Procedure of figure \ref{fig:CmdVerSucc}|
