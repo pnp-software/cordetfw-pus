@@ -476,21 +476,19 @@ The table in this section lists the requirements for the Data Pool Component.
 \section{Report and Command Factories}\label{sec:repCmdFactories}
 Command and report components must be instantiated dynamically as the need arises to generate or process them. For this purpose, the CORDET Framework defines the OutFactory and InFactory components to encapsulate the instantiation process of, respectively, OutComponents and InCommands/InReports. Both kinds of components provide two operations: \texttt{Make} to create an instance of a command or report of a given kind (as given by the triplet [type, sub-type, discriminant]) and \texttt{Release} to release command or report instance.
 
-The CORDET Framework specifies the interface of the factory components but does not actually provide them because it does not provide any concrete command or report components. The framework extension provides concrete commands and reports and is therefore required to also provide implementations of the two factory components.
-
-The process through which the command and report components are created by the factories is not specified. In particular, the allocation policy for the memory for the instantiated components is left open for the implementation to decide.
+The CORDET Framework specifies the interface of the factory components but does not provide an implementation for them because it does not provide any concrete command or report components. The PUS Extension provides concrete commands and reports and it therefore must provide an implementations of the two factory components capable of instantiating these command and report components. The allocation policy for the packets which carry them is, however, not specified by the PUS Extension and is left open for the implementation to decide.
 
 %---------------------------------------------------------------------------------
 \subsection{Observables}
 The table in this section lists the variables which are maintained and made accessible through the data pool by the two factory components.
 
-\pnpcsvtable[filter equal={\Domain}{Fct}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:FAC}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Fct}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:Obs-FAC}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
 
 %---------------------------------------------------------------------------------
 \subsection{Adaptation Points}
 The \texttt{Make} and \texttt{Release} operations for the two factory components are adaptation points because the command and report instantiation policies are not defined at framework extension level. These two adaptation points are, however, already defined at CORDET Framework level (see adaptation points FAC-1 and FAC-2 in [CR-SP]) and do not therefore need to be defined again here.
 
-Similarly, the factory components are defined in [CR-SP] as extension of the Base Component and they therefore inherit all the adaptation points of the Base Components but no further specialization of these adaptation points in done in the PUS Extension of the CORDET Framework.
+Similarly, the factory components are defined in [CR-SP] as extensions of the Base Component and they therefore inherit all the adaptation points of the Base Components but no further specialization of these adaptation points in done in the PUS Extension of the CORDET Framework.
 
 %---------------------------------------------------------------------------------
 \subsection{Requirements}
@@ -519,7 +517,7 @@ The components of the CORDET Framework are defined as models which comply with t
 
 Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points. Similarly, for each supported PUS report, it defines an extension of the OutComponent component which closes all the OutComponent adaptation points.
 
-Table \ref{tab:listOfServices} and \ref{tab:listOfCmdRep} list the PUS services supoorted (either in full or in part) and the command and report components provided by the PUS Extension of the CORDET Framework to implement them. The first column in table \ref{tab:listOfCmdRep} gives the [type,sub-type] pair which identifies the command or report; the second column gives the name of the CORDET component which implements the command or report; the last column gives its PUS names as it is given in section 8 of [PS-SP]. 
+Table \ref{tab:listOfServices} and \ref{tab:listOfCmdRep} list the PUS services supported (either in full or in part) by the PUS Extension and the command and report components which it provides to implement them. The first column in table \ref{tab:listOfCmdRep} gives the [type,sub-type] pair which identifies the command or report; the second column gives the name of the PUS Extension component which implements the command or report; the last column gives its PUS name as it is given in section 8 of [PS-SP]. 
 
 \begin{figure}[H]
  \centering
@@ -539,9 +537,9 @@ The following considerations apply to the data in table \ref{tab:AP-OCM} concern
 \item The OutComponent components are created by the OutFactory and it can be assumed that they are created such that they can be successfully initialized and configured. Their initialization and configuration procedures (adaptation points OCM-1 to 4) can therefore be just dummies that do not perform any action. The same applies to the shutdown procedure (adaptation point OCM-5).
 \item The adaptation point OCM-6 related to the execution procedure is already closed at CORDET Framework level because OutComponents have no execution procedure.
 \item The adaptation points OCM-7 and 8 related to the setting of the report type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
-\item The adaptation points OCM-9 and OCM-10 to 12 related to the setting of the report discriminant, destination and parameters are closed for each individual report type in the following sections of this document.
-\item The adaptation point OCM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports defined in this document (which is only concerned with incoming commands).
-\item The adaptation points OCM-13 to 16 related to the report checks and actions are closed for each specific report type in the following sections of this document.
+\item The adaptation points OCM-9 and OCM-10 to 12 related to the setting of the report discriminant, destination and parameters are closed for each individual report type in later sections of this document.
+\item The adaptation point OCM-10 related to the acknowledgement level is only relevant to out-going commands and is therefore not applicable to the PUS reports defined in this document (which is only concerned with incoming commands).
+\item The adaptation points OCM-13 to 16 related to the report checks and actions are closed for each specific report type in later sections of this document.
 \item The adaptation point OCM-17 related to the serialize operation is closed to create a packet layout which complies with the layout defined by the PUS in [PS-SP].
 \item The adaptation point OCM-18 covers the response to a report having an invalid destination. By design, this situation should never arise and the adaptation point is closed with the generation of an error report.
 \end{itemize}
@@ -552,7 +550,7 @@ The following considerations apply to the data in table \ref{tab:AP-ICM} concern
 \item The InCommand components are created by the InFactory but are then initialized and configured by the InLoader. Their initialization and configuration procedures (adaptation points ICM-1 to 4) are therefore implementation-specific. The same applies to the shutdown procedure (adaptation point ICM-5).
 \item The adaptation point ICM-3 implements the acceptance check for the command. This verifies the correctness of the command length and CRC.
 \item The adaptation point related to the execution procedure (ICM-6) is already closed at CORDET Framework level because InCommand do not have any execution procedure.
-\item The adaptation points ICM-7 to 11 related to the command checks and actions are closed for each specific command type in the following sections of this document.
+\item The adaptation points ICM-7 to 11 related to the command checks and actions are closed for each specific command type in later sections of this document.
 \item The adaptation points ICM-12 to 17 related to the generation of success and failure reports for the command are closed as part of the service 1 definition in section \ref{sec:serv1AP}.
 \item The adaptation points ICM-18 and 19 related to the setting of the command type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
 \item The adaptation points ICM-20 and 21 related to the command discriminant and parameters are closed for each individual command type in the following sections of this document.
@@ -1886,24 +1884,6 @@ The table in this section lists all the service 5 event reports which are genera
 
 \end{landscape}
 
-
-%=============================================================================================
-\section{Error Reports}\label{sec:errRep}
-The table in this section lists all the error reports which are generated by the PUS Extension of the CORDET Framework. For each error report, the following information is provided:
-
-\begin{itemize}
-\item The name of the error report
-\item The description of the error report
-\item The parameters carried by the error report
-\end{itemize}
-
-\begin{landscape} 
-
-
-\pnpcsvtable{|c|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{8cm}|}{Error Reports}{tab:evtRep}{Name & Description & Parameters}{./GeneratedTables/PUSExtensionCrPsErrRepCodet.csv}{\texttt{\Name} & \Description & \ErrRepData}
-
-
-\end{landscape}
 
 %=============================================================================================
 \section{Request Verification Failure Codes}\label{sec:reqVerFailCodes}
