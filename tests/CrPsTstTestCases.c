@@ -183,6 +183,7 @@ CrFwBool_t CrPsTstTestCase2() {
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
   uint16_t i;
+  CrFwCrc_t crc;
   
   /* Instantiate the OutFactory, InFactory and OutManager */
   outFactory = CrFwOutFactoryMake();
@@ -212,6 +213,8 @@ CrFwBool_t CrPsTstTestCase2() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);  
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
 
   /* Check if number of Allocated Packets now is 1*/
   if (CrFwPcktGetNOfAllocated() != 1)
@@ -317,6 +320,8 @@ CrFwBool_t CrPsTstTestCase2() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,1,1,1,1);  
   CrFwPcktSetSeqCnt(pckt,2);  
+  crc = CrFwPcktGetCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
 
   /*Creating an InCommand out of the 17,1 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -378,6 +383,7 @@ CrFwBool_t CrPsTstTestCase3() {
   CrFwPckt_t pckt, pckt2, outPckt;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
+  CrFwCrc_t crc;
   int i;
 
   /* Initialize the set of destination addresses for command (17,3).
@@ -416,6 +422,8 @@ CrFwBool_t CrPsTstTestCase3() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
 
   /*Create an InCommand out of the 17,3 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -480,6 +488,8 @@ CrFwBool_t CrPsTstTestCase3() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setTstConnectCmdAppId(pckt, 1);	/* destination of connection test */
 
   /* Check number of Allocated Packets and commands */
@@ -503,7 +513,7 @@ CrFwBool_t CrPsTstTestCase3() {
   /* Check if now 3 Packets are Allocated:
    * - one InCommand we just created and executed
    * - one OutCommand (17,1) to the application that was specified in the parameter of the 17,3 packet
-   * - and OutComponent holding the 17,4 Report is allocated (outManager Pending)
+   * - and one OutComponent holding the 17,4 Report is allocated (outManager Pending)
    */
   if (CrFwPcktGetNOfAllocated() != 3)
     return 0;
@@ -539,6 +549,8 @@ CrFwBool_t CrPsTstTestCase3() {
   CrFwPcktSetDiscriminant(pckt2,0);
   CrFwPcktSetDest(pckt2,10);
   CrFwPcktSetSrc(pckt2,1);	/* Same source as the destination of the connection test */
+  crc = CrFwPcktComputeCrc(pckt2);
+  CrFwPcktSetCrc(pckt2, crc);
 
   /* Check number of Allocated Packets and Components */
   if (CrFwPcktGetNOfAllocated() != 4)
@@ -672,6 +684,7 @@ CrFwBool_t CrPsTstTestCase4() {
   CrFwTime_t initTime;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
+  CrFwCrc_t crc;
   int i;
   
   /* Check number of Allocated Packets */
@@ -689,6 +702,9 @@ CrFwBool_t CrPsTstTestCase4() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
+
   setTstConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
 
   /* make an inCommand out of the packet */
@@ -748,6 +764,9 @@ CrFwBool_t CrPsTstTestCase4() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
+
 
   setTstConnectCmdAppId(pckt, 1);	/* The valid destinations were set in CrPsServTestConnTestCase2 */
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -784,6 +803,8 @@ CrFwBool_t CrPsTstTestCase4() {
   CrFwPcktSetDest(pckt,10);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);  
   setTstConnectCmdAppId(pckt, 1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
 
   /* make an inCommand out of the packet */
   inCmd = CrFwInFactoryMakeInCmd(pckt);

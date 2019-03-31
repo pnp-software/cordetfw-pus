@@ -353,6 +353,7 @@ CrFwBool_t CrPsEvtTestCase6() {
   CrFwPckt_t pckt;
   FwSmDesc_t inCmd;
   CrFwCmdRepIndex_t evt1Index, evt4Index;
+  CrFwCrc_t crc;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -384,6 +385,8 @@ CrFwBool_t CrPsEvtTestCase6() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setEvtDisCmdN(pckt, 2);       /* 2 event identifiers */
   setEvtDisCmdEventId(pckt, 0, EVT_DUMMY_1);
   setEvtDisCmdEventId(pckt, 1, EVT_DUMMY_4);
@@ -443,6 +446,8 @@ CrFwBool_t CrPsEvtTestCase6() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setEvtDisCmdN(pckt, 2);       /* 2 event identifiers */
   setEvtDisCmdEventId(pckt, 0, EVT_DUMMY_1);
   setEvtDisCmdEventId(pckt, 1, EVT_DUMMY_4);
@@ -509,6 +514,7 @@ CrFwBool_t CrPsEvtTestCase7() {
   FwSmDesc_t inCmd;
   FwSmDesc_t outManager;
   CrFwCmdRepIndex_t evt1Index;
+  CrFwCrc_t crc;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -542,6 +548,8 @@ CrFwBool_t CrPsEvtTestCase7() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setEvtDisCmdN(pckt, 2);       /* 2 event identifiers */
   setEvtDisCmdEventId(pckt, 0, EVT_DUMMY_1);        /* Legal event identifier */
   setEvtDisCmdEventId(pckt, 1, EVT_DUMMY_4+200);    /* Illegal event identifier */
@@ -593,6 +601,8 @@ CrFwBool_t CrPsEvtTestCase7() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setEvtDisCmdN(pckt, 2);       /* 2 event identifiers */
   setEvtDisCmdEventId(pckt, 0, EVT_DUMMY_4+200);        /* Illegal event identifier */
   setEvtDisCmdEventId(pckt, 1, EVT_DUMMY_1);            /* Legal event identifier */
@@ -653,6 +663,7 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrFwPckt_t pckt, pckt1, pckt2;
   FwSmDesc_t inCmd, rep5s8;
   FwSmDesc_t outManager;
+  CrFwCrc_t crc;
 
   CrFwSetAppErrCode(crNoAppErr);
 
@@ -685,6 +696,8 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
 
   /*Create an InCommand out of the 5,7 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -750,6 +763,8 @@ CrFwBool_t CrPsEvtTestCase8() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
 
   /*Create an InCommand out of the 5,7 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);
@@ -807,6 +822,7 @@ CrFwBool_t CrPsEvtTestCase9() {
   unsigned int i;
   CrFwPckt_t pckt;
   CrFwCounterU2_t errRepPos;
+  CrFwCrc_t crc;
 
   /* Reset the framework components */
   CrPsTestUtilitiesResetFw();
@@ -854,6 +870,8 @@ CrFwBool_t CrPsEvtTestCase9() {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,2);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
 
   /*Create an InCommand out of the 5,7 packet*/
   inCmd = CrFwInFactoryMakeInCmd(pckt);

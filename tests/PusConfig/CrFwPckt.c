@@ -415,7 +415,7 @@ CrFwBool_t CrFwPcktIsTermAck(CrFwPckt_t pckt) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-char* CrFwPcktGetParStart(CrFwPckt_t pckt) {
+CrFwPckt_t CrFwPcktGetParStart(CrFwPckt_t pckt) {
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
 		return (CrFwPckt_t) &pckt[sizeof(TmHeader_t)];
 	else
@@ -455,10 +455,19 @@ CrFwGroup_t CrFwPcktGetGroup(CrFwPckt_t pckt) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwPcktComputeAndSetCrc(CrFwPckt_t pckt) {
-    CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
-    CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
-    (*loc) = 0xFFFF;
+CrFwCrc_t CrFwPcktComputeCrc(CrFwPckt_t pckt) {
+    (void)pckt;
+    return 0xFFFF;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwPcktSetCrc(CrFwPckt_t pckt, CrFwCrc_t crc) {
+    CrFwPcktLength_t len;
+    CrFwCrc_t* loc;
+
+    len = CrFwPcktGetLength(pckt);
+    loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
+    (*loc) = crc;
 }
 
 /*-----------------------------------------------------------------------------------------*/

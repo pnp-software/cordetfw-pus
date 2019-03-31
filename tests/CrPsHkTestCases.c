@@ -1346,6 +1346,7 @@ CrFwBool_t CrPsHkTestCase12() {
 FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId) {
   CrFwPckt_t pckt;
   int i;
+  CrFwCrc_t crc;
 
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
@@ -1356,6 +1357,8 @@ FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parI
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setHkCreHkCmdSID(pckt,sid);
   setHkCreHkCmdCollectionInterval(pckt, 1);
   setHkCreHkCmdN1(pckt, N1);
@@ -1369,6 +1372,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parI
 FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPckt_t pckt;
   CrPsNSID_t i;
+  CrFwCrc_t crc;
 
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
@@ -1379,6 +1383,8 @@ FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setHkEnbHkCmdN(pckt, N1);
   for (i=0; i<N1; i++)
       setHkEnbHkCmdSID(pckt, i, sid[i]);
@@ -1391,6 +1397,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1) {
 FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPckt_t pckt;
   CrPsNSID_t i;
+  CrFwCrc_t crc;
 
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
@@ -1401,6 +1408,8 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setHkEnbHkCmdN(pckt, N1);
   for (i=0; i<N1; i++)
       setHkEnbHkCmdSID(pckt, i, sid[i]);
@@ -1412,6 +1421,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1) {
 FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPckt_t pckt;
   CrPsNSID_t i;
+  CrFwCrc_t crc;
 
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
@@ -1422,6 +1432,8 @@ FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setHkEnbHkCmdN(pckt, N1);
   for (i=0; i<N1; i++)
       setHkEnbHkCmdSID(pckt, i, sid[i]);
@@ -1433,6 +1445,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1) {
 FwSmDesc_t CrPsHkTestCaseMake3s9(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPckt_t pckt;
   CrPsNSID_t i;
+  CrFwCrc_t crc;
 
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
@@ -1443,6 +1456,8 @@ FwSmDesc_t CrPsHkTestCaseMake3s9(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setHkRepStructHkCmdN(pckt, N1);
   for (i=0; i<N1; i++)
       setHkRepStructHkCmdSID(pckt, i, sid[i]);
@@ -1454,6 +1469,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s9(CrPsSID_t* sid, CrPsNSID_t N1) {
 FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPckt_t pckt;
   CrPsNSID_t i;
+  CrFwCrc_t crc;
 
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
@@ -1464,6 +1480,8 @@ FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1) {
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setHkOneShotHkCmdN(pckt, N1);
   for (i=0; i<N1; i++)
       setHkOneShotHkCmdSID(pckt, i, sid[i]);
@@ -1475,6 +1493,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1) {
 FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNSID_t N1) {
   CrFwPckt_t pckt;
   CrPsNSID_t i;
+  CrFwCrc_t crc;
 
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetCmdRepType(pckt,crCmdType);
@@ -1485,6 +1504,8 @@ FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNS
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,0,0,0,0);
   CrFwPcktSetSeqCnt(pckt,1);
+  crc = CrFwPcktComputeCrc(pckt);
+  CrFwPcktSetCrc(pckt, crc);
   setHkModPerHkCmdN(pckt, N1);
   for (i=0; i<N1; i++) {
       setHkModPerHkCmdSID(pckt, i, sid[i]);
