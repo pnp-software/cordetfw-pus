@@ -2,7 +2,7 @@
  * @file CrPsCmdVerFail.c
  *
  * @author FW Profile code generator version 5.23
- * @date Created on: Mar 29 2019 23:3:33
+ * @date Created on: Mar 31 2019 18:7:21
  */
 
 #include "CrPsCmdVerFail.h"
@@ -24,7 +24,7 @@ FwPrBool_t CrPsCmdVerFailG1E(FwPrDesc_t prDesc)
 /* ----------------------------------------------------------------------------------------------------------------- */
 FwPrDesc_t CrPsCmdVerFailCreate(void* prData)
 {
-	const FwPrCounterU2_t DECISION2 = 1;		/* The identifier of decision node DECISION2 in procedure CrPsCmdVerFail */
+	const FwPrCounterU2_t DECISION2 = 1;		/** The identifier of decision node DECISION2 in procedure CrPsCmdVerFail */
 	const FwPrCounterU2_t N_OUT_OF_DECISION2 = 2;	/* The number of control flows out of decision node DECISION2 in procedure CrPsCmdVerFail */
 
 	/** Create the procedure */

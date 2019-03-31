@@ -12,23 +12,23 @@
  * @image html CrPsPcktReroutingFail.png
  *
  * @author FW Profile code generator version 5.23
- * @date Created on: Mar 29 2019 23:3:33
+ * @date Created on: Mar 31 2019 18:7:21
  */
 
-/** Make sure to include this header file only once */
+/* Make sure to include this header file only once */
 #ifndef CRPSPCKTREROUTINGFAIL_H_
 #define CRPSPCKTREROUTINGFAIL_H_
 
-/** FW Profile function definitions */
+/* FW Profile constant definitions */
 #include "FwPrConstants.h"
 
-/** Action node identifiers */
-#define CrPsPcktReroutingFail_N1 (1)		/* The identifier of action node N1 in procedure CrPsPcktReroutingFail */
-#define CrPsPcktReroutingFail_N2 (2)		/* The identifier of action node N2 in procedure CrPsPcktReroutingFail */
-#define CrPsPcktReroutingFail_N3 (3)		/* The identifier of action node N3 in procedure CrPsPcktReroutingFail */
-#define CrPsPcktReroutingFail_N4 (4)		/* The identifier of action node N4 in procedure CrPsPcktReroutingFail */
-#define CrPsPcktReroutingFail_N5 (5)		/* The identifier of action node N5 in procedure CrPsPcktReroutingFail */
-#define CrPsPcktReroutingFail_N6 (6)		/* The identifier of action node N6 in procedure CrPsPcktReroutingFail */
+/* Action node identifiers */
+#define CrPsPcktReroutingFail_N1 (1)		/**< The identifier of action node N1 in procedure CrPsPcktReroutingFail */
+#define CrPsPcktReroutingFail_N2 (2)		/**< The identifier of action node N2 in procedure CrPsPcktReroutingFail */
+#define CrPsPcktReroutingFail_N3 (3)		/**< The identifier of action node N3 in procedure CrPsPcktReroutingFail */
+#define CrPsPcktReroutingFail_N4 (4)		/**< The identifier of action node N4 in procedure CrPsPcktReroutingFail */
+#define CrPsPcktReroutingFail_N5 (5)		/**< The identifier of action node N5 in procedure CrPsPcktReroutingFail */
+#define CrPsPcktReroutingFail_N6 (6)		/**< The identifier of action node N6 in procedure CrPsPcktReroutingFail */
 
 /**
  * Create a new procedure descriptor.
@@ -46,7 +46,7 @@ FwPrDesc_t CrPsPcktReroutingFailCreate(void* prData);
  * Generate error report 
  * INLOADER_INV_DEST
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc);
 
@@ -56,7 +56,7 @@ void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc);
  * Retrieve an OutComponent
  * of type (1,10) from the OutFactory
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc);
 
@@ -66,7 +66,7 @@ void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc);
  * Generate error report
  * OUTFACTORY_FAIL
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc);
 
@@ -76,7 +76,7 @@ void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc);
  * Configure report (1,10)
  * and load it in the OutLoader
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc);
 
@@ -86,7 +86,7 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc);
  * Increment data pool
  * variable nOfReroutingFailed
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc);
 
@@ -96,14 +96,14 @@ void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc);
  * Update data pool variables
  * pcktIdRerouting, invDestRerouting
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION1 to N1.
  * Packet encapsulates a report 
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc);
@@ -111,7 +111,7 @@ FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc);
 /**
  * Guard on the Control Flow from DECISION1 to N2.
  * Else
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t prDesc);
@@ -122,7 +122,7 @@ FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t prDesc);
  *  OutFactory fails to
  * generate OutComponent 
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t prDesc);
@@ -130,7 +130,7 @@ FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t prDesc);
 /**
  * Guard on the Control Flow from DECISION2 to N4.
  *  Else 
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsPcktReroutingFailG2E(FwPrDesc_t prDesc);

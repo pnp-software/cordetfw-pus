@@ -2,7 +2,7 @@
  * @file CrPsPcktReroutingFail.c
  *
  * @author FW Profile code generator version 5.23
- * @date Created on: Mar 29 2019 23:3:33
+ * @date Created on: Mar 31 2019 18:7:21
  */
 
 #include "CrPsPcktReroutingFail.h"
@@ -30,9 +30,9 @@ FwPrBool_t CrPsPcktReroutingFailG2E(FwPrDesc_t prDesc)
 /* ----------------------------------------------------------------------------------------------------------------- */
 FwPrDesc_t CrPsPcktReroutingFailCreate(void* prData)
 {
-	const FwPrCounterU2_t DECISION1 = 1;		/* The identifier of decision node DECISION1 in procedure CrPsPcktReroutingFail */
+	const FwPrCounterU2_t DECISION1 = 1;		/** The identifier of decision node DECISION1 in procedure CrPsPcktReroutingFail */
 	const FwPrCounterU2_t N_OUT_OF_DECISION1 = 2;	/* The number of control flows out of decision node DECISION1 in procedure CrPsPcktReroutingFail */
-	const FwPrCounterU2_t DECISION2 = 2;		/* The identifier of decision node DECISION2 in procedure CrPsPcktReroutingFail */
+	const FwPrCounterU2_t DECISION2 = 2;		/** The identifier of decision node DECISION2 in procedure CrPsPcktReroutingFail */
 	const FwPrCounterU2_t N_OUT_OF_DECISION2 = 2;	/* The number of control flows out of decision node DECISION2 in procedure CrPsPcktReroutingFail */
 
 	/** Create the procedure */

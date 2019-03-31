@@ -12,20 +12,20 @@
  * @image html CrPsCmdVerFail.png
  *
  * @author FW Profile code generator version 5.23
- * @date Created on: Mar 29 2019 23:3:33
+ * @date Created on: Mar 31 2019 18:7:21
  */
 
-/** Make sure to include this header file only once */
+/* Make sure to include this header file only once */
 #ifndef CRPSCMDVERFAIL_H_
 #define CRPSCMDVERFAIL_H_
 
-/** FW Profile function definitions */
+/* FW Profile constant definitions */
 #include "FwPrConstants.h"
 
-/** Action node identifiers */
-#define CrPsCmdVerFail_N2 (1)		/* The identifier of action node N2 in procedure CrPsCmdVerFail */
-#define CrPsCmdVerFail_N3 (2)		/* The identifier of action node N3 in procedure CrPsCmdVerFail */
-#define CrPsCmdVerFail_N4 (3)		/* The identifier of action node N4 in procedure CrPsCmdVerFail */
+/* Action node identifiers */
+#define CrPsCmdVerFail_N2 (1)		/**< The identifier of action node N2 in procedure CrPsCmdVerFail */
+#define CrPsCmdVerFail_N3 (2)		/**< The identifier of action node N3 in procedure CrPsCmdVerFail */
+#define CrPsCmdVerFail_N4 (3)		/**< The identifier of action node N4 in procedure CrPsCmdVerFail */
 
 /**
  * Create a new procedure descriptor.
@@ -43,7 +43,7 @@ FwPrDesc_t CrPsCmdVerFailCreate(void* prData);
  * Retrieve an OutComponent of
  * type (1,2), (1,4) or (1,8) from OutFactory
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsCmdVerFailN2(FwPrDesc_t prDesc);
 
@@ -53,7 +53,7 @@ void CrPsCmdVerFailN2(FwPrDesc_t prDesc);
  * Generate error report
  * OUTFACTORY_FAIL
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsCmdVerFailN3(FwPrDesc_t prDesc);
 
@@ -65,7 +65,7 @@ void CrPsCmdVerFailN3(FwPrDesc_t prDesc);
  * update data pool variables pcktIdXyzFailed and 
  * failCodeXyzFailed
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsCmdVerFailN4(FwPrDesc_t prDesc);
 
@@ -75,7 +75,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc);
  *  OutFactory fails to
  * generate OutComponent 
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsCmdVerFailG1(FwPrDesc_t prDesc);
@@ -83,7 +83,7 @@ FwPrBool_t CrPsCmdVerFailG1(FwPrDesc_t prDesc);
 /**
  * Guard on the Control Flow from DECISION2 to N4.
  *  Else 
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsCmdVerFailG1E(FwPrDesc_t prDesc);
