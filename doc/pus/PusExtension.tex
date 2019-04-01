@@ -443,9 +443,9 @@ This specification is similarly silent about the internal structure of data item
 \subsection{Data Pool Behaviour}\label{sec:dpBehaviour}
 The behaviour of the Data Pool Component is captured by the Data Pool State Machine of figure \ref{fig:CrPsDataPool}. The data pool can be in two states: READY and LOADING. In state READY, its data items can be accessed by the user application. It is an application constraint that no attempt is made to access the data pool data when the data pool is not in READY.
 
-In state LOADING, the value of its data items is "loaded". The loading process is entirely application-specific: the Data Pool Loading Procedure is an adaptation point. In a typical implementation, the user application maintains two sets of data pool values and uses the loading process to switch between them. In another typical implementation, the user application maintains the default values in EEPROM and loads them at application initialization.
+In state LOADING, the data item values are "loaded". The loading process is application-specific: the Data Pool Loading Procedure is an adaptation point. In a typical implementation, the user application maintains two sets of data pool values and uses the loading process to switch between them. In another typical implementation, the user application maintains the default values in EEPROM and loads them at application initialization.
 
-\pnpfigure[scale=0.5]{The Data Pool State Machine}{fig:CrPsDataPool}{CrPsDataPool.png}
+\pnpfigure[scale=0.57]{The Data Pool State Machine}{fig:CrPsDataPool}{CrPsDataPool.png}
 
 The data items in the data pool should be kept up-to-date. Two options are possible in this respect: (a) the data items are refreshed by the components which own them or (b) the data items are periodically refreshed by the data pool itself. In case (a), the data pool is entirely passive. In case (b), it must implement the refresh function. A mixed solution where some data items are refreshed by the data pool component while others are refreshed by external components is also possible. Since refreshing should only be done when the data pool is in state READY. For this purpose, the Data Pool component offers the \texttt{Refresh} operation which can be used to update the values of the data items. This operation is an adaptation point for the PUS Extension. 
 
@@ -777,7 +777,7 @@ The table in this section lists requirements for the request verification servic
 \section{Housekeeping Service}\label{sec:serv3}
 The service type of the Housekeeping Service is 3. The PUS Extension of the CORDET Framework supports this service only in part.
 
-The housekeeping service provides the capability to create, delete and control housekeeping and diagnostic reports. The service 3 commands and reports in the PUS are duplicated being defined once for housekeeping reports and once for diagnostic reports. The PUS framework supports both sets of commands and reports but does not otherwise make any distinction between housekeeping and diagnostic reports. It is essentially up to the user to decide which service 3 reports should be treated as 'housekeeping reports' and which ones should instead be treated as 'diagnostic reports'.
+The housekeeping service provides the capability to create, delete and control housekeeping and diagnostic reports. The service 3 commands and reports in the PUS are duplicated being defined once for housekeeping reports and once for diagnostic reports. The PUS framework supports both sets of commands and reports but does not otherwise make any distinction between housekeeping and diagnostic reports (i.e. the behaviour associated to a diagnostic command/report is the same as the behaviour associated to the corresponding housekeeping command/report). 
 
 A housekeeping/diagnostic report carries the values of a set of data pool items\footnote{The PUS uses the term 'parameter' to designate the data pool items whose values are carried by the housekeeping and diagnostic reports.}. Any data pool item may be included in a housekeeping/diagnostic report. 
 
@@ -806,7 +806,7 @@ The parameters HK\_MAX\_* are application constants. Applications which do not n
 The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct} is discussed in the next section.
 
 
-\begin{pnptable}{|c|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Fields in Report Definition Data Structure}{tab:repDefDataStruct}{\textbf{Field Name} & \textbf{Description} & \textbf{Constraint}}
+\begin{pnptable}{|c|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Fields in Report Definition Data Structure}{tab:repDefDataStruct}{\textbf{N} & \textbf{Field Name} & \textbf{Description} & \textbf{Constraint}}
 1 & \texttt{sid} & Structure identifier (SID) & Integer in range: 1..HK\_MAX\_SID \\
 \hline
 2 & \texttt{period} & Collection period in units of HK\_COLLECT\_PER & Positive integer (periodic reports) or zero (one-shot reports) \\
@@ -819,9 +819,9 @@ The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct
 \hline
 6 & \texttt{nSimple} & Number of simply-commutated data items in the report & Integer in range: 1..HK\_MAX\_N\_SIMPLE \\
 \hline
-7 & \texttt{lstSampleRep} & List of super commutated sample repetition numbers (\texttt{rep[1]} .. \texttt{rep[nGroup]}) & The number of groups is in the range: 0..HK\_MAX\_N\_GR and each repetition number is in the range: 1..HK\_MAX\_REP \\
+7 & \texttt{rep[]} & List of super commutated sample repetition numbers (\texttt{rep[1]} .. \texttt{rep[nGroup]}) & The number of groups is in the range: 0..HK\_MAX\_N\_GR and each repetition number is in the range: 1..HK\_MAX\_REP \\
 \hline
-8 & \texttt{lstNSampRep} & List of numbers (\texttt{nRep[1]} .. \texttt{nRep[nGroup]}) of data items in each super-commutated group & Each \texttt{nRep[i]} is in range: 1..HK\_MAX\_N\_REP \\
+8 & \texttt{nRep[]} & List of numbers (\texttt{nRep[1]} .. \texttt{nRep[nGroup]}) of data items in each super-commutated group & Each \texttt{nRep[i]} is in range: 1..HK\_MAX\_N\_REP \\
 \hline
 9 & \texttt{lstId} & List of identifiers of data items in the report & Not more than HK\_MAX\_N\_ITEMS data items and each identifier is in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}]
  \\
@@ -843,19 +843,10 @@ The association between housekeeping/diagnostic report and its sampling buffer i
 
 The periodic collection of the values of the simply-commutated data items is done by the components hkRep which encapsulate a housekeeping/diagnostic report (see section \ref{sec:serv3RepCmdDef}). These components are executed once per collection interval. They therefore cannot collect the values of the super-commutated data items which are sampled several times per collection period. Responsibility for the collection of the values of the super-commutated data items rests with the application instantiated from the framework. 
 
-The framework offers the following functions to manipulate a sampling buffer:
-
-\begin{itemize}
-\item \textit{Sampling Buffer Configuration Function} to configure a sampling buffer as a function of the number of groups, the number of data items in each group and the repetition number for each group.
-\item Sampling Buffer Setter Function to load the i-th value of the j-th data item in the k-th group in the sampling buffer.
-\item Sampling Buffer Getter Function to retrieve the i-th value of the j-th data item in the k-th group in the sampling buffer.
-\end{itemize}
-
-The Configuration Function is used when a housekeeping/diagnostic report which contains super-commutated data items is created (either at application initialization time for a pre-defined report or in response to a (3,1)/(3,2) command for a dynamically defined report). The Setter Function is used by the application to load the super-commutated values in the sampling buffer. The Getter Function is used in the Update Action of the (3,25) and (3,26) reports to update the content of a housekeeping/diagnostic report. 
 
 %-------------------------------------------------------------------------------------
 \subsection{Debug Variables}\label{sec:debugVar}
-Service 3 offers visibility over the internal state of the IFSW by allowing periodic or sporadic access to the data items in the data pool. The data items in the data pool are defined at design time and should cover all application functions. For situations where additional visibility is required (e.g. in case of debugging during AIT activities), the framework the concept of \textit{debug variables} is introduced. A debug variable is a variable of 4 bytes of length whose address in RAM is a data pool parameter. More precisely, a total of N\_DEBUG\_VAR debug variables are defined which are encapsulated in data pool variables \texttt{debugVar\_x} where x ranges from 1 to HK\_N\_DEBUG\_VAR. Additionally, data pool parameters \texttt{debugVarAddr\_x} are defined to hold the address of \texttt{debugVar\_x}. The Execution Procedure of the data pool (see section \ref{sec:dpBehaviour}) loads the values of the memory locations pointed at by the elements of \texttt{debugVarAddr} into the elements of \texttt{debugVar}.  
+Service 3 offers visibility over the internal state of the IFSW by allowing periodic or sporadic access to the data items in the data pool. The data items in the data pool are defined at design time and should cover all application functions. For situations where additional visibility is required (e.g. in case of debugging during AIT activities), the concept of \textit{debug variables} is introduced. A debug variable is a variable of 4 bytes of length whose address in RAM is a data pool parameter. More precisely, a total of N\_DEBUG\_VAR debug variables are defined which are encapsulated in data pool variables \texttt{debugVar\_x} where x ranges from 1 to HK\_N\_DEBUG\_VAR. Additionally, data pool parameters \texttt{debugVarAddr\_x} are defined to hold the address of \texttt{debugVar\_x}. The Execution Procedure of the data pool (see section \ref{sec:dpBehaviour}) loads the values of the memory locations pointed at by the elements of \texttt{debugVarAddr} into the elements of \texttt{debugVar}.  
 
 In order to illustrate the use of the debug variables, consider a situation where the user wishes to have read access to two memory locations holding two integers: 
 

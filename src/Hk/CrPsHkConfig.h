@@ -43,8 +43,6 @@
  *   RDL slot where the report is defined.
  * .
  *
- * @limitation The over-sampling mechanism for housekeeping reports is not supported
- *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
