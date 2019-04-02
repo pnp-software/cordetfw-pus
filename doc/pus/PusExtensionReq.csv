@@ -22,28 +22,10 @@ S1|C|4|If an application performs a verification check for a command and the che
 S1|C|5|Applications shall be responsible for configuring the OutRegistry component to selectively disable failure verification reports which they do not need||
 S3|S|1|The PUS Extension of the CORDET Framework shall implement a Report Definition List (RDL) consisting of HK\_N\_REP\_DEF Report Definitions with the fields defined in table \ref{tab:repDefDataStruct}||
 S3|S|2|The PUS Extension of the CORDET Framework shall implement HK\_N\_SAMPLE\_BUF Sampling Buffers capable of holding the values of the super-commutated data items for a given housekeeping/diagnostic report||
-S3|S|3|The PUS Extension of the CORDET Framework shall provide a Sampling Buffer Configuration Function to configure a sampling buffer for a given report||
-S3|S|4|The PUS Extension of the CORDET Framework shall provide a Sampling Buffer Setter Function to load a data item value in a sampling buffer||
-S3|S|5|The PUS Extension of the CORDET Framework shall provide a Sampling Buffer Getter Function to retrieve a data item value from a sampling buffer||
 S3|C|6|Application shall be responsible for loading a sampling buffer with the values of super-commutated data items||
-S3|S|7|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, a hkCreateCmd component to encapsulate a (3,1) or (3,2) command||
-S3|S|8|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, a hkDeleteCmd component to encapsulate a (3,3) or (3,4) command||
-S3|S|9|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, a hkEnableCmd component to encapsulate a (3,5) or (3,7) command||
-S3|S|10|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, a hkDisableCmd component to encapsulate a (3,6) or (3,8) command||
-S3|S|11|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, a hkRepStructCmd component to encapsulate a (3,9) or (3,11) command||
-S3|S|12|The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, a hkRepStructRep component to encapsulate a (3,10) or (3,12) report||
-S3|S|13|The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, a hkRep component to encapsulate a periodic (3,25) or (3,26) report||
-S3|S|14|The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, a hkRepOneShot component to encapsulate a one-shot (3,25) or (3,26) report||
-S3|S|15|The hkCreateCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S3-1}||
-S3|S|16|The hkDeleteCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S3-3}||
-S3|S|17|The hkEnableCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S3-5}||
-S3|S|18|The hkDisableCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S3-6}||
-S3|S|19|The hkRepStructCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S3-9}||
-S3|S|20|The hkRepStructRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S3-10}||
-S3|S|21|The hkRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S3-25}||
-S3|S|22|The hkRepOneShot component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S3-27}||
-S3|S|23|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-S3}||
-S3|S|24|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the parameters listed in table \ref{tab:Par-S3}||
+S3|S|7|The PUS Extension of the CORDET Framework shall provide OutComponents and InCommands implementing the reports and commands defined in tables \ref{tab:InCmdHkCreHkCmdSpec} to \ref{tab:InCmdHkModPerDiagCmdSpec}||
+S3|S|23|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the observables and parameters listed in table \ref{tab:Obs-S3}||
+S3|C|25|Applications shall be responsible for executing with period HK\_COLLECT\_PER the OutManagers where housekeeping/diagnostic reports are loaded||
 S5|S|1|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-S13}||
 S5|C|2|Applications shall be responsible for configuring the EvtRep component with the event parameters at the point where the EvtRep component is created||
 S5|C|3|Applications shall be responsible for configuring the OutRegistry component to selectively disable event reports whose default enable status is: 'disabled'||
