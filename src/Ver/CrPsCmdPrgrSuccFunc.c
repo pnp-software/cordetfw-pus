@@ -55,7 +55,7 @@ static FwSmDesc_t rep;
 
 
 /* ----------------------------------------------------------------------------------------------------------------- */
-/** Action for node N2. */
+/* Action for node N2. */
 void CrPsCmdPrgrSuccN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
@@ -66,7 +66,7 @@ void CrPsCmdPrgrSuccN2(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N3. */
+/* Action for node N3. */
 void CrPsCmdPrgrSuccN3(FwPrDesc_t prDesc) {
     CRFW_UNUSED(prDesc);
 
@@ -77,7 +77,7 @@ void CrPsCmdPrgrSuccN3(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N4. */
+/* Action for node N4. */
 void CrPsCmdPrgrSuccN4(FwPrDesc_t prDesc) {
     CRFW_UNUSED(prDesc);
     FwSmDesc_t inCmd;
@@ -115,7 +115,7 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t prDesc) {
 /*** GUARDS ***/
 /**************/
 
-/** Guard on the Control Flow from DECISION2 to N3. */
+/* Guard on the Control Flow from DECISION2 to N3. */
 FwPrBool_t CrPsCmdPrgrSuccG1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 

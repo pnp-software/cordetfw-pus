@@ -57,7 +57,7 @@ static CrFwProgressStepId_t prgrStepId;
 static CrPsThirteenBit_t tcPcktId;
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N2. */
+/* Action for node N2. */
 void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
@@ -68,7 +68,7 @@ void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N3. */
+/* Action for node N3. */
 void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
@@ -79,7 +79,7 @@ void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N4. */
+/* Action for node N4. */
 void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
   CrFwDestSrc_t inPcktSrc;
@@ -140,7 +140,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
 /*** GUARDS ***/
 /**************/
 
-/** Guard on the Control Flow from DECISION2 to N3. */
+/* Guard on the Control Flow from DECISION2 to N3. */
 FwPrBool_t CrPsCmdPrgrFailG1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 

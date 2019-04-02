@@ -1,5 +1,5 @@
 /**
- * @file CrPsGetSetTestCases.c
+ * @file CrPsPcktGetSetTestCases.c
  * @ingroup PUSTestsuite
  *
  * @brief Implementation of the test cases for all Getter and Setter components.

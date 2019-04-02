@@ -57,7 +57,7 @@ static FwSmDesc_t rep;
 static CrFwServSubType_t repSubType;
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N2. */
+/* Action for node N2. */
 void CrPsCmdVerSuccN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
   CrFwRepInCmdOutcome_t outcome = CrPsVerConfigGetOutcome();
@@ -82,7 +82,7 @@ void CrPsCmdVerSuccN2(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N3. */
+/* Action for node N3. */
 void CrPsCmdVerSuccN3(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
@@ -93,7 +93,7 @@ void CrPsCmdVerSuccN3(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N4. */
+/* Action for node N4. */
 void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
   FwSmDesc_t inCmd;
@@ -144,7 +144,7 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
 /*** GUARDS ***/
 /**************/
 
-/** Guard on the Control Flow from DECISION2 to N3. */
+/* Guard on the Control Flow from DECISION2 to N3. */
 FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 

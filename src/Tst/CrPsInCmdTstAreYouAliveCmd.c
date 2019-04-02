@@ -1,5 +1,5 @@
 /**
- * @file CrPsSpcTstAreYouAliveCmd.c
+ * @file CrPsInCmdTstAreYouAliveCmd.c
  * @ingroup man_tst
  *
  * @brief Implementation of the Perform Connection Test in-coming command packet.

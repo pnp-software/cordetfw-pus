@@ -1,5 +1,5 @@
 /**
- * @file CrPsGetSetTestCases.h
+ * @file CrPsPcktGetSetTestCases.h
  * @ingroup PUSTestsuite
  *
  * @brief Declaration of the test cases for the Getter and Setter functions of the command/report packets.

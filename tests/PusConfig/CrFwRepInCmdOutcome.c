@@ -11,7 +11,6 @@
  * In keeping with the PUS, this implementation generates service 1 reports to report
  * the outcome of a command.
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
@@ -40,9 +39,16 @@
 
 /*-----------------------------------------------------------------------------------------*/
 /**
- * This functions handles the processing outcome of an InCommand.
+ * This function handles the processing outcome of an InCommand.
  * All values of <code>outcome</code> are handled with the exception of <code>::crCmdAckLdFail</code>
  * which is handed by <code>::CrFwRepInCmdOutcomeCreFail</code>.
+ * @param outcome the outcome of the InCommand's processing
+ * @param instanceId the instance identifier of the component calling the function
+ * @param servType the service type of the InCommand whose outcome is being handled
+ * @param servSubType the service sub-type of the InCommand whose outcome is being handled
+ * @param disc the discriminant of the InCommand whose outcome is being handled
+ * @param failCode the failure code
+ * @param inCmd the InCommand whose outcome is being handled
  */
 void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanceId, CrFwServType_t servType,
                          CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd) {

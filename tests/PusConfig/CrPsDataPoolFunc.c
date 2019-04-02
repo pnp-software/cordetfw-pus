@@ -1,5 +1,5 @@
 /**
- * @file CrPsDataPoolMain.c
+ * @file CrPsDataPoolFunc.c
  * @ingroup man_config
  *
  * Default implementation of the Data Pool Adaptation Points covering the
@@ -30,6 +30,7 @@
  *  This function would normally start the Data Pool Loading Procedure which
  *  is responsible for loading new data in the data pool.
  *  This default implementation returns without doing anything.
+ *  @param smDesc the data pool state machine descriptor
  */
 void CrPsDataPoolStartLoading(FwSmDesc_t smDesc) {
   (void)smDesc;
@@ -42,6 +43,7 @@ void CrPsDataPoolStartLoading(FwSmDesc_t smDesc) {
  * This function would normally execute the Data Pool Loading Procedure which
  * is responsible for loading new data in the data pool.
  * This default implementation returns without doing anything.
+ * @param smDesc the data pool state machine descriptor
  */
 void CrPsDataPoolContLoading(FwSmDesc_t smDesc) {
   (void)smDesc;
@@ -53,6 +55,7 @@ void CrPsDataPoolContLoading(FwSmDesc_t smDesc) {
  * Action on the transition from READY to READY.
  * This function would normally refresh the data pool data items.
  * This default implementation returns without doing anything.
+ *  @param smDesc the data pool state machine descriptor
  */
 void CrPsDataPoolRefresh(FwSmDesc_t smDesc) {
   (void)smDesc;
@@ -65,6 +68,8 @@ void CrPsDataPoolRefresh(FwSmDesc_t smDesc) {
  * This function would normally return true if the Data Pool Loading Procedure
  * has terminated execution.
  * This default implementation returns true unconditionally.
+ * @param smDesc the data pool state machine descriptor
+ * @return true if the Data Pool Loading Procedure has terminated; false otherwise
  */
 FwSmBool_t CrPsDataPoolHasLoadingTerm(FwSmDesc_t smDesc) {
   return 1;

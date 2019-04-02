@@ -108,6 +108,9 @@ CrPsEvtId_t* CrPsEvtConfigGetListOfEid(unsigned int severityLevel);
  * If the severity level is out-of-range, NULL is returned.
  * @return the pointer to the array of disabled event identifiers for the argument severity level
  * or NULL if the severity level is out-of-range
+ *
+ * @param severityLevel the severity level (an integer from 1 to 4)
+ * @return the pointer to the array of event identifier enabled status for the argument severity level
  */
 CrFwBool_t* CrPsEvtConfigGetListOfDisabledEid(unsigned int severityLevel);
 

@@ -391,25 +391,25 @@ void CrFwPcktSetAckLevel(CrFwPckt_t pckt, CrFwBool_t accept, CrFwBool_t start,
 }
 
 /*-----------------------------------------------------------------------------------------*/
-/** Implementation implicitly assumes that the packet holds a command */
+/* Implementation implicitly assumes that the packet holds a command */
 CrFwBool_t CrFwPcktIsAcceptAck(CrFwPckt_t pckt) {
 	return (CrFwBool_t) getTcHeaderAckAccFlag(pckt);
 }
 
 /*-----------------------------------------------------------------------------------------*/
-/** Implementation implicitly assumes that the packet holds a command */
+/* Implementation implicitly assumes that the packet holds a command */
 CrFwBool_t CrFwPcktIsStartAck(CrFwPckt_t pckt) {
 	return (CrFwBool_t) getTcHeaderAckStartFlag(pckt);
 }
 
 /*-----------------------------------------------------------------------------------------*/
-/** Implementation implicitly assumes that the packet holds a command */
+/* Implementation implicitly assumes that the packet holds a command */
 CrFwBool_t CrFwPcktIsProgressAck(CrFwPckt_t pckt) {
 	return (CrFwBool_t) getTcHeaderAckProgFlag(pckt);
 }
 
 /*-----------------------------------------------------------------------------------------*/
-/** Implementation implicitly assumes that the packet holds a command */
+/* Implementation implicitly assumes that the packet holds a command */
 CrFwBool_t CrFwPcktIsTermAck(CrFwPckt_t pckt) {
 	return (CrFwBool_t) getTcHeaderAckTermFlag(pckt);
 }
