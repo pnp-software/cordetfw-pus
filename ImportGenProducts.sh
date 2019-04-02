@@ -94,6 +94,7 @@ if [ "$CONSTANT" == "YES" ]
 fi
 if [ "$DATAPOOL" == "YES" ]
   then
+    echo "--Copy the csv datapool definition file--"
     cp $EDITOR_PATH/Datapool.csv ./doc/pus/GeneratedTables
 fi
 
