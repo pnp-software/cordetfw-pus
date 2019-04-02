@@ -11,21 +11,21 @@
  * The procedure created by this file is shown in the figure below.
  * @image html CrPsCmd17s3Prgr.png
  *
- * @author FW Profile code generator version 5.23
- * @date Created on: Mar 29 2019 23:3:34
+ * @author FW Profile code generator version 5.22
+ * @date Created on: Apr 2 2019 22:52:21
  */
 
-/** Make sure to include this header file only once */
+/* Make sure to include this header file only once */
 #ifndef CRPSCMD17S3PRGR_H_
 #define CRPSCMD17S3PRGR_H_
 
-/** FW Profile function definitions */
+/* FW Profile constant definitions */
 #include "FwPrConstants.h"
 
-/** Action node identifiers */
-#define CrPsCmd17s3Prgr_N1 (1)		/* The identifier of action node N1 in procedure CrPsCmd17s3Prgr */
-#define CrPsCmd17s3Prgr_N2 (2)		/* The identifier of action node N2 in procedure CrPsCmd17s3Prgr */
-#define CrPsCmd17s3Prgr_N3 (3)		/* The identifier of action node N3 in procedure CrPsCmd17s3Prgr */
+/* Action node identifiers */
+#define CrPsCmd17s3Prgr_N1 (1)		/**< The identifier of action node N1 in procedure CrPsCmd17s3Prgr */
+#define CrPsCmd17s3Prgr_N2 (2)		/**< The identifier of action node N2 in procedure CrPsCmd17s3Prgr */
+#define CrPsCmd17s3Prgr_N3 (3)		/**< The identifier of action node N3 in procedure CrPsCmd17s3Prgr */
 
 /**
  * Create a new procedure descriptor.
@@ -46,7 +46,7 @@ FwPrDesc_t CrPsCmd17s3PrgrCreate(void* prData);
  * set completion outcome to 'completed'
  * and success outcome to 'success'
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc);
 
@@ -57,7 +57,7 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc);
  * to 'not completed' and success
  * outcome to 'success'
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc);
 
@@ -68,7 +68,7 @@ void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc);
  * and completion outcome to 'completed'
  * and release (17,4) report
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  */
 void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc);
 
@@ -79,7 +79,7 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc);
  * (time elapsed since command execution
  * started smaller than areYouAliveTimeOut) 
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc);
@@ -91,7 +91,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc);
  * (time elapsed since command execution
  * started smaller than areYouAliveTimeOut) 
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc);
@@ -102,7 +102,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc);
  * time elapsed since command execution
  * started equal to or greater than areYouAliveTimeOut 
  * </pre>
- * @param smDesc the procedure descriptor
+ * @param prDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc);

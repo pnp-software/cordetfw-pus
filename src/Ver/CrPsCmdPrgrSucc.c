@@ -1,8 +1,8 @@
 /**
  * @file CrPsCmdPrgrSucc.c
  *
- * @author FW Profile code generator version 5.23
- * @date Created on: Mar 31 2019 18:7:21
+ * @author FW Profile code generator version 5.22
+ * @date Created on: Apr 2 2019 22:52:21
  */
 
 #include "CrPsCmdPrgrSucc.h"
@@ -17,7 +17,7 @@
 
 /** Guard on the Control Flow from DECISION2 to N4. */
 FwPrBool_t CrPsCmdPrgrSuccG1E(FwPrDesc_t prDesc)
-{	(void)prDesc;
+{
 	return 1;
 }
 

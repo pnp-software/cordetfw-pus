@@ -1,8 +1,8 @@
 /**
  * @file CrPsCmd17s3Prgr.c
  *
- * @author FW Profile code generator version 5.23
- * @date Created on: Mar 29 2019 23:3:34
+ * @author FW Profile code generator version 5.22
+ * @date Created on: Apr 2 2019 22:52:21
  */
 
 #include "CrPsCmd17s3Prgr.h"
@@ -17,14 +17,14 @@
 
 /** Guard on the Control Flow from DECISION1 to N3. */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
-{	(void)prDesc;
+{
 	return 1;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 FwPrDesc_t CrPsCmd17s3PrgrCreate(void* prData)
 {
-	const FwPrCounterU2_t DECISION1 = 1;		/* The identifier of decision node DECISION1 in procedure CrPsCmd17s3Prgr */
+	const FwPrCounterU2_t DECISION1 = 1;		/** The identifier of decision node DECISION1 in procedure CrPsCmd17s3Prgr */
 	const FwPrCounterU2_t N_OUT_OF_DECISION1 = 3;	/* The number of control flows out of decision node DECISION1 in procedure CrPsCmd17s3Prgr */
 
 	/** Create the procedure */
