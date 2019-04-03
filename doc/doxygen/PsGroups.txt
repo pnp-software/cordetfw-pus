@@ -23,7 +23,7 @@
  * The test suite consists of a set of test cases.
  * Each test case is implemented in a module with a name like <code>CrPsXyzTestCase</code>
  * with 'Xyz' being the name of the function verified by the test case.
- * The main program for the test suite is in #CrPsTestSuite.c.
+ * The main program for the test suite is in CrPsTestSuite.c.
  * 
  * This module includes both the test cases and the stubs which are used to run them.
  */
@@ -179,8 +179,8 @@
  * of the CORDET Framework implements it as an Are-You-Alive Test from application A
  * to application B. If this Are-You-Alive Test is successful, application A generates a (17,4)
  * report to its user.
- * The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within time
- * #AreYouAliveTimeOut from the sending of the (17,1) command.
+ * The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within 
+ * a time-out (defined as a parameter in data pool structure #DpTstParams_t) from the sending of the (17,1) command.
  */
 
 

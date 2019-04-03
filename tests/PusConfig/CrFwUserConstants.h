@@ -119,6 +119,7 @@ typedef unsigned int CrFwTimeCyc_t;
 
 /** Type used for the time stamp of a command or report. */
 typedef struct CrFwTimeStamp {
+  /** The time stamp as a six-byte array */
   unsigned char t[6];
 } CrFwTimeStamp_t;
 

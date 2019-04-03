@@ -33,6 +33,7 @@
  * - Create a (17,4) report and check its header parameters
  * - Check the service 17 data pool parameters
  * .
+ * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsTstTestCase1();
 
@@ -52,6 +53,7 @@ CrFwBool_t CrPsTstTestCase1();
  * @verify Are-You-Alive Command, Start Action, Failure Branch
  * @verify Are-You-Alive Command, Progress Action
  * @verify Are-You-Alive Report
+ * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsTstTestCase2();
 

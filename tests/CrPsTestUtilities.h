@@ -29,7 +29,7 @@
  * Create a packet holding a Sample 1 Command with the characteristics specified by the
  * function parameters.
  * The Sample 1 Command belongs to the Dummy Service 255.
- * It is used for testing purposes and is defined in <code>::CrPsInCmdDumSample1.h</code>.
+ * It is used for testing purposes and is defined in <code>CrPsInCmdDumSample1.h</code>.
  *
  * @param dest the destination of the Sample 1 Command
  * @param accAck the acceptance acknowledge flag of the Sample 1 Command

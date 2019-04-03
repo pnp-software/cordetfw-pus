@@ -4,7 +4,7 @@
  *
  * @brief Define functions to configure the Test Service (service 17).
  * This module defines:
- * - The initialization function for service 17 (<code>::CrPsTstInit</code>)
+ * - The initialization function for service 17 (<code>::CrPsTstConfigInit</code>)
  * - The getter functions for the procedures used by the service 17 commands
  * .
  *
@@ -68,7 +68,7 @@ typedef struct CrPsTstData {
  * phase.
  * Its success or failure can therefore be determined statically.
  *
- * No configuration check (through function <code>::FwPrCheck</code>) is done.
+ * No configuration check (through function <code>FwPrCheck</code> of the FW Profile) is done.
  * Such a check should not be part of the operational implementation of service 17.
  * If it is needed (as is typically the case during the development and debug phase of an application),
  * it should be done in a separate module.

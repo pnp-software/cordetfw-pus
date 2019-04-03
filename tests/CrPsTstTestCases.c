@@ -53,6 +53,7 @@
 #include <unistd.h>
 #include <stdint.h>
 
+/** Time out for (17,3) command */
 CrFwTime_t cmd7s3TimeOut = 2;
 
 /*-----------------------------------------------------------------------------*/

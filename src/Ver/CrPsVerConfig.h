@@ -4,7 +4,7 @@
  *
  * @brief Define functions to configure the Request Verification Service (service 11).
  * This module defines:
- * - The initialization function for service 1 (<code>::CrPsTstInit</code>)
+ * - The initialization function for service 1 (<code>::CrPsVerConfigInit</code>)
  * - The getter functions for the service 1 procedures
  * .
  *
@@ -71,7 +71,7 @@ typedef struct CrPsVerData {
  * phase.
  * Its success or failure can therefore be determined statically.
  *
- * No configuration check (through function <code>::FwPrCheck</code>) is done.
+ * No configuration check (through function <code>FwPrCheck</code> in the FW Profile) is done.
  * Such a check should not be part of the operational implementation of service 17.
  * If it is needed (as is typically the case during the development and debug phase of an application),
  * it should be done in a separate module.
@@ -83,7 +83,7 @@ void CrPsVerConfigInit();
 
 /**
  * Set the data attached to the service 1 procedure instance.
- * The input for a service 1 procedure are stored in a data structure of type <code>::CrPsVerData_t</code>.
+ * The input for a service 1 procedure are stored in a data structure of type <code>#CrPsVerData</code>.
  * This function configures this data structure.
  * This function should be called before a service 1 procedure is run.
  *
@@ -96,7 +96,7 @@ void CrPsVerConfigInit();
  * @param outcome the command processing outcome for which the service 1 report is generated
  * @param servType the type of the command whose processing triggers the service 1 report
  * @param servSubType the sub-type of the command whose processing triggers the service 1 report
- * @param discriminant the discriminant of the command whose processing triggers the service 1 report
+ * @param disc the discriminant of the command whose processing triggers the service 1 report
  * @param failCode the failure code for which the service 1 failure report is being generated
  * @param inCmd the incoming command whose processing triggers the service 1 report (non-NULL only if inPckt is NULL)
  * @param inPckt the packet holding the incoming command (non-NULL only if inCmd is NULL)

@@ -57,7 +57,7 @@ static CrFwDestSrc_t invDest;
 static CrPsThirteenBit_t tcPcktId;
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N1. */
+/* Action for node N1. */
 void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
   CrFwPckt_t inPckt;
@@ -70,7 +70,7 @@ void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N2. */
+/* Action for node N2. */
 void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
@@ -81,7 +81,7 @@ void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N3. */
+/* Action for node N3. */
 void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
@@ -92,7 +92,7 @@ void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N4. */
+/* Action for node N4. */
 void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
   CrFwDestSrc_t inPcktSrc;
@@ -133,7 +133,7 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N5. */
+/* Action for node N5. */
 void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc) {
   CrPsNOfCmd_t nOfReroutingFailed;
   CRFW_UNUSED(prDesc);
@@ -146,7 +146,7 @@ void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc) {
 }
 
 /* ------------------------------------------------------------------------------------ */
-/** Action for node N6. */
+/* Action for node N6. */
 void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
@@ -162,7 +162,7 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc) {
 /*** GUARDS ***/
 /**************/
 
-/** Guard on the Control Flow from DECISION1 to N1. */
+/* Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
   CrFwPckt_t inPckt;
@@ -176,7 +176,7 @@ FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc) {
 }
 
 
-/** Guard on the Control Flow from DECISION2 to N3. */
+/* Guard on the Control Flow from DECISION2 to N3. */
 FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 

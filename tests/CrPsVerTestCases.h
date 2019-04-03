@@ -34,6 +34,7 @@
  * - Create a (1,*) report and verify selected report parameters
  * - Check selected service 1 data pool parameters
  * .
+ * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase1();
 
@@ -61,6 +62,7 @@ CrFwBool_t CrPsVerTestCase1();
  * @verify Observable, invDestRerouting
  * @verify Observable, pcktIdReroutingFailed
  * @verify Failed Routing Verification Report (1,10)
+ * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase2();
 
@@ -79,6 +81,7 @@ CrFwBool_t CrPsVerTestCase2();
  * @verify Successful Start of Execution Verification Report (1,3)
  * @verify Successful Progress of Execution Verification Report (1,5)
  * @verify Successful Termination of Execution Verification Report (1,7)
+ * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase3();
 
@@ -104,6 +107,7 @@ CrFwBool_t CrPsVerTestCase3();
  * @verify Failed Start of Execution Verification Report (1,4)
  * @verify Failed Progress of Execution Verification Report (1,6)
  * @verify Failed Termination of Execution Verification Report (1,8)
+ * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase4();
 
@@ -125,6 +129,7 @@ CrFwBool_t CrPsVerTestCase4();
  * @verify Command Verification Failed Procedure, OUTFACTORY_FAIL branch
  * @verify Command Progress Success Procedure, OUTFACTORY_FAIL branch
  * @verify Command Progress Failure Procedure, OUTFACTORY_FAIL branch
+ * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase5();
 
