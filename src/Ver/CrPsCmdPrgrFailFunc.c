@@ -52,8 +52,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/** The (1,6) report */
 static FwSmDesc_t rep;
+/** The identifier of the progress step */
 static CrFwProgressStepId_t prgrStepId;
+/** The PACKET ID field */
 static CrPsThirteenBit_t tcPcktId;
 
 /* ------------------------------------------------------------------------------------ */
@@ -61,7 +64,7 @@ static CrPsThirteenBit_t tcPcktId;
 void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc) {
   CRFW_UNUSED(prDesc);
 
-  /* Retrieve an OutComponent of type (1,5) from the OutFactory */
+  /* Retrieve an OutComponent of type (1,6) from the OutFactory */
   rep = CrFwOutFactoryMakeOutCmp(VER_TYPE, VERFAILEDPRGRREP_STYPE, 0, 0);
 
   return;

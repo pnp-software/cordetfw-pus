@@ -280,7 +280,7 @@ CrFwBool_t CrPsHkTestCase12();
  * @param sid the SID of the new command
  * @param N1 the number of data items in the new command
  * @param parId the array holding the identifiers of the data items in the command
- *
+ * @return The (3,1) command
  */
 FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parId);
 
@@ -295,7 +295,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s1(CrPsSID_t sid, CrPsNPar_t N1, CrPsParId_t* parI
  * .
  * @param sid the SIDs to be deleted
  * @param N1 the number of SIDs in the command
- *
+ * @return The (3,3) command
  */
 FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1);
 
@@ -310,7 +310,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s3(CrPsSID_t* sid, CrPsNSID_t N1);
  * .
  * @param sid the SIDs to be enabled
  * @param N1 the number of SIDs in the command
- *
+ * @return The (3,5) command
  */
 FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1);
 
@@ -325,7 +325,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s5(CrPsSID_t* sid, CrPsNSID_t N1);
  * .
  * @param sid the SIDs to be disabled
  * @param N1 the number of SIDs in the command
- *
+ * @return The (3,6) command
  */
 FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1);
 
@@ -341,7 +341,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s6(CrPsSID_t* sid, CrPsNSID_t N1);
  * @param sid the SIDs for which structure reports should be generated
  * @param N1 the number of SIDs for which structure reports are to be
  * generated
- *
+ * @return The (3,9) command
  */
 FwSmDesc_t CrPsHkTestCaseMake3s9(CrPsSID_t* sid, CrPsNSID_t N1);
 
@@ -356,7 +356,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s9(CrPsSID_t* sid, CrPsNSID_t N1);
  * .
  * @param sid the SIDs to be generated in one-shot mode
  * @param N1 the number of SIDs in the command
- *
+ * @return The (3,27) command
  */
 FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1);
 
@@ -374,7 +374,7 @@ FwSmDesc_t CrPsHkTestCaseMake3s27(CrPsSID_t* sid, CrPsNSID_t N1);
  * @param period the modified collection intervals (period)
  * @param N1 the number of SIDs whose collection interval (period) is to
  * be modified
- *
+ * @return The (3,31) command
  */
 FwSmDesc_t CrPsHkTestCaseMake3s31(CrPsSID_t* sid, CrPsCycleCnt_t* period, CrPsNSID_t N1);
 

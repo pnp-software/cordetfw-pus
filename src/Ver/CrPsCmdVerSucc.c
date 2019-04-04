@@ -1,23 +1,23 @@
 /**
  * @file CrPsCmdVerSucc.c
  *
- * @author FW Profile code generator version 5.22
- * @date Created on: Apr 2 2019 22:52:21
+ * @author FW Profile code generator version 5.23
+ * @date Created on: Apr 4 2019 23:32:41
  */
 
 #include "CrPsCmdVerSucc.h"
 
-/** FW Profile function definitions */
+/* FW Profile function definitions */
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 
-/** CrPsCmdVerSucc function definitions */
+/* CrPsCmdVerSucc function definitions */
 #include <stdlib.h>
 
-/** Guard on the Control Flow from DECISION2 to N4. */
+/* Guard on the Control Flow from DECISION2 to N4. */
 FwPrBool_t CrPsCmdVerSuccG1E(FwPrDesc_t prDesc)
-{
+{	(void)prDesc;
 	return 1;
 }
 

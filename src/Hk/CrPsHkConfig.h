@@ -126,7 +126,7 @@ void CrPsHkConfigHkRep(FwSmDesc_t rep, short int rdlPos, CrPsSID_t sid, CrPsNPar
  * - The destination is the same as the source of the Housekeeping Create Command
  * - The number and identifiers of the data pool items are taken from the Housekeeping Create Command
  * . *
- * @param the housekeeping report to be configured
+ * @param rep the housekeeping report to be configured
  * @param rdlPos the slot in the RDL where the new packet is loaded (the first slot has index zero)
  * @param createCmd the (3,1) or (3,2) command which creates the housekeeping report
  */

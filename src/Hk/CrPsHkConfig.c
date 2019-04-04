@@ -32,10 +32,12 @@
 
 #include <assert.h>
 
-/* List of identifiers of data items in the report */
+/** List of identifiers of data items in the reports defined in the RDL */
 static CrPsParId_t lstId[HK_N_REP_DEF*HK_MAX_N_ITEMS];
 
-/* If the report with a SID equal to j is pending in the RDL, then rdlIndex[j] holds
+/**
+ * Array of flags indicating whether a SID is currently defined in the RDL.
+ * If the report with a SID equal to j is pending in the RDL, then rdlIndex[j] holds
  * the index of the RDL slot where the report is loaded. Otherwise, rdlIndex[j] is equal to -1.  */
 static short int rdlIndex[HK_MAX_SID+1];
 
@@ -54,12 +56,6 @@ void CrPsHkConfigInit() {
   /* Initialize of RDL Slot Index */
   for (i=1; i<HK_MAX_SID+1; i++)
     rdlIndex[i] = -1;
-}
-
-/* ----------------------------------------------------------------------------------- */
-void CrPsHkConfigSetSidEnableStatus(CrPsSID_t sid, CrFwBool_t enableStatus) {
-  short int rdlPos = rdlIndex[sid];
-  setDpHkIsEnabledItem(rdlPos, enableStatus);
 }
 
 /* ----------------------------------------------------------------------------------- */

@@ -51,8 +51,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/** The (1,5) report */
 static FwSmDesc_t rep;
-
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* Action for node N2. */

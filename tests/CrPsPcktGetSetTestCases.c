@@ -46,9 +46,13 @@
 #include "DataPool/CrPsDp.h"
 #include "DataPool/CrPsDpTst.h"
 
+/** Maximum value of unsigned char */
 #define MAX_CHAR 255
+/** Maximum value of unsigned short */
 #define MAX_SHORT 65535
+/** Maximum value of unsigned int */
 #define MAX_INT 4294967295u
+/** Minimum value of unsigned int */
 #define MIN_VAL 0
 
 /* ---------------------------------------------------------------------------------------------*/

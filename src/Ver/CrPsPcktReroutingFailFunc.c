@@ -52,8 +52,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/** The (1,10) report */
 static FwSmDesc_t rep;
+/** The invalid destination */
 static CrFwDestSrc_t invDest;
+/** The Packet ID field */
 static CrPsThirteenBit_t tcPcktId;
 
 /* ------------------------------------------------------------------------------------ */

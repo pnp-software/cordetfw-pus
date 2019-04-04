@@ -51,7 +51,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/** The (1,2), (1,4) or (1,8) service 1 report */
 static FwSmDesc_t rep;
+/** The report sub-type */
 CrFwServSubType_t repSubType;
 
 

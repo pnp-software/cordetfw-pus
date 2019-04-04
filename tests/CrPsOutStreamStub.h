@@ -152,7 +152,7 @@ CrFwCounterU1_t CrPsOutStreamStubGetShutdownCnt();
  * OutStream through function <code>CrPsOutStreamStubPcktHandover</code>.
  * The capacity of the rin buffer is given by constant #CR_PS_OUTSTREAMSTUB_N.
  *
- * @param the index of the packet to be returned (a value of zero returns the
+ * @param i the index of the packet to be returned (a value of zero returns the
  * last packet entered in the ring buffer; a value of 1 returns the last-but-one
  * packet entered in the ring buffer; and so on)
  * @return the pointer to the i-th most recent packet handed over to the
