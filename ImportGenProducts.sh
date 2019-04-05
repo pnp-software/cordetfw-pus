@@ -81,7 +81,6 @@ if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files for the PUS Definition Document--"
     cp $EDITOR_PATH/spec/CrPsSpec.tex ./doc/pus/GeneratedTables
-    cp $EDITOR_PATH/icd/PUSExtensionCrPsErrRepCodet.csv ./doc/pus/GeneratedTables
     cp $EDITOR_PATH/icd/PUSExtensionCrPsEvtIdt.csv ./doc/pus/GeneratedTables
     cp $EDITOR_PATH/icd/PUSExtensionCrPsFailCodet.csv ./doc/pus/GeneratedTables
     cp $EDITOR_PATH/icd/PUSExtensionServiceOverview.csv ./doc/pus/GeneratedTables
