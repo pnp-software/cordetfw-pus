@@ -53,7 +53,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/** The report of type (1,1), (1,3) or (1,7) */
 static FwSmDesc_t rep;
+/** The report sub-type */
 static CrFwServSubType_t repSubType;
 
 /* ------------------------------------------------------------------------------------ */

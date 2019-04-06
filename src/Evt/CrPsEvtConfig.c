@@ -24,20 +24,27 @@
 
 #include <assert.h>
 
-/* Define arrays holding event identifiers in increasing order */
+/** Array holding list of level 1 event identifiers in increasing order */
 static CrPsEvtId_t listOfEid_1[N_OF_DER_PCKT_EVT_REP1] = LIST_OF_DER_PCKT_EVT_REP1;
+/** Array holding list of level 2 event identifiers in increasing order */
 static CrPsEvtId_t listOfEid_2[N_OF_DER_PCKT_EVT_REP2] = LIST_OF_DER_PCKT_EVT_REP2;
+/** Array holding list of level 3 event identifiers in increasing order */
 static CrPsEvtId_t listOfEid_3[N_OF_DER_PCKT_EVT_REP3] = LIST_OF_DER_PCKT_EVT_REP3;
+/** Array holding list of level 4 event identifiers in increasing order */
 static CrPsEvtId_t listOfEid_4[N_OF_DER_PCKT_EVT_REP4] = LIST_OF_DER_PCKT_EVT_REP4;
 
-/* The i-th element of these arrays holds the enable status of the i-th event identifier */
+/** The i-th element of this array holds the enable status of the i-th level 1 event identifier */
 static CrFwBool_t isEidDisabled_1[N_OF_DER_PCKT_EVT_REP1];
+/** The i-th element of this array holds the enable status of the i-th level 2 event identifier */
 static CrFwBool_t isEidDisabled_2[N_OF_DER_PCKT_EVT_REP2];
+/** The i-th element of this array holds the enable status of the i-th level 3 event identifier */
 static CrFwBool_t isEidDisabled_3[N_OF_DER_PCKT_EVT_REP3];
+/** The i-th element of this array holds the enable status of the i-th level 4 event identifier */
 static CrFwBool_t isEidDisabled_4[N_OF_DER_PCKT_EVT_REP4];
 
-/* Event Position Buffer */
+/** Event Position Buffer */
 static unsigned int sevLevel;
+/** The position within the iterator over the list of disabled identifiers */
 static int pos;
 
 /* ------------------------------------------------------------------------------------------------ */

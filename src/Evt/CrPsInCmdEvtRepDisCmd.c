@@ -25,7 +25,9 @@
 
 #include <assert.h>
 
+/** The (5,8) report */
 static FwSmDesc_t rep5s8[EVT_MAX_N5S8];
+/** The number of (5,8) reports to be created in response to the (5,7) command */
 static unsigned int nOfRep5s8;
 
 void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {

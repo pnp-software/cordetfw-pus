@@ -860,7 +860,16 @@ RECURSIVE              = YES
 
 EXCLUDE                = src/Lpt \
                          src/Mon \
-                         src/Scd
+                         src/Scd \
+                         src/DataPool/CrPsDp.c \
+                         src/DataPool/CrPsDpEvt.c \
+                         src/DataPool/CrPsDpFct.c \
+                         src/DataPool/CrPsDpHk.c \
+                         src/DataPool/CrPsDpLpt.c \
+                         src/DataPool/CrPsDpMon.c \
+                         src/DataPool/CrPsDpScd.c \
+                         src/DataPool/CrPsDpTst.c \
+                         src/DataPool/CrPsDpVer.c
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

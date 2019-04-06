@@ -105,7 +105,7 @@ void CrPsHkConfigClearSid(CrPsSID_t sid);
  * integer number of HK_COLLECT_PER periods, housekeeping reports shall be loaded into
  * an OutManager which is activated with a period of length HK_COLLECT_PER
  *
- * @param the housekeeping report to be configured
+ * @param rep the housekeeping report to be configured
  * @param rdlPos the slot in the RDL where the new packet is loaded (the first slot has index zero)
  * @param sid the Structure Identifier (SID) of the new packet
  * @param nOfItems the number of items in the new packet
@@ -172,6 +172,7 @@ short int CrPsHkConfigGetFreeRdlSlot();
  *
  * @param rdlSlot the index of the RDL slot
  * @param i the index within the SID definition (starting from zero)
+ * @return the identifier of the i-th data pool item in the SID at RDL slot <code>rdlSlot<\code>
  */
 CrPsParId_t CrPsHkConfigGetParamId(short int rdlSlot, CrPsNPar_t i);
 

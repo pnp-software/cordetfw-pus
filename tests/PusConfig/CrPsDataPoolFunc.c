@@ -11,7 +11,7 @@
  * - No data pool load mechanism
  * .
  * The functions in this module are called by the Data Pool State Machine
- * implemented in module #CrPsDataPool.
+ * implemented in module CrPsDataPool.h.
  */
 
 /** CrPsDataPool function definitions */

@@ -11,9 +11,6 @@
  * Each execution cycle is treated as a progress step cycle.
  * The progress step identifier of the n-th execution cycle is equal to n.
  *
- * If an event identifier is encountered to which no severity level is associated
- * (through function #CrPsEvtConfigGetSeverity), then the application error code
- * is set to: #CrPsEvtIdWithNoSevLevel.
  */
 
 #include "CrPsInCmdEvtEnbCmd.h"

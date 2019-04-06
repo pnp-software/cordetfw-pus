@@ -22,6 +22,7 @@
 #include "CrPsHkConfig.h"
 #include "OutCmp/CrFwOutCmp.h"
 
+/** The index of the RDL slot (starting from zero) */
 static short int rdlPos;
 
 /* --------------------------------------------------------------------------- */

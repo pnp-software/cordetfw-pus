@@ -39,7 +39,7 @@
  * generates an error report of type OUTFACTORY_FAIL.
  *
  * If no severity level can be associated to the argument event identifier,
- * the application error code is set to #CrPsEvtIdWithNoSevLevel.
+ * the application error code is set to #crPsEvtIllEvtId.
  * @param evtId The event identifier
  */
 void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId);
@@ -55,7 +55,9 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId);
  * generates an error report of type OUTFACTORY_FAIL.
  *
  * If no severity level can be associated to the argument event identifier,
- * the application error code is set to #CrPsEvtIdWithNoSevLevel.
+ * the application error code is set to #crPsEvtIllEvtId.
+ *
+ * @param dummyPar the dummy event parameter
  * @param evtId The event identifier
  */
 void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar);

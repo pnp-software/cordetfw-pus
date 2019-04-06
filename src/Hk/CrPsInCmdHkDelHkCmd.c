@@ -63,13 +63,3 @@ void CrPsInCmdHkDelHkCmdProgressAction(FwSmDesc_t smDesc) {
     CrFwInCmdSetProgressActionCompleted(smDesc, 0);
   else
     CrFwInCmdSetProgressActionCompleted(smDesc, 1);}
-
-/*--------------------------------------------------------------------------------*/
-void CrPsInCmdHkDelHkCmdTerminationAction(FwSmDesc_t smDesc) {
-  CrFwProgressStepId_t nOfFailedSteps = CrFwInCmdGetNOfProgressFailure(smDesc);
-  if (nOfFailedSteps > 0) {
-    setDpVerFailData(nOfFailedSteps);
-    CrFwSetSmOutcome(smDesc, VER_MI_S3_FD);
-  } else
-    CrFwSetSmOutcome(smDesc, 1);
-}

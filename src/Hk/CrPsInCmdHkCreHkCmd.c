@@ -31,10 +31,15 @@
 #include "OutFactory/CrFwOutFactory.h"
 #include "CrFwRepErr.h"
 
+/** The (3,25) report created by the command */
 static FwSmDesc_t rep;
+/** The index of the RDL slot where the report is stored */
 static short int rdlSlot;
+/** The SID of the report to be created */
 static CrPsSID_t sid;
+/** The number of data items in the report to be created */
 static CrPsNPar_t N1;
+/** The packet holding the command */
 static CrFwPckt_t pckt;
 
 /* ------------------------------------------------------------------------------------ */

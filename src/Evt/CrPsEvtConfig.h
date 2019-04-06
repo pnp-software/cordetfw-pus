@@ -98,6 +98,8 @@ unsigned int CrPsEvtConfigGetSevLevel(CrPsEvtId_t evtId);
 /**
  * Return the pointer to the array of event identifiers for the argument severity level.
  * If the severity level is out-of-range, NULL is returned.
+ *
+ * @param severityLevel the severity level (an integer from 1 to 4)
  * @return the pointer to the array of disabled event identifiers for the argument severity level
  * or NULL if the severity level is out-of-range
  */

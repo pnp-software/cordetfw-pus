@@ -36,6 +36,7 @@
 
 #include <stdlib.h>
 
+/** The (17,2) report */
 static FwSmDesc_t rep;
 
 

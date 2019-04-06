@@ -124,7 +124,7 @@
  * closes these adaptation points to generate the service 1 reports.
  */
  
- /** @defgroup man_hk Request Verification Service 
+ /** @defgroup man_hk Housekeeping Reporting Service 
  * @ingroup psExt
  *
  * @brief Implementation of Housekeeping Service (PUS Service 3) 
