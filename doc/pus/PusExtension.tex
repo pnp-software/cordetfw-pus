@@ -944,14 +944,15 @@ The event reporting service provides the capability to report event-like occurre
 
 The PUS recognizes four levels of event reports and associates to each level a service sub-type. Thus, for instance, all event reports of level 1 are carried by reports of type (5,1) and all event reports of level 2 are carried by event reports of type (5,2). 
 
-All event reports have the same behaviour irrespective of their level. The PUS Extension of the CORDET Framework one component for each event reporting level.
+All event reports have the same behaviour irrespective of their level. The PUS Extension of the CORDET Framework offers one component for each event reporting level but the four components have identical behaviour.
 
 Event reports may carry data. The Event Identifier (EID) determines the format of the data associated to an event report. The PUS Extension accordingly treats the event identifier as a discriminant. The range of discriminants and the data associated to each discriminant are adaptation points which must be defined at application level. Some event identifiers are pre-defined at framework level. They are listed in appendix \ref{sec:preDefEvtRep}.
 
 Applications use event reports as follows:
 
 \begin{itemize}
-\item When an application encounters a situation which should trigger the generation of an event report, it retrieves an event component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the event component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type and the sub-type of the event report.
+\item When an application encounters a situation which should trigger the generation of an event report, it retrieves an event component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the event component is retrieved from the factory because the \texttt{make} function of the OutFactory takes as an argument the type and the sub-type of the event report.
+\item The configures the event report by loading the value of its parameters.
 \item The application loads the event component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
 	\begin{itemize}
 	\item If the identifier of the event is enabled, then the event report will eventually be sent to its destination;
@@ -961,18 +962,21 @@ Applications use event reports as follows:
 
 Note that the configuration of the event reports must be done by the application (as opposed to being delegated to the Update Action of the component which implements the event report). This ensures that the event report configuration reflects the state of the system at the time the event report is created (as opposed to the time when the event report is sent out).  
 
-Event identifiers can be enabled and disabled. The PUS Extension uses the report enable mechanism of the OutRegistry component to manage the enable status of event reports. This implies that, by default, all event identifiers are enabled. If an application needs some event identifiers to be disabled by default, it must disable them during the application initialization phase (adaptation point P-S5-3).
+In order to support the generation of the event reports it pre-defines, the PUS Extension defines the \textit{Generate Pre-Defined Event Functions}. These functions are responsible for: retrieving the event report from the OutFactory; configuring it in accordance with its event identifier; and loading it in the OutLoader. If the attempt to retrieve the event report from the OutFactory fails, the function generates an error report of type OUTFACTORY\_FAIL.
 
-In accordance with clause 6.5.4b of reference [PS-SP], all event reports have the same destination and this destination must be statically defined. The destination is accordingly treated as a configuration parameter for the PUS Extension of the CORDET Framework.
+Event identifiers can be enabled and disabled. The PUS Extension uses the report enable mechanism of the OutRegistry component to manage the enable status of event reports. This implies that, by default, all event identifiers are enabled. If an application needs some event identifiers to be disabled by default, it must disable them during the application initialization phase.
+
+In accordance with clause 6.5.4b of reference [PS-SP], all event reports have the same destination and this destination must be statically defined. The event destination is accordingly treated as a configuration parameter for the PUS Extension of the CORDET Framework.
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
 The tables in this section formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
 \begin{itemize}
-\item The update of observables which are related to the occurrence of an event is done by the Enable Check of component EvtRep. This is appropriate because this action is executed every time an application creates an event report. The update of observables which are related to the generation of report is done by the Update Action of component EvtRep. This is appropriate because this action is only executed when an event report is actually issued by an application.
-\item Service 5 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
-\item Service 5 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
+\item The update of observables which are related to the \textit{occurrence of an event} is done by the Enable Check of component EvtRep. This is appropriate because this action is executed every time an application creates an event report. The update of observables which are related to the \textit{generation of an event} is done by the Update Action of component EvtRep. This is appropriate because this action is only executed when an event report is actually issued by an application.
+\item Service 5 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'.
+\item Service 5 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'.
+\item Command (5,7) triggers the generation of a (5,8) report carrying all disabled identifiers. The PUS standard does not specify what should be done if the disabled event identifiers do not fit into one report. In order to cover this contingency, the PUS Framework may generate multiple (5,8) reports in response to one (5,7) command.
 \end{itemize}
 
 \newpage
@@ -983,6 +987,7 @@ The tables in this section formally specify the service 5 commands and reports b
 \printOutCmpEvtRepdSpec{|c|p{10cm}|}
 \newpage
 \printInCmdEvtEnbCmdSpec{|c|p{10cm}|}
+\newpage
 \printInCmdEvtDisCmdSpec{|c|p{10cm}|}
 \newpage
 \printInCmdEvtRepDisCmdSpec{|c|p{10cm}|}
@@ -1004,7 +1009,6 @@ The service 5 observables consist of counters and flags which are updated by the
 \pnpcsvtable[filter equal={\Domain}{Evt}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Event Reporting Service}{tab:Obs-S5}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
 
 
-\newpage
 %---------------------------------------------------------------------------------
 \subsection{Service 5 Requirements}
 The table in this section lists requirements for the event reporting service.
