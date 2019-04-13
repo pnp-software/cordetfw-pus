@@ -94,6 +94,7 @@ CrFwBool_t CrPsHkTestCase2();
  * @verify Report, Hk, Execution while enabled with collection period equal to 1
  * @verify Report, Hk, Execution while enabled with collection period greater than 1
  * @verify Report, Hk, Execution while enabled with collection period equal to zero
+ * @verify Data Pool, HkIsEnabled
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -116,6 +117,7 @@ CrFwBool_t CrPsHkTestCase3();
  * @verify Command, Enable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
  * @verify Command, Enable Generation of a HK Report Structure, All SIDs are loaded in the RDL
  * @verify Command, Enable Generation of a Diagnostic Report Structure, One loaded SID
+ * @verify Data Pool, hkDest
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -180,6 +182,7 @@ CrFwBool_t CrPsHkTestCase6();
  * @verify Command, Modify HK Report Collection Interval, SID is not loaded in the RDL
  * @verify Command, Modify HK Report Collection Interval, SID is out-of-range
  * @verify Command, Modify Diagnostic Report Collection Interval, SID is loaded in the RDL
+ * @verify Data Pool, HkPeriod
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -199,6 +202,7 @@ CrFwBool_t CrPsHkTestCase7();
  * @verify Command, Generate One-Shot Report for HK Parameters, SID is loaded in the RDL
  * @verify Command, Generate One-Shot Report for HK Parameters, SID is not loaded in the RDL
  * @verify Command, Generate One-Shot Report for HK Parameters, SID is out-of-range
+ * @verify Data Pool, HkCycleCnt
  *
  * @return 1 if the test was successful, 0 otherwise
  */

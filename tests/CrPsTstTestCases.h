@@ -34,6 +34,9 @@
  * - Check the service 17 data pool parameters
  * .
  * @verify Packet, Test service parameters
+ * @verify Data Pool, areYouAliveTimeOut
+ * @verify Data Pool, onBoardConnectDestLst
+ * @verify Data Pool, areYouAliveSrc
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsTstTestCase1();
@@ -75,6 +78,7 @@ CrFwBool_t CrPsTstTestCase2();
  * @verify Command, Connection Test, Start Action Nominal Branches
  * @verify Command, Connection Test, Progress Action Left Branch
  * @verify Command, Connection Test, Progress Action Middle Branch
+ * @verify Data Pool, failCodePrgrFailed
  * @verify Report, Start Failure, Failure Code VER_REP_CR_FD
  *
  * @return true if the test was successful, false otherwise.
@@ -102,6 +106,8 @@ CrFwBool_t CrPsTstTestCase3();
  * @verify Connection Test Command, Progress Action right Branch (failure)
  * @verify Report, Start Failure, Failure Code VER_REP_CR_FD
  * @verify Report, Termination Failure, Failure Code VER_TST_TO
+ * @verify Data Pool, failCodePrgrFailed
+ * @verify Data Pool, areYouAliveTimeOut
  *
  * @return true if the test was successful, false otherwise.
  */

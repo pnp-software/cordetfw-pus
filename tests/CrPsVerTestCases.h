@@ -107,6 +107,7 @@ CrFwBool_t CrPsVerTestCase3();
  * @verify Report, Failed Start of Execution Verification
  * @verify Report, Failed Progress of Execution Verification
  * @verify Report, Failed Termination of Execution Verification
+ * @verify Data Pool, failCode
  * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase4();

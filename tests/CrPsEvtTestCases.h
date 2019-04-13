@@ -59,9 +59,9 @@ CrFwBool_t CrPsEvtTestCase1();
  * - Verify that the event identifier is correct and equal to its discriminant
  * .
  * @verify Report, Event Severity 1, Nominal case
- * @verify Data Pool, EvtLastEvtEid_1
- * @verify Data Pool, EvtLastEvtTime_1
- * @verify Data Pool, EvtNOfDetectedEvts_1
+ * @verify Data Pool, EvtLastEvtEid
+ * @verify Data Pool, EvtLastEvtTime
+ * @verify Data Pool, EvtNOfDetectedEvts
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -137,6 +137,7 @@ CrFwBool_t CrPsEvtTestCase5();
  * .
  * @verify Command, Enable Generation of Event Identifiers, Multiple legal event identifiers
  * @verify Command, Disable Generation of Event Identifiers, Multiple legal event identifiers
+ * @verify Data Pool, nOfDisabledEid
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -158,6 +159,7 @@ CrFwBool_t CrPsEvtTestCase6();
  * .
  * @verify Command, Enable Generation of Event Identifiers, Mixed legal and illegal event identifiers
  * @verify Command, Disable Generation of Event Identifiers, Mixed legal and illegal event identifiers
+ * @verify Data Pool, failData
  *
  * @return 1 if the test was successful, 0 otherwise
  */
