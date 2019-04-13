@@ -1737,7 +1737,7 @@ The service type of the Test Service is 17. The PUS Extension of the CORDET Fram
 
 The Test Service provides the capability to perform two kinds of connections tests: the \textit{Are-You-Alive Test} and the \textit{On-Board Connection Test}.
 
-The Are-You-Alive test is like a ping test: an external user sends a command of type (17,1) to the application and the application responds by sending to the user a (17,2) report. Neither the (17,1) command nor the (17,2) report carry any parameters. 
+The Are-You-Alive test is like a ping test: an external user sends a command of type (17,1) to the application and the application responds by sending to the user a (17,2) report. Neither the (17,1) command nor the (17,2) report carry any data. 
 
 In the On-Board-Connection Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. 
 
@@ -1754,11 +1754,11 @@ In the CORDET Framework an out-going report is encapsulated in an OutComponent c
 \item Component OnBoardConnectRep implements report (17,4) 
 \end{itemize}
 
-These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} but the main points are as follows.
+These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:InCmdTstAreYouAliveCmdSpec} to \ref{tab:OutCmpTstConnectRepSpec} but the main points are as follows.
 
 The AreYouAliveCmd commmand implements a Progress Action which creates and loads the AreYouAliveRep report. The report destination is the same as the source of the AreYouAliveCmd command. Thus, the processing of the AreYouAliveCmd command consists in sending an AreYouAliveRep to the source of the AreYouAliveCmd. The AreYouAliveCmd commmand is always accepted and it is always started, executed and terminated successfully.
 
-The OnBoardConnectCmd command is always accepted. The command carries as its single parameter the identifier of the application with which the connection test must be performed. The Start Action of the command verifies the legality of this application identifier. In order to establish its legality, service 17 maintains parameter \texttt{onBoardConnectDestLst} to hold the list of legal targets for the On-Board-Connection test. If the application identifier carried by the OnBoardConnectCmd command is not included in this list, its Start Action is deemed to have failed. The Start Action of the OnBoardConnectCmd command is shown in figure \ref{fig:Cmd17s3Start} as an activity diagram.
+The OnBoardConnectCmd command carries as its single parameter the identifier of the application with which the connection test must be performed. The Start Action of the command verifies the legality of this application identifier. In order to establish its legality, service 17 maintains parameter \texttt{onBoardConnectDestLst} to hold the list of legal targets for the On-Board-Connection test. If the application identifier carried by the OnBoardConnectCmd command is not included in this list, its Start Action is deemed to have failed. The Start Action of the OnBoardConnectCmd command is shown in figure \ref{fig:Cmd17s3Start} as an activity diagram.
 
 If, instead, the legality of the target application identifier is confirmed, the Start Action sends an AreYouAliveCmd command to the target application. Normally, the target application should respond by sending it an AreYouAliveRep report. If the expected response (the AreYouAliveRep report) is not received within time \texttt{areYouAliveTimeOut}, the command is deemed to have failed its execution.
 
@@ -1775,7 +1775,7 @@ One implication of this mechanism is that only one On-Board-Connection Test may 
 
 The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} before starting an On-Board-Connection Test.
 
-Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 17 (see section \ref{sec:defPusRepCmd}). The following considerations apply to the service 17 commands and reports:
+Tables \ref{tab:InCmdTstAreYouAliveCmdSpec} to \ref{tab:OutCmpTstConnectRepSpec} formally specify the service 17 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 17 (see section \ref{sec:defPusRepCmd}). The following considerations apply to the service 17 commands and reports:
 
 \begin{itemize}
 \item The service 17 commands execute in 'one-shot' mode and therefore do not generate progress reports.
@@ -1799,7 +1799,7 @@ Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 
 \subsection{Service 17 Constants}\label{sec:serv17Const}
 The service 17 constants are listed in table \ref{tab:Const-S17}. 
 
-\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Test Service}{tab:Const-S17}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
+\pnpcsvtable[filter equal={\Domain}{Tst}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Test Service}{tab:Const-S17}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 %---------------------------------------------------------------------------------
 
