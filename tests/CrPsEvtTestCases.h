@@ -160,6 +160,7 @@ CrFwBool_t CrPsEvtTestCase6();
  * @verify Command, Enable Generation of Event Identifiers, Mixed legal and illegal event identifiers
  * @verify Command, Disable Generation of Event Identifiers, Mixed legal and illegal event identifiers
  * @verify Data Pool, failData
+ * @verify Command Rejection Code, VER_ILL_EID
  *
  * @return 1 if the test was successful, 0 otherwise
  */

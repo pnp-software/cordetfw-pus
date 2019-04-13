@@ -80,6 +80,7 @@ CrFwBool_t CrPsTstTestCase2();
  * @verify Command, Connection Test, Progress Action Middle Branch
  * @verify Data Pool, failCodePrgrFailed
  * @verify Report, Start Failure, Failure Code VER_REP_CR_FD
+ * @verify Command Rejection Code, VER_REP_CR_FD
  *
  * @return true if the test was successful, false otherwise.
  */

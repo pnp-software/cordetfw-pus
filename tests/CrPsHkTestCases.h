@@ -67,6 +67,11 @@ CrFwBool_t CrPsHkTestCase1();
  * @verify Command, Create HK, Start Failure with error code VER_ILL_DP_ID
  * @verify Command, Create HK, Start Failure with error code VER_ILL_NID
  * @verify Command, Create HK, Start Failure with error code VER_SID_IN_USE
+ * @verify Command Rejection Code, VER_FULL_RDL
+ * @verify Command Rejection Code, VER_ILL_SID
+ * @verify Command Rejection Code, VER_ILL_DP_ID
+ * @verify Command Rejection Code, VER_ILL_NID
+ * @verify Command Rejection Code, VER_SID_IN_USE
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -118,6 +123,7 @@ CrFwBool_t CrPsHkTestCase3();
  * @verify Command, Enable Generation of a HK Report Structure, All SIDs are loaded in the RDL
  * @verify Command, Enable Generation of a Diagnostic Report Structure, One loaded SID
  * @verify Data Pool, hkDest
+ * @verify Command Rejection Code, VER_MI_S3_FD
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -160,6 +166,8 @@ CrFwBool_t CrPsHkTestCase5();
  * @verify Command, Delete HK Report Structure, SID is enabled
  * @verify Command, Delete HK Report Structure, SID is loaded and disabled
  * @verify Command, Delete Diagnostic Report Structure, SID is loaded and disabled
+ * @verify Command Rejection Code, VER_ENB_SID
+ * @verify Command Rejection Code, VER_MI_S3_FD
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -203,6 +211,7 @@ CrFwBool_t CrPsHkTestCase7();
  * @verify Command, Generate One-Shot Report for HK Parameters, SID is not loaded in the RDL
  * @verify Command, Generate One-Shot Report for HK Parameters, SID is out-of-range
  * @verify Data Pool, HkCycleCnt
+ * @verify Command Rejection Code, VER_MI_S3_FD
  *
  * @return 1 if the test was successful, 0 otherwise
  */
