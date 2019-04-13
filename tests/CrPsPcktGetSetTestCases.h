@@ -29,6 +29,7 @@
  * The test case sets each header parameter and the reads it back and verifies its value.
  * For each header parameter field, two different values are tried.
  *
+ * @verify Packet, Header attributes
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsPcktGetSetTestCase1();

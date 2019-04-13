@@ -37,8 +37,8 @@
  * - Clear all SIDs but those pre-defined for testing purposes by the PUS Extension and verify success
  *   of clear operation
  * .
- * @verify Hk Config, Operation to set the define report in the RDL
- * @verify Hk Config, Operation to clear a SID from the RDL
+ * @verify Config, Hk, Operation to set the define report in the RDL
+ * @verify Config, Hk, Operation to clear a SID from the RDL
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -62,11 +62,11 @@ CrFwBool_t CrPsHkTestCase1();
  * - Execute a (3,1) command with an illegal number of data item identifiers
  *   and verify that the command is rejected with a (1,4) report with error code VER_ILL_NID
  * .
- * @verify Create HK Command, Start Failure with error code VER_FULL_RDL
- * @verify Create HK Command, Start Failure with error code VER_ILL_SID
- * @verify Create HK Command, Start Failure with error code VER_ILL_DP_ID
- * @verify Create HK Command, Start Failure with error code VER_ILL_NID
- * @verify Create HK Command, Start Failure with error code VER_SID_IN_USE
+ * @verify Command, Create HK, Start Failure with error code VER_FULL_RDL
+ * @verify Command, Create HK, Start Failure with error code VER_ILL_SID
+ * @verify Command, Create HK, Start Failure with error code VER_ILL_DP_ID
+ * @verify Command, Create HK, Start Failure with error code VER_ILL_NID
+ * @verify Command, Create HK, Start Failure with error code VER_SID_IN_USE
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -89,11 +89,11 @@ CrFwBool_t CrPsHkTestCase2();
  * - The generation period and the cycle counter are set to zero and it is verified that the report is
  *   only generated once (one-shot mode)
  * .
- * @verify Create HK Command, Successful execution
- * @verify HK Report, Execution while disabled
- * @verify HK Report, Execution while enabled with collection period equal to 1
- * @verify HK Report, Execution while enabled with collection period greater than 1
- * @verify HK Report, Execution while enabled with collection period equal to zero
+ * @verify Command, Create HK, Successful execution
+ * @verify Report, Hk, Execution while disabled
+ * @verify Report, Hk, Execution while enabled with collection period equal to 1
+ * @verify Report, Hk, Execution while enabled with collection period greater than 1
+ * @verify Report, Hk, Execution while enabled with collection period equal to zero
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -112,10 +112,10 @@ CrFwBool_t CrPsHkTestCase3();
  *   that executing the command once results in the SID being enabled
  *   and that the SID's destination matches the command's source
  * .
- * @verify Enable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
- * @verify Enable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
- * @verify Enable Generation of a HK Report Structure, All SIDs are loaded in the RDL
- * @verify Enable Generation of a Diagnostic Report Structure, One loaded SID
+ * @verify Command, Enable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
+ * @verify Command, Enable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
+ * @verify Command, Enable Generation of a HK Report Structure, All SIDs are loaded in the RDL
+ * @verify Command, Enable Generation of a Diagnostic Report Structure, One loaded SID
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -133,10 +133,10 @@ CrFwBool_t CrPsHkTestCase4();
  * - One (3,8) command is created carrying one SID and it is verified
  *   that executing the command once results in the SID being disabled
  * .
- * @verify Disable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
- * @verify Disable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
- * @verify Disable Generation of a HK Report Structure, All SIDs are loaded in the RDL
- * @verify Disable Generation of a Diagnostic Report Structure, One loaded SID
+ * @verify Command, Disable Generation of a HK Report Structure, All SIDs are not loaded in the RDL
+ * @verify Command, Disable Generation of a HK Report Structure, Some SIDs are loaded in the RDL and others are illegal
+ * @verify Command, Disable Generation of a HK Report Structure, All SIDs are loaded in the RDL
+ * @verify Command, Disable Generation of a Diagnostic Report Structure, One loaded SID
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -153,11 +153,11 @@ CrFwBool_t CrPsHkTestCase5();
  * - One (3,4) command is created carrying one legal, loaded and disabled SID and it is verified
  *   that executing the command results in the SID being deleted
  * .
- * @verify Delete HK Report Structure, SID is not loaded in the RDL
- * @verify Delete HK Report Structure, SID is illegal
- * @verify Delete HK Report Structure, SID is enabled
- * @verify Delete HK Report Structure, SID is loaded and disabled
- * @verify Delete Diagnostic Report Structure, SID is loaded and disabled
+ * @verify Command, Delete HK Report Structure, SID is not loaded in the RDL
+ * @verify Command, Delete HK Report Structure, SID is illegal
+ * @verify Command, Delete HK Report Structure, SID is enabled
+ * @verify Command, Delete HK Report Structure, SID is loaded and disabled
+ * @verify Command, Delete Diagnostic Report Structure, SID is loaded and disabled
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -176,10 +176,10 @@ CrFwBool_t CrPsHkTestCase6();
  *   the command is executed and it is
  *   verified that the period of the housekeeping report has been modified as expected
  * .
- * @verify Modify HK Report Collection Interval, SID is loaded in the RDL
- * @verify Modify HK Report Collection Interval, SID is not loaded in the RDL
- * @verify Modify HK Report Collection Interval, SID is out-of-range
- * @verify Modify Diagnostic Report Collection Interval, SID is loaded in the RDL
+ * @verify Command, Modify HK Report Collection Interval, SID is loaded in the RDL
+ * @verify Command, Modify HK Report Collection Interval, SID is not loaded in the RDL
+ * @verify Command, Modify HK Report Collection Interval, SID is out-of-range
+ * @verify Command, Modify Diagnostic Report Collection Interval, SID is loaded in the RDL
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -196,9 +196,9 @@ CrFwBool_t CrPsHkTestCase7();
  *   the OutManager of the report is executed and it is
  *   verified that the report is generated
  * .
- * @verify Generate One-Shot Report for HK Parameters, SID is loaded in the RDL
- * @verify Generate One-Shot Report for HK Parameters, SID is not loaded in the RDL
- * @verify Generate One-Shot Report for HK Parameters, SID is out-of-range
+ * @verify Command, Generate One-Shot Report for HK Parameters, SID is loaded in the RDL
+ * @verify Command, Generate One-Shot Report for HK Parameters, SID is not loaded in the RDL
+ * @verify Command, Generate One-Shot Report for HK Parameters, SID is out-of-range
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -213,9 +213,9 @@ CrFwBool_t CrPsHkTestCase8();
  *   and that their content matches the definition of the SIDs
  * - It is verified that a (1,6) report is generated in response to the illegal SID
  * .
- * @verify Report Housekeeping Parameter Report Structure, SID is loaded in the RDL
- * @verify Report Housekeeping Parameter Report Structure, SID is illegal
- * @verify Housekeeping Parameter Report Structure Report
+ * @verify Report, Housekeeping Parameter Report Structure, SID is loaded in the RDL
+ * @verify Report, Housekeeping Parameter Report Structure, SID is illegal
+ * @verify Command, Housekeeping Parameter Report Structure Report
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -230,8 +230,8 @@ CrFwBool_t CrPsHkTestCase9();
  * - The report is enabled and then the OutManager is executed and it is verified that the HK report
  *   is generated
  * .
- * @verify Create Diagnostic Report Command, Successful execution
- * @verify Diagnostic Report, Execution while enabled with collection period equal to 1
+ * @verify Command, Create Diagnostic Report, Successful execution
+ * @verify Report, Diagnostic, Execution while enabled with collection period equal to 1
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -246,7 +246,7 @@ CrFwBool_t CrPsHkTestCase10();
  *   the command is executed and then the OutManager of the report is executed and it is
  *   verified that the report is generated
  * .
- * @verify Generate One-Shot Report for Diagnostic Parameters, SID is loaded in the RDL
+ * @verify Command, Generate One-Shot Report for Diagnostic Parameters, SID is loaded in the RDL
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -260,8 +260,8 @@ CrFwBool_t CrPsHkTestCase11();
  *   and it is verified that execution of the command causes one (3,12) report to be generated
  *   and that its content matches the definition of the SID
  * .
- * @verify Report Diagnostic Parameter Report Structure, SID is loaded in the RDL
- * @verify Diagnostic Parameter Report Structure Report
+ * @verify Command, Report Diagnostic Parameter Report Structure, SID is loaded in the RDL
+ * @verify Report, Diagnostic Parameter Report Structure
  *
  * @return 1 if the test was successful, 0 otherwise
  */

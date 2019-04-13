@@ -39,10 +39,10 @@
  * - The severity level of a non-existent event identifier is recovered and it is verified that
  *   the non-existence of the event identifier is recognized
  * .
- * @verify Evt Config, Operation to retrieve position and severity level of event identifier
- * @verify Evt Config, Operation to set the enable status of an event identifier
- * @verify Evt Config, Operation to read the enable status of an event identifier
- * @verify Evt Config, Operation to read the severity level of an event identifier
+ * @verify Config, Evt, Operation to retrieve position and severity level of event identifier
+ * @verify Config, Evt, Operation to set the enable status of an event identifier
+ * @verify Config, Evt, Operation to read the enable status of an event identifier
+ * @verify Config, Evt, Operation to read the severity level of an event identifier
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -58,7 +58,7 @@ CrFwBool_t CrPsEvtTestCase1();
  *   (last event identifier, time stamp of last event, and number of generated events)
  * - Verify that the event identifier is correct and equal to its discriminant
  * .
- * @verify Event Report 1, Nominal case
+ * @verify Report, Event Severity 1, Nominal case
  * @verify Data Pool, EvtLastEvtEid_1
  * @verify Data Pool, EvtLastEvtTime_1
  * @verify Data Pool, EvtNOfDetectedEvts_1
@@ -77,7 +77,7 @@ CrFwBool_t CrPsEvtTestCase2();
  *   (last event identifier, time stamp of last event, and number of generated events)
  * - Verify that the event identifier is correct and equal to its discriminant
  * .
- * @verify Event Report 2, Nominal case
+ * @verify Report, Event Severity 2, Nominal case
  * @verify Data Pool, EvtLastEvtEid_2
  * @verify Data Pool, EvtLastEvtTime_2
  * @verify Data Pool, EvtNOfDetectedEvts_2
@@ -96,7 +96,7 @@ CrFwBool_t CrPsEvtTestCase3();
  *   (last event identifier, time stamp of last event, and number of generated events)
  * - Verify that the event identifier is correct and equal to its discriminant
  * .
- * @verify Event Report 3, Nominal case
+ * @verify Report, Event Severity 3, Nominal case
  * @verify Data Pool, EvtLastEvtEid_3
  * @verify Data Pool, EvtLastEvtTime_3
  * @verify Data Pool, EvtNOfDetectedEvts_3
@@ -115,7 +115,7 @@ CrFwBool_t CrPsEvtTestCase4();
  *   (last event identifier, time stamp of last event, and number of generated events)
  * - Verify that the event identifier is correct and equal to its discriminant
  * .
- * @verify Event Report 4, Nominal case
+ * @verify Report, Event Severity 4, Nominal case
  * @verify Data Pool, EvtLastEvtEid_4
  * @verify Data Pool, EvtLastEvtTime_4
  * @verify Data Pool, EvtNOfDetectedEvts_4
@@ -135,8 +135,8 @@ CrFwBool_t CrPsEvtTestCase5();
  *   and verify that the argument event identifiers are enabled and that the counters of
  *   disabled events has been decremented
  * .
- * @verify Enable Generation of Event Identifiers, Multiple legal event identifiers
- * @verify Disable Generation of Event Identifiers, Multiple legal event identifiers
+ * @verify Command, Enable Generation of Event Identifiers, Multiple legal event identifiers
+ * @verify Command, Disable Generation of Event Identifiers, Multiple legal event identifiers
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -156,8 +156,8 @@ CrFwBool_t CrPsEvtTestCase6();
  *   illegal event identifier has been loaded in verFailData and that a (1,5) report
  *   with failure code VER_ILL_EID has been generated
  * .
- * @verify Enable Generation of Event Identifiers, Mixed legal and illegal event identifiers
- * @verify Disable Generation of Event Identifiers, Mixed legal and illegal event identifiers
+ * @verify Command, Enable Generation of Event Identifiers, Mixed legal and illegal event identifiers
+ * @verify Command, Disable Generation of Event Identifiers, Mixed legal and illegal event identifiers
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -173,9 +173,9 @@ CrFwBool_t CrPsEvtTestCase7();
  *   it and verify that it triggers the generation of two (5,8) reports carrying the disabled
  *   identifiers
  * .
- * @verify Report Disabled Event Identifiers, Nominal case
- * @verify Disabled Event Identifiers Report, Case of single (5,8) report
- * @verify Disabled Event Identifiers Report, Case of multiple (5,8) reports
+ * @verify Command, Report Disabled Event Identifiers, Nominal case
+ * @verify Report, Disabled Event Identifiers, Case of single (5,8) report
+ * @verify Report, Disabled Event Identifiers, Case of multiple (5,8) reports
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -190,8 +190,8 @@ CrFwBool_t CrPsEvtTestCase8();
  * - Generate and execute a (5,7) command and verify that no (5,8) report is generated and
  *   than an error report of type OUTFACTORY_FAIL is generated
  * .
- * @verify Generate Pre-Defined Parameterless Event, OUTFACTORY_FAIL error case
- * @verify Report Disabled Event Identifiers, Case of full OutFactory
+ * @verify Generate Pre-Defined Event, Parameterless event OUTFACTORY_FAIL error case
+ * @verify Report, Disabled Event Identifiers, Case of full OutFactory
  *
  * @return 1 if the test was successful, 0 otherwise
  */

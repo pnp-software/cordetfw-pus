@@ -33,6 +33,7 @@
  * - Create a (17,4) report and check its header parameters
  * - Check the service 17 data pool parameters
  * .
+ * @verify Packet, Test service parameters
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsTstTestCase1();
@@ -49,10 +50,10 @@ CrFwBool_t CrPsTstTestCase1();
  * - Repeat the previous steps for the case where the OutFactory is full and verifies
  *   that the (17,1) command fails its Start Action
  * .
- * @verify Are-You-Alive Command, Start Action, Nominal Branch
- * @verify Are-You-Alive Command, Start Action, Failure Branch
- * @verify Are-You-Alive Command, Progress Action
- * @verify Are-You-Alive Report
+ * @verify Command, Are-You-Alive, Start Action Nominal Branch
+ * @verify Command, Are-You-Alive, Start Action Failure Branch
+ * @verify Command, Are-You-Alive, Progress Action
+ * @verify Report, Are-You-Alive
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsTstTestCase2();
@@ -70,11 +71,11 @@ CrFwBool_t CrPsTstTestCase2();
  * - Create a (17,2) report as a response to the (17,1) and execute it
  * - Execute again the (17,3) command and verify that it completes its execution
  * .
- * @verify Connection Test Command, Start Action, Illegal Destination Branch
- * @verify Connection Test Command, Start Action, Nominal Branches
- * @verify Connection Test Command, Progress Action, Left Branch
- * @verify Connection Test Command, Progress Action, Middle Branch
- * @verify Start Failure Report, Failure Code VER_REP_CR_FD
+ * @verify Command, Connection Test, Start Action Illegal Destination Branch
+ * @verify Command, Connection Test, Start Action Nominal Branches
+ * @verify Command, Connection Test, Progress Action Left Branch
+ * @verify Command, Connection Test, Progress Action Middle Branch
+ * @verify Report, Start Failure, Failure Code VER_REP_CR_FD
  *
  * @return true if the test was successful, false otherwise.
  */
@@ -96,11 +97,11 @@ CrFwBool_t CrPsTstTestCase3();
  * - Set the time-out to a very small value such that the time-out is exceeded
  *   and then execute again the (17,3) and verify that it is aborted because the time-out has expired
  * .
- * @verify Connection Test Command, Start Action, Retrieval of Second OutComponent Fails
- * @verify Connection Test Command, Start Action, Retrieval of First OutComponent Fails
- * @verify Connection Test Command, Progress Action, right Branch (failure)
- * @verify Start Failure Report, Failure Code VER_REP_CR_FD
- * @verify Termination Failure Report, Failure Code VER_TST_TO
+ * @verify Command, Connection Test, Connection Test, Start Action Retrieval of Second OutComponent Fails
+ * @verify Connection Test Command, Start Action Retrieval of First OutComponent Fails
+ * @verify Connection Test Command, Progress Action right Branch (failure)
+ * @verify Report, Start Failure, Failure Code VER_REP_CR_FD
+ * @verify Report, Termination Failure, Failure Code VER_TST_TO
  *
  * @return true if the test was successful, false otherwise.
  */

@@ -54,14 +54,14 @@ CrFwBool_t CrPsVerTestCase1();
  *   error report OUTFACTORY_FAIL is generated
  * - Check selected service 1 data pool parameters
  * .
- * @verify Packet Rerouting Failure Procedure, Report handling branch
- * @verify Packet Rerouting Failure Procedure, Nominal command handling branch
- * @verify Packet Rerouting Failure Procedure, Non-Nominal command handling branch
+ * @verify Procedure, Packet Rerouting Failure, Report handling branch
+ * @verify Procedure, Packet Rerouting Failure, Nominal command handling branch
+ * @verify Procedure, Packet Rerouting Failure, Non-Nominal command handling branch
  * @verify Error Report, OUTFACTORY_FAIL
- * @verify Observable, nOfReroutingFailed
- * @verify Observable, invDestRerouting
- * @verify Observable, pcktIdReroutingFailed
- * @verify Failed Routing Verification Report (1,10)
+ * @verify Data Pool, nOfReroutingFailed
+ * @verify Data Pool, invDestRerouting
+ * @verify Data Pool, pcktIdReroutingFailed
+ * @verify Report, Failed Routing Verification
  * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase2();
@@ -75,12 +75,12 @@ CrFwBool_t CrPsVerTestCase2();
  * - Load and execute the dummy command and then verify that one (1,1),
  *   one (1,3), two (1,5) and one (1,7) reports are generated.
  * .
- * @verify Command Verification Success Procedure, Nominal branches
- * @verify Command Progress Success Procedure, Nominal branches
- * @verify Successful Acceptance Verification Report (1,1)
- * @verify Successful Start of Execution Verification Report (1,3)
- * @verify Successful Progress of Execution Verification Report (1,5)
- * @verify Successful Termination of Execution Verification Report (1,7)
+ * @verify Procedure, Command Verification Success, Nominal branches
+ * @verify Procedure, Command Progress Success, Nominal branches
+ * @verify Report, Successful Acceptance Verification Report
+ * @verify Report, Successful Start of Execution Verification Report
+ * @verify Report, Successful Progress of Execution Verification Report
+ * @verify Report, Successful Termination of Execution Verification Report
  * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase3();
@@ -101,12 +101,12 @@ CrFwBool_t CrPsVerTestCase3();
  *   configure it such that its validity check, start and progress action are passed and its
  *   termination action fails, execute it and verify that a (1,8) report is generated.
  * .
- * @verify Command Verification Failed Procedure, Nominal branch
- * @verify Command Progress Failed Procedure, Nominal branch
- * @verify Failed Acceptance Verification Report (1,2)
- * @verify Failed Start of Execution Verification Report (1,4)
- * @verify Failed Progress of Execution Verification Report (1,6)
- * @verify Failed Termination of Execution Verification Report (1,8)
+ * @verify Procedure, Command Verification Failed, Nominal branch
+ * @verify Procedure, Command Progress Failed, Nominal branch
+ * @verify Report, Failed Acceptance Verification
+ * @verify Report, Failed Start of Execution Verification
+ * @verify Report, Failed Progress of Execution Verification
+ * @verify Report, Failed Termination of Execution Verification
  * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase4();
@@ -125,10 +125,10 @@ CrFwBool_t CrPsVerTestCase4();
  *   configure it such that: its acceptance, start and progress checks are passed but its
  *   termination check fails and verify that no service 1 reports are generated for it.
  * .
- * @verify Command Verification Success Procedure, OUTFACTORY_FAIL branch
- * @verify Command Verification Failed Procedure, OUTFACTORY_FAIL branch
- * @verify Command Progress Success Procedure, OUTFACTORY_FAIL branch
- * @verify Command Progress Failure Procedure, OUTFACTORY_FAIL branch
+ * @verify Procedure, Command Verification Success, OUTFACTORY_FAIL branch
+ * @verify Procedure, Command Verification Failed, OUTFACTORY_FAIL branch
+ * @verify Procedure, Command Progress Success, OUTFACTORY_FAIL branch
+ * @verify Procedure, Command Progress Failure, OUTFACTORY_FAIL branch
  * @return 1 if the test is successful; zero otherwise
  */
 CrFwBool_t CrPsVerTestCase5();
