@@ -89,3 +89,7 @@ dkms.conf
 /doc/pus/PusExtension.lot
 /doc/pus/PusExtension.synctex.gz
 /doc/pus/PusExtension.toc
+/doc/vr/PusExtensionVR.aux
+/doc/vr/PusExtensionVR.log
+/doc/vr/PusExtensionVR.tex
+/doc/vr/PusExtensionVR.toc
