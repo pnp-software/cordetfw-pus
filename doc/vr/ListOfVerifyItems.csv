@@ -1,0 +1,134 @@
+TestCaseName|Kind|Name|Desc
+CrPsEvtTestCase8|||
+CrPsEvtTestCase8|||
+CrPsTstTestCase4|||
+CrPsTstTestCase2|Command|Are-You-Alive|Start Action Nominal Branch
+CrPsTstTestCase2|Command||Start Action Failure Branch
+CrPsTstTestCase2|Command||Progress Action
+CrPsTstTestCase2|Report||
+CrPsVerTestCase4|Procedure|Command Progress Failed|Nominal branch
+CrPsVerTestCase5|Procedure|Command Progress Failure|OUTFACTORY_FAIL branch
+CrPsVerTestCase3|Procedure|Command Progress Success|Nominal branches
+CrPsVerTestCase5|Procedure||OUTFACTORY_FAIL branch
+CrPsVerTestCase4|Procedure|Command Verification Failed|Nominal branch
+CrPsVerTestCase5|Procedure||OUTFACTORY_FAIL branch
+CrPsVerTestCase3|Procedure|Command Verification Success|Nominal branches
+CrPsVerTestCase5|Procedure||OUTFACTORY_FAIL branch
+CrPsTstTestCase3|Command|Connection Test|Start Action Illegal Destination Branch
+CrPsTstTestCase3|Command||Start Action Nominal Branches
+CrPsTstTestCase3|Command||Progress Action Left Branch
+CrPsTstTestCase3|Command||Progress Action Middle Branch
+CrPsTstTestCase4|Command||Start Action Retrieval of First OutComponent Fails
+CrPsTstTestCase4|Command||Progress Action right Branch (failure)
+CrPsHkTestCase10|Command|Create Diagnostic Report|Successful execution
+CrPsHkTestCase2|Command|Create HK|Start Failure with error code VER_FULL_RDL
+CrPsHkTestCase2|Command||Start Failure with error code VER_ILL_SID
+CrPsHkTestCase2|Command||Start Failure with error code VER_ILL_DP_ID
+CrPsHkTestCase2|Command||Start Failure with error code VER_ILL_NID
+CrPsHkTestCase2|Command||Start Failure with error code VER_SID_IN_USE
+CrPsHkTestCase3|Command||Successful execution
+CrPsHkTestCase6|Command|Delete Diagnostic Report Structure|SID is loaded and disabled
+CrPsHkTestCase6|Command|Delete HK Report Structure|SID is not loaded in the RDL
+CrPsHkTestCase6|Command||SID is illegal
+CrPsHkTestCase6|Command||SID is enabled
+CrPsHkTestCase6|Command||SID is loaded and disabled
+CrPsHkTestCase10|Report|Diagnostic|Execution while enabled with collection period equal to 1
+CrPsHkTestCase12|Report|Diagnostic Parameter Report Structure|
+CrPsEvtTestCase6|Command|Disable Generation of Event Identifiers|Multiple legal event identifiers
+CrPsEvtTestCase7|Command||Mixed legal and illegal event identifiers
+CrPsHkTestCase5|Command|Disable Generation of a Diagnostic Report Structure|One loaded SID
+CrPsHkTestCase5|Command|Disable Generation of a HK Report Structure|All SIDs are not loaded in the RDL
+CrPsHkTestCase5|Command||Some SIDs are loaded in the RDL and others are illegal
+CrPsHkTestCase5|Command||All SIDs are loaded in the RDL
+CrPsEvtTestCase9|Report|Disabled Event Identifiers|Case of full OutFactory
+CrPsEvtTestCase6|Command|Enable Generation of Event Identifiers|Multiple legal event identifiers
+CrPsEvtTestCase7|Command||Mixed legal and illegal event identifiers
+CrPsHkTestCase4|Command|Enable Generation of a Diagnostic Report Structure|One loaded SID
+CrPsHkTestCase4|Command|Enable Generation of a HK Report Structure|All SIDs are not loaded in the RDL
+CrPsHkTestCase4|Command||Some SIDs are loaded in the RDL and others are illegal
+CrPsHkTestCase4|Command||All SIDs are loaded in the RDL
+CrPsEvtTestCase1|Function|Etv Config|Operation to read the enable status of an event identifier
+CrPsEvtTestCase2|Report|Event Severity 1|Nominal case
+CrPsEvtTestCase3|Report|Event Severity 2|Nominal case
+CrPsEvtTestCase4|Report|Event Severity 3|Nominal case
+CrPsEvtTestCase5|Report|Event Severity 4|Nominal case
+CrPsEvtTestCase1|Function|Evt Config|Operation to retrieve position and severity level of event identifier
+CrPsEvtTestCase1|Function||Operation to set the enable status of an event identifier
+CrPsEvtTestCase1|Function||Operation to read the severity level of an event identifier
+CrPsEvtTestCase2|Data Pool|EvtLastEvtEid|
+CrPsEvtTestCase3|Data Pool|EvtLastEvtEid_2|
+CrPsEvtTestCase4|Data Pool|EvtLastEvtEid_3|
+CrPsEvtTestCase5|Data Pool|EvtLastEvtEid_4|
+CrPsEvtTestCase2|Data Pool|EvtLastEvtTime|
+CrPsEvtTestCase3|Data Pool|EvtLastEvtTime_2|
+CrPsEvtTestCase4|Data Pool|EvtLastEvtTime_3|
+CrPsEvtTestCase5|Data Pool|EvtLastEvtTime_4|
+CrPsEvtTestCase2|Data Pool|EvtNOfDetectedEvts|
+CrPsEvtTestCase3|Data Pool|EvtNOfDetectedEvts_2|
+CrPsEvtTestCase4|Data Pool|EvtNOfDetectedEvts_3|
+CrPsEvtTestCase5|Data Pool|EvtNOfDetectedEvts_4|
+CrPsVerTestCase4|Report|Failed Acceptance Verification|
+CrPsVerTestCase4|Report|Failed Progress of Execution Verification|
+CrPsVerTestCase2|Report|Failed Routing Verification|
+CrPsVerTestCase4|Report|Failed Start of Execution Verification|
+CrPsVerTestCase4|Report|Failed Termination of Execution Verification|
+CrPsHkTestCase8|Command|Generate One-Shot Report for HK Parameters|SID is loaded in the RDL
+CrPsHkTestCase8|Command||SID is not loaded in the RDL
+CrPsHkTestCase8|Command||SID is out-of-range
+CrPsEvtTestCase3|Function|Generate Pre-Defined Event|Nominal case
+CrPsEvtTestCase5|Function||Nominal case
+CrPsEvtTestCase9|Function||Parameterless event OUTFACTORY_FAIL error case
+CrPsHkTestCase3|Report|Hk|Execution while disabled
+CrPsHkTestCase3|Report||Execution while enabled with collection period equal to 1
+CrPsHkTestCase3|Report||Execution while enabled with collection period greater than 1
+CrPsHkTestCase3|Report||Execution while enabled with collection period equal to zero
+CrPsHkTestCase1|Command|Hk Config|Operation to set the define report in the RDL
+CrPsHkTestCase1|Command||Operation to clear a SID from the RDL
+CrPsHkTestCase8|Data Pool|HkCycleCnt|
+CrPsHkTestCase3|Data Pool|HkIsEnabled|
+CrPsHkTestCase7|Data Pool|HkPeriod|
+CrPsHkTestCase9|Report|Housekeeping Parameter Report Structure|SID is loaded in the RDL
+CrPsHkTestCase9|Report||SID is illegal
+CrPsHkTestCase9|Command|Housekeeping Parameter Report Structure Report|
+CrPsHkTestCase7|Command|Modify Diagnostic Report Collection Interval|SID is loaded in the RDL
+CrPsHkTestCase7|Command|Modify HK Report Collection Interval|SID is loaded in the RDL
+CrPsHkTestCase7|Command||SID is not loaded in the RDL
+CrPsHkTestCase7|Command||SID is out-of-range
+CrPsVerTestCase2|Error Report|OUTFACTORY_FAIL|
+CrPsVerTestCase2|Procedure|Packet Rerouting Failure|Report handling branch
+CrPsVerTestCase2|Procedure||Nominal command handling branch
+CrPsVerTestCase2|Procedure||Non-Nominal command handling branch
+CrPsHkTestCase12|Command|Report Diagnostic Parameter Report Structure|SID is loaded in the RDL
+CrPsEvtTestCase8|Command|Report Disabled Event Identifiers|Nominal case
+CrPsTstTestCase3|Report|Start Failure|Failure Code VER_REP_CR_FD
+CrPsTstTestCase4|Report||Failure Code VER_REP_CR_FD
+CrPsVerTestCase3|Report|Successful Acceptance Verification Report|
+CrPsVerTestCase3|Report|Successful Progress of Execution Verification Report|
+CrPsVerTestCase3|Report|Successful Start of Execution Verification Report|
+CrPsVerTestCase3|Report|Successful Termination of Execution Verification Report|
+CrPsTstTestCase4|Report|Termination Failure|Failure Code VER_TST_TO
+CrPsTstTestCase1|Packet|Test service parameters|
+CrPsHkTestCase6|Command Rejection Code|VER_ENB_SID|
+CrPsHkTestCase2|Command Rejection Code|VER_FULL_RDL|
+CrPsHkTestCase2|Command Rejection Code|VER_ILL_DP_ID|
+CrPsEvtTestCase7|Command Rejection Code|VER_ILL_EID|
+CrPsHkTestCase2|Command Rejection Code|VER_ILL_NID|
+CrPsHkTestCase2|Command Rejection Code|VER_ILL_SID|
+CrPsHkTestCase4|Command Rejection Code|VER_MI_S3_FD|
+CrPsHkTestCase6|Command Rejection Code||
+CrPsHkTestCase8|Command Rejection Code||
+CrPsTstTestCase3|Command Rejection Code|VER_REP_CR_FD|
+CrPsHkTestCase2|Command Rejection Code|VER_SID_IN_USE|
+CrPsTstTestCase1|Data Pool|areYouAliveSrc|
+CrPsTstTestCase1|Data Pool|areYouAliveTimeOut|
+CrPsTstTestCase4|Data Pool||
+CrPsVerTestCase4|Data Pool|failCode|
+CrPsTstTestCase3|Data Pool|failCodePrgrFailed|
+CrPsTstTestCase4|Data Pool||
+CrPsEvtTestCase7|Data Pool|failData|
+CrPsHkTestCase4|Data Pool|hkDest|
+CrPsVerTestCase2|Data Pool|invDestRerouting|
+CrPsEvtTestCase6|Data Pool|nOfDisabledEid|
+CrPsVerTestCase2|Data Pool|nOfReroutingFailed|
+CrPsTstTestCase1|Data Pool|onBoardConnectDestLst|
+CrPsVerTestCase2|Data Pool|pcktIdReroutingFailed|

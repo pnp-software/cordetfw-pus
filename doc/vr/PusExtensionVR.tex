@@ -16,12 +16,16 @@
 \maketitle
 
 \newpage
-%\listofchanges
 \tableofcontents
 %\newpage
 %\listoffigures
 %\newpage
 %\listoftables
+
+%---------------------------------------------
+% Import file with definition of commands and reports
+%---------------------------------------------
+\input{GeneratedTables/CrPsSpec.tex}
 
 
 %==========================================================================================
@@ -121,32 +125,57 @@ The Use Constraint Requirements are not mapped to code.
 
 %==========================================================================================
 \section{Requirement Verification}\label{sec:svrReqVer} 
-The PUS Extension of the CORDET Framework is specified in reference [TsUsp]. The library is specified in terms of:
+The PUS Extension of the CORDET Framework is specified in reference [TsUsp]. The framework is specified through a set of requirements which define the behaviour of the commands and the reports support by the PUS Extension. The PUS Extension is built on the CORDET Framework. In the CORDET world, 'command' and "reports' are defined through: (a) their \textit{parameters}; (b) the \textit{actions} they perform during their execution; and (c) the \textit{conditional checks} which determine whether and when these actions are executed. 
 
-\begin{itemize}
-\item The interfaces it offers to its user application
-\item The functional behaviour it offers to its user application
-\item The constraints which the user application must satisfy when using the library
-\item The performance guaranteed by the library to its user application
-\end{itemize}
+The CORDET Framework defines the life-cycle of a generic command or report in terms of these parameters, actions and checks. The PUS Extension defines concrete commands and reports by specifying the name and type of their parameters and the content of thier actions and checks. This is done through tables like the one shown in figure \ref{fig:InCmdHkCreHkCmdSpec}. 
 
-The constraints are not verified. For the other three items, the following sub-sections show how:
+\printInCmdHkCreHkCmdSpec{|c|p{10cm}|}
 
-\begin{itemize}
-\item Each interface item is exercised in at least one unit-level test
-\item Each functional behaviour is exercised in at least one unit-level test
-\item Each performance requirement is verified through a timing analysis
-\end{itemize}
+For all actions and checks, a default implementation is defined at CORDET Framework level. Wherever possible, the definition of a concrete command or report by the PUS Extension makes use of these default implementations. Hence, Verification at PUS Extension level only needs to cover the non-default actions and checks.
+
+The following paragraphs present the verification evidence for the requirements of the PUS Extension.
 
 %------------------------------------------------------------------------------
-\chgZB{
-\subsection{Methodology}
-The objective of this section is to show that each specification item is covered by at least one test case in the Test Suite (see section \ref{sec:TestSuite} of reference [TsUm]). This is done through traceability matrices which associate a test case to each specification item. 
+\subsection{Traceability from Requirements to Verification Evidence}
 
-The traceability matrices are built automatically from information embedded within the source code of the test cases. This information is inserted through doxygen custom tag \texttt{@verify}. The doxygen documentation of a test case contrains one or more \texttt{@verify} tags. Each tag in the header file of test case T identifies one specification item which test case T verifies. 
+
+
+%------------------------------------------------------------------------------
+\subsection{Verification Through Test Cases}
+This section presents various traceability matrices which map specification items to test cases in the Test Suite (see section \ref{sec:TestSuite} of reference [TiUm]). 
+
+The traceability matrices are built automatically from information embedded within the source code of the test cases. This information is inserted through doxygen custom tag \texttt{@verify}. The doxygen documentation of a test case contains one or more \texttt{@verify} tags. Each tag in the header file of test case T identifies one specification item which test case T verifies. 
 
 A script processes the header files of the test cases to build the traceability matrices using the information in the \texttt{@verify} tag. These traceability matrices are used to build the tables presented in this section.
-}
+
+
+
+The verification evidence for the PUS Extension requirements consists of several items as described in the next paragraphs.
+
+Table TBD lists all the standard requirements of the PUS Extension and, to each, it associates its verification evidence.
+
+
+
+behaviour of an abstract
+
+
+
+
+The CORDET Framework defines a command and report model whereby the behavioural of a command or report is defined by defining the 
+
+
+model for commands and reports. The PUS Extension uses this 
+
+\begin{itemize}
+\item The commands to be supported by the PUS Extension
+\item The reports to be supported by the PUS Extension
+\item The 
+\end{itemize}
+
+
+
+
+
 
 %------------------------------------------------------------------------------
 \chgZB{
