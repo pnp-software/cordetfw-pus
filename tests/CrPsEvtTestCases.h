@@ -39,10 +39,10 @@
  * - The severity level of a non-existent event identifier is recovered and it is verified that
  *   the non-existence of the event identifier is recognized
  * .
- * @verify Config, Evt, Operation to retrieve position and severity level of event identifier
- * @verify Config, Evt, Operation to set the enable status of an event identifier
- * @verify Config, Evt, Operation to read the enable status of an event identifier
- * @verify Config, Evt, Operation to read the severity level of an event identifier
+ * @verify Function, Evt Config, Operation to retrieve position and severity level of event identifier
+ * @verify Function, Evt Config, Operation to set the enable status of an event identifier
+ * @verify Function, Etv Config, Operation to read the enable status of an event identifier
+ * @verify Function, Evt Config, Operation to read the severity level of an event identifier
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -81,6 +81,7 @@ CrFwBool_t CrPsEvtTestCase2();
  * @verify Data Pool, EvtLastEvtEid_2
  * @verify Data Pool, EvtLastEvtTime_2
  * @verify Data Pool, EvtNOfDetectedEvts_2
+ * @verify Function, Generate Pre-Defined Event, Nominal case
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -119,6 +120,7 @@ CrFwBool_t CrPsEvtTestCase4();
  * @verify Data Pool, EvtLastEvtEid_4
  * @verify Data Pool, EvtLastEvtTime_4
  * @verify Data Pool, EvtNOfDetectedEvts_4
+ * @verify Function, Generate Pre-Defined Event, Nominal case
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -177,8 +179,8 @@ CrFwBool_t CrPsEvtTestCase7();
  *   identifiers
  * .
  * @verify Command, Report Disabled Event Identifiers, Nominal case
- * @verify Report, Disabled Event Identifiers, Case of single (5,8) report
- * @verify Report, Disabled Event Identifiers, Case of multiple (5,8) reports
+ * @verify Report, Disabled Event Identifiers, Case of single response report
+ * @verify Report, Disabled Event Identifiers, Case of multiple response reports
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -193,7 +195,7 @@ CrFwBool_t CrPsEvtTestCase8();
  * - Generate and execute a (5,7) command and verify that no (5,8) report is generated and
  *   than an error report of type OUTFACTORY_FAIL is generated
  * .
- * @verify Generate Pre-Defined Event, Parameterless event OUTFACTORY_FAIL error case
+ * @verify Function, Generate Pre-Defined Event, Parameterless event OUTFACTORY_FAIL error case
  * @verify Report, Disabled Event Identifiers, Case of full OutFactory
  *
  * @return 1 if the test was successful, 0 otherwise

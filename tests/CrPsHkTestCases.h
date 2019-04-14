@@ -37,8 +37,8 @@
  * - Clear all SIDs but those pre-defined for testing purposes by the PUS Extension and verify success
  *   of clear operation
  * .
- * @verify Config, Hk, Operation to set the define report in the RDL
- * @verify Config, Hk, Operation to clear a SID from the RDL
+ * @verify Command, Hk Config, Operation to set the define report in the RDL
+ * @verify Command, Hk Config, Operation to clear a SID from the RDL
  *
  * @return 1 if the test was successful, 0 otherwise
  */

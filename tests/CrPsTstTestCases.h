@@ -102,9 +102,9 @@ CrFwBool_t CrPsTstTestCase3();
  * - Set the time-out to a very small value such that the time-out is exceeded
  *   and then execute again the (17,3) and verify that it is aborted because the time-out has expired
  * .
- * @verify Command, Connection Test, Connection Test, Start Action Retrieval of Second OutComponent Fails
- * @verify Connection Test Command, Start Action Retrieval of First OutComponent Fails
- * @verify Connection Test Command, Progress Action right Branch (failure)
+ * @verify Command, Connection Test, Start Action Retrieval of Second OutComponent Fails
+ * @verify Command, Connection Test, Start Action Retrieval of First OutComponent Fails
+ * @verify Command, Connection Test, Progress Action right Branch (failure)
  * @verify Report, Start Failure, Failure Code VER_REP_CR_FD
  * @verify Report, Termination Failure, Failure Code VER_TST_TO
  * @verify Data Pool, failCodePrgrFailed
