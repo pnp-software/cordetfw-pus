@@ -76,7 +76,7 @@ if [ "$EDITOR" == "YES" ]
     cp $EDITOR_PATH/pck/CrPsServTypeId.h ./tests/PusConfig
 fi
 
-# Copy the files for the PUS Definition Document
+# Copy the files for the PUS Definition Documents
 if [ "$EDITOR" == "YES" ]
   then
     echo "--Copy the files for the PUS Definition Document--"
@@ -85,6 +85,9 @@ if [ "$EDITOR" == "YES" ]
     cp $EDITOR_PATH/icd/PUSExtensionCrPsFailCodet.csv ./doc/pus/GeneratedTables
     cp $EDITOR_PATH/icd/PUSExtensionServiceOverview.csv ./doc/pus/GeneratedTables
     cp $EDITOR_PATH/icd/PUSExtensionServices.csv ./doc/pus/GeneratedTables
+
+    echo "--Copy the files for the PUS ICD--"
+    cp $EDITOR_PATH/icd/*.tex ./doc/icd/GeneratedTables
 fi
 if [ "$CONSTANT" == "YES" ]
   then
