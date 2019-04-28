@@ -32,6 +32,7 @@
 \makeatother
 % End ---- Fix for bug in issue 2.10.1 of titlesec package
 
+\usepackage{import}     % Allow tex files to be imported
 \usepackage{verbatim}
 \usepackage{fancyhdr}
 \usepackage{datatool}	% Management of external databases
@@ -44,8 +45,11 @@
 
 
 \usepackage{underscore}  % Allows underscores to be used in non-math text (use of
-                         % of this package apparently is not compatible with use of
-                         % underscores in labels and other 'special' text
+                         % this package apparently is not compatible with use of
+                         % underscores in labels and other 'special' text)
+
+% Add cross-references to external documents (e.g.: \externaldocument{Xyz})
+\usepackage{xr}			
 
 \newcolumntype{x}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
