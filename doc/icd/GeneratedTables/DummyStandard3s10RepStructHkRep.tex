@@ -1,0 +1,23 @@
+\def \printRepStructHkRep#1 {
+\begin{pnptable}{#1}{RepStructHkRep}{tab:RepStructHkRep}{Name & Byte & Bit & Size & Description}
+SID & 0 & 0 & 16 & Structure Identifier \\\hline
+PerGenActionStatus & 2 & 0 & 8 & Flag indicating whether periodic generation of the packet is enabled or disabled \\\hline
+CollectionInterval & 3 & 0 & 16 & Collection Interval \\\hline
+N1 & 5 & 0 & 8 & The number of simply commutated parameters  \\\hline
+-  N1ParamId[1] & 6 & 0 & 16 & Identifier of a simply commutated parameter \\\hline
+-  ... &  &  &  &  \\\hline
+-  N1ParamId[N1] & - & - & 16 & Identifier of a simply commutated parameter \\\hline
+NFA & - & - & 8 & The number of super-commutated groups of parameters \\\hline
+-  SCSampleRepNum[1] & - & - & 8 & Super Commutated Sample Repetition Number (repeated NFA times) \\\hline
+-  N2[1] & - & - & 8 & The number of parameters in the super-commutated group \\\hline
+- -  N2ParamId[1][1] & - & - & 16 & Parameter ID  \\\hline
+- -  ... &  &  &  &  \\\hline
+- -  N2ParamId[1][N2] & - & - & 16 & Parameter ID  \\\hline
+-  ... &  &  &  &  \\\hline
+-  SCSampleRepNum[NFA] & - & - & 8 & Super Commutated Sample Repetition Number (repeated NFA times) \\\hline
+-  N2[NFA] & - & - & 8 & The number of parameters in the super-commutated group \\\hline
+- -  N2ParamId[NFA][1] & - & - & 16 & Parameter ID  \\\hline
+- -  ... &  &  &  &  \\\hline
+- -  N2ParamId[NFA][N2] & - & - & 16 & Parameter ID  \\\hline
+\end{pnptable}}
+

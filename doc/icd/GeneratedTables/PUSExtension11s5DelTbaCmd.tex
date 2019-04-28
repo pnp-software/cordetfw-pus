@@ -1,0 +1,12 @@
+\def \printDelTbaCmd#1 {
+\begin{pnptable}{#1}{DelTbaCmd}{tab:DelTbaCmd}{Name & Byte & Bit & Size & Description}
+N & 0 & 0 & 16 & Number of activities to be inserted in the time-based schedule \\\hline
+-  AppId[1] & 2 & 0 & 8 & Source of command embedded in activity to be deleted \\\hline
+-  APID[1] & 3 & 0 & 11 & APID of command embedded in activity to be deleted \\\hline
+-  SrcSeqCnt[1] & 4 & 3 & 14 & Source sequence count of command embedded in activity to be deleted \\\hline
+-  ... &  &  &  &  \\\hline
+-  AppId[N] & - & - & 8 & Source of command embedded in activity to be deleted \\\hline
+-  APID[N] & - & - & 11 & APID of command embedded in activity to be deleted \\\hline
+-  SrcSeqCnt[N] & - & - & 14 & Source sequence count of command embedded in activity to be deleted \\\hline
+\end{pnptable}}
+

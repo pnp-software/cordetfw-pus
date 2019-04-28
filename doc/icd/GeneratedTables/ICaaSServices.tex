@@ -1,0 +1,12 @@
+\def \printServices#1 {
+\begin{pnptable}{#1}{Services}{tab:Services}{Type & Name & Description}
+1 & Initializarion & Allow the ICaaS service provider to report the services it offers and allows an instrument to select those it wishes to use \\\hline
+2 & Command\_\-Monitoring & Allow an instrument to monitor the processing of commands by the ICaaS service provider (duplicate of homonymous service of CSI Family)  \\\hline
+4 & Event\_\-Reporting & Allow the ICaaS service provider to report events of various levels of severity (duplicate of homonymous service of CSI Family) \\\hline
+20 & Large\_\-Data\_\-Transfer & Allow large amounts of data to be exchanged between instrument and ICaaS service provider \\\hline
+32 & HKaaS & Allow an instrument to upload its housekeeping data to the ICaaS service provider \\\hline
+64 & DAaaS & Allow an instrument to upload diagnostic data to the ICaaS service provider and to request the service provider to process them \\\hline
+96 & ISWaaS & Allow an instrument to download and install its own software from the ICaaS service provider \\\hline
+128 & CSaaS & Allow an instrument to delegate control tasks to the ICaaS service provider \\\hline
+\end{pnptable}}
+

@@ -1,0 +1,12 @@
+\def \printDescription#1 {
+\begin{pnptable}{#1}{Evt Commands and Reports}{tab:Description}{Kind & Type & Subtype & Name & ShortDesc & Desc & Parameters & Dest}
+TM & 5 & 1 & Rep1 & Informative Event Report (Level 1) & Informative event report & Event Identifier (EID) acting as discriminant followed by event-specific parameters & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
+TM & 5 & 2 & Rep2 & Low Severity Event Report (Level 2) & Low severity event report & Event Identifier (EID) acting as discriminant followed by event-specific parameters & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
+TM & 5 & 3 & Rep3 & Medium Severity Event Report (Level 3) & Medium severity event report & Event Identifier (EID) acting as discriminant followed by event-specific parameters & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
+TM & 5 & 4 & Rep4 & High Severity Event Report (Level 4) & High severity event report  & Event Identifier (EID) acting as discriminant followed by event-specific parameters & The destination of event reports is statically defined and is equal to EVT\_\-DEST. \\\hline
+TC & 5 & 5 & EnbCmd & Enable Generation of Event Identifiers & Command to enable generation of a list of event identifiers & List of event identifiers to be enabled  & The application providing the service \\\hline
+TC & 5 & 6 & DisCmd & Disable Generation of Event Identifiers & Command to disable generation of a list of event identifiers & List of event identifiers to be disabled  & The application providing the service \\\hline
+TC & 5 & 7 & RepDisCmd & Report the List of Disabled Event Identifiers & This command triggers the generation of a (5,8) report holding the list of disabled event identifiers & None & The application providing the service \\\hline
+TM & 5 & 8 & DisRep & Disabled Event Identifier Report & Report generated in response to a (5,7) command carrying the list of disabled Event Identifiers & The list of disabled event identifiers  & The destination is set equal to the source of the (5,7) command which triggers the report \\\hline
+\end{pnptable}}
+

@@ -1,0 +1,13 @@
+\def \printInsTbaCmd#1 {
+\begin{pnptable}{#1}{InsTbaCmd}{tab:InsTbaCmd}{Name & Byte & Bit & Size & Description}
+SubSchedId & 0 & 0 & 8 & Sub-schedule to which the activities are assigned \\\hline
+N & 1 & 0 & 16 & Number of activities to be inserted in the time-based schedule \\\hline
+-  GroupId[1] & 3 & 0 & 8 & Schedule group to which this activity is assigned \\\hline
+-  RelTime[1] & 4 & 0 & 48 & Release time of activity \\\hline
+-  Request[1] & 10 & 0 & undefined & Command which implements the activity \\\hline
+-  ... &  &  &  &  \\\hline
+-  GroupId[N] & - & - & 8 & Schedule group to which this activity is assigned \\\hline
+-  RelTime[N] & - & - & 48 & Release time of activity \\\hline
+-  Request[N] & - & - & undefined & Command which implements the activity \\\hline
+\end{pnptable}}
+

@@ -1,0 +1,8 @@
+\def \printEnbGrpCmd#1 {
+\begin{pnptable}{#1}{EnbGrpCmd}{tab:EnbGrpCmd}{Name & Byte & Bit & Size & Description}
+N & 0 & 0 & 16 & The number of groups to be enabled (if this is zero, then all groups are enabled) \\\hline
+-  GroupId[1] & 2 & 0 & 8 & The identifier of a group to be enabled \\\hline
+-  ... &  &  &  &  \\\hline
+-  GroupId[N] & - & - & 8 & The identifier of a group to be enabled \\\hline
+\end{pnptable}}
+

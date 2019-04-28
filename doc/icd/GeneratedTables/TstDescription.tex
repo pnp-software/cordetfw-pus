@@ -1,0 +1,8 @@
+\def \printDescription#1 {
+\begin{pnptable}{#1}{Tst Commands and Reports}{tab:Description}{Kind & Type & Subtype & Name & ShortDesc & Desc & Parameters & Dest}
+TC & 17 & 1 & AreYouAliveCmd & Perform Are-You-Alive Connection Test & Command to perform and Are-You-Alive Connection Test & None & The application providing the test service \\\hline
+TM & 17 & 2 & AreYouAliveRep & Are-You-Alive Connection Report & Report generated in response to a (17,1) command requesting an Are-You-Alive Connection Test & None & The source of the (17,1) command which triggered the report \\\hline
+TC & 17 & 3 & ConnectCmd & Perform On-Board Connection Test & Command to perform and On-Board Connection Test.  & Identifier of application with which the connection test is done & The application providing the test service \\\hline
+TM & 17 & 4 & ConnectRep & On-Board Connection Test Report & Report generated in response to a (17,3) command requesting a On-Board Connection Test & Identifier of application with which the connection test was done & The source of the (17,3) command which triggered the report \\\hline
+\end{pnptable}}
+

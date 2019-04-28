@@ -1,0 +1,22 @@
+\def \printServiceOverview#1 {
+\begin{pnptable}{#1}{Service Overview}{tab:ServiceOverview}{Type & Name & Description & APID}
+\multicolumn{4}{|l|}{\textbf{1 - Initializarion}} \\\hline
+TC(1,1) & StartSession & Ask the ICaaS Service Provider  to start a new session &  \\\hline
+TM(1,2) & SessionStarted & Confirm that a new session has been started and provide session identifier &  \\\hline
+TM(1,3) & ReportServices & Report the services which the instrument is authorized to use in the current session &  \\\hline
+TC(1,4) & SelectService & Select a service which the instrument wishes use\newline (2) to use in the current session &  \\\hline
+TC(1,5) & ServiceReady & Confirm that an elective service selected by the instrument is ready to be used &  \\\hline
+TC(1,11) & ReportBillingInfo & Request billing information for the current session &  \\\hline
+TM(1,12) & BillingInfoReport & Report billing information for the current session &  \\\hline
+TC(1,13) & HearbeatReport & Heartbeat report with toggling marker &  \\\hline
+TC(1,14) & HeartbeatCommand & Heartbeat command with toggling marker &  \\\hline
+TC(1,15) & StopSession & Ask the ICaaS Service Provider  to stop the current session &  \\\hline
+\multicolumn{4}{|l|}{\textbf{2 - Command\_\-Monitoring}} \\\hline
+\multicolumn{4}{|l|}{\textbf{4 - Event\_\-Reporting}} \\\hline
+\multicolumn{4}{|l|}{\textbf{20 - Large\_\-Data\_\-Transfer}} \\\hline
+\multicolumn{4}{|l|}{\textbf{32 - HKaaS}} \\\hline
+\multicolumn{4}{|l|}{\textbf{64 - DAaaS}} \\\hline
+\multicolumn{4}{|l|}{\textbf{96 - ISWaaS}} \\\hline
+\multicolumn{4}{|l|}{\textbf{128 - CSaaS}} \\\hline
+\end{pnptable}}
+

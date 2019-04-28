@@ -1,0 +1,23 @@
+\def \printAddParMonDefCmd#1 {
+\begin{pnptable}{#1}{AddParMonDefCmd}{tab:AddParMonDefCmd}{Name & Byte & Bit & Size & Description}
+NParMon & 0 & 0 & 8 & Number of parameter definitions \\\hline
+-  ParMonId[1] & 1 & 0 & 16 & Identifier of parameter monitor to be added by telecommand \\\hline
+-  MonParId[1] & 3 & 0 & 16 & Identifier of Monitored Parameter \\\hline
+-  ValCheckParId[1] & 5 & 0 & 16 & Identifier of Validity Parameter \\\hline
+-  ExpValCheckMask[1] & 7 & 0 & 16 & Expected Value Check Mask \\\hline
+-  ValCheckExpVal[1] & 9 & 0 & undefined & Expected Value for Validity Check \\\hline
+-  CheckTypeData[1] & - & - & undefined & For expected value check, this parameter consists of: mask, expected value and event identifier. For limit checks, it consists of: low limit, event identifier for low limit, high limit, event identifier for high limit. For delta checks, it consists of: low delta threshold, event identifier for low threshold, high delta threshold, event identifiers for high thresholds. In all cases, an event identifier of zero indicates that no event is associated to the violation.  \\\hline
+-  RepNmb[1] & - & - & 8 & Repetition Number \\\hline
+-  CheckType[1] & - & - & 8 & Type of Monitor Procedure \\\hline
+-  ... &  &  &  &  \\\hline
+-  ParMonId[NParMon] & - & - & 16 & Identifier of parameter monitor to be added by telecommand \\\hline
+-  MonParId[NParMon] & - & - & 16 & Identifier of Monitored Parameter \\\hline
+-  ValCheckParId[NParMon] & - & - & 16 & Identifier of Validity Parameter \\\hline
+-  ExpValCheckMask[NParMon] & - & - & 16 & Expected Value Check Mask \\\hline
+-  ValCheckExpVal[NParMon] & - & - & undefined & Expected Value for Validity Check \\\hline
+-  CheckTypeData[NParMon] & - & - & undefined & For expected value check, this parameter consists of: mask, expected value and event identifier. For limit checks, it consists of: low limit, event identifier for low limit, high limit, event identifier for high limit. For delta checks, it consists of: low delta threshold, event identifier for low threshold, high delta threshold, event identifiers for high thresholds. In all cases, an event identifier of zero indicates that no event is associated to the violation.  \\\hline
+-  RepNmb[NParMon] & - & - & 8 & Repetition Number \\\hline
+-  CheckType[NParMon] & - & - & 8 & Type of Monitor Procedure \\\hline
+CheckTypeData & - & - & undefined & For expected value check, this parameter consists of: mask, expected value and event identifier. For limit checks, it consists of: low limit, event identifier for low limit, high limit, event identifier for high limit. For delta checks, it consists of: low delta threshold, event identifier for low threshold, high delta threshold, event identifiers for high thresholds. In all cases, an event identifier of zero indicates that no event is associated to the violation.  \\\hline
+\end{pnptable}}
+

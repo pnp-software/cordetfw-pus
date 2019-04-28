@@ -1,0 +1,9 @@
+\def \printSuccPrgrRep#1 {
+\begin{pnptable}{#1}{SuccPrgrRep}{tab:SuccPrgrRep}{Name & Byte & Bit & Size & Description}
+PcktVersNumber & 0 & 0 & 3 & Packet version number of command being acknowledged \\\hline
+TcPcktId & 0 & 3 & 13 & Packet identifier of command being acknowledged \\\hline
+TcPcktSeqCtrl & 2 & 0 & 16 & Packet sequence control of command being acknowledged \\\hline
+TcPrgStep & 4 & 0 & 16 & Identifier of the progress step which triggered the acknowledge report \\\hline
+ &  &  &  & Total bits: 48\newline Total bytes: 6.0\newline Total words: 3.0 \\\hline
+\end{pnptable}}
+

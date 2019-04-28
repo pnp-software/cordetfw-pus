@@ -1,0 +1,14 @@
+\def \printFailedPrgrRep#1 {
+\begin{pnptable}{#1}{FailedPrgrRep}{tab:FailedPrgrRep}{Name & Byte & Bit & Size & Description}
+PcktVersNumber & 0 & 0 & 3 & Packet Version Number \\\hline
+TcPcktId & 0 & 3 & 13 & Packet Identifier of Acknowledged TC \\\hline
+TcPcktSeqCtrl & 2 & 0 & 16 & Packet Seq. Control  of Acknowledged TC \\\hline
+TcFailCode & 4 & 0 & 8 & Failure Identification Code \\\hline
+TcFailData & 5 & 0 & 32 & Failure data (interpretation depends on the value of the failure code, see description of FailCode) \\\hline
+TcType & 9 & 0 & 8 & Type of Acknowledged TC \\\hline
+TcSubType & 10 & 0 & 8 & Subtype of Acknowledged TC \\\hline
+TcDisc & 11 & 0 & 16 & Discriminant of Acknowledged TC \\\hline
+TcPrgStep & 13 & 0 & 16 & Progress step at which the failure was triggered \\\hline
+ &  &  &  & Total bits: 120\newline Total bytes: 15.0\newline Total words: 7.5 \\\hline
+\end{pnptable}}
+

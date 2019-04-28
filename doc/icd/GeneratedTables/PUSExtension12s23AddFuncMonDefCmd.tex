@@ -1,0 +1,22 @@
+\def \printAddFuncMonDefCmd#1 {
+\begin{pnptable}{#1}{AddFuncMonDefCmd}{tab:AddFuncMonDefCmd}{Name & Byte & Bit & Size & Description}
+FuncMonId & 0 & 0 & 8 & Number of functional monitor definitions to be added \\\hline
+-  FuncMonId[1] & 1 & 0 & 8 & Identifier of functional monitor to be added \\\hline
+-  ValCheckParId[1] & 2 & 0 & 16 & Identifier of Validity Parameter \\\hline
+-  ValCheckParMask[1] & 4 & 0 & undefined & Mask for Validity Check \\\hline
+-  ValCheckExpVal[1] & - & - & undefined & Expected Value for Validity Check \\\hline
+-  EvtId[1] & - & - & 16 & Event Identifier \\\hline
+-  MinFailNmb[1] & - & - & 8 & Minimum Failing Number \\\hline
+-  NFuncMon[1] & - & - & 8 & Number of parameter monitors attached to functional monitor \\\hline
+-  ParMonId[1] & - & - & 16 & Identifier of Parameter Monitor \\\hline
+-  ... &  &  &  &  \\\hline
+-  FuncMonId[FuncMonId] & - & - & 8 & Identifier of functional monitor to be added \\\hline
+-  ValCheckParId[FuncMonId] & - & - & 16 & Identifier of Validity Parameter \\\hline
+-  ValCheckParMask[FuncMonId] & - & - & undefined & Mask for Validity Check \\\hline
+-  ValCheckExpVal[FuncMonId] & - & - & undefined & Expected Value for Validity Check \\\hline
+-  EvtId[FuncMonId] & - & - & 16 & Event Identifier \\\hline
+-  MinFailNmb[FuncMonId] & - & - & 8 & Minimum Failing Number \\\hline
+-  NFuncMon[FuncMonId] & - & - & 8 & Number of parameter monitors attached to functional monitor \\\hline
+-  ParMonId[FuncMonId] & - & - & 16 & Identifier of Parameter Monitor \\\hline
+\end{pnptable}}
+

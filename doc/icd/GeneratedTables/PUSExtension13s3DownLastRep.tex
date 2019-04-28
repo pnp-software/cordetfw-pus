@@ -1,0 +1,8 @@
+\def \printDownLastRep#1 {
+\begin{pnptable}{#1}{DownLastRep}{tab:DownLastRep}{Name & Byte & Bit & Size & Description}
+Transid & 0 & 0 & 16 & Large Message Trans. Identifier \\\hline
+PartSeqNmb & 2 & 0 & 16 & Part Sequence Number \\\hline
+Part & 4 & 0 & 16 & Down-transfer data (repetition value is set dynamically by the host application based on the amount of data to be down-transferred) \\\hline
+ &  &  &  & Total bits: 48\newline Total bytes: 6.0\newline Total words: 3.0 \\\hline
+\end{pnptable}}
+

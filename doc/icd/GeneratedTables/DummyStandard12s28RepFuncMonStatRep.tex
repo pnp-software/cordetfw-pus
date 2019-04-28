@@ -1,0 +1,14 @@
+\def \printRepFuncMonStatRep#1 {
+\begin{pnptable}{#1}{RepFuncMonStatRep}{tab:RepFuncMonStatRep}{Name & Byte & Bit & Size & Description}
+NParMon & 0 & 0 & 8 & The number of functional monitor statuses in the report \\\hline
+-  FuncMonId[1] & 1 & 0 & 8 & Identifier of Functional Monitor \\\hline
+-  ProtStatus[1] & 2 & 0 & 8 & Functional Monitor Protection Status \\\hline
+-  IsEnabled[1] & 3 & 0 & 8 & Enable Status \\\hline
+-  FuncMonCheckStatus[1] & 4 & 0 & 8 & Functional Monitor Checking Status \\\hline
+-  ... &  &  &  &  \\\hline
+-  FuncMonId[NParMon] & - & - & 8 & Identifier of Functional Monitor \\\hline
+-  ProtStatus[NParMon] & - & - & 8 & Functional Monitor Protection Status \\\hline
+-  IsEnabled[NParMon] & - & - & 8 & Enable Status \\\hline
+-  FuncMonCheckStatus[NParMon] & - & - & 8 & Functional Monitor Checking Status \\\hline
+\end{pnptable}}
+

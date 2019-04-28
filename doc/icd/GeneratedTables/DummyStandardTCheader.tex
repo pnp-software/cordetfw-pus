@@ -1,0 +1,20 @@
+\def \printTCHeader#1 {
+\begin{pnptable}{#1}{TC header}{tab:TCHeader}{Name & Byte & Bit & Size & Value & Description}
+PcktVersionNmb & 0 & 0 & 3 & 0 & Packet Version Number \\\hline
+PcktType & 0 & 3 & 1 & 0 & Packet type flag  (1 for command and 0 for report) \\\hline
+SecHeaderFlag & 0 & 4 & 1 & 0 & Secondary Header Flag \\\hline
+APID & 0 & 5 & 11 & 0 & Application Process ID (APID) made up of PCAT (7 most signiticant bits) and PID (4 least significant bits) \\\hline
+SeqFlags & 2 & 0 & 2 & 0 & Segmentation Flag \\\hline
+SeqCount & 2 & 2 & 14 & 0 & Source Sequence Counter \\\hline
+PcktDataLen & 4 & 0 & 16 & 0 & Packet Data Length \\\hline
+PUSVersion & 6 & 0 & 4 & 0 & PUS Version \\\hline
+AckAccFlag & 6 & 4 & 1 & 0 & Acknowledge Acceptance Flag \\\hline
+AckStartFlag & 6 & 5 & 1 & 0 & Acknowledge Start Flag \\\hline
+AckProgFlag & 6 & 6 & 1 & 0 & Acknowledge Progress Flag \\\hline
+AckTermFlag & 6 & 7 & 1 & 0 & Acknowledge Termination Flag \\\hline
+ServType & 7 & 0 & 8 & 0 & PUS Service Type \\\hline
+ServSubType & 8 & 0 & 8 & 0 & PUS Service Sub Type \\\hline
+SrcId & 9 & 0 & 8 & 0 & Identifier of telecommand source \\\hline
+ &  &  &  &  & Total bits: 80\newline Total bytes: 10.0\newline Total words: 5.0 \\\hline
+\end{pnptable}}
+

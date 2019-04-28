@@ -1,0 +1,10 @@
+\def \printRepParMonStatRep#1 {
+\begin{pnptable}{#1}{RepParMonStatRep}{tab:RepParMonStatRep}{Name & Byte & Bit & Size & Description}
+NParMon & 0 & 0 & 8 & Number of parameter monitors whose status is reported by the telecommand \\\hline
+-  ParMonId[1] & 1 & 0 & 16 & Identifier of a parameter monitor \\\hline
+-  ParMonCheckStatus[1] & 3 & 0 & 8 & Current checking status of the parameter monitor \\\hline
+-  ... &  &  &  &  \\\hline
+-  ParMonId[NParMon] & - & - & 16 & Identifier of a parameter monitor \\\hline
+-  ParMonCheckStatus[NParMon] & - & - & 8 & Current checking status of the parameter monitor \\\hline
+\end{pnptable}}
+

@@ -1,0 +1,8 @@
+\def \printSuccAccRep#1 {
+\begin{pnptable}{#1}{SuccAccRep}{tab:SuccAccRep}{Name & Byte & Bit & Size & Description}
+PcktVersNumber & 0 & 0 & 3 & Packet version number of command being acknowledged \\\hline
+TcPcktId & 0 & 3 & 13 & Packet identifier of telecommand being acknowledged \\\hline
+TcPcktSeqCtrl & 2 & 0 & 16 & Packet sequence control of telecommand being acknowledged \\\hline
+ &  &  &  & Total bits: 32\newline Total bytes: 4.0\newline Total words: 2.0 \\\hline
+\end{pnptable}}
+

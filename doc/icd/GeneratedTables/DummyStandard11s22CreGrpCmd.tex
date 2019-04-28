@@ -1,0 +1,10 @@
+\def \printCreGrpCmd#1 {
+\begin{pnptable}{#1}{CreGrpCmd}{tab:CreGrpCmd}{Name & Byte & Bit & Size & Description}
+N & 0 & 0 & 16 & The number of groups to be created \\\hline
+-  GroupId[1] & 2 & 0 & 8 & The identifier of a group to be created \\\hline
+-  isGroupEnabled[1] & 3 & 0 & 8 & The initial enable status of the group \\\hline
+-  ... &  &  &  &  \\\hline
+-  GroupId[N] & - & - & 8 & The identifier of a group to be created \\\hline
+-  isGroupEnabled[N] & - & - & 8 & The initial enable status of the group \\\hline
+\end{pnptable}}
+

@@ -1,0 +1,18 @@
+\def \printTMHeader#1 {
+\begin{pnptable}{#1}{TM header}{tab:TMHeader}{Name & Byte & Bit & Size & Value & Description}
+PcktVersionNmb & 0 & 0 & 3 & 0 & Packet Version Number \\\hline
+PcktType & 0 & 3 & 1 & 0 & Packet type flag  (1 for command and 0 for report) \\\hline
+SecHeaderFlag & 0 & 4 & 1 & 0 & Secondary Header Flag \\\hline
+APID & 0 & 5 & 11 & 0 & Application Process ID (APID) made up of PCAT (7 most signiticant bits) and PID (4 least significant bits) \\\hline
+SeqFlags & 2 & 0 & 2 & 0 & Segmentation Flag \\\hline
+SeqCount & 2 & 2 & 14 & 0 & Source Sequence Counter \\\hline
+PcktDataLen & 4 & 0 & 16 & 0 & Packet Data Length \\\hline
+PUSVersion & 6 & 0 & 4 & 0 & PUS Version \\\hline
+SpaceTimeRefStatus & 6 & 4 & 4 & 0 & Space Time Reference Status \\\hline
+ServType & 7 & 0 & 8 & 0 & PUS Service Type \\\hline
+ServSubType & 8 & 0 & 8 & 0 & PUS Service Sub Type \\\hline
+DestId & 9 & 0 & 8 & 0 & Destination Identifier \\\hline
+Time & 10 & 0 & 6*8 & 0 & CUC Time (6 bytes) \\\hline
+ &  &  &  &  & Total bits: 128\newline Total bytes: 16.0\newline Total words: 8.0 \\\hline
+\end{pnptable}}
+

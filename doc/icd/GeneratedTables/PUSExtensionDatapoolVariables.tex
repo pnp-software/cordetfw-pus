@@ -1,0 +1,63 @@
+\def \printDatapoolVariables#1 {
+\begin{pnptable}{#1}{Datapool Variables}{tab:DatapoolVariables}{DPID & Name & Description & Default & Type & Size}
+0x13 & lastEvtEid & Event identifier of the last generated level event report (one element for each severity level) & 0 & CrPsEvtId\_\-t[4] & 64 \\\hline
+0x14 & lastEvtTime & Time when last event report was generated (one element for each severity level) & 0 & CrFwTime\_\-t[4] & 128 \\\hline
+0x15 & nOfDetectedEvts & Number of detected occurrences of events (one element for each severity level) & 0 & CrPsNEvtRep\_\-t[4] & 64 \\\hline
+0x16 & nOfDisabledEid & Number of disabled event identifiers (one element for each severity level) & 0 & CrPsNEvtId\_\-t[4] & 64 \\\hline
+0x17 & nOfGenEvtRep & Number of generated event reports (one element for each severity level) & 0 & CrPsNEvtRep\_\-t[4] & 64 \\\hline
+0x18 & nOfAllocatedInCmd & Number of currently allocated InCommands (i.e. successfully created by the InFactory and not yet released) & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x19 & nOfAllocatedInRep & Number of currently allocated InReports (i.e. successfully created by the InFactory and not yet released) & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x1a & nOfAllocatedOutCmp & Number of currently allocated OutComponents (i.e. successfully created by the OutFactory and not yet released) & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x1b & nOfFailedInCmd & Number of InCommands whose creation by the InFactory failed & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x1c & nOfFailedInRep & Number of InReports whose creation by the InFactory failed & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x1d & nOfFailedOutCmp & Number of OutComponents whose creation by the OutFactory failed & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x1e & nOfTotAllocatedInCmd & Number of InCommands successfully created by the InFactory since application start & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x1f & nOfTotAllocatedInRep & Number of InReports successfully created by the InFactory since application start & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x20 & nOfTotAllocatedOutCmp & Number of OutComponents successfully created by the InFac- tory since application start & 0 & CrPsNCmdRep\_\-t & 32 \\\hline
+0x21 & cycleCnt & Cycle Counter for Reports in RDL & 0 & CrPsCycleCnt\_\-t[HK\_\-N\_\-REP\_\-DEF] & 64 \\\hline
+0x22 & debugVar & Value of Debug Variables & 0 & CrPsThirtytwoBit\_\-t[HK\_\-N\_\-DEBUG\_\-VAR] & 96 \\\hline
+0x23 & sampleBufId & The i-th element of this array is the identifier of the Sampling Buffer for the i-th Report Definition in the RDL & 0 & CrPsSampleBufId\_\-t[HK\_\-N\_\-REP\_\-DEF] & 32 \\\hline
+0x24 & lptRemSize & Remaining size of a large packet in the LPT Buffer (part of the large packet not yet down-transferred) & 0 & CrPsSize\_\-t[LPT\_\-N\_\-BUF] & 16 \\\hline
+0x25 & lptSize & Size of large packet in the LPT Buffer & 0 & CrPsSize\_\-t[LPT\_\-N\_\-BUF] & 16 \\\hline
+0x26 & lptSrc & Source of the large packet up-transfer to the LPT Buffer & 0 & CrFwDestSrc\_\-t[LPT\_\-N\_\-BUF] & 8 \\\hline
+0x27 & lptTime & Time when last up-transfer command to the LPT Buffer was received & 0 & CrPsTimeSec\_\-t[LPT\_\-N\_\-BUF] & 32 \\\hline
+0x28 & nOfDownlinks & Number of on-going down-transfers & 0 & CrPsNOfLinks\_\-t & 8 \\\hline
+0x29 & nOfUplinks & Number of on-going up-transfers & 0 & CrPsNOfLinks\_\-t & 8 \\\hline
+0x2a & partSeqNmb & Part sequence number for the up/down/transfer to/from the LPT Buffer & 0 & CrPsPartSeqNmb\_\-t[LPT\_\-N\_\-BUF] & 16 \\\hline
+0x2b & ctlRepDelay & Maximum reporting delay for the CTL in multiples of MON\_\-PER & 0 & CrPsRepDelay\_\-t & 16 \\\hline
+0x2c & ctlTimeFirstEntry & Time when first entry has been added to the CTL & 0 & CrFwTime\_\-t & 32 \\\hline
+0x2d & funcMonEnbStatus & Functional monitoring enable status & 0 & CrPsEnDis\_\-t & 8 \\\hline
+0x2e & nmbAvailFuncMon & Number of available functional monitors in the FMDL & 0 & CrPsFuncMonId\_\-t & 8 \\\hline
+0x2f & nmbAvailParMon & Number of available parameter monitors in the PMDL & 0 & CrPsParMonId\_\-t & 16 \\\hline
+0x30 & nmbEnbFuncMon & Number of enabled functional monitors in the FMDL & 0 & CrPsFuncMonId\_\-t & 8 \\\hline
+0x31 & nmbEnbParMon & Number of enabled parameter monitors in the PMDL & 0 & CrPsParMonId\_\-t & 16 \\\hline
+0x32 & parMonEnbStatus & Enable state of parameter monitoring function & ENABLED & CrPsEnDis\_\-t & 8 \\\hline
+0x33 & firstTba & Identifier of next time-based activity due for release & 0 & CrPsNTba\_\-t & 16 \\\hline
+0x34 & isGroupEnabled & Enabled flag for time-based schedule group & 1 & CrFwBool\_\-t[SCD\_\-N\_\-GROUP] & 8 \\\hline
+0x35 & isGroupInUse & InUse flag for time-based schedule group & 0 & CrFwBool\_\-t[SCD\_\-N\_\-GROUP] & 8 \\\hline
+0x36 & nOfGroup & Number of non-empty groups & 0 & CrPsNSubSchedGroup\_\-t & 8 \\\hline
+0x37 & nOfSubSched & Number of non-empty sub-schedules & 0 & CrPsNSubSchedGroup\_\-t & 8 \\\hline
+0x38 & nOfTba & Number of currently defined time-based activities (TBAs) & 0 & CrPsNTba\_\-t & 16 \\\hline
+0x39 & AreYouAliveSrc & Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command & 0 & CrFwDestSrc\_\-t & 8 \\\hline
+0x3a & AreYouAliveStart & Time when the Are-You-Alive Test is started in response to an On-Board Connection Test & 0 & CrFwTime\_\-t & 32 \\\hline
+0x3b & OnBoardConnectDest & Destination of the (17,1) triggered by a (17,3) command & 0 & CrFwDestSrc\_\-t & 8 \\\hline
+0x3c & failCode & Verification Failure Code & 0 & CrPsFailCode\_\-t & 8 \\\hline
+0x3d & failCodeAccFailed & Failure code of last command which failed its Acceptance & 0 & CrPsFailCode\_\-t & 8 \\\hline
+0x3e & failCodePrgrFailed & Failure code of last command which failed its Progress Check & 0 & CrPsFailCode\_\-t & 8 \\\hline
+0x3f & failCodeStartFailed & Failure code of last command which failed its Start Check & 0 & CrPsFailCode\_\-t & 8 \\\hline
+0x40 & failCodeTermFailed & Failure code of last command which failed its Termination & 0 & CrPsFailCode\_\-t & 8 \\\hline
+0x41 & failData & Verification Failure Data (data item of fixed size but variable meaning) & 0 & CrPsFailData\_\-t & 32 \\\hline
+0x42 & invDestRerouting & Destination of last command for which re-routing failed & 0 & CrFwDestSrc\_\-t & 8 \\\hline
+0x43 & nOfAccFailed & Number of commands which have failed their Acceptance Check & 0 & CrPsNOfCmd\_\-t & 16 \\\hline
+0x44 & nOfPrgrFailed & Number of commands which have failed their Progress Action & 0 & CrPsNOfCmd\_\-t & 16 \\\hline
+0x45 & nOfReroutingFailed & Number of commands for which re-routing failed & 0 & CrPsNOfCmd\_\-t & 16 \\\hline
+0x46 & nOfStartFailed & Number of commands which have failed their Start Action & 0 & CrPsNOfCmd\_\-t & 16 \\\hline
+0x47 & nOfTermFailed & Number of commands which have failed their Termination Action & 0 & CrPsNOfCmd\_\-t & 16 \\\hline
+0x48 & pcktIdAccFailed & Packet identifier of last command which failed its Acceptance Check & 0 & CrPsThirteenBit\_\-t & 13 \\\hline
+0x49 & pcktIdPrgrFailed & Packet identifier of last command which failed its Progress Action & 0 & CrPsThirteenBit\_\-t & 13 \\\hline
+0x4a & pcktIdReroutingFailed & Packet identifier of last command for which re-routing failed & 0 & CrPsThirteenBit\_\-t & 13 \\\hline
+0x4b & pcktIdStartFailed & Packet identifier of last command which failed its Start Check & 0 & CrPsThirteenBit\_\-t & 13 \\\hline
+0x4c & pcktIdTermFailed & Packet identifier of last command which failed its Termination & 0 & CrPsThirteenBit\_\-t & 13 \\\hline
+0x4d & stepPrgrFailed & Step identifier of last command which failed its Progress Check & 0 & CrFwProgressStepId\_\-t & 16 \\\hline
+\end{pnptable}}
+

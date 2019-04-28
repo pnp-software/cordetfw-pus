@@ -1,0 +1,10 @@
+\def \printRepcc#1 {
+\begin{pnptable}{#1}{Rep3 (EVT\_\-MON\_\-DEL\_\-I)}{tab:Repcc}{Name & Byte & Bit & Size & Description}
+EventId & 0 & 0 & 16 & Event Identifier \\\hline
+ParMonId & 2 & 0 & 16 & The identifier of the parameter monitor which reported the violation \\\hline
+MonParId & 4 & 0 & 16 & The identifier of the monitored parameter which went out of limits \\\hline
+ParMonCheckStatus & 6 & 0 & 8 & Last status of parameter monitor which reported limit violation \\\hline
+ParValueInt & 7 & 0 & 32 & Last value of monitored parameter which went out-of-limits \\\hline
+ &  &  &  & Total bits: 88\newline Total bytes: 11.0\newline Total words: 5.5 \\\hline
+\end{pnptable}}
+

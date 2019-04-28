@@ -1,0 +1,13 @@
+\def \printFailedAccRep#1 {
+\begin{pnptable}{#1}{FailedAccRep}{tab:FailedAccRep}{Name & Byte & Bit & Size & Description}
+PcktVersNumber & 0 & 0 & 3 & Packet version number of command being acknowledged \\\hline
+TcPcktId & 0 & 3 & 13 & Packet identifier of command being acknowledged \\\hline
+TcPcktSeqCtrl & 2 & 0 & 16 & Packet sequence control of command being acknowledged \\\hline
+TcFailCode & 4 & 0 & 8 & Failure Identification Code \\\hline
+TcFailData & 5 & 0 & 32 & Failure data (interpretation depends on the value of the failure code, see description of FailCode) \\\hline
+TcType & 9 & 0 & 8 & Type of Acknowledged TC \\\hline
+TcSubType & 10 & 0 & 8 & Subtype of Acknowledged TC \\\hline
+TcDisc & 11 & 0 & 16 & Discriminant of Acknowledged TC \\\hline
+ &  &  &  & Total bits: 104\newline Total bytes: 13.0\newline Total words: 6.5 \\\hline
+\end{pnptable}}
+

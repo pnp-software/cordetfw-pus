@@ -1,0 +1,8 @@
+\def \printUpLastCmd#1 {
+\begin{pnptable}{#1}{UpLastCmd}{tab:UpLastCmd}{Name & Byte & Bit & Size & Description}
+Transid & 0 & 0 & 16 & Large Message Trans. Identifier \\\hline
+PartSeqNmb & 2 & 0 & 16 & Part Sequence Number \\\hline
+Part & 4 & 0 & 16 & Up-transfer data (repetition value is set dynamically) \\\hline
+ &  &  &  & Total bits: 48\newline Total bytes: 6.0\newline Total words: 3.0 \\\hline
+\end{pnptable}}
+

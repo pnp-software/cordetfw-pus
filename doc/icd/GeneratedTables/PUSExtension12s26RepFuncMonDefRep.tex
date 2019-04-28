@@ -1,0 +1,30 @@
+\def \printRepFuncMonDefRep#1 {
+\begin{pnptable}{#1}{RepFuncMonDefRep}{tab:RepFuncMonDefRep}{Name & Byte & Bit & Size & Description}
+NParMon & 0 & 0 & 8 & The number of functional monitoring definitions in the report \\\hline
+-  FuncMonId[1] & 1 & 0 & 8 & Identifier of Functional Monitor \\\hline
+-  ValCheckParId[1] & 2 & 0 & 16 & Identifier of Validity Parameter \\\hline
+-  ValCheckParMask[1] & 4 & 0 & undefined & Mask for Validity Check \\\hline
+-  ValCheckParMask[1] & - & - & undefined & Mask for Validity Check \\\hline
+-  ProtStatus[1] & - & - & 8 & Functional Monitor Protection Status \\\hline
+-  FuncMonCheckStatus[1] & - & - & 8 & Functional Monitor Checking Status \\\hline
+-  EvtId[1] & - & - & 16 & Event Identifier \\\hline
+-  MinFailNmb[1] & - & - & 8 & Minimum Failing Number \\\hline
+-  NFuncMon[1] & - & - & 8 & The number of parameter monitors associated to the functional monitor \\\hline
+- -  ParMonId[1][1] & - & - & 16 & Identifier of Parameter Monitor \\\hline
+- -  ... &  &  &  &  \\\hline
+- -  ParMonId[1][NFuncMon] & - & - & 16 & Identifier of Parameter Monitor \\\hline
+-  ... &  &  &  &  \\\hline
+-  FuncMonId[NParMon] & - & - & 8 & Identifier of Functional Monitor \\\hline
+-  ValCheckParId[NParMon] & - & - & 16 & Identifier of Validity Parameter \\\hline
+-  ValCheckParMask[NParMon] & - & - & undefined & Mask for Validity Check \\\hline
+-  ValCheckParMask[NParMon] & - & - & undefined & Mask for Validity Check \\\hline
+-  ProtStatus[NParMon] & - & - & 8 & Functional Monitor Protection Status \\\hline
+-  FuncMonCheckStatus[NParMon] & - & - & 8 & Functional Monitor Checking Status \\\hline
+-  EvtId[NParMon] & - & - & 16 & Event Identifier \\\hline
+-  MinFailNmb[NParMon] & - & - & 8 & Minimum Failing Number \\\hline
+-  NFuncMon[NParMon] & - & - & 8 & The number of parameter monitors associated to the functional monitor \\\hline
+- -  ParMonId[NParMon][1] & - & - & 16 & Identifier of Parameter Monitor \\\hline
+- -  ... &  &  &  &  \\\hline
+- -  ParMonId[NParMon][NFuncMon] & - & - & 16 & Identifier of Parameter Monitor \\\hline
+\end{pnptable}}
+

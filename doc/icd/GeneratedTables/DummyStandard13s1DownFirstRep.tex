@@ -1,0 +1,8 @@
+\def \printDownFirstRep#1 {
+\begin{pnptable}{#1}{DownFirstRep}{tab:DownFirstRep}{Name & Byte & Bit & Size & Description}
+Transid & 0 & 0 & 16 & Large Message Trans. Identifier \\\hline
+PartSeqNmb & 2 & 0 & 16 & Part Sequence Number \\\hline
+Part & 4 & 0 & 16 & Down-transfer data (repetition value to be set to fill the packet) \\\hline
+ &  &  &  & Total bits: 48\newline Total bytes: 6.0\newline Total words: 3.0 \\\hline
+\end{pnptable}}
+
