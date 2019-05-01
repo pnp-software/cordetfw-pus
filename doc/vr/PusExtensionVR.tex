@@ -25,7 +25,7 @@
 %---------------------------------------------
 % Import file with definition of commands and reports
 %---------------------------------------------
-\input{GeneratedTables/CrPsSpec.tex}
+\input{../pus/GeneratedTables/CrPsSpec.tex}
 
 
 %==========================================================================================
@@ -112,10 +112,10 @@ The Use Constraint Requirements are not mapped to code.
 
 
 \begin{landscape}
-\pnpcsvtable{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Standard Requirements to Implementation}{tab:SReqTrace}{Req. ID & Requirement Text & Implementation }{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Implementation}
+\pnpcsvtable[filter equal={\Type}{S}]{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Standard Requirements to Implementation}{tab:SReqTrace}{Req. ID & Requirement Text & Implementation }{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Implementation}
 
 \newpage
-\pnpcsvtable{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Adaptation Requirements to Implementation}{tab:AReqTrace}{Req. ID & Requirement Text & Implementation }{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Implementation}
+\pnpcsvtable[filter equal={\Type}{A}]{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Adaptation Requirements to Implementation}{tab:AReqTrace}{Req. ID & Requirement Text & Implementation }{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Implementation}
 
 
 \end{landscape}
@@ -125,170 +125,89 @@ The Use Constraint Requirements are not mapped to code.
 
 %==========================================================================================
 \section{Requirement Verification}\label{sec:svrReqVer} 
-The PUS Extension of the CORDET Framework is specified in reference [TsUsp]. The framework is specified through a set of requirements which define the behaviour of the commands and the reports support by the PUS Extension. The PUS Extension is built on the CORDET Framework. In the CORDET world, 'command' and "reports' are defined through: (a) their \textit{parameters}; (b) the \textit{actions} they perform during their execution; and (c) the \textit{conditional checks} which determine whether and when these actions are executed. 
+The PUS Extension of the CORDET Framework is specified in reference [PX-SP] through a set of requirements of the following kinds:
 
-The CORDET Framework defines the life-cycle of a generic command or report in terms of these parameters, actions and checks. The PUS Extension defines concrete commands and reports by specifying the name and type of their parameters and the content of thier actions and checks. This is done through tables like the one shown in figure \ref{fig:InCmdHkCreHkCmdSpec}. 
+\begin{itemize}
+\item{} \textit{Standard Requirements} which define a desired feature of the framework extension. They are analogous in scope and format to the user requirements of a conventional (non-framework) application.
+\item{} \textit{Adaptation Requirement} which define the points where a component offered by the framework extension can be extended by the application developers. In some cases, the definition of an adaptation point is accompanied by the definition of the default options offered by the framework extension for that adaptation point.  
+\item{} \textit{Use Constraint Requirements} which define the constraints on how the components offered by the framework extension may be used by application developers.
+\end{itemize}
+
+The Use Constraint Requirements and the Adaptation Requirements are not directly verified. The standard requirements are often formulated in terms of expected behaviour for the commands and reports supported by the PUS Extension. Hence, the following verification evidence is provided for them:
+
+\begin{itemize}
+\item Section \ref{sec:svrVerStdReq} traces each standard requirement to its verification evidence
+\item Section \ref{sec:svrVerCmdReps} traces each command or report supported by the PUS Extension to the test cases which verify it
+\item Section \ref{sec:svrVerDataPool} traces the data pool items to the test cases which verify them
+\item Section \ref{sec:svrCmdRej} traces the command rejection codes to the test cases which verify them
+\item Section \ref{sec:svrVerProc} traces each FW Profile procedure used by the PUS Extension to the test cases which verify it
+\end{itemize}
+
+
+
+
+
+%------------------------------------------------------------------------------
+\subsection{Verification of Standard Requirements}\label{sec:svrVerStdReq}
+Table \ref{tab:SReqVerTrace} lists the standard requirements of the PUS Extension and provides for each requirement its verification evidence.
+
+
+%------------------------------------------------------------------------------
+\subsection{Verification of Commands and Reports}\label{sec:svrVerCmdReps}
+The PUS Extension defines the behaviour of the commands and the reports supported by the PUS Extension. The PUS Extension is built on the CORDET Framework. In the CORDET world, 'command' and 'reports' are defined through: (a) their \textit{parameters}; (b) the \textit{actions} they perform during their execution; and (c) the \textit{conditional checks} which determine whether and when these actions are executed. 
+
+The CORDET Framework defines the life-cycle of a generic command or report in terms of these parameters, actions and checks. The PUS Extension defines concrete commands and reports by specifying the name and type of their parameters and the content of their actions and checks. This is done through tables like the one shown in figure \ref{fig:InCmdHkCreHkCmdSpec}. 
 
 \printInCmdHkCreHkCmdSpec{|c|p{10cm}|}
 
-For all actions and checks, a default implementation is defined at CORDET Framework level. Wherever possible, the definition of a concrete command or report by the PUS Extension makes use of these default implementations. Hence, Verification at PUS Extension level only needs to cover the non-default actions and checks.
+For all actions and checks, a default implementation is defined at CORDET Framework level. Wherever possible, the definition of a concrete command or report by the PUS Extension makes use of these default implementations. The default implementations are already verified at CORDET Framework level. Hence, Verification at PUS Extension level only needs to cover the non-default actions and checks and the commands or report parameters.
 
-The following paragraphs present the verification evidence for the requirements of the PUS Extension.
+Tables \ref{tab:VerCmd} and \ref{tab:VerRep} list the commands and reports implemented by the PUS Extension and map them to the test case which verify them. In most cases, more than one test case is used to cover each command or report because different test cases cover different aspects of the of the command's or report's behaviour. Note that the guarantee of coverage of all non-default actions and checks is provided by the code coverage analysis in section \ref{sec:svrCodeCov}.
 
-%------------------------------------------------------------------------------
-\subsection{Traceability from Requirements to Verification Evidence}
-
+The implementation of the functions which access the command and report parameters is generated automatically from the description of the command and report layout (see reference [PX-IC]). Verification of correctness is done implicitly through the test cases listed in tables \ref{tab:VerCmd} and \ref{tab:VerRep} which must access the command and report parameters in order to verify their behaviour.
 
 
 %------------------------------------------------------------------------------
-\subsection{Verification Through Test Cases}
-This section presents various traceability matrices which map specification items to test cases in the Test Suite (see section \ref{sec:TestSuite} of reference [TiUm]). 
-
-The traceability matrices are built automatically from information embedded within the source code of the test cases. This information is inserted through doxygen custom tag \texttt{@verify}. The doxygen documentation of a test case contains one or more \texttt{@verify} tags. Each tag in the header file of test case T identifies one specification item which test case T verifies. 
-
-A script processes the header files of the test cases to build the traceability matrices using the information in the \texttt{@verify} tag. These traceability matrices are used to build the tables presented in this section.
-
-
-
-The verification evidence for the PUS Extension requirements consists of several items as described in the next paragraphs.
-
-Table TBD lists all the standard requirements of the PUS Extension and, to each, it associates its verification evidence.
-
-
-
-behaviour of an abstract
-
-
-
-
-The CORDET Framework defines a command and report model whereby the behavioural of a command or report is defined by defining the 
-
-
-model for commands and reports. The PUS Extension uses this 
-
-\begin{itemize}
-\item The commands to be supported by the PUS Extension
-\item The reports to be supported by the PUS Extension
-\item The 
-\end{itemize}
-
-
-
-
+\subsection{Verification of Data Pool}\label{sec:svrVerDataPool}
+Table \ref{tab:VerDataPool} lists the data pool items for which dedicated verification tests are done in the test suite and associates to each data pool item the test case the item is verified. Coverage is not complete but this is acceptable because the functions to access the data pool items are generated automatically from the data pool description.
 
 
 %------------------------------------------------------------------------------
-\chgZB{
-\subsection{Verification of User Interface}
-Three kinds of interfaces are specified for the PUS Extension of the CORDET Framework in section \ref{sec:userIf} of reference [TsUsp]. Table \ref{tab:VerUI} lists these user interface items and, for each such item, it provides the test cases where the item is verified. Inspection of the table shows that:
-
-\begin{itemize}
-\item All user interface item are covered by the test \chgA{campaign}
-\item Interface operations which may have both a success and a failure outcome have been validated with both outcomes
-\item The library start-up has been validated both when the server starts first and where the server starts first
-\item The operations to start and stop the library have been validated on both the server and client side
-\end{itemize}
-
-
-}
+\subsection{Verification of Command Rejection Codes}\label{sec:svrVerCmdRej}
+Table \ref{tab:VerCmdRej} lists the command rejections codes for which dedicated verification tests are done in the test suite and associates to each command rejection code the test case the code is verified. 
 
 %------------------------------------------------------------------------------
-\chgZB{
-\subsection{Verification of Functional Behaviour}
-Functional behaviour is specified through the state machines and procedures defined in reference [TsUsp]. Tables \ref{tab:OpMode} to \ref{tab:FuncBehaviour} list the items verified in each state machine and in each procedure. Inspection of these tables shows that:
+\subsection{Verification of FW Profile Procedures}\label{sec:svrVerProc}
+Part of the behaviour of the PUS Extension is specified through FW Profile procedures. Table \ref{tab:VerProc} lists the procedures and the test cases where they are verified. All branches of the procedures are covered by the test cases. 
 
-\begin{itemize}
-\item All state machine states are verified
-\item All state machine transitions are verified
-\item All procedure nodes are verified
-\item All procedure control flows are verified
-\end{itemize}
-}
-\chgA{
-In reference [TsUsp] functional behaviour is also captured by a set of Gherkin-style scenarios. The use scenarios are built around features. Each feature covers one aspect of the library functionality. Table \ref{tab:UseCaseVer} associates to each scenario defined in reference [TsUsp] the test case which verifies the behaviour it describes. Inspection of the table shows that all the behaviours defined by the scenarios is modelled and verified in the test cases.
-
-}
-
+%------------------------------------------------------------------------------
+\subsection{Verification of Design-Level Functions}\label{sec:svrVerFunc}
+The PUS Extension requirements define a small number of design-level functions.  Table \ref{tab:VerFunc} lists them and associates them to the test cases which verify them. If a function operates uder different conditions, all conditions are verified. 
 
 
 %------------------------------------------------------------------------------
-\chgZB{
-\subsection{Verification of Performance Requirement}
-Three performance requirements are formulated in reference [TsUsp]. The first two requirement cover the time to, respectively, send and receive a message across the TCP link. The required message transfer times are TBD. Hence, the requirements are verified by default but it is noted that section \ref{sec:svrExecTimeLibThread} analyses the message transfer times.
 
-The third requirement specifies that the resolution of the command time-out must be 1 ms. This requirement is verified in test case \texttt{S9\_Overrun}.
-}
-
-
-\newpage
-\chgA{
-\begin{pnptable}{|>{\raggedright\arraybackslash}p{7cm}|>{\raggedright\arraybackslash}p{6cm}|}{Verification of USP Scenarios}{tab:UseCaseVer}{Scenario & Test Cases}
-Nominal PUS Extension of the CORDET Framework start-up - server first & \texttt{S1\_ServerStartFirst}, \texttt{C1\_ServerStartFirst} \\
-\hline
-Nominal PUS Extension of the CORDET Framework start-up - client first & \texttt{S2\_ClientStartFirst}, \texttt{C2\_ClientStartFirst} \\
-\hline 
-Nominal PUS Extension of the CORDET Framework shutdown - server first &  \texttt{S1\_ServerStartFirst}, \texttt{C1\_ServerStartFirst} \\
-\hline
-Nominal PUS Extension of the CORDET Framework shutdown - client first &  \texttt{S2\_ClientStartFirst}, \texttt{C2\_ClientStartFirst} \\
-\hline 
-PUS Extension of the CORDET Framework shutdown Failure & \texttt{PendingCmd} \\
-\hline
-Forced PUS Extension of the CORDET Framework shutdown & \texttt{PendingCmd} \\
-\hline
-Fall-back into ERROR state due to connection error & \texttt{S5\_StressTest} \\
-\hline
-Fall-back into ERROR state due to syntactical error in a command & \texttt{S6\_IllegalCmd}, \texttt{C6\_IllegalCmd} \\
-\hline
-Fall-back into ERROR state due to syntactical error in an event & \texttt{S7\_IllegalEvt}, \texttt{C7\_IllegalEvt} \\
-\hline
-Rejection of a request to send a command due to wrong library mode & \texttt{PendingCmd} \\
-\hline
-Rejection of a request to send a command due to pending command &  \texttt{PendingCmd}, \texttt{FireAndForgetCmd} \\
-\hline
-Parallel execution of commands of different types & \texttt{S3\_CmdAndEvt}, \texttt{C3\_CmdAndEvt}, \texttt{CmdTimeOut} \\
-\hline
-Command with command execution event received on time &  \texttt{S3\_CmdAndEvt}, \texttt{C3\_CmdAndEvt} \\
-\hline
-Command time-out & \texttt{CmdTimeOut} \\
-\hline
-Fire-and-forget command & \texttt{S3\_CmdAndEvt}, \texttt{C3\_CmdAndEvt}, \texttt{S5\_StressTest} \\
-\hline
-Rejection of a request to send an event due to wrong library mode & \texttt{SendEvt} \\
-\hline
-Nominal event send operation & \texttt{S5\_StressTest}, \texttt{S3\_CmdAndEvt}, \texttt{C3\_CmdAndEvt} \\
-\hline
-\end{pnptable}
-}
-
-
-\chgZB{
 \begin{landscape}
-\pnpcsvtable{|l|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{13cm}|}{Verification of User Interface}{tab:VerUI}{Verified Item & Description & Verification Test Cases}{VerUserInterface.csv}{\texttt{\UIName} & \UIDesc & \UIVer}
+\pnpcsvtable[filter equal={\Type}{S}]{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Standard Requirements to Verification Evidence}{tab:SReqVerTrace}{Req. ID & Requirement Text & Verification}{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Verification}
 \end{landscape}
 
-\pnpcsvtable[filter equal={\AAName}{Operational Mode}]{|l|>{\raggedright\arraybackslash}p{10cm}|}{Verification of Operational Mode State Machine}{tab:OpMode}{Test Case & Verified Item}{VerifyInfo.csv}{\texttt{\TestCase} & \Desc}
+%------------------------------------------------------------------------------
 
-\pnpcsvtable[filter equal={\AAName}{Out-Going Command}]{|l|>{\raggedright\arraybackslash}p{10cm}|}{Verification of Out-Going Command State Machine}{tab:OutCmd}{Test Case & Verified Item}{VerifyInfo.csv}{\texttt{\TestCase} & \Desc}
+\pnpcsvtable[filter equal={\Kind}{Command}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Commands}{tab:VerCmd}{Command & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
 
-\pnpcsvtable[filter equal={\AAName}{Start-Up}]{|l|>{\raggedright\arraybackslash}p{10cm}|}{Verification of Start-Up Procedure}{tab:StartUp}{Test Case & Verified Item}{VerifyInfo.csv}{\texttt{\TestCase} & \Desc}
+\pnpcsvtable[filter equal={\Kind}{Report}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Commands}{tab:VerRep}{Report & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
 
-\newpage
-\pnpcsvtable[filter equal={\AAName}{Shutdown}]{|l|>{\raggedright\arraybackslash}p{10cm}|}{Verification of Shutdown Procedure}{tab:Shutdown}{Test Case & Verified Item}{VerifyInfo.csv}{\texttt{\TestCase} & \Desc}
+%------------------------------------------------------------------------------
+\pnpcsvtable[filter equal={\Kind}{Data Pool}]{|l|c|}{Verification of Data Pool Items}{tab:VerDataPool}{Data Pool Item & Test Case}{ListOfVerifyItems.csv}{\Name & \TestCaseName}
 
-\pnpcsvtable[filter equal={\AAName}{Incoming Event}]{|l|>{\raggedright\arraybackslash}p{10cm}|}{Verification of Incoming Event Procedure}{tab:InEvt}{Test Case & Verified Item}{VerifyInfo.csv}{\texttt{\TestCase} & \Desc}
+%------------------------------------------------------------------------------
+\pnpcsvtable[filter equal={\Kind}{Command Rejection Code}]{|l|c|}{Verification of Command Rejection Codes}{tab:VerCmdRej}{Command Rejection Code & Test Case}{ListOfVerifyItems.csv}{\Name & \TestCaseName}
 
-\pnpcsvtable[filter equal={\AAName}{Incoming Command}]{|l|>{\raggedright\arraybackslash}p{10cm}|}{Verification of Incoming Command Procedure}{tab:InCmd}{Test Case & Verified Item}{VerifyInfo.csv}{\texttt{\TestCase} & \Desc}
-
-\newpage
-\pnpcsvtable[filter equal={\AAName}{Functional Behaviour}]{|l|>{\raggedright\arraybackslash}p{10cm}|}{Verification of Functional Behaviour Procedure}{tab:FuncBehaviour}{Test Case & Verified Item}{VerifyInfo.csv}{\texttt{\TestCase} & \Desc}
-
-
-
-}
+%------------------------------------------------------------------------------
+\pnpcsvtable[filter equal={\Kind}{Function}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Design-Level Functions}{tab:VerRep}{Function & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
 
 %==========================================================================================
 \section{Static Code Analysis}\label{sec:svrStaticCodeAna}
-\chgA{
 Two forms of static code analysis were done:
 
 \begin{itemize}
@@ -296,7 +215,7 @@ Two forms of static code analysis were done:
 \item Compilation with the \texttt{clang} static analyzer (\texttt{scan-build})
 \end{itemize}
 
-The \texttt{clang} compiler only reports the following warning: \texttt{clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated}. This warning is reported for all C-language files in the library (the files from the FW Profile Library, see section \ref{sec:lib} of reference [TsUm], and the files generated by the FW Profile Editor, see section \ref{sec:fwSrcCode} of the same document) and is due to the fact that these files are compiled using \texttt{g++/clang++}. This is intentional and the warnings are therefore accepted.
+The \texttt{clang} compiler does not report any errors.
 
 The \texttt{scan-build} reports the following errors:
 
@@ -307,7 +226,7 @@ The \texttt{scan-build} reports the following errors:
 
 Based on the above, it is concluded that no statically detectable issues are present in the code of the PUS Extension of the CORDET Framework.
 
-}
+
 
 
 
