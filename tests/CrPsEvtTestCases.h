@@ -41,7 +41,7 @@
  * .
  * @verify Function, Evt Config, Operation to retrieve position and severity level of event identifier
  * @verify Function, Evt Config, Operation to set the enable status of an event identifier
- * @verify Function, Etv Config, Operation to read the enable status of an event identifier
+ * @verify Function, Evt Config, Operation to read the enable status of an event identifier
  * @verify Function, Evt Config, Operation to read the severity level of an event identifier
  *
  * @return 1 if the test was successful, 0 otherwise
