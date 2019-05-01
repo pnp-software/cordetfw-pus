@@ -57,6 +57,7 @@
 /* Include system files */
 #include <stdlib.h>
 #include <unistd.h>
+#include <math.h>
 
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsEvtTestCase1() {
@@ -167,7 +168,7 @@ CrFwBool_t CrPsEvtTestCase2() {
   /* Check observables related to level 1 events */
   if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_1)
       return 0;
-  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
+  if (fabs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
   if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;
@@ -222,7 +223,7 @@ CrFwBool_t CrPsEvtTestCase3() {
   /* Check observables related to event */
   if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_2)
       return 0;
-  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
+  if (fabs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
   if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;
@@ -281,7 +282,7 @@ CrFwBool_t CrPsEvtTestCase4() {
   /* Check observables related to level 1 events */
   if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_3)
       return 0;
-  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
+  if (fabs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
   if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;
@@ -336,7 +337,7 @@ CrFwBool_t CrPsEvtTestCase5() {
   /* Check observables related to event */
   if (getDpEvtLastEvtEidItem(sevLevel-1) != EVT_DUMMY_4)
       return 0;
-  if (abs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
+  if (fabs(getDpEvtLastEvtTimeItem(sevLevel-1)-CrFwGetCurrentTime()) < 0.001)
       return 0;
   if (getDpEvtNOfDetectedEvtsItem(sevLevel-1) != 1)
       return 0;

@@ -52,6 +52,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <math.h>
 
 /** Time out for (17,3) command */
 CrFwTime_t cmd7s3TimeOut = 2;
@@ -820,7 +821,7 @@ CrFwBool_t CrPsTstTestCase4() {
   /* Execute the InCommand and verify that the start time is correctly loaded in the data pool */
   CrFwCmpExecute(inCmd);
   CrFwInCmdTerminate(inCmd);
-  if (abs(getDpTstAreYouAliveStart()-initTime)>0.0001)
+  if (fabs(getDpTstAreYouAliveStart()-initTime)>0.6)    /* NB: Every call to CrFwGetCurrentTime causes time to advance by 0.5 */
      return 0;
 
   /* Execute the InCommand a few times and check that it remains in PROGRESS */

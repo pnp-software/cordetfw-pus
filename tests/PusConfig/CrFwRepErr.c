@@ -146,36 +146,7 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
 	errRepArray[errRepPos].par[1] = temp % 256;
 	temp = temp >> 8;
 	errRepArray[errRepPos].par[2] = temp % 256;
-	temp = temp >> 8;void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanceId_t instanceId,
-            CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt) {
-CrFwCounterU1_t i;
-CrFwSeqCnt_t temp;
-
-errRepArray[errRepPos].errCode = errCode;
-errRepArray[errRepPos].instanceId = instanceId;
-errRepArray[errRepPos].typeId = typeId;
-temp = expSeqCnt;
-errRepArray[errRepPos].par[0] = temp % 256;
-temp = temp >> 8;
-errRepArray[errRepPos].par[1] = temp % 256;
-temp = temp >> 8;
-errRepArray[errRepPos].par[2] = temp % 256;
-temp = temp >> 8;
-errRepArray[errRepPos].par[3] = temp % 256;
-temp = actSeqCnt;
-errRepArray[errRepPos].par[4] = temp % 256;
-temp = temp >> 8;
-errRepArray[errRepPos].par[5] = temp % 256;
-temp = temp >> 8;
-errRepArray[errRepPos].par[6] = temp % 256;
-temp = temp >> 8;
-errRepArray[errRepPos].par[7] = temp % 256;
-
-for (i=8; i<CR_FW_ERR_REP_PAR_SIZE; i++)
-errRepArray[errRepPos].par[i] = 255;
-
-errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
-}
+	temp = temp >> 8;
 	errRepArray[errRepPos].par[3] = temp % 256;
 	temp = actSeqCnt;
 	errRepArray[errRepPos].par[4] = temp % 256;
