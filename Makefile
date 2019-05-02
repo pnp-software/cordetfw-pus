@@ -93,7 +93,7 @@ run-test-valgrind:
 # Generate the test coverage information 
 gen-lcov: 
 	@lcov --capture --directory --rc lcov_branch_coverage=1 $(ODIR)/src -o coverage.info
-	@lcov --rc lcov_branch_coverage=1 --remove coverage.info '/usr/*' -o filtered_coverage.info
+	@lcov --rc lcov_branch_coverage=1 --remove coverage.info '/usr/*' 'src/Dum/*' 'src/Lpt/*' 'src/Mon/*' 'src/Scd/*' -o filtered_coverage.info
 	@genhtml --branch-coverage filtered_coverage.info --output-directory lcov
 
 gen-gcov: $(GCOV)

@@ -28,6 +28,7 @@
 
 **/doc/html
 **/bin
+**/lcov
 
 **/Debug
 
@@ -97,3 +98,6 @@ dkms.conf
 /doc/icd/PusExtensionICD.pdf
 /doc/icd/PusExtensionICD.synctex.gz
 /doc/icd/PusExtensionICD.toc
+/filtered_coverage.info
+/coverage.info
+/default.profraw
