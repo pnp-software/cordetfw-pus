@@ -1,7 +1,4 @@
 TestCaseName|Kind|Name|Desc
-CrPsEvtTestCase8|||
-CrPsEvtTestCase8|||
-CrPsTstTestCase4|||
 CrPsTstTestCase2|Command|Are-You-Alive|Start Action Nominal Branch
 CrPsTstTestCase2|Command||Start Action Failure Branch
 CrPsTstTestCase2|Command||Progress Action
@@ -18,6 +15,7 @@ CrPsTstTestCase3|Command|Connection Test|Start Action Illegal Destination Branch
 CrPsTstTestCase3|Command||Start Action Nominal Branches
 CrPsTstTestCase3|Command||Progress Action Left Branch
 CrPsTstTestCase3|Command||Progress Action Middle Branch
+CrPsTstTestCase4|Command||Start Action Retrieval of Second OutComponent Fails
 CrPsTstTestCase4|Command||Start Action Retrieval of First OutComponent Fails
 CrPsTstTestCase4|Command||Progress Action right Branch (failure)
 CrPsHkTestCase10|Command|Create Diagnostic Report|Successful execution
@@ -40,20 +38,22 @@ CrPsHkTestCase5|Command|Disable Generation of a Diagnostic Report Structure|One 
 CrPsHkTestCase5|Command|Disable Generation of a HK Report Structure|All SIDs are not loaded in the RDL
 CrPsHkTestCase5|Command||Some SIDs are loaded in the RDL and others are illegal
 CrPsHkTestCase5|Command||All SIDs are loaded in the RDL
-CrPsEvtTestCase9|Report|Disabled Event Identifiers|Case of full OutFactory
+CrPsEvtTestCase8|Report|Disabled Event Identifiers|Case of single response report
+CrPsEvtTestCase8|Report||Case of multiple response reports
+CrPsEvtTestCase9|Report||Case of full OutFactory
 CrPsEvtTestCase6|Command|Enable Generation of Event Identifiers|Multiple legal event identifiers
 CrPsEvtTestCase7|Command||Mixed legal and illegal event identifiers
 CrPsHkTestCase4|Command|Enable Generation of a Diagnostic Report Structure|One loaded SID
 CrPsHkTestCase4|Command|Enable Generation of a HK Report Structure|All SIDs are not loaded in the RDL
 CrPsHkTestCase4|Command||Some SIDs are loaded in the RDL and others are illegal
 CrPsHkTestCase4|Command||All SIDs are loaded in the RDL
-CrPsEvtTestCase1|Function|Etv Config|Operation to read the enable status of an event identifier
 CrPsEvtTestCase2|Report|Event Severity 1|Nominal case
 CrPsEvtTestCase3|Report|Event Severity 2|Nominal case
 CrPsEvtTestCase4|Report|Event Severity 3|Nominal case
 CrPsEvtTestCase5|Report|Event Severity 4|Nominal case
 CrPsEvtTestCase1|Function|Evt Config|Operation to retrieve position and severity level of event identifier
 CrPsEvtTestCase1|Function||Operation to set the enable status of an event identifier
+CrPsEvtTestCase1|Function||Operation to read the enable status of an event identifier
 CrPsEvtTestCase1|Function||Operation to read the severity level of an event identifier
 CrPsEvtTestCase2|Data Pool|EvtLastEvtEid|
 CrPsEvtTestCase3|Data Pool|EvtLastEvtEid_2|
