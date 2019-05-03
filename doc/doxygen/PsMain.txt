@@ -47,8 +47,9 @@
 * <h3>Support Documents</h3>
 * The following <i>support documents</i> are available for the PUS Extension of the CORDET Framework:
 * - The <a href="../PusExtension.pdf">Specification of the PUS Extension</a>
-* - The <a href="../PusExtensionSUM.pdf">Software User Manual of the PUS Extension</a>
-* - The <a href="../PusExtensionSVR.pdf">Software Verification Report of the PUS Extension</a>
+* - The <a href="../PusExtensionUM.pdf">Software User Manual of the PUS Extension</a>
+* - The <a href="../PusExtensionVR.pdf">Software Verification Report of the PUS Extension</a>
+* - The <a href="../PusExtensionICD.pdf">Command and Report ICD of the PUS Extension</a>
 * .
 */
 
