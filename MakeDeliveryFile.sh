@@ -9,7 +9,6 @@ VERS_PX="0_2"
 VERS_UM="0_2"
 VERS_VR="0_2"
 VERS_IC="0_2"
-VERS_REL="0_2"
 
 # Remove the delivery file directory (if it exists)
 if [[ -d CordetFW_PusExt_DeliveryFile ]]; then
@@ -34,31 +33,34 @@ cp -R lib/cordetfw/src CordetFW_PusExt_DeliveryFile/lib/cordetfw/
 cp -R lib/cordetfw/LICENSE CordetFW_PusExt_DeliveryFile/lib/cordetfw/
 cp -R lib/cordetfw/lib/fwprofile/src CordetFW_PusExt_DeliveryFile/lib/cordetfw/lib/fwprofile/
 cp -R lib/cordetfw/lib/fwprofile/LICENSE CordetFW_PusExt_DeliveryFile/lib/cordetfw/lib/fwprofile/
-cp -R test CordetFW_PusExt_DeliveryFile/
+cp -R tests CordetFW_PusExt_DeliveryFile/
 
 echo "Copying Makefile and licence file"
 cp Makefile CordetFW_PusExt_DeliveryFile/
 cp DoxygenConfig.txt CordetFW_PusExt_DeliveryFile/
 cp LICENSE CordetFW_PusExt_DeliveryFile/
+cp ImportGenProducts.sh CordetFW_PusExt_DeliveryFile/
+cp MakeDeliveryFile.sh CordetFW_PusExt_DeliveryFile/
 
 # Create and copy Doxygen documentation
 echo "Creating Doxygen documentation"
 doxygen DoxygenConfig.txt &> log/Doxygen.log
-cp -R docs/html CordetFW_PusExt_DeliveryFile/doc
+cp -R doc/html CordetFW_PusExt_DeliveryFile/doc
 
 # Generate traceability matrices
 echo "Generating traceability matrices"
 cd doc/vr
 python3 GenListOfVerifyItems.py
+cd ../..
 
 # Build the Test Suite and the Test Program
 echo "Building test suite"
 make -f Makefile clean
-make -f Makefile test &> log/TestSuiteBuild.log
-echo "Running test suite"
-sudo make -f Makefile run-test 2>&1 | tee log/TestSuiteRun.log
+make -f Makefile test &> ./log/TestSuiteBuild.log
+read -p "Press enter to continue"
+make -f Makefile run-test 2>&1 | tee ./log/TestSuiteRun.log
 echo "Running test suite with valgrind"
-sudo make -f Makefile run-test-valgrind 2>&1 | tee log/TestSuiteRunWithValgrind.log
+make -f Makefile run-test-valgrind 2>&1 | tee log/TestSuiteRunWithValgrind.log
 
 # Generate coverage information
 echo "Generating coverage information"
@@ -69,6 +71,10 @@ cp -R lcov CordetFW_PusExt_DeliveryFile/doc
 echo "Generating metrics information"
 lizard -x "src/ProtobufImpl/*" -C 12 src > log/Metrics.log
 lizard -x "src/DataPool/*" -x "src/Pckt/*" -C 10 src > log/MetricsNonEditor.log 
+
+# Ask user to perform scan-build
+echo "Run scan-build (do make clean first and then scan-build -o log make test)"
+read -p "Press enter to continue"
 
 # Copy all log files
 echo "Copying log files"
@@ -141,19 +147,19 @@ cp doc/rel/PusExtension_i${VERS_PX}.pdf CordetFW_PusExt_DeliveryFile/doc/PusExte
 
 if [ ! -f "doc/rel/PusExtensionUM_i${VERS_UM}.pdf" ]
 then
-    cp ./doc/pus/PusExtensionUM.pdf doc/rel/PusExtensionUM_i${VERS_UM}.pdf
+    cp ./doc/um/PusExtensionUM.pdf doc/rel/PusExtensionUM_i${VERS_UM}.pdf
 fi
 cp doc/rel/PusExtensionUM_i${VERS_UM}.pdf CordetFW_PusExt_DeliveryFile/doc/PusExtensionUM.pdf
 
 if [ ! -f "doc/rel/PusExtensionVR_i${VERS_VR}.pdf" ]
 then
-    cp ./doc/pus/PusExtensionVR.pdf doc/rel/PusExtensionVR_i${VERS_VR}.pdf
+    cp ./doc/vr/PusExtensionVR.pdf doc/rel/PusExtensionVR_i${VERS_VR}.pdf
 fi
 cp doc/rel/PusExtensionVR_i${VERS_VR}.pdf CordetFW_PusExt_DeliveryFile/doc/PusExtensionVR.pdf
 
-if [ ! -f "doc/rel/PusExtensionUM_i${VERS_IC}.pdf" ]
+if [ ! -f "doc/rel/PusExtensionICD_i${VERS_IC}.pdf" ]
 then
-    cp ./doc/pus/PusExtensionICD.pdf doc/rel/PusExtensionICD_i${VERS_IC}.pdf
+    cp ./doc/icd/PusExtensionICD.pdf doc/rel/PusExtensionICD_i${VERS_IC}.pdf
 fi
 cp doc/rel/PusExtensionICD_i${VERS_IC}.pdf CordetFW_PusExt_DeliveryFile/doc/PusExtensionICD.pdf
 

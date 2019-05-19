@@ -14,7 +14,7 @@ par|Scd|isSubSchedEnabled|Enable status of a sub-schedule||0|NULL||SCD_N_SUB_TBS
 par|Scd|isTbsEnabled|Enable status of time-based schedule||0|NULL||NULL|Gen/CrFwBool_t
 par|Scd|nOfTbaInGroup|Number of TBAs in group||0|NULL||SCD_N_GROUP|Scd/CrPsNTba_t
 par|Scd|nOfTbaInSubSched|Number of TBAs in sub-schedule||0|NULL||SCD_N_SUB_TBS|Scd/CrPsNTba_t
-par|Scd|timeMargin|Time margin for time-based scheduling service||0|NULL||NULL|Gen/CrFwTimeStamp_t
+par|Scd|timeMargin|Time margin for time-based scheduling service||0|NULL||NULL|Gen/CrFwTime_t
 par|Tst|AreYouAliveTimeOut|Time-out for the Are-You-Alive Test initiated in response to an On-Board Connection Test||0|NULL||NULL|Gen/CrFwTime_t
 par|Tst|OnBoardConnectDestLst|Identifiers of target applications for an On-Board-Connection Test||0|NULL||TST_N_DEST|Gen/CrFwDestSrc_t
 var|Evt|lastEvtEid|Event identifier of the last generated level event report (one element for each severity level)||0|NULL||4|Evt/CrPsEvtId_t
@@ -42,7 +42,7 @@ var|Lpt|nOfDownlinks|Number of on-going down-transfers||0|NULL||NULL|Lpt/CrPsNOf
 var|Lpt|nOfUplinks|Number of on-going up-transfers||0|NULL||NULL|Lpt/CrPsNOfLinks_t
 var|Lpt|partSeqNmb|Part sequence number for the up/down/transfer to/from the LPT Buffer||0|NULL||LPT_N_BUF|Lpt/CrPsPartSeqNmb_t
 var|Mon|ctlRepDelay|Maximum reporting delay for the CTL in multiples of MON_PER||0|NULL||NULL|Mon/CrPsRepDelay_t
-var|Mon|ctlTimeFirstEntry|Time when first entry has been added to the CTL||0|NULL||NULL|Gen/CrFwTimeStamp_t
+var|Mon|ctlTimeFirstEntry|Time when first entry has been added to the CTL||0|NULL||NULL|Gen/CrFwTime_t
 var|Mon|funcMonEnbStatus|Functional monitoring enable status||0|NULL||NULL|Gen/CrPsEnDis_t
 var|Mon|nmbAvailFuncMon|Number of available functional monitors in the FMDL||0|NULL||NULL|Mon/CrPsFuncMonId_t
 var|Mon|nmbAvailParMon|Number of available parameter monitors in the PMDL||0|NULL||NULL|Mon/CrPsParMonId_t

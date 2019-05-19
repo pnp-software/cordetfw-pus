@@ -1,44 +1,8 @@
-+++++The Termination Action of (17,3) is currently defined as follows: "Set action outcome to 'success' if the (17,4) report was issued and
-to 'failure' otherwise". This only makes sense if the Progress Action always terminates with 'success' (because the Termination Action of a command is only executed if the Progress Action of that command terminated successfully). At present, this is not the case because the Progress Action only terminates successfully if the (17,4) report was issued. One consequence of this approach is that, if a time-out occurs for a TC(17,3) while it waits for a (17,2) response, then the (17,3) command will terminate with a (1,6) report. If we want it to terminate with a (1,8) report, we must modify the Progress Action to always terminate with an outcome of 'success'.
 
---------------------------------
-
-In CrPsDp.h, I need to generate the following include file:
-
-#include <stdlib.h>		/* Needed for size_t */
-#include <string.h>		/* Needed for memcpy */
-
-------------------------------
-+++++++ In files like CrPsDpEvt.h, I need to include "CrFwConstants.h" (it is needed for the CrFwBool_t type)
+python export_csv.py datapool 1006 100
+python export_csv.py constants 1006
+python build_app.py 1005 1006
 
 
----------------------------------
-++++++++ In the CORDET Editor, I need to define initial values for all data pool items
-
------------------------------------
-In files like CrPsDpEvt.h, I need to add the include file <string.h> because the file contains an initializer function which uses memcpy
-
----------------------------------------------------------
-In files like CrPsDpEvt.h, we have functions like initDpEvt(void) which initializes the variables belonging to the evt domain. This file contains the following like:
-
-   static const CrFwBool_t initisEidEnabled[EVT_N_ID] = 1;
-
-This is syntactically wrong and should be changed to:
-
-   static const CrFwBool_t initisEidEnabled[EVT_N_ID] = {1};
-
-I am not sure why we need the initializer functions and why we cannot initialize variables at the point where they are defined. We could add the initial values in the CrPsDpEvt.h file where the data structures holding the variables and parameters are declared. Note that, for array-like parameters and variables, we have a rule that the initial value must be the same for all elements of the array.
-
---------------------------------------------
-Change the type of lastEvtTime_x from CrFwTimeStamp_t (a structure) to CrFwTime (a float). This makes initialization of the variable easier.
-
--------------------------------------------
-In files like CrPsDpTst.h, why are data structures holding the variables and parameters declared as "extern"? This was probably requested by Markus but I think that it is wrong.
-
-
-24 July 2018
-============
-
-Exclude from build lib/cordetfw/tests and lib/cordetfw/lib/fwprofile/tests
-Add pthread as a link library 
+./ImportGenProducts.sh -c -d -e -f -p -d="/home/ap/Downloads/"
 

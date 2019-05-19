@@ -29,6 +29,8 @@
 **/doc/html
 **/bin
 **/lcov
+**/log
+**/CordetFW_PusExt_DeliveryFile
 
 **/Debug
 
@@ -101,3 +103,10 @@ dkms.conf
 /filtered_coverage.info
 /coverage.info
 /default.profraw
+/doc/um/PusExtensionUM.aux
+/doc/um/PusExtensionUM.log
+/doc/um/PusExtensionUM.pdf
+/doc/um/PusExtensionUM.synctex.gz
+/doc/um/PusExtensionUM.toc
+/doc/vr/PusExtensionVR.pdf
+/doc/vr/PusExtensionVR.synctex.gz
