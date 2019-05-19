@@ -13,7 +13,6 @@
 \SetCheckedBy{n.a.}
 \maketitle
 
-\maketitle
 
 \newpage
 \tableofcontents
@@ -78,7 +77,7 @@ An \textit{Open Issue} is an issue whose resolution may have an impact on the de
 \begin{landscape}
 
 \begin{pnptable}{|c|>{\raggedright\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\raggedright\arraybackslash}p{10cm}|}{PUS Extension of the CORDET Framework Components}{tab:ConstParts}{ID & Description & Gen. Status & Qual. Status & Remarks}
-1 & C Libraries & Reused & Qualified & C libraries used by the framework are listed in section \ref{sec:lib} of reference [CR-UM]; they are assumed to be qualified through their extensive use in open software projects \\
+1 & C Libraries & Reused & Qualified & C libraries used by the framework are listed in section \ref{sec:depLib} of reference [CR-UM]; they are assumed to be qualified through their extensive use in open software projects \\
 \hline
 2 & FW Profile Library & Reused & Qualified & This library is provided with a qualification data package which is evaluated in section \ref{sec:svrExtLib} \\
 \hline
@@ -106,7 +105,7 @@ The PUS Extension of the CORDET Framework is specified in reference [CR-SP]. The
 
 Table \ref{tab:SReqTrace} shows how each Standard Requirement is implemented in the framework code. 
 
-The Adaptation Points are of two kinds: adaptation points which are inherited from the CORDET Framework and new adaptation points which are defined by the PUS Extension. The new adaptation points are those with an identifier of the form Sx. Table \ref{tab:AReqTrace} lists both kinds of adaptation points and shows how each is mapped to code. Note that, in the case of adaptation points which are inherited from the CORDET Framework and are closed by the PUS Extension, the mapping to code takes the form of a pointer to a code-level module where the close-out is done; in the case of new adaptation points, instead, the mapping to code takes the form of a statement explaining how the adaptation point can be closed at code level by an application.
+The Adaptation Points are of two kinds: adaptation points which are inherited from the CORDET Framework and new adaptation points which are defined by the PUS Extension. The new adaptation points are those with an identifier of the form Sx. Table \ref{tab:APTrace} list both kinds of adaptation points and shows how each is mapped to code. Note that, in the case of adaptation points which are inherited from the CORDET Framework and are closed by the PUS Extension, the mapping to code takes the form of a pointer to a code-level module where the close-out is done; in the case of new adaptation points, instead, the mapping to code takes the form of a statement explaining how the adaptation point can be closed at code level by an application.
 
 The Use Constraint Requirements are not mapped to code. 
 
@@ -115,7 +114,10 @@ The Use Constraint Requirements are not mapped to code.
 \pnpcsvtable[filter equal={\Type}{S}]{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Standard Requirements to Implementation}{tab:SReqTrace}{Req. ID & Requirement Text & Implementation }{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Implementation}
 
 \newpage
-\pnpcsvtable[filter equal={\Type}{A}]{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Adaptation Requirements to Implementation}{tab:AReqTrace}{Req. ID & Requirement Text & Implementation }{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Implementation}
+%\pnpcsvtable[filter equal={\Type}{A}]{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Adaptation Requirements to Implementation}{tab:AReqTrace}{Req. ID & Requirement Text & Implementation }{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Implementation}
+
+\newpage
+\pnpcsvtable{|l|c|>{\raggedright\arraybackslash}p{7cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Adaptation Points to Implementation}{tab:APTrace}{Req. ID & Origin & Requirement Text & Implementation }{../pus/PusExtensionAP.csv}{\Category-\Id & \Origin & \AP & \Implementation}
 
 
 \end{landscape}
@@ -156,8 +158,9 @@ Table \ref{tab:SReqVerTrace} lists the standard requirements of the PUS Extensio
 \subsection{Verification of Commands and Reports}\label{sec:svrVerCmdReps}
 The PUS Extension defines the behaviour of the commands and the reports supported by the PUS Extension. The PUS Extension is built on the CORDET Framework. In the CORDET world, 'command' and 'reports' are defined through: (a) their \textit{parameters}; (b) the \textit{actions} they perform during their execution; and (c) the \textit{conditional checks} which determine whether and when these actions are executed. 
 
-The CORDET Framework defines the life-cycle of a generic command or report in terms of these parameters, actions and checks. The PUS Extension defines concrete commands and reports by specifying the name and type of their parameters and the content of their actions and checks. This is done through tables like the one shown in figure \ref{fig:InCmdHkCreHkCmdSpec}. 
+The CORDET Framework defines the life-cycle of a generic command or report in terms of these parameters, actions and checks. The PUS Extension defines concrete commands and reports by specifying the name and type of their parameters and the content of their actions and checks. This is done through tables like the one shown in table \ref{tab:InCmdHkCreHkCmdSpec}. 
 
+\newpage
 \printInCmdHkCreHkCmdSpec{|c|p{10cm}|}
 
 For all actions and checks, a default implementation is defined at CORDET Framework level. Wherever possible, the definition of a concrete command or report by the PUS Extension makes use of these default implementations. The default implementations are already verified at CORDET Framework level. Hence, Verification at PUS Extension level only needs to cover the non-default actions and checks and the commands or report parameters.
@@ -189,13 +192,14 @@ The PUS Extension requirements define a small number of design-level functions. 
 
 \begin{landscape}
 \pnpcsvtable[filter equal={\Type}{S}]{|l|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Traceability of Standard Requirements to Verification Evidence}{tab:SReqVerTrace}{Req. ID & Requirement Text & Verification}{../pus/PusExtensionReq.csv}{\Category-\Id & \Text & \Verification}
-\end{landscape}
 
 %------------------------------------------------------------------------------
 
 \pnpcsvtable[filter equal={\Kind}{Command}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Commands}{tab:VerCmd}{Command & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
 
-\pnpcsvtable[filter equal={\Kind}{Report}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Commands}{tab:VerRep}{Report & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
+\newpage
+\pnpcsvtable[filter equal={\Kind}{Report}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Reports}{tab:VerRep}{Report & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
+\end{landscape}
 
 %------------------------------------------------------------------------------
 \pnpcsvtable[filter equal={\Kind}{Data Pool}]{|l|c|}{Verification of Data Pool Items}{tab:VerDataPool}{Data Pool Item & Test Case}{ListOfVerifyItems.csv}{\Name & \TestCaseName}
@@ -204,7 +208,14 @@ The PUS Extension requirements define a small number of design-level functions. 
 \pnpcsvtable[filter equal={\Kind}{Command Rejection Code}]{|l|c|}{Verification of Command Rejection Codes}{tab:VerCmdRej}{Command Rejection Code & Test Case}{ListOfVerifyItems.csv}{\Name & \TestCaseName}
 
 %------------------------------------------------------------------------------
-\pnpcsvtable[filter equal={\Kind}{Function}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Design-Level Functions}{tab:VerRep}{Function & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
+\begin{landscape}
+\pnpcsvtable[filter equal={\Kind}{Function}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Design-Level Functions}{tab:VerFunc}{Function & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
+
+
+%------------------------------------------------------------------------------
+\pnpcsvtable[filter equal={\Kind}{Procedure}]{|l|>{\raggedright\arraybackslash}p{9cm}|c|}{Verification of Design-Level Procedures}{tab:VerProc}{Function & Verified Item & Test Case}{ListOfVerifyItems.csv}{\Name & \Desc & \TestCaseName}
+\end{landscape}
+
 
 %==========================================================================================
 \section{Static Code Analysis}\label{sec:svrStaticCodeAna}
@@ -242,7 +253,7 @@ Note that the code in the \texttt{DataPool} and \texttt{Pckt} subdirectory is ge
 
 
 \begin{landscape}
-\pnpfigure[scale=0.55]{Summary Coverage Report of \texttt{lcov} Tool}{fig:LcovCodeCovReport}{LcovCodeCovReport.png}
+\pnpfigure[scale=0.45]{Summary Coverage Report of \texttt{lcov} Tool}{fig:LcovCodeCovReport}{LcovCodeCovReport.png}
 \end{landscape}
 
 
@@ -315,12 +326,11 @@ Table \ref{tab:swMetrics} lists the software metrics and their values. The follo
 
 \begin{itemize}
 \item Metrics SM1 to SM5 refer to the PUS Extension code excluding the CORDET Framework and FW Profile code
-\item Metrics SM2.1 to SM2.4 refer to the the PUS Extension code excluding the the CORDET Framework and FW Profile code and excluding the code generated by the CORDET Editor
+\item Metrics SM2.1 to SM2.4 refer to the the PUS Extension code excluding the CORDET Framework and FW Profile code and excluding the code generated by the CORDET Editor
 \item The only function with CCN greater than 12 is \texttt{CrPsEvtConfigIter} which has a CCN of 18.
-\item 
 \end{itemize}
 
-\begin{pnptable}{|c|>{\raggedright\arraybackslash}p{8cm}|c|}{\chgA{Software Metrics}}{tab:swMetrics}{ID & Metrics Name & Value}
+\begin{pnptable}{|c|>{\raggedright\arraybackslash}p{8cm}|c|}{Software Metrics}{tab:swMetrics}{ID & Metrics Name & Value}
 SM1 & Number of Lines of Code & 8779 \\
 \hline
 SM2 & Number of Functions & 1152 \\
@@ -347,7 +357,7 @@ SM2.4 & Average Cyclomatic Complexity Number (CCN) for Non-Editor code & 1.6 \\
 \subsection{Process Metrics}\label{sec:svrProcMetrics}
 The process metrics tracked for this project are listed in table \ref{tab:prMetrics}. 
 
-\begin{pnptable}{|c|>{\raggedright\arraybackslash}p{11cm}|c|}{\chgAA{Process Metrics}}{tab:prMetrics}{ID & Metrics Name & Value}
+\begin{pnptable}{|c|>{\raggedright\arraybackslash}p{11cm}|c|}{Process Metrics}{tab:prMetrics}{ID & Metrics Name & Value}
 PM1 & Number of Open Issues (see section \ref{sec:svrOpenIssues}) & n.a. \\
 \hline
 PM2 & Number of Non-Conformances since Release 1.0 (see section \ref{sec:svrNonConformances}) & n.a. \\
@@ -375,11 +385,11 @@ The state machines and procedures used to specify the PUS Extension in reference
 
 Use of an auto-coding approach has the following advantages:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item Guarantee of consistency between specification and implementation 
 \item Faster turn-around time 
 \item Reduced verification effort 
-\end{fw_itemize}
+\end{itemize}
 
 The first advantage follows from the fact that the implementation is directly and automatically derived from the specification. The second advantage follows from the fact that code is generated automatically which is faster than manual development. The gains in verification effort follow from the fact that generated code can be tested more quickly than manually crafted code (because errors are systematic and hence only coding patterns need to be verified). 
 
@@ -519,12 +529,12 @@ The PUS Extension of the CORDET Framework code calls calls the \texttt{Create} f
 \subsection{Summary of Mode of Use of FW Profile Editor}
 The FW Profile Editor and its code generator are used as follows in the PUS Extension of the CORDET Framework:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item Specification of state machines and procedures using the "description view" of the FW Profile Editor. 
 \item Definition of "code view" for the state machines and procedures within the FW Profile Editor. For each action or guard with non-default implementation, a function is defined and its name is entered in the tool. 
 \item Generation of code using the FW Profile Editor code generator. For each state machine or procedure, two files are generated (one header file and one body file).
 \item For each state machine or procedure, creation of a body file with the implementation of the functions implementing the non-default actions or guards of the state machine or procedure.
-\end{fw_enumerate}
+\end{enumerate}
 
 
 
