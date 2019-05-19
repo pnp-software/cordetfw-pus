@@ -39,7 +39,7 @@ S11|S|2|The PUS Extension of the CORDET Framework shall provide a Time-Based Exe
 S11|C|3|Applications shall be responsible for periodically executing the Time-Based Execution Procedure of figure \ref{fig:TbsExec}||
 S11|C|4|Applications which do not need sub-schedules shall: (a) set SCD\_N\_SUB\_TBS to 1 and (b) enable the first sub-schedule as part of their initialization||
 S11|C|5|Applications which do not need groups shall, as part of their initialization, (a) set SCD\_N\_GROUP to 1, and (b) set the InUse and Enabled flag of the first group to true||
-S11|S|6|The PUS Extension of the CORDET Framework shall support the commands and reports specified in tables \ref{tab:ScdEnbTbsSpec} to \ref{tab:ScdGrpRepSpec}||
+S11|S|6|The PUS Extension of the CORDET Framework shall support the commands and reports specified in tables \ref{tab:InCmdScdEnbTbsCmdSpec} to \ref{tab:OutCmpScdGrpRepSpec}||
 S11|C|7|Service 11 shall be configured such that a single (11,27) report can hold the status of SCD\_N\_GROUPS groups||
 S12|S|1|The PUS Extension of the CORDET Framework shall provide a Monitoring Function Procedure implementing the behaviour shown in figure \ref{fig:MonFncPr}||
 S12|S|2|The PUS Extension of the CORDET Framework shall implement a Parameter Monitor Definition List (PMDL) consisting of MON\_N\_PMON Parameter Monitor Definitions with the fields defined in table \ref{tab:pmonAtt}||
@@ -54,30 +54,12 @@ S12|C|10|As part of their initialization, applications shall be responsible for 
 S12|C|11|Applications shall be responsible for initializing the data pool items \texttt{nmbAvailFuncMon} and \texttt{nmbEnbFuncMon} giving the number of available and enabled functional monitors in the FMDL||
 S12|C|12|During their initialization, applications shall start the Monitoring Function Procedure||
 S12|C|13|During normal operation, applications shall cyclically execute the Monitoring Function Procedure with a period of MON\_PER||
-S12|S|14|The PUS Extension of the CORDET Framework shall support the commands and reports specified in tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec}||
-S13|S|1|The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, an LptDownFirstRep component to encapsulate a report of type (13,1)||
-S13|S|2|The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, an LptInterFirstRep component to encapsulate a report of type (13,2)||
-S13|S|3|The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, an LptLastFirstRep component to encapsulate a report of type (13,3)||
-S13|S|4|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an LptUpFirstCmd component to encapsulate a command of type (13,9)||
-S13|S|5|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an LptUpInterCmd component to encapsulate a command of type (13,10)||
-S13|S|6|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an LptUpLastCmd component to encapsulate a command of type (13,11)||
-S13|S|7|The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, an LptUpAbortRep component to encapsulate a report of type (13,16)||
-S13|S|8|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an LptStartDownCmd component to encapsulate a command of type (13,129)||
-S13|S|9|The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an LptAbortDownCmd component to encapsulate a command of type (13,130)||
-S13|A|10|The LptDownFirstRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S13-1}||
-S13|A|11|The LptDownInterRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S13-2}||
-S13|A|12|The LptDownLastRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S13-3}||
-S13|A|13|The LptUpFirstCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S13-9}||
-S13|A|14|The LptUpInterCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S13-10}||
-S13|A|15|The LptUpLastCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S13-11}||
-S13|A|16|The LptUpAbortRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S13-16}||
-S13|A|17|The LptStartDownCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S13-129}||
-S13|A|18|The LptAbortDownCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S13-130}||
-S13|S|19|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-S13}||
-S13|S|20|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the parameters listed in table \ref{tab:Par-S13}||
-S13|C|21|The part size or destination of a large packet transfer shall not be updated while a transfer is under way||
-S13|C|22|The initiator of a down-transfer shall ensure that, prior to starting a down-transfer, all data are available in the LPT Buffer and \texttt{lptSize} is initialized to the amount of data to be down-transferred||
-S13|C|23|The user shall not start an up-transfer to an LPT Buffer which is being processed by the application||
+S12|S|14|The PUS Extension of the CORDET Framework shall support the commands and reports specified in tables \ref{tab:InCmdMonEnbParMonDefCmdSpec} to \ref{tab:OutCmpMonRepFuncMonStatRepSpec}||
+S13|A|1|The PUS Extension of the CORDET Framework shall support the commands and reports specified in tables \ref{tab:OutCmpLptDownFirstRepSpec} to \ref{tab:InCmdLptAbortDownCmdSpec}||
+S13|S|2|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the observables and parameters listed in table \ref{tab:Obs-S13} in [PX-SP]||
+S13|C|3|The part size or destination of a large packet transfer shall not be updated while a transfer is under way||
+S13|C|4|The initiator of a down-transfer shall ensure that, prior to starting a down-transfer, all data are available in the LPT Buffer and \texttt{lptSize} is initialized to the amount of data to be down-transferred||
+S13|C|5|The user shall not start an up-transfer to an LPT Buffer which is being processed by the application||
 S17|S|1|The PUS Extension of the CORDET Framework shall support the commands and reports specified in tables\ref{tab:InCmdTstAreYouAliveCmdSpec} to \ref{tab:OutCmpTstConnectRepSpec} in [PX-SP]|Report Xyz is implemented in module CrPsOutCmpXyz. Command Xyz is implemented in module CrPsInCmdXyz. The header files of these modules and skeleton body files are generated by the CORDET Editor.|All service 5 commands and reports are verified by test (see tables \ref{tab:svrVerReport} and \ref{tab:svrVerCommand})
 S17|C|2|An application shall not be sent a (17,3) command before execution of the previous (17,3) command has completed||
 S17|S|3|The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the observables and parameters listed in table \ref{tab:Obs-S17} in [PX-SP]|See the data structures defined in \texttt{CrPsDpTst}|Extent of verification of observables is shown in table \ref{tab:svrVerDataPool}
