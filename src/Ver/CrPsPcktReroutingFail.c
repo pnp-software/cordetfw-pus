@@ -1,29 +1,29 @@
 /**
  * @file CrPsPcktReroutingFail.c
  *
- * @author FW Profile code generator version 5.23
- * @date Created on: May 1 2019 23:57:54
+ * @author FW Profile code generator version 5.22
+ * @date Created on: May 18 2019 18:44:16
  */
 
 #include "CrPsPcktReroutingFail.h"
 
-/* FW Profile function definitions */
+/** FW Profile function definitions */
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 
-/* CrPsPcktReroutingFail function definitions */
+/** CrPsPcktReroutingFail function definitions */
 #include <stdlib.h>
 
-/* Guard on the Control Flow from DECISION1 to N2. */
+/** Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t prDesc)
-{	(void)prDesc;
+{
 	return 1;
 }
 
-/* Guard on the Control Flow from DECISION2 to N4. */
+/** Guard on the Control Flow from DECISION2 to N4. */
 FwPrBool_t CrPsPcktReroutingFailG2E(FwPrDesc_t prDesc)
-{	(void)prDesc;
+{
 	return 1;
 }
 
@@ -68,4 +68,3 @@ FwPrDesc_t CrPsPcktReroutingFailCreate(void* prData)
 
 	return prDesc;
 }
-

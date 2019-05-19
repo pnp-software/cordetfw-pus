@@ -1,23 +1,23 @@
 /**
  * @file CrPsCmdPrgrFail.c
  *
- * @author FW Profile code generator version 5.23
- * @date Created on: May 1 2019 23:57:54
+ * @author FW Profile code generator version 5.22
+ * @date Created on: May 18 2019 18:44:16
  */
 
 #include "CrPsCmdPrgrFail.h"
 
-/* FW Profile function definitions */
+/** FW Profile function definitions */
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 
-/* CrPsCmdPrgrFail function definitions */
+/** CrPsCmdPrgrFail function definitions */
 #include <stdlib.h>
 
-/* Guard on the Control Flow from DECISION2 to N4. */
+/** Guard on the Control Flow from DECISION2 to N4. */
 FwPrBool_t CrPsCmdPrgrFailG1E(FwPrDesc_t prDesc)
-{	(void)prDesc;
+{
 	return 1;
 }
 
@@ -51,4 +51,3 @@ FwPrDesc_t CrPsCmdPrgrFailCreate(void* prData)
 
 	return prDesc;
 }
-
