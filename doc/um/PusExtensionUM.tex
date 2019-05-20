@@ -305,14 +305,21 @@ The tool \texttt{scan-build} was used to perform a static check on the framework
 
 %=========================================================================
 \section{Mode of Use}
-TBD
+The PUS Extension of the CORDET Framework extends the CORDET Framework in the sense that: (a) it closes some of its adaptation points and (b) it adds some new adaptation points. Table \ref{tab:APTable} lists the CORDET Framework adaptation points which are closed by the PUS Extension and the adaptation points which are added by the PUS Extension.
 
+The instantiation process for the PUS Framework extends the instantiation process of the CORDET Framework (see section 24 of the CORDET Framework User Manual in reference [CR-SP]) as follows:
+
+TBD
 
 %--------------------------------------------------------------------------------------------
 \subsection{Memory Management}
 The PUS Extension of the CORDET Framework allocates memory both on the stack and on the heap. Stack usage has not been measured but it is noted that no recursive function calls are made by the PUS Extension code\footnote{Recursion is used in the FW Profile Library but, in that case, the depth of recursion is the same as the depth of nesting of state machines (see the FW Profile User Manual in reference [FwProf]). Since no nested state machines are used in the PUS Extension, it can be assumed that no recursion is used.}.
 
 Memory allocation from the heap is done exclusively during the initialization phase. There is therefore no risk of memory leaks. This has been verified both with the help of the \texttt{Valgrind} tool and through static code analysis (see section \ref{sec:svrMemMng} in reference [PX-VR]. 
+
+%------------------------------------------------------------------------------------
+\subsection{Real-Time Aspects}
+The PUS Extension, like the CORDET Framework, is purely passive and does not create any own threads. The same considerations as for the real-time aspects of the CORDET Framework (see section 22 of the CORDET Framework User Manual in reference [CR-SP]) also apply to the PUS Extension.
 
 %------------------------------------------------------------------------------------
 \subsection{Operational Constraints}
@@ -326,6 +333,13 @@ Limitations (i.e. functionalities which are specified but not implemented) are l
 %------------------------------------------------------------------------------------
 \subsection{Known Bugs}
 Bugs are tracked through the "Issues" facility of the \texttt{cordetfw-pus} project.
+
+
+\begin{landscape}
+
+\pnpcsvtable{|l|c|>{\raggedright\arraybackslash}p{5cm}|>{\raggedright\arraybackslash}p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Adaptation Points Closed or Created by PUS Extension of CORDET Framework}{tab:APTable}{Req. ID & Origin & Description & Default Valut & Implementation }{../pus/PusExtensionAP.csv}{\Category-\Id & \Origin & \AP & \DefValue & \Implementation}
+
+\end{landscape}
 
 
 \end{document}
