@@ -21,7 +21,7 @@
 \usepackage{float}
 \usepackage[ddmmyyyy]{datetime}
 \usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
-\setcounter{secnumdepth}{5}% Allow numbering for paragaphs and subparagraphs.
+%\setcounter{secnumdepth}{5}% Allow numbering for paragaphs and subparagraphs.
 
 % Start ---- Fix for bug in issue 2.10.1 of titlesec package
 \usepackage{etoolbox}
@@ -337,15 +337,15 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
   \@startsection{section}{1}{\z@}{-3.5ex \@plus -1ex \@minus -.2ex}{2.3ex \@plus.2ex}{\normalfont\Large\bfseries}%
 }
 
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{
-	\oldparagraph{#1}\mbox{}\\
-}
+%\let\oldparagraph\paragraph
+%\renewcommand{\paragraph}[1]{
+%	\oldparagraph{#1}\mbox{}\\
+%}
 
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{
-	\oldsubparagraph{#1}\mbox{}\\
-}
+%\let\oldsubparagraph\subparagraph
+%\renewcommand{\subparagraph}[1]{
+%	\oldsubparagraph{#1}\mbox{}\\
+%}
 
 %------------------------------------------------------------------------------------------
 % Directories holding image files:
