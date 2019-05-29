@@ -1162,13 +1162,13 @@ The monitoring action is performed by a \textit{Monitor Procedure}. Thus, for in
 
 Attribute \texttt{monPrPrevRetVal} is set to INVALID when a Parameter Monitor or the Monitoring Function are enabled and subsequently holds the return value of the Monitor Procedure at the previous execution. This attribute is used by the Parameter Monitoring Procedure to establish the number of consecutive times that the Monitor Procedure has the same return value (e.g. the number of consecutive times that a parameter is found to be above its upper limit).
 
-After it is established that the Monitor Procedure has returned the same value \texttt{repNmb} times, this return value becomes the new checking status of the parameter monitor. The checking status is held in attribute \texttt{checkStatus}. Its range of values is given in table \ref{tab:retValMonPr}. When the checking status is updated, the following acions are executed:
+After it is established that the Monitor Procedure has returned the same value \texttt{repNmb} times, this return value becomes the new checking status of the parameter monitor. The checking status is held in attribute \texttt{checkStatus}. Its range of values is given in table \ref{tab:retValMonPr}. When the checking status is updated, the following actions are executed:
 
 \begin{itemize}
 \item An entry is made in the Check Transition List (see section \ref{sec:ChkTransList})
 \item The procedure to process the Check Transition List is run (see section \ref{sec:ChkTransList})
-\item If an event is associated to the parameter monitor (i.e. if field \texttt{evtId} in table \ref{tab:pmonAtt} is different from zero), then the Generate Prefined Event Function is called to generate the event
-\item If the parameter monitor is part of one or more functional monitors (i.e. if there non-zero entries in \texttt{fMonList} in table \ref{tab:pmonAtt}), then the functional monitors are notified
+\item If an event is associated to the parameter monitor (i.e. if field \texttt{evtId} in table \ref{tab:pmonAtt} is different from zero), then the Generate Predefined Event Function is called to generate the event
+\item If the parameter monitor is part of one or more functional monitors (i.e. if there are non-zero entries in \texttt{fMonList} in table \ref{tab:pmonAtt}), then the functional monitors are notified
 \end{itemize}
 
 The violation events are: EVT\_MON\_*. The ground can choose whether or not an event is associated to a monitor but, once the type of monitor and the type of the monitored parameter (integer or real) is specified, the event type is also defined.
@@ -1193,7 +1193,7 @@ The PUS Extension of the CORDET Framework provides the following commands to con
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of Parameter Monitor}{tab:pmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
-\texttt{dataItemId} & Identifier of the data item monitored by the parameter monitor & Integer in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}]
+\texttt{dataItemId} & Identifier of the data item monitored by the parameter monitor & Integer in range: [\texttt{DpIdParamsLowest}, \texttt{DpIdVarsHighest}]
  \\
 \hline
 \texttt{monPrId} & Identifier of the Monitor Procedure which checks the parameter value & See section \ref{sec:MonProc} \\
@@ -1218,7 +1218,7 @@ The PUS Extension of the CORDET Framework provides the following commands to con
 \hline
 \texttt{fMonList} & The list of MON\_N\_FPMON identifiers of the functional monitor to which the parameter monitor belongs (or zero if the parameter monitor does not belong to a functional monitor) & Integer in range: 0..MON\_N\_FMON \\
 \hline
-\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: [\texttt{DpIdParamsLowest},\texttt{DpIdVarsHighest}] \\
+\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: [\texttt{DpIdParamsLowest}, \texttt{DpIdVarsHighest}] \\
 \hline
 \texttt{valMask} & Mask used for validity check & Unsigned integer  \\
 \hline
@@ -1232,11 +1232,11 @@ The monitor procedures are responsible for checking the values of the monitored 
 
 \begin{itemize}
 \item Limit Check Monitor Procedure: verifies whether the value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonLimCheckPr}.
-\item Expected Value Monitor Procedure: verifies whether the monitored parameter has  pre-defined value. See figure \ref{fig:MonExpValPr}.
+\item Expected Value Monitor Procedure: verifies whether the monitored parameter has a pre-defined value. See figure \ref{fig:MonExpValPr}.
 \item Delta Check Monitor Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDeltaValPr}.
 \end{itemize}
 
-The PUS Standard [PS=SP] asks for the delta check to be performed on a mean value computed over a variable number of consecutive samples. The Delta Check Monitor Procedure uses a first-order moving average process. This is nearly equivalent to the mean value and is much simpler to implement.
+The PUS Standard [PS-SP] asks for the delta check to be performed on a mean value computed over a variable number of consecutive samples. The Delta Check Monitor Procedure uses a first-order moving average process. This is nearly equivalent to the mean value and is much simpler to implement.
 
 To each parameter monitor, one instance of a monitor procedure is associated. The following limits apply to the number of monitor procedures of each type:
 
@@ -1261,9 +1261,9 @@ An application may define and load some parameter monitors as part of its initia
 \hline
 \texttt{MON\_BELOW} & Parameter value is below its lower limit \\
 \hline
-\texttt{MON\_DEL\_ABOVE} & Parameter delta-value (difference between succesve values) is above its upper limit \\
+\texttt{MON\_DEL\_ABOVE} & Parameter delta-value (difference between successive values) is above its upper limit \\
 \hline
-\texttt{MON\_DEL\_BELOW} & Parameter delta-value (difference between succesve values) is below its lower limit \\
+\texttt{MON\_DEL\_BELOW} & Parameter delta-value (difference between successive values) is below its lower limit \\
 \hline
 \end{pnptable}  
 
@@ -1443,7 +1443,7 @@ The attributes of the parameter and functional monitors in the PMDL and FMDL are
 
 The service 12 configuration is defined by the parameter holding the identifier of the service 12 user. This is either a pre-defined value or it is the source of the most recent (12,15) command to enable the Parameter Monitoring Function.
 
-\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{6.0cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{9.5cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
 %----------------------------------------------------------------------------------------
