@@ -137,7 +137,7 @@
  * @limitation The over-sampling mechanism for housekeeping reports is not supported
  */
 
-  /** @defgroup man_evt Event Reporting Service 
+ /** @defgroup man_evt Event Reporting Service 
  * @ingroup psExt
  *
  * @brief Implementation of Event Reporting Service (PUS Service 5) 
@@ -157,6 +157,20 @@
  * as a discriminant. The range of discriminants and the data associated to each discriminant
  * are adaptation points which must be defined at application level. Some event reports are 
  * pre-defined at framework level.
+ */
+
+ /** @defgroup man_mon On-Board Monitoring Service 
+ * @ingroup psExt
+ *
+ * @brief Implementation of On-Board Monitoring Service (PUS Service 12) 
+ *
+ * This service comprises two sub-services.
+ * The <i>parameter monitoring subservice</i> controls the parameter monitoring function. 
+ * This function monitors the values of a set of data items in the data pool.
+ * The <i>functional monitoring subservice</i> controls the functional monitoring function. 
+ * This function monitors the status of the parameter monitors.
+ *
+ * @limitation The functional monitoring subservice is not yet supported
  */
 
  /** @defgroup man_tst Test Service 

@@ -1129,9 +1129,6 @@ The table in this section lists requirements for the time-based scheduling servi
 
 %=============================================================================================
 \section{On-Board Monitoring Service}\label{sec:serv12}
-The specification of this service is still TBC and to be reviewed.
-
-
 The service type of the On-Board Monitoring Service is 12. The PUS Extension of the CORDET Framework supports this service only in part.
 
 %----------------------------------------------------------------------------------------
@@ -1202,7 +1199,7 @@ The PUS Extension of the CORDET Framework provides the following commands to con
 \hline
 \texttt{monPrRetVal} & Most recent return value of the Monitor Procedure & See table \ref{tab:retValMonPr} \\
 \hline
-\texttt{monPrPrevRetVal} & Previous return value of the Monitor Procedure (or INVALID after the monitoring procedure or the monitoring function has been enabled) & See table \ref{tab:retValMonPr} \\
+\texttt{monPrPrevRetVal} & Previous return value of the Monitor Procedure (or MON\_UNCHECKED) after the monitoring procedure or the monitoring function has been enabled) & See table \ref{tab:retValMonPr} \\
 \hline
 \texttt{checkStatus} & Checking status of monitored parameter & See table \ref{tab:retValMonPr} \\
 \hline
@@ -1253,6 +1250,8 @@ A monitor procedure is started when the parameter monitor is enabled (either bec
 An application may define and load some parameter monitors as part of its initialization. In that case, the application is also responsible for starting the associated monitor procedures. In the case of parameter monitors which are defined dynamically using command (12,5), their monitor procedures are started by the command's progress action. Monitor procedures are also started and stopped when a parameter monitor is enabled and disabled through commands (12,1) and (12,2). In the case of parameter monitors which are modified dynamically using command (12,7), their monitor procedures are re-started by first stopping them and then starting them. 
 
 \begin{pnptable}{|l|p{8cm}|}{Return Values of Monitor Procedure Execution}{tab:retValMonPr}{\textbf{Name} & \textbf{Description}}
+\texttt{MON\_UNCHECKED} & Parameter has not yet been checked \\
+\hline
 \texttt{MON\_VALID} & Parameter is valid \\
 \hline
 \texttt{MON\_NOT\_EXP} & Parameter does not have the expected value \\
