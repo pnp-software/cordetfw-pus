@@ -56,7 +56,7 @@ void CrPsMonConfigInit();
 void CrPsMonConfigInitPMDL();
 
 /**
- * Monitor Procedure implementing a limit check.
+ * Monitor Procedure implementing a limit check for a real-valued data item.
  * This function returns:
  * - MON_ABOVE if the parameter value is above its upper limit
  * - MON_BELOW if the parameter value is below its lower limit
@@ -68,7 +68,37 @@ void CrPsMonConfigInitPMDL();
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
-CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheck(CrPsParMonId_t parMonId);
+CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId);
+
+/**
+ * Monitor Procedure implementing a limit check for a signed integer-valued data item.
+ * This function returns:
+ * - MON_ABOVE if the parameter value is above its upper limit
+ * - MON_BELOW if the parameter value is below its lower limit
+ * - MON_VALID in all other cases
+ * .
+ * The lower and upper limits are stored as parameters in the data pool
+ * in arrays lowerLimit[] and upperLimit[].
+ *
+ * @param parMonId the identifier of the parameter monitor
+ * @return the outcome of the limit check
+ */
+CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId);
+
+/**
+ * Monitor Procedure implementing a limit check for an unsigned integer-valued data item.
+ * This function returns:
+ * - MON_ABOVE if the parameter value is above its upper limit
+ * - MON_BELOW if the parameter value is below its lower limit
+ * - MON_VALID in all other cases
+ * .
+ * The lower and upper limits are stored as parameters in the data pool
+ * in arrays lowerLimit[] and upperLimit[].
+ *
+ * @param parMonId the identifier of the parameter monitor
+ * @return the outcome of the limit check
+ */
+CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
 
 /**
  * Monitor Procedure implementing an expected value check.
@@ -84,6 +114,25 @@ CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheck(CrPsParMonId_t parMonId);
  */
 CrPsValCheckExpVal_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId);
 
+/**
+ * Return the function implementing the monitor procedure for the i-th
+ * parameter monitor.
+ *
+ * @param i the index of the parameter monitor
+ * @return the function implementing the monitor procedure for the i-th
+ * parameter monitor.
+ */
+CrPsMonPrFnc_t CrPsMonConfigGetMonPrFnc(CrPsParMonId_t i);
+
+/**
+ * Set the function implementing the monitor procedure for the i-th
+ * parameter monitor.
+ *
+ * @param i the index of the parameter monitor
+ * @param monPrFnc the function implementing the monitor procedure for the i-th
+ * parameter monitor.
+ */
+void CrPsMonConfigSetMonPrFnc(CrPsParMonId_t i, CrPsMonPrFnc_t monPrFnc);
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSMONCONFIG_H_ */

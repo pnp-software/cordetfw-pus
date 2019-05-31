@@ -1135,6 +1135,8 @@ The service type of the On-Board Monitoring Service is 12. The PUS Extension of 
 \subsection{Parameter Monitoring Sub-Service}
 The parameter monitoring subservice controls the \textit{parameter monitoring function}. This function monitors the values of a set of data items in the data pool\footnote{It is recalled that the PUS uses the term 'parameter' to designate any data pool item. The PUS Extension of the CORDET Framework, instead, uses the term 'parameter' to designate a data pool item whose value is under the control of the external user of the application (e.g. the ground) and uses the term 'variable' to designate a data pool item whose value is under the control of the application itself (see section \ref{sec:dp}). In this section, the term 'parameter' is mostly used in the sense of the PUS.}. Each monitored value is checked periodically to verify whether it conforms to a certain pattern of behaviour (e.g. whether it remains within certain limits). In some cases, the check is done uncondionally while in other cases it is done only if a validity condition is satisfied. Violations of the expected pattern of behaviour are reported through service 5 events. 
 
+Data pool items may have a multiplicity greater than 1. Monitoring is only possible for data pool items with a unitary multiplicity (i.e. for non-array data pool items).
+
 The behaviour of the parameter monitoring function is described by the Parameter Monitoring Procedure of figure \ref{fig:MonFncPr}. The procedure is started when the parameter monitoring function becomes enabled and it is stopped when it becomes disabled. Thus, the enable status of the parameter monitoring function is given by the status of the Parameter Monitoring Procedure.
 
 The Parameter Monitoring Procedure should be executed cyclically with a period of MON\_PER by the host application. The period MON\_PER is the unit of time for all parameter monitoring actions in the sense that parameters are monitored periodically with a period which is a multiple of MON\_PER.
@@ -1243,7 +1245,7 @@ To each parameter monitor, one instance of a monitor procedure is associated. Th
 \item MON\_N\_DEL: maximum number of monitor procedures of delta value type
 \end{itemize} 
 
-It is an implementation-level decision whether the above procedures are "split by type" with separate version for different syntactical types of the parameter to be checked (e.g. one version for real-values parameters and another version for integer-valued parameters). 
+The Limit Chech Monitor Procedure and the Delta Check Monitor Procedure are "split by type" and come in two versions: one is applicable to integer-typed data items and the other is applicable to real-type data items. 
 
 A monitor procedure is started when the parameter monitor is enabled (either because the entire parameter monitoring function is enabled or because the monitor itself is enabled) and may then be executed every time the parameter monitor is executed. At each execution, the procedure returns an outcome. If the procedure has found the parameter value to be nominal, it returns: MON\_VALID. If, instead, it has found the parameter value to be non-nominal, it returns some other value. The range of return values other than MON\_VALID is specific to each monitor procedure. Table \ref{tab:retValMonPr} lists the potential outcomes of the three pre-defined monitor procedures. Applications must extend this range if they define new monitor procedures. 
 

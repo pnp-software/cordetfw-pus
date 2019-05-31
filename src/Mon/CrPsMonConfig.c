@@ -30,8 +30,8 @@
 /* Include FW Profile Files */
 #include "FwSmConfig.h"
 
-/** The descriptor of the Parameter Monitoring Procedure */
-static FwPrDesc_t monFncPr;
+/** The pointers to the functions implementing the Parameter Monitors */
+static CrPsMonPrFnc_t monFncPr[MON_N_PMON];
 
 
 /* ----------------------------------------------------------------------------------- */
@@ -49,5 +49,15 @@ void CrPsMonConfigInitPMDL() {
       setDpMonRepCntItem(i,0);
       setDpMonCheckStatusItem(i,MON_UNCHECKED);
   }
+}
+
+/* ----------------------------------------------------------------------------------- */
+CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheck(CrPsParMonId_t parMonId) {
+
+  /* Retrieve the value of the monitored parameter */
+  CrPsParId_t parId = getDpMonDataItemIdItem(parMonId);
+
+
+
 }
 
