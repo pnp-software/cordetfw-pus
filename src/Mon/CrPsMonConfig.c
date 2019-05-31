@@ -52,12 +52,36 @@ void CrPsMonConfigInitPMDL() {
 }
 
 /* ----------------------------------------------------------------------------------- */
-CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheck(CrPsParMonId_t parMonId) {
+CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId) {
+  float floatVal;
+  double doubleVal;
+  unsigned int nElements;
+
+  /* Retrieve the monitoring limits */
+  CrPsParValueFloat_t lowerLim = (CrPsParValueFloat_t)getDpMonLowerLimit(parMonId);
+  CrPsParValueFloat_t upperLim = (CrPsParValueFloat_t)getDpMonUpperLimit(parMonId);
 
   /* Retrieve the value of the monitored parameter */
   CrPsParId_t parId = getDpMonDataItemIdItem(parMonId);
+  size_t size = getDpSize(parMonId);
+  if (size == 4) {
+      getDpValueEx(parMonId, &floatVal, &size, &nElements);
+      if (floatVal > upperLim)
+          return MON_ABOVE;
+      if (floatVal > lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
+  if (size == 8) {
+      getDpValueEx(parMonId, &doubleVal, &size, &nElements);
+      if (doubleVal > upperLim)
+          return MON_ABOVE;
+      if (doubleVal > lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
 
-
-
+  CrFwSetAppErrCode(CrPsIllRMonParSize);
+  return MON_VALID;
 }
 

@@ -65,10 +65,19 @@ void CrPsMonConfigInitPMDL();
  * The lower and upper limits are stored as parameters in the data pool
  * in arrays lowerLimit[] and upperLimit[].
  *
+ * The function first retrieves from the data pool the size of the monitored
+ * parameter.
+ * If the size is 4, the function assumes the monitored parameter to be of
+ * type 'float'.
+ * If the size is 8, the function assumes the monitored parameter to be of
+ * type 'double'.
+ * In other cases, the application error code is set to #CrPsIllRMonParSize
+ * and the function returns MON_VALID.
+ *
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
-CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId);
+CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId);
 
 /**
  * Monitor Procedure implementing a limit check for a signed integer-valued data item.
@@ -83,7 +92,7 @@ CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId);
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
-CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId);
+CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId);
 
 /**
  * Monitor Procedure implementing a limit check for an unsigned integer-valued data item.
@@ -98,7 +107,7 @@ CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId);
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
-CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
+CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
 
 /**
  * Monitor Procedure implementing an expected value check.
@@ -112,7 +121,7 @@ CrPsValCheckExpVal_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
-CrPsValCheckExpVal_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId);
+CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId);
 
 /**
  * Return the function implementing the monitor procedure for the i-th

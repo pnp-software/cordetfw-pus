@@ -257,7 +257,9 @@ typedef enum {
 	/** The number of (5,8) reports triggered by a (5.7) command is larger than EVT_MAX_N5S8 */
 	crPsIllNOf5s8 = 131,
 	/** The range of data pool identifiers for data pool parameters and data pool variables overlap */
-	crPsDpParVarIdOverlap = 132
+	crPsDpParVarIdOverlap = 132,
+	/** Illegal size for real-values monitored parameter (see <code>::CrPsMonConfigOutOfLimitCheckR</code>). */
+	CrPsIllRMonParSize = 133
 } CrFwAppErrCode_t;
 
 /**
