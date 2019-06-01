@@ -18,6 +18,9 @@
  * Each monitor procedure is implemented by a function.
  * This module defines the functions implementing the out-of-limit and
  * expected value monitor procedures.
+ * The monitoring limits are stored in the data pool as generic 32-bit numbers
+ * which, depending on the type of the monitored parameter, are cast to
+ * float, integer or unsigned integer.
  *
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  *
@@ -32,6 +35,23 @@
 #define CRPSMONCONFIG_H_
 
 #include "CrPsTypes.h"
+
+/**
+ * Type for a pointer to a function implementing a service 12 Monitor Procedure.
+ * The function takes as an input the identifier of the parameter monitor; it
+ * executes the check encapsulated in the parameter monitor, and it returns the
+ * new status of the parameter monitor.
+ * A function conforming to this type should implement the following behaviour:
+ * - It extracts the identifier of the monitored parameter from the parameter monitor
+ * - It retrieves the value of the monitored parameter from the data pool
+ * - It retrieves from the parameter monitor the type of monitoring check to be
+ *   applied to the monitored parameter
+ * - It retrieves from the data pool the monitoring limits applicable to the
+ *   monitored parameter
+ * - It performs the monitoring check and returns its outcome
+ * .
+ */
+typedef CrPsValCheckExpVal_t (*CrPsMonPrFnc_t)(CrPsParMonId_t);
 
 /**
  * Initialize the Parameter Monitor Definition List (PMDL).
@@ -74,6 +94,14 @@ void CrPsMonConfigInitPMDL();
  * In other cases, the application error code is set to #CrPsIllRMonParSize
  * and the function returns MON_VALID.
  *
+ * This function assumes that:
+ * - The data pool item pointed at by <code>parMonId</code>
+ *   is either a float or a double
+ * - The 'float' type is 4-byte wide
+ * - The 'double' type is 8-byte wide
+ * .
+ * The bottom two assumptions are verified through an assertion.
+ *
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
@@ -89,6 +117,15 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId);
  * The lower and upper limits are stored as parameters in the data pool
  * in arrays lowerLimit[] and upperLimit[].
  *
+ * This function assumes that:
+ * - The data pool item pointed at by <code>parMonId</code>
+ *   is a signed integer type of 1, 2 or 4 bytes of size
+ * - The 'int' type is 4-byte wide
+ * - The 'short int' type is 2-byte wide
+ * - The 'char' type is 1-byte wide
+ * .
+ * The bottom three assumptions are verified through an assertion.
+ *
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
@@ -103,6 +140,15 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId);
  * .
  * The lower and upper limits are stored as parameters in the data pool
  * in arrays lowerLimit[] and upperLimit[].
+ *
+ * This function assumes that:
+ * - The data pool item pointed at by <code>parMonId</code>
+ *   is an unsigned integer type of 1, 2 or 4 bytes of size
+ * - The 'unsigned int' type is 4-byte wide
+ * - The 'unsigned short int' type is 2-byte wide
+ * - The 'unsigned char' type is 1-byte wide
+ * .
+ * The bottom three assumptions are verified through an assertion.
  *
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check

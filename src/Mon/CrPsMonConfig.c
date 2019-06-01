@@ -14,6 +14,7 @@
  */
 
 #include "CrPsMonConfig.h"
+#include "CrPsMonFncPr.h"
 #include "Pckt/CrPsPcktMon.h"
 #include "CrPsTypes.h"
 #include "CrPsServTypeId.h"
@@ -30,13 +31,18 @@
 /* Include FW Profile Files */
 #include "FwSmConfig.h"
 
-/** The pointers to the functions implementing the Parameter Monitors */
-static CrPsMonPrFnc_t monFncPr[MON_N_PMON];
+/* Include assert macro */
+#include "assert.h"
 
+/** The pointer to the functions implementing the Parameter Monitors */
+static CrPsMonPrFnc_t monFncPr[MON_N_PMON] = {NULL};
+
+/** The pointer to the Parameter Monitoring Procedure */
+static FwPrDesc_t parMonPr;
 
 /* ----------------------------------------------------------------------------------- */
 void CrPsMonConfigInit() {
-  monFncPr = CrPsMonFncPrCreate(NULL);
+  parMonPr = CrPsMonFncPrCreate(NULL);
   return;
 }
 
@@ -53,22 +59,30 @@ void CrPsMonConfigInitPMDL() {
 
 /* ----------------------------------------------------------------------------------- */
 CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId) {
-  float floatVal;
+  float lowerLim, upperLim, floatVal;
   double doubleVal;
+  CrPsThirtytwoBit_t buffer;
+  float* bufferFloat = (float*)&buffer;
   unsigned int nElements;
 
+  /* Verify size of float and double types */
+  assert(sizeof(float)==4);
+  assert(sizeof(double)==8);
+
   /* Retrieve the monitoring limits */
-  CrPsParValueFloat_t lowerLim = (CrPsParValueFloat_t)getDpMonLowerLimit(parMonId);
-  CrPsParValueFloat_t upperLim = (CrPsParValueFloat_t)getDpMonUpperLimit(parMonId);
+  buffer = getDpMonLowerLimitItem(parMonId);
+  lowerLim = *bufferFloat;
+  buffer = getDpMonUpperLimitItem(parMonId);
+  upperLim = *bufferFloat;
 
   /* Retrieve the value of the monitored parameter */
   CrPsParId_t parId = getDpMonDataItemIdItem(parMonId);
-  size_t size = getDpSize(parMonId);
+  size_t size = getDpSize(parId);
   if (size == 4) {
       getDpValueEx(parMonId, &floatVal, &size, &nElements);
       if (floatVal > upperLim)
           return MON_ABOVE;
-      if (floatVal > lowerLim)
+      if (floatVal < lowerLim)
           return MON_BELOW;
       return MON_VALID;
   }
@@ -76,12 +90,116 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId) {
       getDpValueEx(parMonId, &doubleVal, &size, &nElements);
       if (doubleVal > upperLim)
           return MON_ABOVE;
-      if (doubleVal > lowerLim)
+      if (doubleVal < lowerLim)
           return MON_BELOW;
       return MON_VALID;
   }
 
   CrFwSetAppErrCode(CrPsIllRMonParSize);
+  return MON_VALID;
+}
+
+/* ----------------------------------------------------------------------------------- */
+CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId) {
+  int lowerLim, upperLim, intVal;
+  short int shortIntVal;
+  char charIntVal;
+  CrPsThirtytwoBit_t buffer;
+  int* bufferInt = (int*)&buffer;
+  unsigned int nElements;
+
+  /* Verify size of integer types */
+  assert(sizeof(int)==4);
+  assert(sizeof(short int)==2);
+  assert(sizeof(char)==1);
+
+  /* Retrieve the monitoring limits */
+  buffer = getDpMonLowerLimitItem(parMonId);
+  lowerLim = *bufferInt;
+  buffer = getDpMonUpperLimitItem(parMonId);
+  upperLim = *bufferInt;
+
+  /* Retrieve the value of the monitored parameter */
+  CrPsParId_t parId = getDpMonDataItemIdItem(parMonId);
+  size_t size = getDpSize(parId);
+  if (size == 4) {
+      getDpValueEx(parMonId, &intVal, &size, &nElements);
+      if (intVal > upperLim)
+          return MON_ABOVE;
+      if (intVal < lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
+  if (size == 2) {
+      getDpValueEx(parMonId, &shortIntVal, &size, &nElements);
+      if (shortIntVal > upperLim)
+          return MON_ABOVE;
+      if (shortIntVal < lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
+  if (size == 1) {
+      getDpValueEx(parMonId, &charIntVal, &size, &nElements);
+      if (charIntVal > upperLim)
+          return MON_ABOVE;
+      if (charIntVal < lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
+
+  CrFwSetAppErrCode(CrPsIllSIMonParSize);
+  return MON_VALID;
+}
+
+/* ----------------------------------------------------------------------------------- */
+CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId) {
+  unsigned int lowerLim, upperLim, intVal;
+  unsigned short int shortIntVal;
+  unsigned char charIntVal;
+  CrPsThirtytwoBit_t buffer;
+  unsigned int* bufferInt = (unsigned int*)&buffer;
+  unsigned int nElements;
+
+  /* Verify size of integer types */
+  assert(sizeof(unsigned int)==4);
+  assert(sizeof(unsigned short int)==2);
+  assert(sizeof(unsigned char)==1);
+
+  /* Retrieve the monitoring limits */
+  buffer = getDpMonLowerLimitItem(parMonId);
+  lowerLim = *bufferInt;
+  buffer = getDpMonUpperLimitItem(parMonId);
+  upperLim = *bufferInt;
+
+  /* Retrieve the value of the monitored parameter */
+  CrPsParId_t parId = getDpMonDataItemIdItem(parMonId);
+  size_t size = getDpSize(parId);
+  if (size == 4) {
+      getDpValueEx(parMonId, &intVal, &size, &nElements);
+      if (intVal > upperLim)
+          return MON_ABOVE;
+      if (intVal < lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
+  if (size == 2) {
+      getDpValueEx(parMonId, &shortIntVal, &size, &nElements);
+      if (shortIntVal > upperLim)
+          return MON_ABOVE;
+      if (shortIntVal < lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
+  if (size == 1) {
+      getDpValueEx(parMonId, &charIntVal, &size, &nElements);
+      if (charIntVal > upperLim)
+          return MON_ABOVE;
+      if (charIntVal < lowerLim)
+          return MON_BELOW;
+      return MON_VALID;
+  }
+
+  CrFwSetAppErrCode(CrPsIllUIMonParSize);
   return MON_VALID;
 }
 

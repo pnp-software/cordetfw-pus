@@ -346,8 +346,6 @@ CrFwBool_t CrPsHkTestCase3() {
   if (CrPsOutStreamStubGetHandoverCnt() != 4)
       return 0;
   pckt = CrPsOutStreamStubGetPckt(0);
-  int temp1 = CrFwPcktGetServType(pckt);
-  int temp2 = CrFwPcktGetServSubType(pckt);     // DEBUG
 
   getHkRep_SID_N_OF_EVTnOfDetectedEvts(pckt, SID_N_OF_EVTnOfDetectedEvts);
   if ((SID_N_OF_EVTnOfDetectedEvts[0] != 111) && (SID_N_OF_EVTnOfDetectedEvts[0] != 111*256))   /* The check covers both endianness cases */

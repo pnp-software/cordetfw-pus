@@ -258,26 +258,13 @@ typedef enum {
 	crPsIllNOf5s8 = 131,
 	/** The range of data pool identifiers for data pool parameters and data pool variables overlap */
 	crPsDpParVarIdOverlap = 132,
-	/** Illegal size for real-values monitored parameter (see <code>::CrPsMonConfigOutOfLimitCheckR</code>). */
-	CrPsIllRMonParSize = 133
+	/** Illegal size for real-valued monitored parameter (see <code>::CrPsMonConfigOutOfLimitCheckR</code>). */
+	CrPsIllRMonParSize = 133,
+    /** Illegal size for signed integer-valued monitored parameter (see <code>::CrPsMonConfigOutOfLimitCheckSI</code>). */
+	CrPsIllSIMonParSize = 134,
+    /** Illegal size for unsigned integer-valued monitored parameter (see <code>::CrPsMonConfigOutOfLimitCheckUI</code>). */
+    CrPsIllUIMonParSize = 135
 } CrFwAppErrCode_t;
-
-/**
- * Type for a pointer to a function implementing a service 12 Monitor Procedure.
- * The function takes as an input the identifier of the parameter monitor; it
- * executes the check encapsulated in the parameter monitor, and it returns the
- * new status of the parameter monitor.
- * A function conforming to this type should implement the following behaviour:
- * - It extracts the identifier of the monitored parameter from the parameter monitor
- * - It retrieves the value of the monitored parameter from the data pool
- * - It retrieves from the parameter monitor the type of monitoring check to be
- *   applied to the monitored parameter
- * - It retrieves from the data pool the monitoring limits applicable to the
- *   monitored parameter
- * - It performs the monitoring check and returns its outcome
- * .
- */
-typedef CrPsValCheckExpVal_t (*CrPsMonPrFnc_t)(CrPsParMonId_t);
 
 /**
  * Maximum number of packets simultaneously supported by the packet factory */

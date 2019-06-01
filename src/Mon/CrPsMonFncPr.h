@@ -12,7 +12,7 @@
  * @image html CrPsMonFncPr.png
  *
  * @author FW Profile code generator version 5.23
- * @date Created on: May 30 2019 11:12:50
+ * @date Created on: Jun 1 2019 17:15:41
  */
 
 /* Make sure to include this header file only once */
@@ -79,6 +79,15 @@ void CrPsMonFncPrN3(FwPrDesc_t prDesc);
  * @param prDesc the procedure descriptor
  */
 void CrPsMonFncPrN4(FwPrDesc_t prDesc);
+
+/**
+ * Action for node N5.
+ * <pre>
+ * TBD
+ * </pre>
+ * @param prDesc the procedure descriptor
+ */
+void CrPsMonFncPrN5(FwPrDesc_t prDesc);
 
 /**
  * Action for node N9.

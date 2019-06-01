@@ -45,129 +45,94 @@ void CrPsMonFncPrN2(FwPrDesc_t prDesc) {
 /* Action for node N3. */
 void CrPsMonFncPrN3(FwPrDesc_t prDesc) {
     (void)prDesc;
-	printf("  Action for node N3.\n");
 }
 
+/* ----------------------------------------------------------------------------------------------------------------- */
 /* Action for node N4. */
 void CrPsMonFncPrN4(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N4.\n");
+}
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+/* Action for node N5. */
+void CrPsMonFncPrN5(FwPrDesc_t prDesc) {
+    (void)prDesc;
 }
 
 /* Action for node N9. */
 void CrPsMonFncPrN9(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N9.\n");
 }
 
 /* Action for node N10. */
 void CrPsMonFncPrN10(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N10.\n");
 }
 
 /* Action for node N11. */
 void CrPsMonFncPrN11(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N11.\n");
 }
 
 /* Action for node N12. */
 void CrPsMonFncPrN12(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N12.\n");
 }
 
 /* Action for node N13. */
 void CrPsMonFncPrN13(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N13.\n");
 }
 
 /* Action for node N14. */
 void CrPsMonFncPrN14(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N14.\n");
 }
 
 /* Action for node N15. */
 void CrPsMonFncPrN15(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Action for node N15.\n");
 }
 
 /* Guard on the Control Flow from DECISION2 to DECISION6. */
 FwPrBool_t CrPsMonFncPrIsParDis(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Guard on the Control Flow from DECISION2 to DECISION6.\n");
-	return rand()>RAND_MAX/2 ? 1 : 0;
+    return 1;
 }
 
 /* Guard on the Control Flow from DECISION4 to DECISION7. */
 FwPrBool_t CrPsMonFncPrIsPerSmaller(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Guard on the Control Flow from DECISION4 to DECISION7.\n");
-	return rand()>RAND_MAX/2 ? 1 : 0;
+return 1;
 }
 
 /* Guard on the Control Flow from DECISION6 to N1. */
 FwPrBool_t CrPsMonFncPrGN1(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Guard on the Control Flow from DECISION6 to N1.\n");
-	return rand()>RAND_MAX/2 ? 1 : 0;
+    return 1;
 }
 
 /* Guard on the Control Flow from DECISION8 to N11. */
 FwPrBool_t CrPsMonFncPrIsParInv(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Guard on the Control Flow from DECISION8 to N11.\n");
-	return rand()>RAND_MAX/2 ? 1 : 0;
+    return 1;
 }
 
 /* Guard on the Control Flow from DECISION9 to N12. */
 FwPrBool_t CrPsMonFncPrIsFlag1(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Guard on the Control Flow from DECISION9 to N12.\n");
-	return rand()>RAND_MAX/2 ? 1 : 0;
+    return 1;
 }
 
 /* Guard on the Control Flow from DECISION10 to N14. */
 FwPrBool_t CrPsMonFncPrIsFlag2(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Guard on the Control Flow from DECISION10 to N14.\n");
-	return rand()>RAND_MAX/2 ? 1 : 0;
+    return 1;
 }
 
 /* Guard on the Control Flow from DECISION11 to N15. */
 FwPrBool_t CrPsMonFncPrIsFlag3(FwPrDesc_t prDesc)
 {	(void)prDesc;
-	printf("  Guard on the Control Flow from DECISION11 to N15.\n");
-	return rand()>RAND_MAX/2 ? 1 : 0;
+    return 1;
 }
 
-/* ----------------------------------------------------------------------------------------------------------------- */
-
-int main(void)
-{
-	/** Define the procedure descriptor (PRD) */
-	FwPrDesc_t prDesc = CrPsMonFncPrCreate(NULL);
-
-	srand(time(NULL));
-
-	/** Check that the procedure is properly configured */
-	if (FwPrCheck(prDesc) != prSuccess) {
-		printf("The procedure CrPsMonFncPr is NOT properly configured ... FAILURE\n");
-		return EXIT_FAILURE;
-	}
-
-	printf("The procedure CrPsMonFncPr is properly configured ... SUCCESS\n");
-
-	/** Start the procedure, and execute it a few times */
-	FwPrStart(prDesc);
-	FwPrExecute(prDesc);
-	FwPrExecute(prDesc);
-	FwPrExecute(prDesc);
-	FwPrExecute(prDesc);
-
-	return EXIT_SUCCESS;
-}
