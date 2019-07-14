@@ -64,33 +64,233 @@
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsMonTestCase1() {
   float lowerLimFloat, upperLimFloat, valFloat;
+  int lowerLimInt, upperLimInt, valInt;
+  int lowerLimUInt, upperLimUInt, valUInt;
+  short valShort;
+  char valChar;
+  unsigned short valUShort;
+  unsigned char valUChar;
   CrPsThirtytwoBit_t* lowerLimRaw = (CrPsThirtytwoBit_t*)&lowerLimFloat;
   CrPsThirtytwoBit_t* upperLimRaw = (CrPsThirtytwoBit_t*)&upperLimFloat;
+  CrPsParMonId_t parMonId = 1;
 
   /* The monitor procedure for float values is verified on variable DpIdlastEvtTime */
   lowerLimFloat = 1.3;
   upperLimFloat = 1.7;
-  setDpMonLowerLimitItem(DpIdlastEvtTime, *lowerLimRaw);
-  setDpMonUpperLimitItem(DpIdlastEvtTime, *upperLimRaw);
+  setDpMonLowerLimitItem(parMonId, *lowerLimRaw);
+  setDpMonUpperLimitItem(parMonId, *upperLimRaw);
 
+  /* Definition of parameter monitor */
+  CrPsMonTestCaseInitParMon(parMonId, DpIdlastEvtTime, NULL, 0, 0, 0, 0, 0, 0);
+
+  /* Verify check for real-valued data item */
   valFloat = 1.5;
   if (setDpValue(DpIdlastEvtTime, &valFloat) == 0)
       return 0;
-  if (CrPsMonConfigOutOfLimitCheckR(DpIdlastEvtTime) != MON_VALID)
+  if (CrPsMonConfigOutOfLimitCheckR(parMonId) != MON_VALID)
       return 0;
 
   valFloat = lowerLimFloat - 0.1;
   if (setDpValue(DpIdlastEvtTime, &valFloat) == 0)
       return 0;
-  if (CrPsMonConfigOutOfLimitCheckR(DpIdlastEvtTime) != MON_BELOW)
+  if (CrPsMonConfigOutOfLimitCheckR(parMonId) != MON_BELOW)
       return 0;
 
   valFloat = upperLimFloat + 0.1;
   if (setDpValue(DpIdlastEvtTime, &valFloat) == 0)
       return 0;
-  if (CrPsMonConfigOutOfLimitCheckR(DpIdlastEvtTime) != MON_ABOVE)
+  if (CrPsMonConfigOutOfLimitCheckR(parMonId) != MON_ABOVE)
       return 0;
 
+  /* ------------------------------------------------------------- */
+  /* Verify check for 32-bit integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy32Bit, NULL, 0, 0, 0, 0, 0, 0);
+  lowerLimInt = -4;
+  upperLimInt = 20;
+  lowerLimRaw = (CrPsThirtytwoBit_t*)&lowerLimInt;
+  upperLimRaw = (CrPsThirtytwoBit_t*)&upperLimInt;
+  setDpMonLowerLimitItem(parMonId, *lowerLimRaw);
+  setDpMonUpperLimitItem(parMonId, *upperLimRaw);
+
+  valInt = 13;
+  if (setDpValue(DpIddummy32Bit, &valInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_VALID)
+      return 0;
+
+  valInt = lowerLimInt - 1;
+  if (setDpValue(DpIddummy32Bit, &valInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_BELOW)
+      return 0;
+
+  valInt = upperLimInt + 1;
+  if (setDpValue(DpIddummy32Bit, &valInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_ABOVE)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify check for 16-bit integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy16Bit, NULL, 0, 0, 0, 0, 0, 0);
+
+  valShort = 13;
+  if (setDpValue(DpIddummy16Bit, &valShort) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_VALID)
+      return 0;
+
+  valShort = (short)(lowerLimInt - 1);
+  if (setDpValue(DpIddummy16Bit, &valShort) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_BELOW)
+      return 0;
+
+  valShort = (short)(upperLimInt + 1);
+  if (setDpValue(DpIddummy16Bit, &valShort) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_ABOVE)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify check for 8-bit integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy8Bit, NULL, 0, 0, 0, 0, 0, 0);
+
+  valChar = 13;
+  if (setDpValue(DpIddummy8Bit, &valChar) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_VALID)
+      return 0;
+
+  valChar = (char)(lowerLimInt - 1);
+  if (setDpValue(DpIddummy8Bit, &valChar) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_BELOW)
+      return 0;
+
+  valChar = (char)(upperLimInt + 1);
+  if (setDpValue(DpIddummy8Bit, &valChar) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckSI(parMonId) != MON_ABOVE)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify check for 32-bit unsigned integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy32Bit, NULL, 0, 0, 0, 0, 0, 0);
+  lowerLimUInt = 120;
+  upperLimUInt = 140;
+  lowerLimRaw = (CrPsThirtytwoBit_t*)&lowerLimUInt;
+  upperLimRaw = (CrPsThirtytwoBit_t*)&upperLimUInt;
+  setDpMonLowerLimitItem(parMonId, *lowerLimRaw);
+  setDpMonUpperLimitItem(parMonId, *upperLimRaw);
+
+  valUInt = 128;
+  if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_VALID)
+      return 0;
+
+  valUInt = (unsigned int)(lowerLimUInt - 1);
+  if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_BELOW)
+      return 0;
+
+  valUInt = (unsigned int)(upperLimUInt + 1);
+  if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_ABOVE)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify check for 16-bit unsigned integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy16Bit, NULL, 0, 0, 0, 0, 0, 0);
+
+  valUShort = 128;
+  if (setDpValue(DpIddummy16Bit, &valUShort) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_VALID)
+      return 0;
+
+  valUShort = (unsigned short)(lowerLimUInt - 1);
+  if (setDpValue(DpIddummy16Bit, &valUShort) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_BELOW)
+      return 0;
+
+  valUShort = (unsigned short)(upperLimUInt + 1);
+  if (setDpValue(DpIddummy16Bit, &valUShort) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_ABOVE)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify check for 8-bit unsigned integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy8Bit, NULL, 0, 0, 0, 0, 0, 0);
+
+  valUChar = 128;
+  if (setDpValue(DpIddummy8Bit, &valUChar) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_VALID)
+      return 0;
+
+  valUChar = (unsigned char)(lowerLimUInt - 1);
+  if (setDpValue(DpIddummy8Bit, &valUChar) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_BELOW)
+      return 0;
+
+  valUChar = (unsigned char)(upperLimUInt + 1);
+  if (setDpValue(DpIddummy8Bit, &valUChar) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_ABOVE)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify expected value check for 32-bit unsigned integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy32Bit, NULL, 0, 0, 0, 0, 0, 0);
+  lowerLimUInt = 120;
+  upperLimUInt = 140;
+  lowerLimRaw = (CrPsThirtytwoBit_t*)&lowerLimUInt;
+  upperLimRaw = (CrPsThirtytwoBit_t*)&upperLimUInt;
+  setDpMonLowerLimitItem(parMonId, *lowerLimRaw);
+  setDpMonUpperLimitItem(parMonId, *upperLimRaw);
+
+  valUInt = 128;
+  if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_VALID)
+      return 0;
+
+  valUInt = (unsigned int)(lowerLimUInt - 1);
+  if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_BELOW)
+      return 0;
+
+  valUInt = (unsigned int)(upperLimUInt + 1);
+  if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_ABOVE)
+      return 0;
+
+
+
+
   return 1;
+}
+
+/* --------------------------------------------------------------------------- */
+void CrPsMonTestCaseInitParMon(CrPsParMonId_t parMonId, CrPsParId_t parId, CrPsMonPrFnc_t monPrFnc,
+        CrPsMonPer_t per, CrPsMonPer_t repNmb, CrPsEvtId_t evtId, CrPsParId_t valDataItemId,
+        CrPsValMask_t valExpVal, CrPsValMask_t valMask) {
+
+  dpMonParams.dataItemId[parMonId] = parId;
+  dpMonParams.evtId[parMonId] = evtId;
+  dpMonParams.per[parMonId] = per;
+  dpMonParams.repNmb[parMonId] = repNmb;
+  dpMonParams.valDataItemId[parMonId] = valDataItemId;
+  dpMonParams.valExpVal[parMonId] = valExpVal;
+  dpMonParams.valMask[parMonId] = valMask;
 }
 

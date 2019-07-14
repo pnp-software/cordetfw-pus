@@ -59,6 +59,7 @@ typedef CrPsValCheckExpVal_t (*CrPsMonPrFnc_t)(CrPsParMonId_t);
  * The function should typically be called as part of the initialization of the host application.
  * The following actions are performed by this function:
  * - Instantiate the Monitoring Function Procedure
+ * - Initialize the PMDL through function #CrPsMonConfigInitPMDL
  * .
  * @constraint If an application needs pre-defined parameter monitors, it must define them in the
  * PMDL as part of its initialization.
@@ -156,7 +157,7 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId);
 CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
 
 /**
- * Monitor Procedure implementing an expected value check.
+ * Monitor Procedure implementing an expected value check for unsigned integers.
  * This function returns:
  * - MON_NOT_EXP if the parameter value differs from its expected value
  * - MON_VALID in all other cases
@@ -167,7 +168,21 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
-CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId);
+CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckUI(CrPsParMonId_t parMonId);
+
+/**
+ * Monitor Procedure implementing an expected value check for signed integers.
+ * This function returns:
+ * - MON_NOT_EXP if the parameter value differs from its expected value
+ * - MON_VALID in all other cases
+ * .
+ * The expected value is stored as parameters in the data pool
+ * in array expValue[].
+ *
+ * @param parMonId the identifier of the parameter monitor
+ * @return the outcome of the limit check
+ */
+CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckSI(CrPsParMonId_t parMonId);
 
 /**
  * Return the function implementing the monitor procedure for the i-th

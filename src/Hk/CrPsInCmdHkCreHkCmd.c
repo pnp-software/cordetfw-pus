@@ -89,7 +89,6 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
   len = LEN_HK_REP;
   for (i=0; i<N1; i++) {
     parId = getHkCreHkCmdN1ParamId(pckt, i);
-    len = len + getDpSize(parId);
     if (parId < DpIdParamsLowest) {
       CrFwSetSmOutcome(smDesc, VER_ILL_DI_ID);
       setDpVerFailData(parId);
@@ -100,6 +99,7 @@ void CrPsInCmdHkCreHkCmdStartAction(FwSmDesc_t smDesc) {
       setDpVerFailData(parId);
       return;
     }
+    len = len + getDpSize(parId);
   }
 
   /* Check the SID in the command is not already in use */
