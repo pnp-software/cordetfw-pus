@@ -1,22 +1,33 @@
 \def \printDatapoolParameters#1 {
 \begin{pnptable}{#1}{Datapool Parameters}{tab:DatapoolParameters}{DPID & Name & Description & Default & Type & Size}
 0x0 & debugVarAddr & Address of Debug Variables & 0 & CrPsThirtytwoBit\_\-t[HK\_\-N\_\-DEBUG\_\-VAR] & 96 \\\hline
-0x1 & dest & Destination of report definitions in the RDL & 0 & CrFwDestSrc\_\-t[HK\_\-N\_\-REP\_\-DEF] & 32 \\\hline
-0x2 & isEnabled & Enable status of report definitions in the RDL & 0 & CrFwBool\_\-t[HK\_\-N\_\-REP\_\-DEF] & 32 \\\hline
-0x3 & nSimple & Number of simply commutated data items in HK report in RDL & 0 & CrPsNPar\_\-t[HK\_\-N\_\-REP\_\-DEF] & 32 \\\hline
-0x4 & period & Periods of report definitions in the RDL & 0 & CrPsCycleCnt\_\-t[HK\_\-N\_\-REP\_\-DEF] & 64 \\\hline
-0x5 & sid & SIDs of report definitions in the RDL & 0 & CrPsSID\_\-t[HK\_\-N\_\-REP\_\-DEF] & 64 \\\hline
-0x6 & lptDest & Destination of transfer from LPT Buffer & 0 & CrFwDestSrc\_\-t[LPT\_\-N\_\-BUF] & 8 \\\hline
-0x7 & lptTimeOut & Time-out for up-tramsfer to LPT Buffer & 0 & CrPsTimeSec\_\-t[LPT\_\-N\_\-BUF] & 32 \\\hline
-0x8 & partSize & Part size for transfers to/from LPT Buffer & 0 & CrPsSize\_\-t[LPT\_\-N\_\-BUF] & 16 \\\hline
-0x9 & maxRepDelay & Maximum reporting delay & 0 & CrPsRepDelay\_\-t & 16 \\\hline
-0xa & servUser & The default user of the service is the ground. & 0 & CrFwDestSrc\_\-t & 8 \\\hline
-0xb & isSubSchedEnabled & Enable status of a sub-schedule & 0 & CrFwBool\_\-t[SCD\_\-N\_\-SUB\_\-TBS] & 8 \\\hline
-0xc & isTbsEnabled & Enable status of time-based schedule & 0 & CrFwBool\_\-t & 8 \\\hline
-0xd & nOfTbaInGroup & Number of TBAs in group & 0 & CrPsNTba\_\-t[SCD\_\-N\_\-GROUP] & 16 \\\hline
-0xe & nOfTbaInSubSched & Number of TBAs in sub-schedule & 0 & CrPsNTba\_\-t[SCD\_\-N\_\-SUB\_\-TBS] & 16 \\\hline
-0xf & timeMargin & Time margin for time-based scheduling service & 0 & CrFwTime\_\-t & 32 \\\hline
-0x10 & AreYouAliveTimeOut & Time-out for the Are-You-Alive Test initiated in response to an On-Board Connection Test & 0 & CrFwTime\_\-t & 32 \\\hline
-0x11 & OnBoardConnectDestLst & Identifiers of target applications for an On-Board-Connection Test & 0 & CrFwDestSrc\_\-t[TST\_\-N\_\-DEST] & 32 \\\hline
+0x3 & dest & Destination of report definitions in the RDL & 0 & CrFwDestSrc\_\-t[HK\_\-N\_\-REP\_\-DEF] & 32 \\\hline
+0x7 & isEnabled & Enable status of report definitions in the RDL & 0 & CrFwBool\_\-t[HK\_\-N\_\-REP\_\-DEF] & 32 \\\hline
+0xb & nSimple & Number of simply commutated data items in HK report in RDL & 0 & CrPsNPar\_\-t[HK\_\-N\_\-REP\_\-DEF] & 32 \\\hline
+0xf & period & Periods of report definitions in the RDL & 0 & CrPsCycleCnt\_\-t[HK\_\-N\_\-REP\_\-DEF] & 64 \\\hline
+0x13 & sid & SIDs of report definitions in the RDL & 0 & CrPsSID\_\-t[HK\_\-N\_\-REP\_\-DEF] & 64 \\\hline
+0x17 & lptDest & Destination of transfer from LPT Buffer & 0 & CrFwDestSrc\_\-t[LPT\_\-N\_\-BUF] & 8 \\\hline
+0x18 & lptTimeOut & Time-out for up-tramsfer to LPT Buffer & 0 & CrPsTimeSec\_\-t[LPT\_\-N\_\-BUF] & 32 \\\hline
+0x19 & partSize & Part size for transfers to/from LPT Buffer & 0 & CrPsSize\_\-t[LPT\_\-N\_\-BUF] & 16 \\\hline
+0x1a & dataItemId & Identifier of the data item monitored by a Parameter Monitor & 0 & CrPsParId\_\-t[MON\_\-N\_\-PMON] & 64 \\\hline
+0x1e & evtId & Identifier of the event to be generated if the parameter monitor detects a limit violation or zero if no event is to be generated & 0 & CrPsEvtId\_\-t[MON\_\-N\_\-PMON] & 64 \\\hline
+0x22 & expValue & Expected value for Expected Value Procedure associated to Parameter Monitor & 0 & CrPsParValueSInt\_\-t[MON\_\-N\_\-PMON] & 128 \\\hline
+0x26 & lowerLimit & Lower limit for Limit Check Procedure & 0 & CrPsThirtytwoBit\_\-t[MON\_\-N\_\-PMON] & 128 \\\hline
+0x2a & maxRepDelay & Maximum reporting delay & 0 & CrPsRepDelay\_\-t & 16 \\\hline
+0x2b & monPrType & Identifier of the Monitor Procedure type & MON\_\-PR\_\-OOL\_\-R & CrPsMonPrType\_\-t[MON\_\-N\_\-PMON] & 64 \\\hline
+0x2f & per & Monitoring period for the parameter monitor & 1 & CrPsMonPer\_\-t[MON\_\-N\_\-PMON] & 64 \\\hline
+0x33 & repNmb & Repetition number for the parameter monitor & 1 & CrPsMonPer\_\-t[MON\_\-N\_\-PMON] & 64 \\\hline
+0x37 & servUser & The default user of the service is the ground. & 0 & CrFwDestSrc\_\-t & 8 \\\hline
+0x38 & upperLimit & Upper llimit for Limit Check Procedure & 0 & CrPsThirtytwoBit\_\-t[MON\_\-N\_\-PMON] & 128 \\\hline
+0x3c & valDataItemId & Identifier of data item used for validity check of parameter monitor & 0 & CrPsParId\_\-t[MON\_\-N\_\-PMON] & 64 \\\hline
+0x40 & valExpVal & Expected value for validity check of parameter monitor & 0 & CrPsValMask\_\-t[MON\_\-N\_\-PMON] & 128 \\\hline
+0x44 & valMask & Mask used for validity check of parameter monitor & 0 & CrPsValMask\_\-t[MON\_\-N\_\-PMON] & 128 \\\hline
+0x48 & isSubSchedEnabled & Enable status of a sub-schedule & 0 & CrFwBool\_\-t[SCD\_\-N\_\-SUB\_\-TBS] & 8 \\\hline
+0x49 & isTbsEnabled & Enable status of time-based schedule & 0 & CrFwBool\_\-t & 8 \\\hline
+0x4a & nOfTbaInGroup & Number of TBAs in group & 0 & CrPsNTba\_\-t[SCD\_\-N\_\-GROUP] & 16 \\\hline
+0x4b & nOfTbaInSubSched & Number of TBAs in sub-schedule & 0 & CrPsNTba\_\-t[SCD\_\-N\_\-SUB\_\-TBS] & 16 \\\hline
+0x4c & timeMargin & Time margin for time-based scheduling service & 0 & CrFwTime\_\-t & 32 \\\hline
+0x4d & areYouAliveTimeOut & Time-out for the Are-You-Alive Test initiated in response to an On-Board Connection Test & 0 & CrFwTime\_\-t & 32 \\\hline
+0x4e & onBoardConnectDestLst & Identifiers of target applications for an On-Board-Connection Test & 0 & CrFwDestSrc\_\-t[TST\_\-N\_\-DEST] & 32 \\\hline
 \end{pnptable}}
 

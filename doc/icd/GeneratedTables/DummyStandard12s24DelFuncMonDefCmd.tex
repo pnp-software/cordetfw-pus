@@ -1,7 +1,7 @@
 \def \printDelFuncMonDefCmd#1 {
 \begin{pnptable}{#1}{DelFuncMonDefCmd}{tab:DelFuncMonDefCmd}{Name & Byte & Bit & Size & Description}
-NFuncMon & 0 & 0 & 8 & Number of functional monitors to be deleted \\\hline
--  FuncMonId[1] & 1 & 0 & 8 & Identifier of functional monitor to be deleted \\\hline
+NFuncMon & 0 & 0 & 16 & Number of functional monitors to be deleted \\\hline
+-  FuncMonId[1] & 2 & 0 & 8 & Identifier of functional monitor to be deleted \\\hline
 -  ... &  &  &  &  \\\hline
 -  FuncMonId[NFuncMon] & - & - & 8 & Identifier of functional monitor to be deleted \\\hline
 \end{pnptable}}

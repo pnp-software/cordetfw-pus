@@ -331,7 +331,7 @@ Destination & The destination of event reports is statically defined and is equa
 Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & (a) Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline (b) Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printOutCmpEvtRepbSpec#1 {
@@ -343,7 +343,7 @@ Destination & The destination of event reports is statically defined and is equa
 Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & (a) Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline (b) Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printOutCmpEvtRepcSpec#1 {
@@ -355,7 +355,7 @@ Destination & The destination of event reports is statically defined and is equa
 Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & (a) Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline (b) Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printOutCmpEvtRepdSpec#1 {
@@ -367,7 +367,7 @@ Destination & The destination of event reports is statically defined and is equa
 Enable Check & Update service 5 observable nOfDetectedEvt and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
-Update Action & Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline \newline Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
+Update Action & (a) Update service 5 observables: nOfGenEvtRep, lastEvtEid, lastEvtTime. Note that the event parameters are set by the application which creates the event report at the time it creates it.\newline (b) Set the destination of the event report to EVT\_\-DEST. The destination is a configuration parameter of the PUS Extension. \\\hline
 \end{pnptable}}
 
 \def \printInCmdEvtEnbCmdSpec#1 {
@@ -377,8 +377,8 @@ Parameters & List of event identifiers to be enabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The event identifiers (EIDs) are processed in sequence and in the order in which they are stored in the command. Each event identifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-EID\newline (b) If the event identifier is legal, then: its enable status is set to 'enabled'; the value of nDisabledEid (number of disabled event identifieriers) is decremented; and the Success Outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
-Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-ILL\_\-EID and the number of failed progress steps (which corresponds to the number of illegal event identifier in the command) is loaded in verFailData. \\\hline
+Progress Action & The event identifiers (EIDs) are processed in sequence and in the order in which they are stored in the command. Each event identifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the action is declared to have failed with outcome VER\_\-ILL\_\-EID\newline (b) If the event identifier is legal, then: its enable status is set to 'enabled'; the value of nDisabledEid (number of disabled event identifieriers) is decremented; and the action is declared to have succeeded\newline (c) The 'Completion Outcome' of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline NB: The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-ILL\_\-EID and the number of failed progress steps (which corresponds to the number of illegal event identifiers in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -389,8 +389,8 @@ Parameters & List of event identifiers to be disabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Default implementation (set action outcome to 'success') \\\hline
-Progress Action & The event identifiers are processed in sequence and in the order in which they are stored in the event report. Each event identiifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the Success Outcome is set to VER\_\-ILL\_\-EID\newline (b) If the event identified is legal, then: its enable status is set to 'disabled'; the value of nDisabledEid (number of disabled event identifiers) is incremented; and the Success Outcome of the action is set to 'success'\newline (c) The Completion Outcome of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
-Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-ILL\_\-EID and the number of failed progress steps (which corresponds to the number of illegal event identifier in the command) is loaded in verFailData. \\\hline
+Progress Action & The event identifiers are processed in sequence and in the order in which they are stored in the event report. Each event identiifier is processed in an execution cycle. Each execution cycle counts as a progress step. At each execution, the progress action performs the following actions:\newline \newline (a) If the event identifier is illegal, then: the illegal EID is loaded into verFailData and the action is declared to have failed with outcome VER\_\-ILL\_\-EID\newline (b) If the event identified is legal, then: its enable status is set to 'disabled'; the value of nDisabledEid (number of disabled event identifiers) is incremented; and the action is declared to have succeeded\newline (c) The Completion Outcome of the action is set to 'completed' if all event identifiers carried by the command have been processed; otherwise it is set to 'not completed'.\newline \newline NB: The enable status of the event identifier is stored in the OutRegistry component of the Cordet Framework. \\\hline
+Termination Action & The action outcome is set to 'success' if all progress steps were successful. Otherwise, the action outcome is set to VER\_\-ILL\_\-EID and the number of failed progress steps (which corresponds to the number of illegal event identifiers in the command) is loaded in verFailData. \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
@@ -400,7 +400,7 @@ Description & This command triggers the generation of a (5,8) report holding the
 Parameters & None \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & (a) Compute the number N of (5,8) reports required to hold all the disabled event identifiers. \newline (b) Retrieve N reports of type (5,8)  from the OutFactory\newline (c) Set the action outcome to 'success' if all retrievals are successful; otherwise, generate error report OUTFACTORY FAIL and set the action outcome to VER\_\-REP\_\-CR\_\-FD.\newline \newline NB: The maximum number of (5,8) reports required in response to a single (5,7) commands is given by framework configuration parameter EVT\_\-MAX\_\-N5S8. If N is greater than EVT\_\-MAX\_\-N58, the behaviour of the framework is undefined. \\\hline
+Start Action & (a) Compute the number N of (5,8) reports required to hold all the disabled event identifiers. \newline (b) Retrieve N reports of type (5,8)  from the OutFactory\newline (c) Set the action outcome to 'success' if all retrievals are successful; otherwise, generate error report OUTFACTORY FAIL and declare the action to have failed with outcome VER\_\-REP\_\-CR\_\-FD.\newline \newline NB: The maximum number of (5,8) reports required in response to a single (5,7) commands is given by framework configuration parameter EVT\_\-MAX\_\-N5S8. If N is greater than EVT\_\-MAX\_\-N58, the behaviour of the framework is undefined. \\\hline
 Progress Action & Configure the (5,8) reports with a destination equal to the source of the (5,7) command, load them into the OutLoader, and set the action outcome to 'success'. \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
@@ -1092,10 +1092,10 @@ Update Action & Default implementation (do nothing) \\\hline
 Description & Sample command used for testing purposes. The outcome of all its actions and checks can be set by setting user-commandable flags. Its actions increment the value of user-observable counters.  \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
-Ready Check & The Ready Check returns the value of an internal flag (the Ready Flag) whose value is set through function <code>::CrFwInCmdSample1SetReadyFlag</code>. \\\hline
-Start Action & This action sets the outcome to the value of an internal counter (the Start Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetStartActionOutcome</code> and it increments the value of a counter (the Start Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetStartActionCounter</code>. \\\hline
-Progress Action & This action:\newline  (a) Sets the outcome to the value of an internal counter (the Progress Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetProgressActionOutcome</code>, and\newline  (b) It increments the progress step identifier if the progress step flag is set (its value is controlled through function <code>::CrFwInCmdSample1SetProgressActionFlag</code>. \\\hline
-Termination Action & This actions sets the outcome to the value of an internal counter (the Termination Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetTerminationActionOutcome</code> and it increments the value of a counter (the Termination Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetTerminationActionCounter</code>. \\\hline
-Abort Action & This action sets the outcome to the value of an internal counter (the Abort Action Outcome Counter) whose value is set through function <code>::CrFwInCmdSample1SetAbortActionOutcome</code> and it increments the value of a counter (the Abort Action Counter) whose value is read through function <code>::CrFwInCmdSample1GetAbortActionCounter</code>. \\\hline
+Ready Check & The Ready Check returns the value of an internal flag (the Ready Flag) whose value is set through function <code>::CrPsInCmdDumSample1SetReadyFlag</code>. \\\hline
+Start Action & This action sets the outcome to the value of an internal counter (the Start Action Outcome Counter) whose value is set through function <code>::CrPsInCmdDumSample1SetStartActionOutcome</code> and it increments the value of a counter (the Start Action Counter) whose value is read through function <code>::CrPsInCmdDumSample1GetStartActionCounter</code>. \\\hline
+Progress Action & This action:\newline (a) Sets the outcome to the value of an internal counter (the Progress Action Outcome Counter) whose value is set through function <code>::CrPsInCmdDumSample1SetProgressActionOutcome</code>, and\newline (b) It increments the progress step identifier if the progress step flag is set (its value is accessed through function <code>::CrPsInCmdDumSample1GetProgressActionCounter</code>. \\\hline
+Termination Action & This actions sets the outcome to the value of an internal counter (the Termination Action Outcome Counter) whose value is set through function <code>::CrPsInCmdDumSample1SetTerminationActionOutcome</code> and it increments the value of a counter (the Termination Action Counter) whose value is read through function <code>::CrPsInCmdDumSample1GetTerminationActionCounter</code>. \\\hline
+Abort Action & This action increments the value of a counter (the Abort Action Counter). \\\hline
 \end{pnptable}}
 

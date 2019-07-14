@@ -1,7 +1,7 @@
 \def \printDisParMonDefCmd#1 {
 \begin{pnptable}{#1}{DisParMonDefCmd}{tab:DisParMonDefCmd}{Name & Byte & Bit & Size & Description}
-NParMon & 0 & 0 & 8 & Number of monitoring definitions to be disabled, \\\hline
--  ParMonId[1] & 1 & 0 & 16 & Identifier of Parameter Monitor \\\hline
+NParMon & 0 & 0 & 16 & Number of monitoring definitions to be disabled, \\\hline
+-  ParMonId[1] & 2 & 0 & 16 & Identifier of Parameter Monitor \\\hline
 -  ... &  &  &  &  \\\hline
 -  ParMonId[NParMon] & - & - & 16 & Identifier of Parameter Monitor \\\hline
 \end{pnptable}}

@@ -1,7 +1,7 @@
 \def \printDisFuncMonDefCmd#1 {
 \begin{pnptable}{#1}{DisFuncMonDefCmd}{tab:DisFuncMonDefCmd}{Name & Byte & Bit & Size & Description}
-NFuncMon & 0 & 0 & 8 & The number of functional monitors to be disabled \\\hline
--  FuncMonId[1] & 1 & 0 & 8 & Identifier of functional monitor to be disabled \\\hline
+NFuncMon & 0 & 0 & 16 & The number of functional monitors to be disabled \\\hline
+-  FuncMonId[1] & 2 & 0 & 8 & Identifier of functional monitor to be disabled \\\hline
 -  ... &  &  &  &  \\\hline
 -  FuncMonId[NFuncMon] & - & - & 8 & Identifier of functional monitor to be disabled \\\hline
 \end{pnptable}}

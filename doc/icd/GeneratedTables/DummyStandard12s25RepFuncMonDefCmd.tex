@@ -1,8 +1,8 @@
 \def \printRepFuncMonDefCmd#1 {
 \begin{pnptable}{#1}{RepFuncMonDefCmd}{tab:RepFuncMonDefCmd}{Name & Byte & Bit & Size & Description}
-FuncMonId & 0 & 0 & 8 & Number of functional monitors whose definition is to be reported \\\hline
--  FuncMonId[1] & 1 & 0 & 8 & Identifier of functional monitor whose definition is to be reported \\\hline
+NFuncMon & 0 & 0 & 16 & Number of functional monitors whose definition is to be reported \\\hline
+-  FuncMonId[1] & 2 & 0 & 8 & Identifier of functional monitor whose definition is to be reported \\\hline
 -  ... &  &  &  &  \\\hline
--  FuncMonId[FuncMonId] & - & - & 8 & Identifier of functional monitor whose definition is to be reported \\\hline
+-  FuncMonId[NFuncMon] & - & - & 8 & Identifier of functional monitor whose definition is to be reported \\\hline
 \end{pnptable}}
 

@@ -14,14 +14,15 @@
 \hspace{0.5cm}SID\_\-HK\_\-CNT & SID for HK packet holding the cycle counters for the HK packets & 2 \\\hline
 \textbf{CrPsRepNum\_\-t} & Type used for repetition number & unsigned char \\\hline
 \textbf{CrPsFailReason\_\-t} & Type for the transfer failure reason & unsigned short \\\hline
-\textbf{CrPsNParMon\_\-t} & Type for the number of service 12 parameter monitors & unsigned char \\\hline
-\textbf{CrPsNFuncMon\_\-t} & Type for the number of service 12 functional monitors & unsigned char \\\hline
+\textbf{CrPsNParMon\_\-t} & Type for the number of service 12 parameter monitors & unsigned short \\\hline
+\textbf{CrPsNFuncMon\_\-t} & Type for the number of service 12 functional monitors & unsigned short \\\hline
 \textbf{CrPsFunctMonCheckStatus\_\-t} & Type for the checking status of a service 12 functional monitor & unsigned char \\\hline
-\hspace{0.5cm}MON\_\-UNCHECKED & Functional monitor has not yet been notified since it was last enabled & 1 \\\hline
-\hspace{0.5cm}MON\_\-INVALID & The validity condition for the functional monitor is not satisfied & 2 \\\hline
-\hspace{0.5cm}MON\_\-RUNNING & The number of parameter monitors in the functional monitor which reporterd a monitoring violation is below the minimum failing number & 3 \\\hline
-\hspace{0.5cm}MON\_\-FAILED & The number of parameter monitors in the functional monitor which reported a monitoring violation is greater than or eqaul to the minimum failing number & 4 \\\hline
-\textbf{CrPsParMonCheckStatus\_\-t} & Type for the checking status of a service 12 parameter monitor & unsigned char \\\hline
+\hspace{0.5cm}FMON\_\-UNCHECKED & Functional monitor has not yet been notified since it was last enabled & 1 \\\hline
+\hspace{0.5cm}FMON\_\-INVALID & The validity condition for the functional monitor is not satisfied & 2 \\\hline
+\hspace{0.5cm}FMON\_\-RUNNING & The number of parameter monitors in the functional monitor which reporterd a monitoring violation is below the minimum failing number & 3 \\\hline
+\hspace{0.5cm}FMON\_\-FAILED & The number of parameter monitors in the functional monitor which reported a monitoring violation is greater than or eqaul to the minimum failing number & 4 \\\hline
+\textbf{CrPsParMonCheckStatus\_\-t} & Type for the checking status of a service 12 parameter monitor & unsigned short \\\hline
+\hspace{0.5cm}MON\_\-UNCHECKED & Parameter is unchecked & 0 \\\hline
 \hspace{0.5cm}MON\_\-VALID & Parameter is valid & 1 \\\hline
 \hspace{0.5cm}MON\_\-NOT\_\-EXP & Parameter does not have the expected value & 2 \\\hline
 \hspace{0.5cm}MON\_\-ABOVE & Parameter value is above its upper limit & 3 \\\hline
@@ -81,6 +82,17 @@
 \textbf{CrPsNCmdRep\_\-t} & Type for number of commands and reports in component factories & unsigned int \\\hline
 \textbf{CrPsNTba\_\-t} & Type for number of time-based scheduled activity (TBA) & unsigned short \\\hline
 \textbf{CrPsNSubSchedGroup\_\-t} & Type for the number of sub-schedules and of groups & unsigned char \\\hline
+\textbf{CrPsParMonPrId\_\-t} & Type used for the identifier of a service 12 parameter monitor procedure & unsigned short \\\hline
+\textbf{CrPsMonPrType\_\-t} & Type of service 12 monitoring procedure & unsigned short \\\hline
+\hspace{0.5cm}MON\_\-PR\_\-OOL\_\-R & Limit Check Monitor Procedure for real-valued parameters & 1 \\\hline
+\hspace{0.5cm}MON\_\-PR\_\-OOL\_\-UI & Limit Check Monitor Procedure for unsigned integer-valued parameters  & 2 \\\hline
+\hspace{0.5cm}MON\_\-PR\_\-OOL\_\-SI & Limit Check Monitor Procedure for signed integer-valued parameters  & 3 \\\hline
+\hspace{0.5cm}MON\_\-PR\_\-EXP & Expected Value Monitor Procedure & 4 \\\hline
+\textbf{CrPsMonPer\_\-t} & Type for service 12 monitoring period expressed as an integer number of the minimum monitoring period MON\_\-PER & unsigned short \\\hline
+\textbf{CrPsValMask\_\-t} & Type for the validity check of a parameter monitor & unsigned int \\\hline
+\textbf{CrPsParValueFloat\_\-t} & Type for real-typed parameter monitor value and their limits & float \\\hline
+\textbf{CrPsParValueSInt\_\-t} & Type for signed integer-typed parameter monitor value and their limits & int \\\hline
+\textbf{CrPsParValueUInt\_\-t} & Type for unsigned integer-typed parameter monitor value and their limits & unsigned int \\\hline
 \textbf{CrPsFailCode\_\-t} & Type used for a service 1 Failure Code & CrFwOutcome\_\-t \\\hline
 \hspace{0.5cm}VER\_\-CMD\_\-INV\_\-DEST & Failure code for all (1,10) reports & 129 \\\hline
 \hspace{0.5cm}VER\_\-REP\_\-CR\_\-FD & Failure code for start actions when they unsuccessfully attempt to create a new report from the OutFactory & 130 \\\hline
@@ -92,9 +104,7 @@
 \hspace{0.5cm}VER\_\-ILL\_\-SID & A service 3 command had an invalid SID & 136 \\\hline
 \hspace{0.5cm}VER\_\-ENB\_\-SID & A service 3 command encountered an enabled SID & 137 \\\hline
 \hspace{0.5cm}VER\_\-MI\_\-S3\_\-FD & A multi-instruction service 3 command has failed & 138 \\\hline
-\hspace{0.5cm} VER\_\-FACT\_\-PRGR\_\-FD & The progress action of a multi-instruction service 3 command has failed to retrieve a report from the OutFactory & 139 \\\hline
 \hspace{0.5cm}VER\_\-ILL\_\-EID & The start action of a service 5 command has encountered an illegal Event Identifier (EID) & 140 \\\hline
-\hspace{0.5cm}VER\_\-EID\_\-ST\_\-FD & All the instructions in a service 5 command have been rejected & 141 \\\hline
 \hspace{0.5cm}VER\_\-ILL\_\-MON & A Parameter or Functional Monitor Identifier in a service 12 command is out-of-range or not defined & 142 \\\hline
 \hspace{0.5cm}VER\_\-MON\_\-START\_\-FD & All the instructions in a service 12 command have been rejected & 143 \\\hline
 \hspace{0.5cm}VER\_\-PMDL\_\-FULL & A service 12 command has found the Parameter Monitor Definition List (PMDL) full & 144 \\\hline

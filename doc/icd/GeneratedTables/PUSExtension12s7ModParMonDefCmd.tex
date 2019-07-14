@@ -1,10 +1,16 @@
 \def \printModParMonDefCmd#1 {
 \begin{pnptable}{#1}{ModParMonDefCmd}{tab:ModParMonDefCmd}{Name & Byte & Bit & Size & Description}
-NParMon & 0 & 0 & 8 & Number of parameter monitoring definitions to be modified \\\hline
-MonParId & 1 & 0 & 16 & The identifier of the parameter monitor to be modified \\\hline
-MonParId & 3 & 0 & 16 & The identifier of the data pool item to be monitored by the modified parameter monitor \\\hline
-RepNmb & 5 & 0 & 8 & The repetition number of the modified parameter monitor \\\hline
-CheckType & 6 & 0 & 8 & The monitoring check type of the modified parameter monitor \\\hline
-CheckTypeData & 7 & 0 & undefined & For expected value check, this parameter consists of: mask, expected value and event identifier. For limit checks, it consists of: low limit, event identifier for low limit, high limit, event identifier for high limit. For delta checks, it consists of: low delta threshold, event identifier for low threshold, high delta threshold, event identifiers for high thresholds. In all cases, an event identifier of zero indicates that no event is associated to the violation.  \\\hline
+NParMon & 0 & 0 & 16 & Number of parameter monitoring definitions to be modified \\\hline
+-  ParMonId[1] & 2 & 0 & 16 & The identifier of the parameter monitor to be modified \\\hline
+-  MonParId[1] & 4 & 0 & 16 & The identifier of the data pool item to be monitored by the modified parameter monitor \\\hline
+-  RepNmb[1] & 6 & 0 & 8 & The repetition number of the modified parameter monitor \\\hline
+-  CheckType[1] & 7 & 0 & 8 & The monitoring check type of the modified parameter monitor \\\hline
+-  CheckTypeData1[1] & 8 & 0 & 32 & First item in Check Type Data \\\hline
+-  ... &  &  &  &  \\\hline
+-  ParMonId[NParMon] & - & - & 16 & The identifier of the parameter monitor to be modified \\\hline
+-  MonParId[NParMon] & - & - & 16 & The identifier of the data pool item to be monitored by the modified parameter monitor \\\hline
+-  RepNmb[NParMon] & - & - & 8 & The repetition number of the modified parameter monitor \\\hline
+-  CheckType[NParMon] & - & - & 8 & The monitoring check type of the modified parameter monitor \\\hline
+-  CheckTypeData1[NParMon] & - & - & 32 & First item in Check Type Data \\\hline
 \end{pnptable}}
 

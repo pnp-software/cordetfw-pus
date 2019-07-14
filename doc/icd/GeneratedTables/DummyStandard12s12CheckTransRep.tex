@@ -1,14 +1,14 @@
 \def \printCheckTransRep#1 {
 \begin{pnptable}{#1}{CheckTransRep}{tab:CheckTransRep}{Name & Byte & Bit & Size & Description}
-NParMon & 0 & 0 & 8 & Number of check transitions in the report \\\hline
--  ParMonId[1] & 1 & 0 & 16 & Identifier of Parameter Monitor \\\hline
--  MonParId[1] & 3 & 0 & 16 & Identifier of Monitored Parameter \\\hline
--  CheckType[1] & 5 & 0 & 8 & Type of Monitor Procedure \\\hline
--  ExpValCheckMask[1] & 6 & 0 & 16 & Expected Value Check Mask \\\hline
--  ParValue[1] & 8 & 0 & undefined & Parameter Value at Monitoring Violation \\\hline
+NParMon & 0 & 0 & 16 & Number of check transitions in the report \\\hline
+-  ParMonId[1] & 2 & 0 & 16 & Identifier of Parameter Monitor \\\hline
+-  MonParId[1] & 4 & 0 & 16 & Identifier of Monitored Parameter \\\hline
+-  CheckType[1] & 6 & 0 & 8 & Type of Monitor Procedure \\\hline
+-  ExpValCheckMask[1] & 7 & 0 & 16 & Expected Value Check Mask \\\hline
+-  ParValue[1] & 9 & 0 & undefined & Parameter Value at Monitoring Violation \\\hline
 -  LimitCrossed[1] & - & - & undefined & Limit Crossed at Monitoring Violation \\\hline
--  ParMonPrevCheckStatus[1] & - & - & 8 & Checking Status Before Monitoring Violation \\\hline
--  ParMonCheckStatus[1] & - & - & 8 & Parameter Monitor Checking Status \\\hline
+-  ParMonPrevCheckStatus[1] & - & - & 16 & Checking Status Before Monitoring Violation \\\hline
+-  ParMonCheckStatus[1] & - & - & 16 & Parameter Monitor Checking Status \\\hline
 -  TransTime[1] & - & - & 48 & Time of Monitoring Violation Transition \\\hline
 -  ... &  &  &  &  \\\hline
 -  ParMonId[NParMon] & - & - & 16 & Identifier of Parameter Monitor \\\hline
@@ -17,8 +17,8 @@ NParMon & 0 & 0 & 8 & Number of check transitions in the report \\\hline
 -  ExpValCheckMask[NParMon] & - & - & 16 & Expected Value Check Mask \\\hline
 -  ParValue[NParMon] & - & - & undefined & Parameter Value at Monitoring Violation \\\hline
 -  LimitCrossed[NParMon] & - & - & undefined & Limit Crossed at Monitoring Violation \\\hline
--  ParMonPrevCheckStatus[NParMon] & - & - & 8 & Checking Status Before Monitoring Violation \\\hline
--  ParMonCheckStatus[NParMon] & - & - & 8 & Parameter Monitor Checking Status \\\hline
+-  ParMonPrevCheckStatus[NParMon] & - & - & 16 & Checking Status Before Monitoring Violation \\\hline
+-  ParMonCheckStatus[NParMon] & - & - & 16 & Parameter Monitor Checking Status \\\hline
 -  TransTime[NParMon] & - & - & 48 & Time of Monitoring Violation Transition \\\hline
 \end{pnptable}}
 
