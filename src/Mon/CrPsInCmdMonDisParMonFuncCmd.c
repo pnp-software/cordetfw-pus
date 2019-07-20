@@ -10,32 +10,34 @@
  */
 
 #include "CrPsInCmdMonDisParMonFuncCmd.h"
+#include "DataPool/CrPsDpMon.h"
+#include "InCmd/CrFwInCmd.h"
+#include "FwPrCore.h"
 
-/**
- * Start action of TC(12,16) MonDisParMonFuncCmd.
- * Set the action outcome to 'failure' if the Functional Monitoring Function
- * is supported by the application and is enabled. Otherwise set the action
- * outcome to 'success'.
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonDisParMonFuncCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonDisParMonFuncCmdStartAction");
-   return ;
+/* ------------------------------------------------------------------ */
+void CrPsInCmdMonDisParMonFuncCmdStartAction(FwSmDesc_t smDesc) {
+    if (getDpMonParMonFuncEnbStatus() == DISABLED) {
+        setDpVerFailData(0);
+        CrFwSetSmOutcome(smDesc, VER_MON_DIS);
+        return;
+    }
+
+    /* Set action outcome to 'success' */
+    CrFwSetSmOutcome(smDesc, 1);
 }
 
-/**
- * Progress action of TC(12,16) MonDisParMonFuncCmd.
- * Stop the Parameter Monitoring Procedure. Set the enable status of the
- * Parameter Monitoring Function in the data pool to: 'disabled'. Set the
- * action outcome to: 'completed'.
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonDisParMonFuncCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonDisParMonFuncCmdProgressAction");
-   return ;
+/* ------------------------------------------------------------------ */
+void CrPsInCmdMonDisParMonFuncCmdProgressAction(FwSmDesc_t smDesc) {
+    CrFwDestSrc_t src;
+
+    /* Stop the Parameter Monitoring Function */
+    FwPrStop(CrPsConfigGetParMonPr());
+
+    /* Set Parameter Monitoring Function status to 'disabled' */
+    setDpMonParMonFuncEnbStatus(DISABLED);
+
+    /* Set outcome to 'success' and completion outcome to 'completed' */
+    CrFwSetSmOutcome(smDesc, 1);
+    CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
 

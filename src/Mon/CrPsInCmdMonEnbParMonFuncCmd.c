@@ -10,32 +10,38 @@
  */
 
 #include "CrPsInCmdMonEnbParMonFuncCmd.h"
+#include "DataPool/CrPsDpMon.h"
+#include "InCmd/CrFwInCmd.h"
+#include "FwPrCore.h"
 
-/**
- * Start action of TC(12,15) MonEnbParMonFuncCmd.
- * Set action outcome to 'success' if the Monitoring Function is disabled
- * (i.e. if the Monitoring Function Procedure is stopped).
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonEnbParMonFuncCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonEnbParMonFuncCmdStartAction");
-   return ;
+/* ------------------------------------------------------------------------ */
+void CrPsInCmdMonEnbParMonFuncCmdStartAction(FwSmDesc_t smDesc) {
+    if (getDpMonParMonFuncEnbStatus() == ENABLED) {
+        setDpVerFailData(0);
+        CrFwSetSmOutcome(smDesc, VER_MON_ENB);
+        return;
+    }
+
+    /* Set action outcome to 'success' */
+    CrFwSetSmOutcome(smDesc, 1);
 }
 
-/**
- * Progress action of TC(12,15) MonEnbParMonFuncCmd.
- * Start the Monitoring Function Procedure. Set service 12 parameter ServUser
- * equal to the source of this command. Set the enable status of the Parameter
- * Monitoring Function in the data pool to: 'enabled'. Set the action outcome
- * to: 'completed'.
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonEnbParMonFuncCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonEnbParMonFuncCmdProgressAction");
-   return ;
+/* ------------------------------------------------------------------------ */
+void CrPsInCmdMonEnbParMonFuncCmdProgressAction(FwSmDesc_t smDesc) {
+    CrFwDestSrc_t src;
+
+    /* Start the Parameter Monitoring Function */
+    FwPrStart(CrPsConfigGetParMonPr());
+
+    /* Load the source of the user of the monitoring service */
+    src = CrFwInCmdGetSrc(smDesc);
+    setDpMonServUser(src);
+
+    /* Set Parameter Monitoring Function status to 'enabled' */
+    setDpMonParMonFuncEnbStatus(ENABLED);
+
+    /* Set outcome to 'success' and completion outcome to 'completed' */
+    CrFwSetSmOutcome(smDesc, 1);
+    CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
 

@@ -48,6 +48,11 @@ void CrPsMonConfigInit() {
 }
 
 /* ----------------------------------------------------------------------------------- */
+FwPrDesc_t CrPsConfigGetParMonPr() {
+  return parMonPr;
+}
+
+/* ----------------------------------------------------------------------------------- */
 void CrPsMonConfigInitPMDL() {
   int i;
 
@@ -245,7 +250,7 @@ CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckUI(CrPsParMonId_t parMonId) {
     }
     else if (size == 2) {
         getDpValueEx(parId, &intShort, &size, &nElements);
-        intVal = (unsigned int)intShort;
+        intVal = (unsigned short)intShort;
         if (intVal != expValue)
             return MON_NOT_EXP;
         else
@@ -253,7 +258,60 @@ CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckUI(CrPsParMonId_t parMonId) {
     }
     else if (size == 1) {
         getDpValueEx(parId, &intChar, &size, &nElements);
-        intVal = (unsigned int)intChar;
+        intVal = (unsigned char)intChar;
+        if (intVal != expValue)
+            return MON_NOT_EXP;
+        else
+            return MON_VALID;
+    }
+    else {
+        CrFwSetAppErrCode(CrPsIllUIMonParSize);
+        return MON_VALID;
+    }
+}
+
+/* ----------------------------------------------------------------------------------- */
+CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckSI(CrPsParMonId_t parMonId) {
+    CrPsThirtytwoBit_t buffer;
+    int* bufferInt = (int*)&buffer;
+    unsigned int nElements;
+    int expValue;
+    int intVal;
+    short intShort;
+    char intChar;
+    CrPsParId_t parId;
+    size_t size;
+
+    /* Verify size of integer types */
+    assert(sizeof(int)==4);
+    assert(sizeof(short int)==2);
+    assert(sizeof(char)==1);
+
+    /* Retrieve the expected value */
+    buffer = getDpMonExpValueItem(parMonId);
+    expValue = *bufferInt;
+
+    /* Retrieve the value of the monitored parameter */
+    parId = getDpMonDataItemIdItem(parMonId);
+    size = getDpSizeElem(parId);
+    if (size == 4) {
+        getDpValueEx(parId, &intVal, &size, &nElements);
+        if (intVal != expValue)
+            return MON_NOT_EXP;
+        else
+            return MON_VALID;
+    }
+    else if (size == 2) {
+        getDpValueEx(parId, &intShort, &size, &nElements);
+        intVal = (short)intShort;
+        if (intVal != expValue)
+            return MON_NOT_EXP;
+        else
+            return MON_VALID;
+    }
+    else if (size == 1) {
+        getDpValueEx(parId, &intChar, &size, &nElements);
+        intVal = (char)intChar;
         if (intVal != expValue)
             return MON_NOT_EXP;
         else

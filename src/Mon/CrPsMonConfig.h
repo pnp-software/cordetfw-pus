@@ -67,6 +67,13 @@ typedef CrPsValCheckExpVal_t (*CrPsMonPrFnc_t)(CrPsParMonId_t);
 void CrPsMonConfigInit();
 
 /**
+ * Return the descriptor of the Parameter Monitoring Procedure.
+ *
+ * @return the descriptor of the Parameter Monitoring Procedure
+ */
+FwPrDesc_t CrPsConfigGetParMonPr();
+
+/**
  * Initialize the Parameter Monitor Definition List (PMDL).
  * The following actions are performed by this function:
  * - All period counters in the PMDL are initialized to zero
