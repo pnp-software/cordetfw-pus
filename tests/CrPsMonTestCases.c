@@ -64,19 +64,26 @@
 /*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsMonTestCase1() {
   float lowerLimFloat, upperLimFloat, valFloat;
-  int lowerLimInt, upperLimInt, valInt;
-  int lowerLimUInt, upperLimUInt, valUInt;
+  double valDouble;
+  int lowerLimInt, upperLimInt, expVal, valInt;
+  unsigned int lowerLimUInt, upperLimUInt, expValUI, valUInt;
   short valShort;
   char valChar;
   unsigned short valUShort;
   unsigned char valUChar;
-  CrPsThirtytwoBit_t* lowerLimRaw = (CrPsThirtytwoBit_t*)&lowerLimFloat;
-  CrPsThirtytwoBit_t* upperLimRaw = (CrPsThirtytwoBit_t*)&upperLimFloat;
+  CrPsThirtytwoBit_t* lowerLimRaw;
+  CrPsThirtytwoBit_t* upperLimRaw;
+  CrPsThirtytwoBit_t* expValRaw;
   CrPsParMonId_t parMonId = 1;
+
+  /* Call the initialization function of the monitoring service */
+  CrPsMonConfigInit();
 
   /* The monitor procedure for float values is verified on variable DpIdlastEvtTime */
   lowerLimFloat = 1.3;
   upperLimFloat = 1.7;
+  lowerLimRaw = (CrPsThirtytwoBit_t*)&lowerLimFloat;
+  upperLimRaw = (CrPsThirtytwoBit_t*)&upperLimFloat;
   setDpMonLowerLimitItem(parMonId, *lowerLimRaw);
   setDpMonUpperLimitItem(parMonId, *upperLimRaw);
 
@@ -101,6 +108,31 @@ CrFwBool_t CrPsMonTestCase1() {
       return 0;
   if (CrPsMonConfigOutOfLimitCheckR(parMonId) != MON_ABOVE)
       return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify check for data item of double type */
+  /* Definition of parameter monitor */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummyDouble, NULL, 0, 0, 0, 0, 0, 0);
+
+  /* Verify check for real-valued data item */
+  valDouble = 1.6;
+  if (setDpValue(DpIddummyDouble, &valDouble) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckR(parMonId) != MON_VALID)
+      return 0;
+
+  valDouble = lowerLimFloat - 0.2;
+  if (setDpValue(DpIddummyDouble, &valDouble) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckR(parMonId) != MON_BELOW)
+      return 0;
+
+  valDouble = upperLimFloat + 0.2;
+  if (setDpValue(DpIddummyDouble, &valDouble) == 0)
+      return 0;
+  if (CrPsMonConfigOutOfLimitCheckR(parMonId) != MON_ABOVE)
+      return 0;
+
 
   /* ------------------------------------------------------------- */
   /* Verify check for 32-bit integer data item */
@@ -249,33 +281,116 @@ CrFwBool_t CrPsMonTestCase1() {
   /* ------------------------------------------------------------- */
   /* Verify expected value check for 32-bit unsigned integer data item */
   CrPsMonTestCaseInitParMon(parMonId, DpIddummy32Bit, NULL, 0, 0, 0, 0, 0, 0);
-  lowerLimUInt = 120;
-  upperLimUInt = 140;
-  lowerLimRaw = (CrPsThirtytwoBit_t*)&lowerLimUInt;
-  upperLimRaw = (CrPsThirtytwoBit_t*)&upperLimUInt;
-  setDpMonLowerLimitItem(parMonId, *lowerLimRaw);
-  setDpMonUpperLimitItem(parMonId, *upperLimRaw);
+  expValUI = 35;
+  expValRaw = (CrPsThirtytwoBit_t*)&expValUI;
+  setDpMonExpValueItem(parMonId, *expValRaw);
 
-  valUInt = 128;
+  valUInt = 35;
   if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
       return 0;
-  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_VALID)
+  if (CrPsMonConfigExpValCheckUI(parMonId) != MON_VALID)
       return 0;
 
-  valUInt = (unsigned int)(lowerLimUInt - 1);
+  valUInt = valUInt + 1;
   if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
       return 0;
-  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_BELOW)
+  if (CrPsMonConfigExpValCheckUI(parMonId) != MON_NOT_EXP)
       return 0;
 
-  valUInt = (unsigned int)(upperLimUInt + 1);
-  if (setDpValue(DpIddummy32Bit, &valUInt) == 0)
+  /* ------------------------------------------------------------- */
+  /* Verify expected value check for 16-bit unsigned integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy16Bit, NULL, 0, 0, 0, 0, 0, 0);
+  expValUI = 45;
+  expValRaw = (CrPsThirtytwoBit_t*)&expValUI;
+  setDpMonExpValueItem(parMonId, *expValRaw);
+
+  valUShort = 45;
+  if (setDpValue(DpIddummy16Bit, &valUShort) == 0)
       return 0;
-  if (CrPsMonConfigOutOfLimitCheckUI(parMonId) != MON_ABOVE)
+  if (CrPsMonConfigExpValCheckUI(parMonId) != MON_VALID)
       return 0;
 
+  valUShort = valUShort + 1;
+  if (setDpValue(DpIddummy16Bit, &valUShort) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckUI(parMonId) != MON_NOT_EXP)
+      return 0;
 
+  /* ------------------------------------------------------------- */
+  /* Verify expected value check for 8-bit unsigned integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy8Bit, NULL, 0, 0, 0, 0, 0, 0);
+  expValUI = 55;
+  expValRaw = (CrPsThirtytwoBit_t*)&expValUI;
+  setDpMonExpValueItem(parMonId, *expValRaw);
 
+  valUChar = 55;
+  if (setDpValue(DpIddummy8Bit, &valUChar) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckUI(parMonId) != MON_VALID)
+      return 0;
+
+  valUChar = valUChar + 1;
+  if (setDpValue(DpIddummy8Bit, &valUChar) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckUI(parMonId) != MON_NOT_EXP)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify expected value check for 32-bit signed integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy32Bit, NULL, 0, 0, 0, 0, 0, 0);
+  expVal = 65;
+  expValRaw = (CrPsThirtytwoBit_t*)&expVal;
+  setDpMonExpValueItem(parMonId, *expValRaw);
+
+  valInt = 65;
+  if (setDpValue(DpIddummy32Bit, &valInt) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckSI(parMonId) != MON_VALID)
+      return 0;
+
+  valInt = valInt + 1;
+  if (setDpValue(DpIddummy32Bit, &valInt) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckSI(parMonId) != MON_NOT_EXP)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify expected value check for 16-bit signed integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy16Bit, NULL, 0, 0, 0, 0, 0, 0);
+  expVal = 75;
+  expValRaw = (CrPsThirtytwoBit_t*)&expVal;
+  setDpMonExpValueItem(parMonId, *expValRaw);
+
+  valShort = 75;
+  if (setDpValue(DpIddummy16Bit, &valShort) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckSI(parMonId) != MON_VALID)
+      return 0;
+
+  valShort = valShort + 1;
+  if (setDpValue(DpIddummy16Bit, &valShort) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckSI(parMonId) != MON_NOT_EXP)
+      return 0;
+
+  /* ------------------------------------------------------------- */
+  /* Verify expected value check for 8-bit signed integer data item */
+  CrPsMonTestCaseInitParMon(parMonId, DpIddummy8Bit, NULL, 0, 0, 0, 0, 0, 0);
+  expVal = 85;
+  expValRaw = (CrPsThirtytwoBit_t*)&expVal;
+  setDpMonExpValueItem(parMonId, *expValRaw);
+
+  valChar = 85;
+  if (setDpValue(DpIddummy8Bit, &valChar) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckSI(parMonId) != MON_VALID)
+      return 0;
+
+  valChar = valChar + 1;
+  if (setDpValue(DpIddummy8Bit, &valChar) == 0)
+      return 0;
+  if (CrPsMonConfigExpValCheckSI(parMonId) != MON_NOT_EXP)
+      return 0;
 
   return 1;
 }

@@ -30,6 +30,7 @@
 /**
  * Test the monitor procedures which check the value of a monitored parameter (CrPsMonConfig.h).
  * The following actions are performed:
+ * - Call the initialization function of the monitoring service
  * - Verify all possible outcomes of function #CrPsMonConfigOutOfLimitCheckR implementing the
  *   out-of-limit check for real-valued data pool items
  * - Verify all possible outcomes of function #CrPsMonConfigOutOfLimitCheckUI implementing the
