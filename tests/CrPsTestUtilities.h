@@ -67,7 +67,7 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmp(FwSmDesc_t outManager, int i,
 
 /**
  * Function to verify that the i-th entry in the POCL of an OutManager contains a service 1 failure
- * report of a sub-type, failure code, and failure data.
+ * report of a certain sub-type, failure code, and failure data.
  * When an OutComponent is loaded onto an OutManager, it is stored in its "Pending Out-Component List"
  * or POCL.
  * This function extracts the i-th entry in the POCL and checks whether its type is 1 and its sub-type,

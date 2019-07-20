@@ -10,8 +10,11 @@
  */
 
 #include "CrPsInCmdMonEnbParMonFuncCmd.h"
+#include "CrPsMonConfig.h"
 #include "DataPool/CrPsDpMon.h"
+#include "DataPool/CrPsDpVer.h"
 #include "InCmd/CrFwInCmd.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "FwPrCore.h"
 
 /* ------------------------------------------------------------------------ */

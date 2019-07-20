@@ -1290,7 +1290,7 @@ CrFwBool_t CrPsHkTestCase12() {
   CrFwCmpExecute(inCmd3s1);
   CrFwInCmdTerminate(inCmd3s1);
 
-  /* Create a (3,11) command */
+  /* Create and execute a (3,11) command */
   sid[0] = preDefSID1;          /* Loaded SID */
   inCmd3s11 = CrPsHkTestCaseMake3s9(sid, 1);
   pckt = CrFwInCmdGetPckt(inCmd3s11);

@@ -54,6 +54,29 @@
 CrFwBool_t CrPsMonTestCase1();
 
 /**
+ * Test the commands to enable and disable the parameter monitoring function.
+ * The following actions are performed:
+ * - Instantiate and execute TC(12,15) and verify that the parameter monitoring function
+ *   is enabled, the parameter monitoring function is started and the service 12 user is set
+ *   equal to the source of the TC(12,15) command
+ * - Execute again the TC(12,15) and verify that it is rejected with VER_MON_ENB
+ * - Instantiate and execute TC(12,16) and verify that the parameter monitoring function
+ *   is disabled and the parameter monitoring function is stopped
+ * - Execute again the TC(12,16) and verify that it is rejected with VER_MON_DIS
+ * .
+ * @verify Command, Enable Parameter Monitoring Function, Nominal execution
+ * @verify Command, Enable Parameter Monitoring Function, Start action fails
+ * @verify Command, Enable Parameter Monitoring Function, Nominal execution
+ * @verify Command, Enable Parameter Monitoring Function, Start action fails
+ * @verify Command Rejection Code, VER_MON_ENB
+ * @verify Command Rejection Code, VER_MON_DIS
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsMonTestCase2();
+
+
+/**
  * Convenience function to initialize a parameter monitor.
  * No checks are done on the legality of the function arguments.
  *
@@ -71,6 +94,19 @@ void CrPsMonTestCaseInitParMon(CrPsParMonId_t parMonId, CrPsParId_t parId, CrPsM
         CrPsMonPer_t per, CrPsMonPer_t repNmb, CrPsEvtId_t evtId, CrPsParId_t valDataItemId,
         CrPsValMask_t valExpVal, CrPsValMask_t valMask);
 
+/**
+ * Create a (12,15) command for test purposes.
+ * The command is configured to require full service 1 acknowledgment.
+ * @param cmdSrc the source of the command
+ * @return The (12,15) command
+ */
+FwSmDesc_t CrPsMonTestCaseMake12s15(CrFwDestSrc_t cmdSrc);
+
+/**
+ * Create a (12,16) command for test purposes.
+ * @return The (12,16) command
+ */
+FwSmDesc_t CrPsMonTestCaseMake12s16();
 
 
 #endif /* CRPS_MONTESTCASES_H_ */

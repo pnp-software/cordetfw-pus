@@ -10,8 +10,11 @@
  */
 
 #include "CrPsInCmdMonDisParMonFuncCmd.h"
+#include "CrPsMonConfig.h"
 #include "DataPool/CrPsDpMon.h"
+#include "DataPool/CrPsDpVer.h"
 #include "InCmd/CrFwInCmd.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "FwPrCore.h"
 
 /* ------------------------------------------------------------------ */
@@ -28,7 +31,6 @@ void CrPsInCmdMonDisParMonFuncCmdStartAction(FwSmDesc_t smDesc) {
 
 /* ------------------------------------------------------------------ */
 void CrPsInCmdMonDisParMonFuncCmdProgressAction(FwSmDesc_t smDesc) {
-    CrFwDestSrc_t src;
 
     /* Stop the Parameter Monitoring Function */
     FwPrStop(CrPsConfigGetParMonPr());
