@@ -62,4 +62,5 @@ void CrPsInCmdHkDelHkCmdProgressAction(FwSmDesc_t smDesc) {
   if (progressStepId < nSid)
     CrFwInCmdSetProgressActionCompleted(smDesc, 0);
   else
-    CrFwInCmdSetProgressActionCompleted(smDesc, 1);}
+    CrFwInCmdSetProgressActionCompleted(smDesc, 1);
+}

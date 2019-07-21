@@ -79,6 +79,8 @@ FwPrDesc_t CrPsConfigGetParMonPr();
  * - All period counters in the PMDL are initialized to zero
  * - All repetition counters in the PMDL are initialized to zero
  * - All checking status in the PMDL are initialized to UNCHECKED
+ * - The number of available parameter monitors is set to MON_N_PMON
+ * - The number of enabled parameter monitors is set to zero
  * .
  */
 void CrPsMonConfigInitPMDL();

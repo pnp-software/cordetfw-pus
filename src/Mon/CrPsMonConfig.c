@@ -60,6 +60,8 @@ void CrPsMonConfigInitPMDL() {
       setDpMonPerCntItem(i,0);
       setDpMonRepCntItem(i,0);
       setDpMonCheckStatusItem(i,MON_UNCHECKED);
+      setDpMonNmbAvailParMon(MON_N_PMON);
+      setDpMonNmbEnbParMon(0);
   }
 }
 

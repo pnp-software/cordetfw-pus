@@ -11,34 +11,62 @@
 
 #include "CrPsInCmdMonAddParMonDefCmd.h"
 
-/**
- * Start action of TC(12,5) MonAddParMonDefCmd.
- * Run the procedure Start Action of (12,5) Command of figure
- * \ref{fig:Cmd12s5Start}
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonAddParMonDefCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonAddParMonDefCmdStartAction");
-   return ;
+/* ------------------------------------------------------------------------- */
+void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
+    CrFwPckt_t monPckt = CrFwInCmdGetPckt(smDesc);
+    CrPsNParMon_t nPmon;
+    CrPsParMonId_t parMonId, valCheckParId;
+    CrPsParId_t parId;
+
+    CrFwProgressStepId_t progressStepId;
+    short int rdlPos;
+
+    /* Get the progress step identifier */
+    progressStepId = CrFwInCmdGetProgressStepId(smDesc);
+
+    /* Get the number of SIDs in the command */
+    nSid = getHkEnbHkCmdN(hkPckt);
+
+    /* Get the SID to be process in the current cycle */
+    sid = getHkEnbHkCmdSID(hkPckt, progressStepId);
+
+    /* Get the RDL slot for the argument SID */
+    rdlPos = CrPsHkConfigGetRdlSlot(sid);
+
+    /* Clear SID (if the SID is loaded in the RDL and is disabled) */
+    if (rdlPos > -1)
+      if (getDpHkIsEnabledItem(rdlPos) == 0)
+        CrPsHkConfigClearSid(sid);
+
+    if (rdlPos < 0) {
+      setDpVerFailData(sid);
+      CrFwSetSmOutcome(smDesc, VER_ILL_SID);
+    }
+
+    if (getDpHkIsEnabledItem(rdlPos) == 1) {
+      setDpVerFailData(sid);
+      CrFwSetSmOutcome(smDesc, VER_ENB_SID);
+    }
+
+    /* Update progress step identifier */
+    progressStepId++;
+    CrFwInCmdSetProgressStepId(smDesc, progressStepId);
+
+    /* Set completion outcome */
+    if (progressStepId < nSid)
+      CrFwInCmdSetProgressActionCompleted(smDesc, 0);
+    else
+      CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
 
-/**
- * Progress action of TC(12,5) MonAddParMonDefCmd.
- * For all parameter monitor definitions which have been accepted by the start
- * action: add the definition to the Parameter Monitor Definition List (PMDL),
- * set the checking status of the new parameter monitor to 'unchecked', reset
- * its repetition counter and phase counter to zero. Decrement the data pool
- * variable representing the number of remaining available entries in the PMDL
- * by the number of added parameter monitors. Set the action outcome to
- * 'completed'.
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonAddParMonDefCmdProgressAction");
-   return ;
-}
 
+
+/*------------------------------------------------------------------------------------*/
+void CrPsInCmdMonAddParMonDefCmdTerminationAction(FwSmDesc_t smDesc) {
+    CrFwProgressStepId_t nOfFailedSteps = CrFwInCmdGetNOfProgressFailure(smDesc);
+    if (nOfFailedSteps > 0) {
+      setDpVerFailData(nOfFailedSteps);
+      CrFwSetSmOutcome(smDesc, VER_MI_S12_FD);
+    } else
+      CrFwSetSmOutcome(smDesc, 1);
+}
