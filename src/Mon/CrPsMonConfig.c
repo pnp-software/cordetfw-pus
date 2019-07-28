@@ -16,6 +16,7 @@
 #include "CrPsMonConfig.h"
 #include "CrPsMonFncPr.h"
 #include "Pckt/CrPsPcktMon.h"
+#include "DataPool/CrPsDpMon.h"
 #include "CrPsTypes.h"
 #include "CrPsServTypeId.h"
 #include "CrFwUserConstants.h"
@@ -80,9 +81,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId) {
   assert(sizeof(double)==8);
 
   /* Retrieve the monitoring limits */
-  buffer = getDpMonLowerLimitItem(parMonId);
+  buffer = getDpMonLowerLimItem(parMonId);
   lowerLim = *bufferFloat;
-  buffer = getDpMonUpperLimitItem(parMonId);
+  buffer = getDpMonUpperLimItem(parMonId);
   upperLim = *bufferFloat;
 
   /* Retrieve the value of the monitored parameter */
@@ -126,9 +127,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId) 
   assert(sizeof(char)==1);
 
   /* Retrieve the monitoring limits */
-  buffer = getDpMonLowerLimitItem(parMonId);
+  buffer = getDpMonLowerLimItem(parMonId);
   lowerLim = *bufferInt;
-  buffer = getDpMonUpperLimitItem(parMonId);
+  buffer = getDpMonUpperLimItem(parMonId);
   upperLim = *bufferInt;
 
   /* Retrieve the value of the monitored parameter */
@@ -181,9 +182,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId) 
   assert(sizeof(unsigned char)==1);
 
   /* Retrieve the monitoring limits */
-  buffer = getDpMonLowerLimitItem(parMonId);
+  buffer = getDpMonLowerLimItem(parMonId);
   lowerLim = *bufferInt;
-  buffer = getDpMonUpperLimitItem(parMonId);
+  buffer = getDpMonUpperLimItem(parMonId);
   upperLim = *bufferInt;
 
   /* Retrieve the value of the monitored parameter */
@@ -220,11 +221,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId) 
 }
 
 /* ----------------------------------------------------------------------------------- */
-CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckUI(CrPsParMonId_t parMonId) {
-    CrPsThirtytwoBit_t buffer;
-    unsigned int* bufferInt = (unsigned int*)&buffer;
+CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId) {
     unsigned int nElements;
-    unsigned int expValue;
+    CrPsExpValue_t expValue, expValueMask, buffer;
     unsigned int intVal;
     unsigned short intShort;
     unsigned char intChar;
@@ -236,91 +235,72 @@ CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckUI(CrPsParMonId_t parMonId) {
     assert(sizeof(unsigned short int)==2);
     assert(sizeof(unsigned char)==1);
 
-    /* Retrieve the expected value */
-    buffer = getDpMonExpValueItem(parMonId);
-    expValue = *bufferInt;
+    /* Retrieve the expected value and its mask */
+    expValue = getDpMonExpValueItem(parMonId);
+    expValueMask = getDpMonExpValueMaskItem(parMonId);;
 
     /* Retrieve the value of the monitored parameter */
     parId = getDpMonDataItemIdItem(parMonId);
     size = getDpSizeElem(parId);
-    if (size == 4) {
-        getDpValueEx(parId, &intVal, &size, &nElements);
-        if (intVal != expValue)
-            return MON_NOT_EXP;
-        else
-            return MON_VALID;
+    switch (size) {
+        case 4:
+            getDpValueEx(parId, &intVal, &size, &nElements);
+            buffer = intVal;
+            break;
+        case 2:
+            getDpValueEx(parId, &intShort, &size, &nElements);
+            buffer = intShort;
+            break;
+        case 1:
+            getDpValueEx(parId, &intChar, &size, &nElements);
+            buffer = intChar;
+            break;
+        default:
+            assert(0);
     }
-    else if (size == 2) {
-        getDpValueEx(parId, &intShort, &size, &nElements);
-        intVal = (unsigned short)intShort;
-        if (intVal != expValue)
-            return MON_NOT_EXP;
-        else
-            return MON_VALID;
-    }
-    else if (size == 1) {
-        getDpValueEx(parId, &intChar, &size, &nElements);
-        intVal = (unsigned char)intChar;
-        if (intVal != expValue)
-            return MON_NOT_EXP;
-        else
-            return MON_VALID;
-    }
-    else {
-        CrFwSetAppErrCode(CrPsIllUIMonParSize);
+
+    if ((expValueMask & buffer) != expValue)
+        return MON_NOT_EXP;
+    else
         return MON_VALID;
-    }
 }
 
-/* ----------------------------------------------------------------------------------- */
-CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckSI(CrPsParMonId_t parMonId) {
-    CrPsThirtytwoBit_t buffer;
-    int* bufferInt = (int*)&buffer;
-    unsigned int nElements;
-    int expValue;
-    int intVal;
-    short intShort;
-    char intChar;
-    CrPsParId_t parId;
-    size_t size;
+/* --------------------------------------------------------------------------- */
+void CrPsMonConfigInitParMon(CrPsParMonId_t parMonId, CrPsParId_t parId, CrPsMonPrType_t monPrType,
+        CrPsMonPer_t per, CrPsMonPer_t repNmb, CrPsParId_t valDataItemId,
+        CrPsValMask_t valExpVal, CrPsValMask_t valMask, CrPsThirtytwoBit_t* lim1,
+        CrPsEvtId_t lim1Eid, CrPsThirtytwoBit_t* lim2, CrPsEvtId_t lim2Eid) {
 
-    /* Verify size of integer types */
-    assert(sizeof(int)==4);
-    assert(sizeof(short int)==2);
-    assert(sizeof(char)==1);
+    setDpMonDataItemIdItem(parMonId, parId);
+    setDpMonPerItem(parMonId, per);
+    setDpMonRepNmbItem(parMonId, repNmb);
+    setDpMonValDataItemIdItem(parMonId, valDataItemId);
+    setDpMonValExpValueItem(parMonId, valExpVal);
+    setDpMonValMaskItem(parMonId, valMask);
+    setDpMonMonPrTypeItem(parMonId, monPrType);
+    setDpMonLowerLimEvtIdItem(parMonId, lim1Eid);
+    setDpMonUpperLimEvtIdItem(parMonId, lim2Eid);
 
-    /* Retrieve the expected value */
-    buffer = getDpMonExpValueItem(parMonId);
-    expValue = *bufferInt;
-
-    /* Retrieve the value of the monitored parameter */
-    parId = getDpMonDataItemIdItem(parMonId);
-    size = getDpSizeElem(parId);
-    if (size == 4) {
-        getDpValueEx(parId, &intVal, &size, &nElements);
-        if (intVal != expValue)
-            return MON_NOT_EXP;
-        else
-            return MON_VALID;
-    }
-    else if (size == 2) {
-        getDpValueEx(parId, &intShort, &size, &nElements);
-        intVal = (short)intShort;
-        if (intVal != expValue)
-            return MON_NOT_EXP;
-        else
-            return MON_VALID;
-    }
-    else if (size == 1) {
-        getDpValueEx(parId, &intChar, &size, &nElements);
-        intVal = (char)intChar;
-        if (intVal != expValue)
-            return MON_NOT_EXP;
-        else
-            return MON_VALID;
-    }
-    else {
-        CrFwSetAppErrCode(CrPsIllUIMonParSize);
-        return MON_VALID;
+    switch (monPrType) {
+        case MON_PR_OOL_R:
+            monFncPr[parMonId] = &CrPsMonConfigOutOfLimitCheckR;
+            setDpMonLowerLimItem(parMonId, *lim1);
+            setDpMonUpperLimItem(parMonId, *lim2);
+            break;
+        case MON_PR_OOL_UI:
+            monFncPr[parMonId] = &CrPsMonConfigOutOfLimitCheckUI;
+            setDpMonLowerLimItem(parMonId, *lim1);
+            setDpMonUpperLimItem(parMonId, *lim2);
+            break;
+        case MON_PR_OOL_SI:
+            monFncPr[parMonId] = &CrPsMonConfigOutOfLimitCheckSI;
+            setDpMonLowerLimItem(parMonId, *lim1);
+            setDpMonUpperLimItem(parMonId, *lim2);
+            break;
+        case MON_PR_EXP:
+            monFncPr[parMonId] = &CrPsMonConfigExpValCheck;
+            setDpMonExpValueMaskItem(parMonId, *lim1);
+            setDpMonExpValueItem(parMonId, *lim2);
+            break;
     }
 }

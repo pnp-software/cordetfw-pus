@@ -10,6 +10,16 @@
  */
 
 #include "CrPsInCmdMonAddParMonDefCmd.h"
+#include "CrPsMonConfig.h"
+#include "Pckt/CrPsPcktMon.h"
+#include "DataPool/CrPsDpMon.h"
+#include "DataPool/CrPsDpVer.h"
+#include "DataPool/CrPsDp.h"
+#include "InCmd/CrFwInCmd.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "FwPrCore.h"
+
+#include <assert.h>
 
 /* ------------------------------------------------------------------------- */
 void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
@@ -17,43 +27,71 @@ void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
     CrPsNParMon_t nPmon;
     CrPsParMonId_t parMonId, valCheckParId;
     CrPsParId_t parId;
+    CrPsMonPer_t repNmb, monPer;
+    CrPsExpValue_t valCheckMask, valCheckExpVal;
+    CrPsMonCheckType_t checkType;
+    CrPsThirtytwoBit_t checkTypeData1, checkTypeData3;
+    CrPsEvtId_t checkTypeData2, checkTypeData4;
+    CrPsMonPrType_t monPrType;
+    CrPsDpItemSignedness_t signedness;
 
     CrFwProgressStepId_t progressStepId;
-    short int rdlPos;
 
     /* Get the progress step identifier */
     progressStepId = CrFwInCmdGetProgressStepId(smDesc);
 
-    /* Get the number of SIDs in the command */
-    nSid = getHkEnbHkCmdN(hkPckt);
+    /* Get the number of PMONs in the command */
+    nPmon = getMonAddParMonDefCmdNParMon(monPckt);
 
-    /* Get the SID to be process in the current cycle */
-    sid = getHkEnbHkCmdSID(hkPckt, progressStepId);
+    /* Get the PMON to be process in the current cycle */
+    parMonId = getMonAddParMonDefCmdParMonId(monPckt, progressStepId);
 
-    /* Get the RDL slot for the argument SID */
-    rdlPos = CrPsHkConfigGetRdlSlot(sid);
+    /* Get the parameters associated to the parMon */
+    parId = getMonAddParMonDefCmdMonParId(monPckt, progressStepId);
+    signedness = getDpItemSignedness(parId);
+    repNmb = getMonAddParMonDefCmdRepNmb(monPckt, progressStepId);
+    valCheckParId = getMonAddParMonDefCmdValCheckParId(monPckt, progressStepId);
+    valCheckMask = getMonAddParMonDefCmdValCheckParMask(monPckt, progressStepId);
+    valCheckExpVal = getMonAddParMonDefCmdValCheckExpVal(monPckt, progressStepId);
+    monPer = getMonAddParMonDefCmdMonPer(monPckt, progressStepId);
+    checkType = getMonAddParMonDefCmdCheckType(monPckt, progressStepId);
+    checkTypeData1 = getMonAddParMonDefCmdCheckTypeData1(monPckt, progressStepId);
+    checkTypeData2 = getMonAddParMonDefCmdCheckTypeData2(monPckt, progressStepId);
+    checkTypeData3 = getMonAddParMonDefCmdCheckTypeData3(monPckt, progressStepId);
+    checkTypeData4 = getMonAddParMonDefCmdCheckTypeData4(monPckt, progressStepId);
 
-    /* Clear SID (if the SID is loaded in the RDL and is disabled) */
-    if (rdlPos > -1)
-      if (getDpHkIsEnabledItem(rdlPos) == 0)
-        CrPsHkConfigClearSid(sid);
-
-    if (rdlPos < 0) {
-      setDpVerFailData(sid);
-      CrFwSetSmOutcome(smDesc, VER_ILL_SID);
+    /* Determine the Monitoring Procedure Type */
+    switch (checkType) {
+        case EXP_VAL_CHECK:
+            monPrType = MON_PR_EXP;
+            break;
+        case LIM_CHECK:
+            switch (signedness) {
+                case crDpTypeUnsigned:
+                    monPrType = MON_PR_OOL_UI;
+                    break;
+                case crDpTypeSigned:
+                    monPrType = MON_PR_OOL_SI;
+                    break;
+                case crDpTypeReal:
+                    monPrType = MON_PR_OOL_R;
+                    break;
+            }
+            break;
+        case DEL_CHECK:
+            assert(0);
     }
 
-    if (getDpHkIsEnabledItem(rdlPos) == 1) {
-      setDpVerFailData(sid);
-      CrFwSetSmOutcome(smDesc, VER_ENB_SID);
-    }
+    CrPsMonConfigInitParMon(parMonId, parId, monPrType, monPer, repNmb, valCheckParId,
+            valCheckExpVal, valCheckMask, &checkTypeData1, checkTypeData2, &checkTypeData3, checkTypeData4);
+
 
     /* Update progress step identifier */
     progressStepId++;
     CrFwInCmdSetProgressStepId(smDesc, progressStepId);
 
     /* Set completion outcome */
-    if (progressStepId < nSid)
+    if (progressStepId < nPmon)
       CrFwInCmdSetProgressActionCompleted(smDesc, 0);
     else
       CrFwInCmdSetProgressActionCompleted(smDesc, 1);

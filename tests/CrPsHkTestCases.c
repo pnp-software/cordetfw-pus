@@ -1200,7 +1200,7 @@ CrFwBool_t CrPsHkTestCase11() {
   CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
   CrPsSID_t sid[3];
   CrPsSID_t preDefSID1 = 2;
-  int nOfOutCmp, rdlPos;
+  int rdlPos;
   CrFwCounterU1_t nOfGenOutCmp;
   CrFwPckt_t pckt;
 
@@ -1232,7 +1232,6 @@ CrFwBool_t CrPsHkTestCase11() {
   inCmd3s28 = CrPsHkTestCaseMake3s27(sid, 1);
   pckt = CrFwInCmdGetPckt(inCmd3s28);
   CrFwPcktSetServSubType(pckt, HKONESHOTDIAGCMD_STYPE);
-  nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
   CrFwCmpExecute(inCmd3s28);
   CrFwInCmdTerminate(inCmd3s28);
 

@@ -51,7 +51,7 @@
  * - It performs the monitoring check and returns its outcome
  * .
  */
-typedef CrPsValCheckExpVal_t (*CrPsMonPrFnc_t)(CrPsParMonId_t);
+typedef CrPsParMonCheckStatus_t (*CrPsMonPrFnc_t)(CrPsParMonId_t);
 
 /**
  * Initialize the Parameter Monitor Definition List (PMDL).
@@ -166,32 +166,35 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId);
 CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
 
 /**
- * Monitor Procedure implementing an expected value check for unsigned integers.
- * This function returns:
- * - MON_NOT_EXP if the parameter value differs from its expected value
+ * Monitor Procedure implementing an expected value check.
+ * This function proceed as follows:
+ * - It masks the monitored parameter with its "expected value check mask"
+ * - It compares the result of the masking with the expected value of the
+ *   monitored parameter
+ * - it returns MON_NOT_EXP if expected and masked value do not match and
  * - MON_VALID in all other cases
  * .
+ * Both the mask and the expected value are of type #CrPsExpValue_t.
+ * The monitored value must be of a type with a size not larger than the size
+ * of #CrPsExpValue_t.
+ * If the monitored value v has a type with a size smaller than #CrPsExpValue_t,
+ * it is first loaded in a variable of type #CrPsExpValue_t and then it is masked.
+ *
+ * This function assumes the monitored data item to be of unsigned type
+ * and to have a size of: 1, 2 or 4.
+ * If the latter assumption is not satisfied, an assertion violation is declared.
+ *
  * The expected value is stored as parameters in the data pool
  * in array expValue[].
+ * Its check mask is stored in the data pool array expValueMask[].
+ *
+ * @constraint Only data pool items of unsigned integer type may be subjected to
+ * an Expected Value Monitoring Check.
  *
  * @param parMonId the identifier of the parameter monitor
  * @return the outcome of the limit check
  */
-CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckUI(CrPsParMonId_t parMonId);
-
-/**
- * Monitor Procedure implementing an expected value check for signed integers.
- * This function returns:
- * - MON_NOT_EXP if the parameter value differs from its expected value
- * - MON_VALID in all other cases
- * .
- * The expected value is stored as parameters in the data pool
- * in array expValue[].
- *
- * @param parMonId the identifier of the parameter monitor
- * @return the outcome of the limit check
- */
-CrPsParMonCheckStatus_t CrPsMonConfigExpValCheckSI(CrPsParMonId_t parMonId);
+CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId);
 
 /**
  * Return the function implementing the monitor procedure for the i-th
@@ -212,6 +215,37 @@ CrPsMonPrFnc_t CrPsMonConfigGetMonPrFnc(CrPsParMonId_t i);
  * parameter monitor.
  */
 void CrPsMonConfigSetMonPrFnc(CrPsParMonId_t i, CrPsMonPrFnc_t monPrFnc);
+
+/**
+ * Define a parameter monitor.
+ * This function is used by the (12,5) command and can be used by the user application
+ * during the application initialization phase to define the default parameter monitors.
+ * No checks are done on the legality of the function arguments and no checks are done
+ * to verify that the selected parameter monitor identifier is unused.
+ *
+ * @constraint The application shall use function #CrPsMonConfigInitParMon during the
+ * application initialization phase to define the default parameter monitors.
+ *
+ * @param parMonId the identifier of the parameter monitor
+ * @param parId the identifier of the data pool item being monitored
+ * @param monPrType the type of monitor procedure
+ * @param per the period of the monitor
+ * @param repNmb the repetition number of the monitor
+ * @param valDataItemId the identifier of the data item used for validity check of parameter monitor
+ * @param valExpVal rxpected value for validity check of parameter monitor
+ * @param valMask the mask used for validity check of parameter monitor
+ * @param lim1 the low limit (for out-of-limits monitors) or the mask for the expected value check
+ * @param lim1Eid the event identifier for the low limit (for out-of-limits monitors) or
+ * for the expected value (for expected value monitors)
+ * @param lim2 the upper limit (for out-of-limits monitors) or the expected value
+ * for the expected value check
+ * @param lim2Eid the event identifier for the upper limit (for out-of-limits monitors) or
+ * don't care for expected value monitors1
+ */
+void CrPsMonConfigInitParMon(CrPsParMonId_t parMonId, CrPsParId_t parId, CrPsMonPrType_t monPrType,
+        CrPsMonPer_t per, CrPsMonPer_t repNmb, CrPsParId_t valDataItemId,
+        CrPsValMask_t valExpVal, CrPsValMask_t valMask, CrPsThirtytwoBit_t* lim1,
+        CrPsEvtId_t lim1Eid, CrPsThirtytwoBit_t* lim2, CrPsEvtId_t lim2Eid);
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSMONCONFIG_H_ */

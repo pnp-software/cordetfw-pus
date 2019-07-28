@@ -77,24 +77,6 @@ CrFwBool_t CrPsMonTestCase2();
 
 
 /**
- * Convenience function to initialize a parameter monitor.
- * No checks are done on the legality of the function arguments.
- *
- * @param parMonId the identifier of the parameter monitor
- * @param parId the identifier of the data pool item being monitored
- * @param monPrFnc the pointer to the function implementing the monitoring procedure
- * @param per the period of the monitor
- * @param repNmb the repetition number of the monitor
- * @param evtId the identifier of the event associated to the monitor
- * @param valDataItemId the identifier of the data item used for validity check of parameter monitor
- * @param valExpVal rxpected value for validity check of parameter monitor
- * @param valMask the mask used for validity check of parameter monitor
- */
-void CrPsMonTestCaseInitParMon(CrPsParMonId_t parMonId, CrPsParId_t parId, CrPsMonPrFnc_t monPrFnc,
-        CrPsMonPer_t per, CrPsMonPer_t repNmb, CrPsEvtId_t evtId, CrPsParId_t valDataItemId,
-        CrPsValMask_t valExpVal, CrPsValMask_t valMask);
-
-/**
  * Create a (12,15) command for test purposes.
  * The command is configured to require full service 1 acknowledgment.
  * @param cmdSrc the source of the command
