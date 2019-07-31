@@ -10,33 +10,69 @@
  */
 
 #include "CrPsInCmdMonDelParMonDefCmd.h"
+#include "CrPsMonConfig.h"
+#include "Pckt/CrPsPcktMon.h"
+#include "DataPool/CrPsDpMon.h"
+#include "DataPool/CrPsDpVer.h"
+#include "DataPool/CrPsDp.h"
+#include "InCmd/CrFwInCmd.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "FwPrCore.h"
 
-/**
- * Start action of TC(12,6) MonDelParMonDefCmd.
- * Run the procedure Start Action of (12,6) Command of figure
- * \ref{fig:Cmd12s6Start}
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonDelParMonDefCmdStartAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonDelParMonDefCmdStartAction");
-   return ;
-}
+void CrPsInCmdMonDelParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
+    CrFwPckt_t monPckt = CrFwInCmdGetPckt(smDesc);
+    CrPsNParMon_t nPmon;
+    CrPsParMonId_t parMonId, nmbAvailParMon;
 
-/**
- * Progress action of TC(12,6) MonDelParMonDefCmd.
- * For all parameter monitor identifiers which have been accepted by the Start
- * Action: delete the parameter monitor from the Parameter Monitor Definition
- * List (PMDL). Increment the data pool variable representing the number of
- * remaining available PMDL entries by the number of deleted parameter
- * monitoring definitions. Set the action outcome to 'completed'.
- * @param smDesc The state machine descriptor.
- */
-void CrPsInCmdMonDelParMonDefCmdProgressAction(FwSmDesc_t smDesc)
-{
-   CRFW_UNUSED(smDesc);
-   DBG("CrPsInCmdMonDelParMonDefCmdProgressAction");
-   return ;
+    CrFwProgressStepId_t progressStepId;
+
+    /* Get the progress step identifier */
+    progressStepId = CrFwInCmdGetProgressStepId(smDesc);
+
+    /* Get the number of PMONs in the command */
+    nPmon = getMonDelParMonDefCmdNParMon(monPckt);
+
+    /* Get the PMON to be processed in the current cycle */
+    parMonId = getMonDelParMonDefCmdParMonId(monPckt, progressStepId);
+
+    /* Load the PMON ID in verFailData (just in case the step fails) */
+    setDpVerFailData(parMonId);
+
+    /* Provisionally set the action outcome to 'success' */
+    CrFwSetSmOutcome(smDesc, 1);
+
+    /* Check whether the PMON is in use */
+    if (getDpMonDataItemIdItem(parMonId) == 0)
+        CrFwSetSmOutcome(smDesc, VER_ILL_MON);
+
+    /* Check legality of PMON identifier */
+    if (parMonId == 0)
+        CrFwSetSmOutcome(smDesc, VER_ILL_MON);
+
+    if (parMonId > MON_N_PMON)
+        CrFwSetSmOutcome(smDesc, VER_ILL_MON);
+
+    /* Check whether the PMON is enabled */
+    if (getDpMonParMonEnbStatusItem(parMonId) == ENABLED)
+        CrFwSetSmOutcome(smDesc, VER_MON_ENB);
+
+    /* TBD: Check whether the PMON belongs to an FMON */
+
+    /* If all checks were passed, delete PMON and increment number of available PMONs */
+    if (CrFwGetSmOutcome(smDesc) == 1) {
+        setDpMonDataItemIdItem(parMonId, 1);
+        nmbAvailParMon = getDpMonNmbAvailParMon();
+        setDpMonNmbAvailParMon(nmbAvailParMon+1);
+    }
+
+    /* Update progress step identifier */
+    progressStepId++;
+    CrFwInCmdSetProgressStepId(smDesc, progressStepId);
+
+    /* Set completion outcome */
+    if (progressStepId < nPmon)
+      CrFwInCmdSetProgressActionCompleted(smDesc, 0);
+    else
+      CrFwInCmdSetProgressActionCompleted(smDesc, 1);
 }
 

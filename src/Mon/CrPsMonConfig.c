@@ -80,6 +80,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckR(CrPsParMonId_t parMonId) {
   assert(sizeof(float)==4);
   assert(sizeof(double)==8);
 
+  /* parMonId is in range 1 to MON_N_PMON but index starts at zero */
+  parMonId = parMonId - 1;
+
   /* Retrieve the monitoring limits */
   buffer = getDpMonLowerLimItem(parMonId);
   lowerLim = *bufferFloat;
@@ -125,6 +128,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckSI(CrPsParMonId_t parMonId) 
   assert(sizeof(int)==4);
   assert(sizeof(short int)==2);
   assert(sizeof(char)==1);
+
+  /* parMonId is in range 1 to MON_N_PMON but index starts at zero */
+  parMonId = parMonId - 1;
 
   /* Retrieve the monitoring limits */
   buffer = getDpMonLowerLimItem(parMonId);
@@ -181,6 +187,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId) 
   assert(sizeof(unsigned short int)==2);
   assert(sizeof(unsigned char)==1);
 
+  /* parMonId is in range 1 to MON_N_PMON but index starts at zero */
+  parMonId = parMonId - 1;
+
   /* Retrieve the monitoring limits */
   buffer = getDpMonLowerLimItem(parMonId);
   lowerLim = *bufferInt;
@@ -235,6 +244,9 @@ CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId) {
     assert(sizeof(unsigned short int)==2);
     assert(sizeof(unsigned char)==1);
 
+    /* parMonId is in range 1 to MON_N_PMON but index starts at zero */
+    parMonId = parMonId - 1;
+
     /* Retrieve the expected value and its mask */
     expValue = getDpMonExpValueItem(parMonId);
     expValueMask = getDpMonExpValueMaskItem(parMonId);;
@@ -270,6 +282,9 @@ void CrPsMonConfigInitParMon(CrPsParMonId_t parMonId, CrPsParId_t parId, CrPsMon
         CrPsMonPer_t per, CrPsMonPer_t repNmb, CrPsParId_t valDataItemId,
         CrPsValMask_t valExpVal, CrPsValMask_t valMask, CrPsThirtytwoBit_t* lim1,
         CrPsEvtId_t lim1Eid, CrPsThirtytwoBit_t* lim2, CrPsEvtId_t lim2Eid) {
+
+    /* parMonId is in range 1 to MON_N_PMON but index starts at zero */
+    parMonId = parMonId - 1;
 
     setDpMonDataItemIdItem(parMonId, parId);
     setDpMonPerItem(parMonId, per);
