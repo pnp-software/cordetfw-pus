@@ -19,6 +19,11 @@
 #ifndef CRPS_MONTESTCASES_H_
 #define CRPS_MONTESTCASES_H_
 
+/** Lower limit for test (12,5) commands */
+#define MON_TEST_CASE_LIM1 10
+/** Upper limit for test (12,5) commands */
+#define MON_TEST_CASE_LIM2 20
+
 /* Include framework files */
 #include "CrFwConstants.h"
 /* Include FW Profile files */
@@ -75,6 +80,52 @@ CrFwBool_t CrPsMonTestCase1();
  */
 CrFwBool_t CrPsMonTestCase2();
 
+/**
+ * Test the rejection cases of the command to add a paremeter monitor.
+ * The following actions are performed:
+ * - Configure the PMDL to be full, instantiate and execute a TC(12,5) and verify it
+ *   fails with code VER_PMDL_FULL
+ * - Configure the PMDL to be empty full, instantiate and execute a TC(12,5) carrying two PMONs
+ *   with illegal parameter identifiers and verify they fail with code VER_ILL_MON
+ * - Instantiate and execute a TC(12,5) carrying two PMONs
+ *   with illegal identifiers of monitored parameters and verify they fail with code VER_MON_ILL_DI
+ * - Instantiate and execute a TC(12,5) carrying two PMONs
+ *   with illegal identifiers of validity parameters and verify they fail with code VER_ILL_VAL_DI
+ * .
+ * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to PMDL full
+ * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to illegal PMON identifier
+ * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to illegal validity parameter identifier
+ * @verify Command Rejection Code, VER_PMDL_FULL
+ * @verify Command Rejection Code, VER_ILL_MON
+ * @verify Command Rejection Code, VER_ILL_VAL_DI
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsMonTestCase3();
+
+/**
+ * Create a (12,5) command for test purposes.
+ * The command is configured as follows:
+ * - The monitor is of type out-of-limit
+ * - The monitored parameter is assumed to be of unsigned integer type and
+ *   the monitoring limits are set to MON_TEST_CASE_LIM1 and MON_TEST_CASE_LIM2
+ * - The expected value for validity check of the parameter monitors is 1
+ * - The mask used for validity check of the parameter monitors is 1
+ * - full service 1 acknowledgment is required.
+ * .
+ * @param NParMon the number of parameter monitors to be added
+ * @param parMonId the array of identifiers of the parameter monitor
+ * @param parId the array of identifiers of the data pool item being monitored
+ * @param per the array of periods of the monitor
+ * @param repNmb the array of repetition numbers of the monitor
+ * @param valDataItemId the array of identifiers of the data item used for validity check of parameter monitor
+ * @param lim1Eid the array of event identifiers for the low limit
+ * @param lim2Eid the array of event identifiers for the upper limit
+ * @return The (12,5) command
+ */
+FwSmDesc_t CrPsMonTestCaseMake12s15(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId, CrPsParId_t* parId,
+        CrPsMonPer_t* per, CrPsMonPer_t* repNmb, CrPsParId_t* valDataItemId,
+        CrPsEvtId_t* lim1Eid, CrPsEvtId_t* lim2Eid);
 
 /**
  * Create a (12,15) command for test purposes.

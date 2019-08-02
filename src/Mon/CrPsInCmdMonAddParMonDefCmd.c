@@ -89,10 +89,10 @@ void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
 
     /* Checl legality of validity data item identifier */
     if (valCheckParId < DpIdParamsLowest)
-        CrFwSetSmOutcome(smDesc, VER_MON_ILL_DI);
+        CrFwSetSmOutcome(smDesc, VER_ILL_VAL_DI);
 
     if (valCheckParId > DpIdVarsHighest)
-        CrFwSetSmOutcome(smDesc, VER_MON_ILL_DI);
+        CrFwSetSmOutcome(smDesc, VER_ILL_VAL_DI);
 
     /* Determine the Monitoring Procedure Type */
     switch (checkType) {

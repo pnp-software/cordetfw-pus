@@ -454,6 +454,45 @@ CrFwBool_t CrPsMonTestCase2() {
 }
 
 /* --------------------------------------------------------------------------- */
+FwSmDesc_t CrPsMonTestCaseMake12s15(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId, CrPsParId_t* parId,
+        CrPsMonPer_t* per, CrPsMonPer_t* repNmb, CrPsParId_t* valDataItemId,
+        CrPsEvtId_t* lim1Eid, CrPsEvtId_t* lim2Eid) {
+    CrFwPckt_t pckt;
+    CrFwCrc_t crc;
+    int i;
+
+    pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+    CrFwPcktSetCmdRepType(pckt,crCmdType);
+    CrFwPcktSetServType(pckt,MON_TYPE);
+    CrFwPcktSetServSubType(pckt,MONADDPARMONDEFCMD_STYPE);
+    CrFwPcktSetSrc(pckt,0);
+    CrFwPcktSetDest(pckt,0);
+    CrFwPcktSetGroup(pckt,1);
+    CrFwPcktSetAckLevel(pckt,1,1,1,1);
+    CrFwPcktSetSeqCnt(pckt,1);
+    setMonAddParMonDefCmdNParMon(pckt, NParMon);
+    for (i=0; i<NParMon; i++) {
+        setMonAddParMonDefCmdParMonId(pckt, i, parMonId[i]);
+        setMonAddParMonDefCmdMonParId(pckt, i, parId[i]);
+        setMonAddParMonDefCmdValCheckParId(pckt, i, valDataItemId[i]);
+        setMonAddParMonDefCmdValCheckParMask(pckt, i, 1);
+        setMonAddParMonDefCmdValCheckExpVal(pckt, i, 1);
+        setMonAddParMonDefCmdMonPer(pckt, i, per[i]);
+        setMonAddParMonDefCmdRepNmb(pckt, i, repNmb[i]);
+        setMonAddParMonDefCmdCheckType(pckt, i, LIM_CHECK);
+        setMonAddParMonDefCmdCheckTypeData1(pckt, i, MON_TEST_CASE_LIM1);
+        setMonAddParMonDefCmdCheckTypeData1(pckt, i, lim1Eid[i]);
+        setMonAddParMonDefCmdCheckTypeData3(pckt, i, MON_TEST_CASE_LIM2);
+        setMonAddParMonDefCmdCheckTypeData1(pckt, i, lim2Eid[i]);
+    }
+
+    crc = CrFwPcktComputeCrc(pckt);
+    CrFwPcktSetCrc(pckt, crc);
+
+    return CrFwInFactoryMakeInCmd(pckt);
+}
+
+/* --------------------------------------------------------------------------- */
 FwSmDesc_t CrPsMonTestCaseMake12s15(CrFwDestSrc_t cmdSrc) {
     CrFwPckt_t pckt;
     CrFwCrc_t crc;

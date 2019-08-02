@@ -232,7 +232,7 @@ void CrPsMonConfigSetMonPrFnc(CrPsParMonId_t i, CrPsMonPrFnc_t monPrFnc);
  * @param per the period of the monitor
  * @param repNmb the repetition number of the monitor
  * @param valDataItemId the identifier of the data item used for validity check of parameter monitor
- * @param valExpVal rxpected value for validity check of parameter monitor
+ * @param valExpVal expected value for validity check of parameter monitor
  * @param valMask the mask used for validity check of parameter monitor
  * @param lim1 the low limit (for out-of-limits monitors) or the mask for the expected value check
  * @param lim1Eid the event identifier for the low limit (for out-of-limits monitors) or
