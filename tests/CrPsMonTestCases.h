@@ -83,9 +83,9 @@ CrFwBool_t CrPsMonTestCase2();
 /**
  * Test the rejection cases of the command to add a paremeter monitor.
  * The following actions are performed:
- * - Configure the PMDL to be full, instantiate and execute a TC(12,5) and verify it
- *   fails with code VER_PMDL_FULL
- * - Configure the PMDL to be empty full, instantiate and execute a TC(12,5) carrying two PMONs
+ * - Configure the PMDL to be full, instantiate and execute a TC(12,5) with one PMON and verify it
+ *   fails with codes VER_PMDL_FULL and VER_MI_S12_FD
+ * - Configure the PMDL to be empty, instantiate and execute a TC(12,5) carrying two PMONs
  *   with illegal parameter identifiers and verify they fail with code VER_ILL_MON
  * - Instantiate and execute a TC(12,5) carrying two PMONs
  *   with illegal identifiers of monitored parameters and verify they fail with code VER_MON_ILL_DI
@@ -98,6 +98,7 @@ CrFwBool_t CrPsMonTestCase2();
  * @verify Command Rejection Code, VER_PMDL_FULL
  * @verify Command Rejection Code, VER_ILL_MON
  * @verify Command Rejection Code, VER_ILL_VAL_DI
+ * @verify Command Rejection Code, VER_MI_S12_FD
  *
  * @return 1 if the test was successful, 0 otherwise
  */
@@ -123,7 +124,7 @@ CrFwBool_t CrPsMonTestCase3();
  * @param lim2Eid the array of event identifiers for the upper limit
  * @return The (12,5) command
  */
-FwSmDesc_t CrPsMonTestCaseMake12s15(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId, CrPsParId_t* parId,
+FwSmDesc_t CrPsMonTestCaseMake12s5(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId, CrPsParId_t* parId,
         CrPsMonPer_t* per, CrPsMonPer_t* repNmb, CrPsParId_t* valDataItemId,
         CrPsEvtId_t* lim1Eid, CrPsEvtId_t* lim2Eid);
 
