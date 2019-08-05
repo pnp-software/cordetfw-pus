@@ -44,7 +44,7 @@ void CrPsInCmdEvtRepDisCmdStartAction(FwSmDesc_t smDesc) {
   sizeOfEvtN = getDpSize(DpIdnOfDisabledEid)/4;
   sizeOfHeader = sizeof(TmHeader_t);
   sizeOfCrc = sizeof(CrFwCrc_t);
-  maxNOfEid = (CR_PS_MAX_REP_LENGTH - sizeOfHeader - sizeOfCrc - sizeOfEvtN)/sizeOfEvtId;
+  maxNOfEid = (MAX_REPORT_LENGTH - sizeOfHeader - sizeOfCrc - sizeOfEvtN)/sizeOfEvtId;
   nOfFull5s8 = nDisabledEvt/maxNOfEid;
   if ((nDisabledEvt - nOfFull5s8*maxNOfEid) > 0)
     nOfPartial5s8 = 1;

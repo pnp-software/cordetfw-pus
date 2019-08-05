@@ -676,7 +676,7 @@ CrFwBool_t CrPsHkTestCase6() {
   FwSmDesc_t outManager = CrFwOutManagerMake(0);
   CrPsParId_t parId1[HK_NOFITEMS_SID_N_OF_EVT] = HK_DEF_SID_N_OF_EVT;    /* Pre-defined HK report */
   CrPsParId_t parId2[HK_NOFITEMS_SID_HK_CNT] = HK_DEF_SID_HK_CNT;    /* Pre-defined HK report */
-  CrPsParId_t parId3[2] = {1, 2};
+  CrPsParId_t parId3[2] = {DpIdParamsLowest, DpIdParamsLowest+1};
   CrPsSID_t sid[3];
   CrPsSID_t preDefSID1 = 1;
   CrPsSID_t preDefSID2 = 2;

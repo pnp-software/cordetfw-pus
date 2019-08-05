@@ -91,23 +91,53 @@ CrFwBool_t CrPsMonTestCase2();
  *   with illegal identifiers of monitored parameters and verify they fail with code VER_MON_ILL_DI
  * - Instantiate and execute a TC(12,5) carrying two PMONs
  *   with illegal identifiers of validity parameters and verify they fail with code VER_ILL_VAL_DI
+ * - Instantiate and execute a TC(12,5) carrying a PMON
+ *   with illegal monitoring check type and verify it fails with code VER_MON_ILL_PR
  * .
  * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to PMDL full
  * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to illegal PMON identifier
  * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to illegal validity parameter identifier
+ * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to illegal monitored parameter
+ * @verify Command, Add Parameter Monitoring Definition, Progress action fails due to illegal monitor parameter procedure
  * @verify Command Rejection Code, VER_PMDL_FULL
  * @verify Command Rejection Code, VER_ILL_MON
  * @verify Command Rejection Code, VER_ILL_VAL_DI
  * @verify Command Rejection Code, VER_MI_S12_FD
+ * @verify Command Rejection Code, VER_MON_ILL_PR
  *
  * @return 1 if the test was successful, 0 otherwise
  */
 CrFwBool_t CrPsMonTestCase3();
 
 /**
+ * Test the nominal cases of the commands to add and delete a paremeter monitor.
+ * The following actions are performed:
+ * - Configure the PMDL to be empty, instantiate and execute one nominal TC(12,5) with one PMON and verify it
+ *   is executed successfully and that the number of available PMON is decremented
+ * - Instantiate and execute one nominal TC(12,6) to delete the PMON added at the previous step and verify it
+ *   is executed successfully and that the number of available PMON is incremented
+ * .
+ * @verify Command, Add Parameter Monitoring Definition, Nominal case with one PMON
+ * @verify Command, Delete Parameter Monitoring Definition, Nominal case with one PMON
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsMonTestCase4();
+
+/**
+ * Create a (12,1) or (12,3) or (12,6) command for test purposes.
+ * The command is configured as follows:
+ * - full service 1 acknowledgment is required.
+ * .
+ * @param NParMon the number of parameter monitors to be deleted
+ * @param parMonId the array of identifiers of the parameter monitors
+ * @return The (12,1) or (12,3) or (12,6) command
+ */
+FwSmDesc_t CrPsMonTestCaseMake12s1(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId);
+
+/**
  * Create a (12,5) command for test purposes.
  * The command is configured as follows:
- * - The monitor is of type out-of-limit
  * - The monitored parameter is assumed to be of unsigned integer type and
  *   the monitoring limits are set to MON_TEST_CASE_LIM1 and MON_TEST_CASE_LIM2
  * - The expected value for validity check of the parameter monitors is 1
@@ -115,17 +145,18 @@ CrFwBool_t CrPsMonTestCase3();
  * - full service 1 acknowledgment is required.
  * .
  * @param NParMon the number of parameter monitors to be added
- * @param parMonId the array of identifiers of the parameter monitor
+ * @param parMonId the array of identifiers of the parameter monitors
  * @param parId the array of identifiers of the data pool item being monitored
  * @param per the array of periods of the monitor
  * @param repNmb the array of repetition numbers of the monitor
  * @param valDataItemId the array of identifiers of the data item used for validity check of parameter monitor
+ * @param checkType the monitoring check type
  * @param lim1Eid the array of event identifiers for the low limit
  * @param lim2Eid the array of event identifiers for the upper limit
  * @return The (12,5) command
  */
 FwSmDesc_t CrPsMonTestCaseMake12s5(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId, CrPsParId_t* parId,
-        CrPsMonPer_t* per, CrPsMonPer_t* repNmb, CrPsParId_t* valDataItemId,
+        CrPsMonPer_t* per, CrPsMonPer_t* repNmb, CrPsParId_t* valDataItemId, CrPsMonCheckType_t CheckType,
         CrPsEvtId_t* lim1Eid, CrPsEvtId_t* lim2Eid);
 
 /**

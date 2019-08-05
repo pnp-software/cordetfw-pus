@@ -84,6 +84,19 @@ void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
     if (valCheckParId > DpIdVarsHighest)
         CrFwSetSmOutcome(smDesc, VER_ILL_VAL_DI);
 
+    /* Check legality of monitoring procedure type */
+    checkType = getMonAddParMonDefCmdCheckType(monPckt, progressStepId);
+    /* Determine the Monitoring Procedure Type */
+    switch (checkType) {
+        case EXP_VAL_CHECK:
+            monPrType = MON_PR_EXP;
+            break;
+        case LIM_CHECK:
+            break;
+        default:        /* DEL_CHECK is not supported */
+            CrFwSetSmOutcome(smDesc, VER_MON_ILL_PR);
+    }
+
     /* If all checks were passed, get the parameters associated to the parMon */
     if (CrFwGetSmOutcome(smDesc) == 1) {
         signedness = getDpItemSignedness(parId);
@@ -91,34 +104,23 @@ void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
         valCheckMask = getMonAddParMonDefCmdValCheckParMask(monPckt, progressStepId);
         valCheckExpVal = getMonAddParMonDefCmdValCheckExpVal(monPckt, progressStepId);
         monPer = getMonAddParMonDefCmdMonPer(monPckt, progressStepId);
-        checkType = getMonAddParMonDefCmdCheckType(monPckt, progressStepId);
         checkTypeData1 = getMonAddParMonDefCmdCheckTypeData1(monPckt, progressStepId);
         checkTypeData2 = getMonAddParMonDefCmdCheckTypeData2(monPckt, progressStepId);
         checkTypeData3 = getMonAddParMonDefCmdCheckTypeData3(monPckt, progressStepId);
         checkTypeData4 = getMonAddParMonDefCmdCheckTypeData4(monPckt, progressStepId);
 
-        /* Determine the Monitoring Procedure Type */
-        switch (checkType) {
-            case EXP_VAL_CHECK:
-                monPrType = MON_PR_EXP;
-                break;
-            case LIM_CHECK:
-                switch (signedness) {
-                    case crDpTypeUnsigned:
-                        monPrType = MON_PR_OOL_UI;
-                        break;
-                    case crDpTypeSigned:
-                        monPrType = MON_PR_OOL_SI;
-                        break;
-                    case crDpTypeReal:
-                        monPrType = MON_PR_OOL_R;
-                        break;
-                }
-                break;
-            default:        /* DEL_CHECK is not supported */
-                CrFwSetAppErrCode(CrPsIllParMonType);
-                assert(0);
-        }
+        if (checkType == LIM_CHECK)
+            switch (signedness) {
+                case crDpTypeUnsigned:
+                    monPrType = MON_PR_OOL_UI;
+                    break;
+                case crDpTypeSigned:
+                    monPrType = MON_PR_OOL_SI;
+                    break;
+                case crDpTypeReal:
+                    monPrType = MON_PR_OOL_R;
+                    break;
+            }
 
         /* Configure PMON and decrement number of available PMONs */
         CrPsMonConfigInitParMon(parMonId, parId, monPrType, monPer, repNmb, valCheckParId,

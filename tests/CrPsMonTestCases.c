@@ -475,7 +475,7 @@ CrFwBool_t CrPsMonTestCase3() {
     setDpMonNmbAvailParMon(0);
 
     /* Instantiate (12,5) command and execute it once */
-    inCmd12s5 = CrPsMonTestCaseMake12s5(1, parMonId, parId, per, repNmb, valDataItemId, lim1Eid, lim2Eid);
+    inCmd12s5 = CrPsMonTestCaseMake12s5(1, parMonId, parId, per, repNmb, valDataItemId, LIM_CHECK, lim1Eid, lim2Eid);
     nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
     CrFwCmpExecute(inCmd12s5);
     CrFwInCmdTerminate(inCmd12s5);
@@ -487,7 +487,7 @@ CrFwBool_t CrPsMonTestCase3() {
       return 0;
     if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_PMDL_FULL,parMonId[0]) != 1)
       return 0;
-    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,8,VER_MI_S12_FD,parMonId[0]) != 1)
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,8,VER_MI_S12_FD,0) != 1)
       return 0;
 
     /*Release the InCommand */
@@ -496,14 +496,14 @@ CrFwBool_t CrPsMonTestCase3() {
     /* Reset the framework components */
     CrPsTestUtilitiesResetFw();
 
-    /* -------------------------------------- step 1 -------------------------- */
+    /* -------------------------------------- step 2 -------------------------- */
     /* Simulate an empty PMDL */
     setDpMonNmbAvailParMon(MON_N_PMON);
 
     /* Instantiate (12,5) with invalid PMON identifiers */
     parMonId[0] = 0;
     parMonId[1] = MON_N_PMON+1;
-    inCmd12s5 = CrPsMonTestCaseMake12s5(2, parMonId, parId, per, repNmb, valDataItemId, lim1Eid, lim2Eid);
+    inCmd12s5 = CrPsMonTestCaseMake12s5(2, parMonId, parId, per, repNmb, valDataItemId, LIM_CHECK, lim1Eid, lim2Eid);
     nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
     CrFwCmpExecute(inCmd12s5);
     CrFwInCmdTerminate(inCmd12s5);
@@ -523,9 +523,9 @@ CrFwBool_t CrPsMonTestCase3() {
       return 0;
     if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 4)
       return 0;
-    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_ILL_MON,parMonId[0]) != 1)
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_ILL_MON,parMonId[1]) != 1)
       return 0;
-    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_MI_S12_FD,parMonId[0]) != 1)
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_MI_S12_FD,0) != 1)
       return 0;
 
     /*Release the InCommand */
@@ -534,16 +534,157 @@ CrFwBool_t CrPsMonTestCase3() {
     /* Reset the framework components */
     CrPsTestUtilitiesResetFw();
 
+    /* -------------------------------------- step 3 -------------------------- */
+    /* Instantiate (12,5) with invalid identifiers of monitored parameters */
+    parMonId[0] = 1;
+    parMonId[1] = MON_N_PMON;
+    parId[0] = 0;
+    parId[1] = DpIdVarsHighest+1;
+    inCmd12s5 = CrPsMonTestCaseMake12s5(2, parMonId, parId, per, repNmb, valDataItemId, LIM_CHECK, lim1Eid, lim2Eid);
+    nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+    CrFwCmpExecute(inCmd12s5);
+    CrFwInCmdTerminate(inCmd12s5);
 
+    /* Check that the InCommand is in PROGRESS state and one (1,3) and one (1,6) report was generated */
+    if (!CrFwInCmdIsInProgress(inCmd12s5))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 2)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_MON_ILL_DI,parMonId[0]) != 1)
+      return 0;
 
+    /* Execute it again and check it goes into ABORTED */
+    CrFwCmpExecute(inCmd12s5);
+    CrFwInCmdTerminate(inCmd12s5);
+    if (!CrFwInCmdIsInAborted(inCmd12s5))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 4)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_MON_ILL_DI,parMonId[1]) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_MI_S12_FD,0) != 1)
+      return 0;
+
+    /*Release the InCommand */
+    CrFwInFactoryReleaseInCmd(inCmd12s5);
+
+    /* Reset the framework components */
+    CrPsTestUtilitiesResetFw();
+
+    /* -------------------------------------- step 4 -------------------------- */
+    /* Instantiate (12,5) with invalid identifiers of validity parameters */
+    parMonId[0] = 1;
+    parMonId[1] = MON_N_PMON;
+    parId[0] = 1;
+    parId[1] = DpIdVarsHighest;
+    valDataItemId[0] = DpIdParamsLowest-1;
+    valDataItemId[1] = DpIdVarsHighest+1;
+    inCmd12s5 = CrPsMonTestCaseMake12s5(2, parMonId, parId, per, repNmb, valDataItemId, LIM_CHECK, lim1Eid, lim2Eid);
+    nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+    CrFwCmpExecute(inCmd12s5);
+    CrFwInCmdTerminate(inCmd12s5);
+
+    /* Check that the InCommand is in PROGRESS state and one (1,3) and one (1,6) report was generated */
+    if (!CrFwInCmdIsInProgress(inCmd12s5))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 2)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_ILL_VAL_DI,parMonId[0]) != 1)
+      return 0;
+
+    /* Execute it again and check it goes into ABORTED */
+    CrFwCmpExecute(inCmd12s5);
+    CrFwInCmdTerminate(inCmd12s5);
+    if (!CrFwInCmdIsInAborted(inCmd12s5))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 4)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_ILL_VAL_DI,parMonId[1]) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_MI_S12_FD,0) != 1)
+      return 0;
+
+    /*Release the InCommand */
+    CrFwInFactoryReleaseInCmd(inCmd12s5);
+
+    /* Reset the framework components */
+    CrPsTestUtilitiesResetFw();
+
+    /* -------------------------------------- step 5 -------------------------- */
+    /* Instantiate (12,5) with invalid parameter monitor identifier */
+    parMonId[0] = 1;
+    parMonId[1] = MON_N_PMON;
+    parId[0] = 1;
+    parId[1] = DpIdVarsHighest;
+    valDataItemId[0] = DpIdParamsLowest;
+    valDataItemId[1] = DpIdVarsHighest+1;
+    inCmd12s5 = CrPsMonTestCaseMake12s5(2, parMonId, parId, per, repNmb, valDataItemId, DEL_CHECK, lim1Eid, lim2Eid);
+    nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+    CrFwCmpExecute(inCmd12s5);
+    CrFwInCmdTerminate(inCmd12s5);
+
+    /* Check that the InCommand is in PROGRESS state and one (1,3) and one (1,6) report was generated */
+    if (!CrFwInCmdIsInProgress(inCmd12s5))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 2)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_MON_ILL_PR,parMonId[0]) != 1)
+      return 0;
+
+    /* Execute it again and check it goes into ABORTED */
+    CrFwCmpExecute(inCmd12s5);
+    CrFwInCmdTerminate(inCmd12s5);
+    if (!CrFwInCmdIsInAborted(inCmd12s5))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 4)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_MON_ILL_PR,parMonId[1]) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,8,VER_MI_S12_FD,0) != 1)
+      return 0;
+
+    /*Release the InCommand */
+    CrFwInFactoryReleaseInCmd(inCmd12s5);
+
+    /* Reset the framework components */
+    CrPsTestUtilitiesResetFw();
+
+    /* Verify that the PMDL is still empty */
+    if (getDpMonNmbAvailParMon() != MON_N_PMON)
+      return 0;
 
   return 1;
 }
 
+/* --------------------------------------------------------------------------- */
+FwSmDesc_t CrPsMonTestCaseMake12s1(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId) {
+    CrFwPckt_t pckt;
+    CrFwCrc_t crc;
+    int i;
+
+    pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+    CrFwPcktSetCmdRepType(pckt,crCmdType);
+    CrFwPcktSetServType(pckt,MON_TYPE);
+    CrFwPcktSetServSubType(pckt,MONDELPARMONDEFCMD_STYPE);
+    CrFwPcktSetSrc(pckt,0);
+    CrFwPcktSetDest(pckt,0);
+    CrFwPcktSetGroup(pckt,1);
+    CrFwPcktSetAckLevel(pckt,1,1,1,1);
+    CrFwPcktSetSeqCnt(pckt,1);
+    setMonDelParMonDefCmdNParMon(pckt, NParMon);
+
+    for (i=0; i<NParMon; i++)
+        setMonDelParMonDefCmdParMonId(pckt, i, parMonId[i]);
+
+    crc = CrFwPcktComputeCrc(pckt);
+    CrFwPcktSetCrc(pckt, crc);
+
+    return CrFwInFactoryMakeInCmd(pckt);
+}
 
 /* --------------------------------------------------------------------------- */
 FwSmDesc_t CrPsMonTestCaseMake12s5(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId, CrPsParId_t* parId,
-        CrPsMonPer_t* per, CrPsMonPer_t* repNmb, CrPsParId_t* valDataItemId,
+        CrPsMonPer_t* per, CrPsMonPer_t* repNmb, CrPsParId_t* valDataItemId, CrPsMonCheckType_t CheckType,
         CrPsEvtId_t* lim1Eid, CrPsEvtId_t* lim2Eid) {
     CrFwPckt_t pckt;
     CrFwCrc_t crc;
@@ -567,7 +708,7 @@ FwSmDesc_t CrPsMonTestCaseMake12s5(CrPsNParMon_t NParMon, CrPsParMonId_t* parMon
         setMonAddParMonDefCmdValCheckExpVal(pckt, i, 1);
         setMonAddParMonDefCmdMonPer(pckt, i, per[i]);
         setMonAddParMonDefCmdRepNmb(pckt, i, repNmb[i]);
-        setMonAddParMonDefCmdCheckType(pckt, i, LIM_CHECK);
+        setMonAddParMonDefCmdCheckType(pckt, i, CheckType);
         setMonAddParMonDefCmdCheckTypeData1(pckt, i, MON_TEST_CASE_LIM1);
         setMonAddParMonDefCmdCheckTypeData1(pckt, i, lim1Eid[i]);
         setMonAddParMonDefCmdCheckTypeData3(pckt, i, MON_TEST_CASE_LIM2);

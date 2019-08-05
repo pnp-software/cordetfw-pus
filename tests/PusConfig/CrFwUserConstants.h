@@ -263,9 +263,7 @@ typedef enum {
     /** Illegal size for signed integer-valued monitored parameter (see <code>::CrPsMonConfigOutOfLimitCheckSI</code>). */
 	CrPsIllSIMonParSize = 134,
     /** Illegal size for unsigned integer-valued monitored parameter (see <code>::CrPsMonConfigOutOfLimitCheckUI</code>). */
-    CrPsIllUIMonParSize = 135,
-    /** Illegal or unsupported parameter monitor type (see <code>::CrPsInCmdMonAddParMonDefCmdProgressAction</code>). */
-    CrPsIllParMonType = 136
+    CrPsIllUIMonParSize = 135
 } CrFwAppErrCode_t;
 
 /**
@@ -274,9 +272,6 @@ typedef enum {
 
 /** The maximum length of a packet in bytes */
 #define CR_FW_MAX_PCKT_LENGTH 128
-
-/** The maximum length of a report in bytes (must be smaller than #CR_FW_MAX_PCKT_LENGTH) */
-#define CR_PS_MAX_REP_LENGTH 36
 
 /** The identifier of the host application */
 #define CR_FW_HOST_APP_ID 10
