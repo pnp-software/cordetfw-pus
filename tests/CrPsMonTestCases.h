@@ -125,7 +125,7 @@ CrFwBool_t CrPsMonTestCase3();
 CrFwBool_t CrPsMonTestCase4();
 
 /**
- * Create a (12,1) or (12,3) or (12,6) command for test purposes.
+ * Create a (12,6) command for test purposes.
  * The command is configured as follows:
  * - full service 1 acknowledgment is required.
  * .
@@ -133,7 +133,7 @@ CrFwBool_t CrPsMonTestCase4();
  * @param parMonId the array of identifiers of the parameter monitors
  * @return The (12,1) or (12,3) or (12,6) command
  */
-FwSmDesc_t CrPsMonTestCaseMake12s1(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId);
+FwSmDesc_t CrPsMonTestCaseMake12s6(CrPsNParMon_t NParMon, CrPsParMonId_t* parMonId);
 
 /**
  * Create a (12,5) command for test purposes.
