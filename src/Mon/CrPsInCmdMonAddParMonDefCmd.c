@@ -99,6 +99,7 @@ void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
 
     /* If all checks were passed, get the parameters associated to the parMon */
     if (CrFwGetSmOutcome(smDesc) == 1) {
+        setDpMonDataItemIdItem(parMonId, parId);
         signedness = getDpItemSignedness(parId);
         repNmb = getMonAddParMonDefCmdRepNmb(monPckt, progressStepId);
         valCheckMask = getMonAddParMonDefCmdValCheckParMask(monPckt, progressStepId);
@@ -121,6 +122,12 @@ void CrPsInCmdMonAddParMonDefCmdProgressAction(FwSmDesc_t smDesc) {
                     monPrType = MON_PR_OOL_R;
                     break;
             }
+
+        /* Set initial enable status to 'disabled' */
+        setDpMonParMonEnbStatusItem(parMonId, DISABLED);
+
+        /* Set the initial check status to 'unchecked' */
+        setDpMonCheckStatusItem(parMonId, MON_UNCHECKED);
 
         /* Configure PMON and decrement number of available PMONs */
         CrPsMonConfigInitParMon(parMonId, parId, monPrType, monPer, repNmb, valCheckParId,

@@ -81,6 +81,27 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmp(FwSmDesc_t outManager, int i,
 }
 
 /*-----------------------------------------------------------------------------*/
+void CrPsTestUtilitiesPrintOutManagerPOCL(FwSmDesc_t outManager) {
+  CrFwCmpData_t* outManagerData;
+  CrFwOutManagerData_t* outManagerCSData;
+  FwSmDesc_t outCmp;
+  int i;
+
+  outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
+  outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
+
+  printf("Number of OutComponents currently in POCL: %u \n",outManagerCSData->nOfOutCmpInPocl);
+  printf("Number of OutComponents loaded in POCL: %u \n",outManagerCSData->nOfLoadedOutCmp);
+
+  for (i=0; i<outManagerCSData->nOfOutCmpInPocl; i++) {
+      outCmp = outManagerCSData->pocl[i];
+      printf("  OutComponent %u, type, subtype and discriminant: %u %u %u \n",i, CrFwOutCmpGetServType(outCmp),
+              CrFwOutCmpGetServSubType(outCmp), CrFwOutCmpGetDiscriminant(outCmp));
+  }
+}
+
+
+/*-----------------------------------------------------------------------------*/
 CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmdRejRep(FwSmDesc_t outManager, int i,
                           CrFwServSubType_t servSubType, CrPsFailCode_t failCode, CrPsFailData_t failData) {
   CrFwCmpData_t* outManagerData;

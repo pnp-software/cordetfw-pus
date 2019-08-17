@@ -658,7 +658,6 @@ CrFwBool_t CrPsMonTestCase3() {
 
 /* --------------------------------------------------------------------------- */
 CrFwBool_t CrPsMonTestCase4() {
-    CrPsNParMon_t NParMon = 1;
     CrPsParMonId_t parMonId[2] = {1, 2};
     CrPsParId_t parId[2] = {DpIddummy16Bit, DpIddummy32Bit};
     CrPsMonPer_t per[2] = {1, 1};
@@ -702,7 +701,7 @@ CrFwBool_t CrPsMonTestCase4() {
     /* Reset the framework components */
     CrPsTestUtilitiesResetFw();
 
-    /* -------------------------------------- step 1 -------------------------- */
+    /* -------------------------------------- step 2 -------------------------- */
     /* Instantiate the (12,6) command and execute it once */
     inCmd12s6 = CrPsMonTestCaseMake12s6(1, parMonId);
     nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
@@ -725,19 +724,110 @@ CrFwBool_t CrPsMonTestCase4() {
     if (getDpMonNmbAvailParMon() != MON_N_PMON)
       return 0;
 
-
     /*Release the InCommand */
     CrFwInFactoryReleaseInCmd(inCmd12s5);
-
-
-
-
 
     /* Reset the framework components */
     CrPsTestUtilitiesResetFw();
 
    return 1;
 }
+
+/* --------------------------------------------------------------------------- */
+CrFwBool_t CrPsMonTestCase5() {
+    CrPsParMonId_t parMonId[2] = {1, 2};
+    CrPsParMonId_t parMonIdDel[4] = {2, 0, MON_N_PMON+1, 1};
+    CrPsParId_t parId[2] = {DpIddummy16Bit, DpIddummy32Bit};
+    CrPsMonPer_t per[2] = {1, 1};
+    CrPsMonPer_t repNmb[2] = {1, 1};
+    CrPsParId_t valDataItemId[2] = {0, 0};
+    CrPsEvtId_t lim1Eid[2] = {0, 0};
+    CrPsEvtId_t lim2Eid[2] = {0, 0};
+    FwSmDesc_t inCmd12s5, inCmd12s6;
+    FwSmDesc_t outManager = CrFwOutManagerMake(0);
+    int nOfOutCmp;
+
+    /* Reset the framework components */
+    CrPsTestUtilitiesResetFw();
+
+    /* Simulate an empty PMDL */
+    setDpMonNmbAvailParMon(MON_N_PMON);
+
+    /* -------------------------------------- step 1 -------------------------- */
+    /* Instantiate the (12,5) command and execute it once */
+    inCmd12s5 = CrPsMonTestCaseMake12s5(1, parMonId, parId, per, repNmb, valDataItemId, LIM_CHECK, lim1Eid, lim2Eid);
+    nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+    CrFwCmpExecute(inCmd12s5);
+    CrFwInCmdTerminate(inCmd12s5);
+
+    /* Enable the newly created PMON */
+    setDpMonParMonEnbStatusItem(parMonId[0], ENABLED);
+
+    /* Check that the InCommand is in TERMINATED state and one (1,3), (1,5) and (1,7) report was generated */
+    if (!CrFwInCmdIsInTerminated(inCmd12s5))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 3)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,0,3,0,0) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,5,0,0) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,7,0,0) != 1)
+      return 0;
+
+    /* Verify that 1 PMON is now allocated */
+    if (getDpMonNmbAvailParMon() != MON_N_PMON-1)
+      return 0;
+
+    /* Reset the framework components */
+    CrPsTestUtilitiesResetFw();
+
+    /* -------------------------------------- step 1 -------------------------- */
+    /* Instantiate the (12,6) command and execute it four times */
+    inCmd12s6 = CrPsMonTestCaseMake12s6(4, parMonIdDel);
+    nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
+    CrFwCmpExecute(inCmd12s6);
+    CrFwInCmdTerminate(inCmd12s6);
+    CrFwCmpExecute(inCmd12s6);
+    CrFwInCmdTerminate(inCmd12s6);
+    CrFwCmpExecute(inCmd12s6);
+    CrFwInCmdTerminate(inCmd12s6);
+    CrFwCmpExecute(inCmd12s6);
+    CrFwInCmdTerminate(inCmd12s6);
+
+    /* Check that InCommand is in ABORTED state and one (1,3), four (1,6) and one (1,8) reports were generated */
+    if (!CrFwInCmdIsInAborted(inCmd12s6))
+      return 0;
+    if (CrFwOutFactoryGetNOfAllocatedOutCmp() != nOfOutCmp + 6)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,0,3,0,0) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,1,6,VER_ILL_MON,parMonIdDel[0]) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,2,6,VER_ILL_MON,parMonIdDel[1]) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,3,6,VER_ILL_MON,parMonIdDel[2]) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,4,6,VER_MON_ENB,parMonIdDel[3]) != 1)
+      return 0;
+    if (CrPsTestUtilitiesCheckOutManagerCmdRejRep(outManager,5,8,VER_MI_S12_FD,0) != 1)
+      return 0;
+
+    /* Verify that 1 PMON is still allocated */
+    if (getDpMonNmbAvailParMon() != MON_N_PMON-1)
+      return 0;
+
+    /*Release the InCommand */
+    CrFwInFactoryReleaseInCmd(inCmd12s5);
+
+    /* Reset the framework components and the monitoring service*/
+    CrPsTestUtilitiesResetFw();
+    CrPsMonConfigInit();
+
+   return 1;
+}
+
+
 
 
 /* --------------------------------------------------------------------------- */

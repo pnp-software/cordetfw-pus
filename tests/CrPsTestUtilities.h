@@ -87,6 +87,12 @@ CrFwBool_t CrPsTestUtilitiesCheckOutManagerCmdRejRep(FwSmDesc_t outManager, int 
                           CrFwServSubType_t servSubType, CrPsFailCode_t failCode, CrPsFailData_t failData);
 
 /**
+ * Convenience function to print to stdout the content of the POCL of the argument OutManager.
+ * @param outManager the OutManager whose POCL is checked
+ */
+void CrPsTestUtilitiesPrintOutManagerPOCL(FwSmDesc_t outManager);
+
+/**
  * Return the item which is currently loaded in the i-th entry of the PCRL of the argument InManager.
  *
  * @param inManager the InManager

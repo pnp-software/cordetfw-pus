@@ -110,7 +110,7 @@ CrFwBool_t CrPsMonTestCase2();
 CrFwBool_t CrPsMonTestCase3();
 
 /**
- * Test the nominal cases of the commands to add and delete a paremeter monitor.
+ * Test the nominal cases of the commands to add and delete a parameter monitor.
  * The following actions are performed:
  * - Configure the PMDL to be empty, instantiate and execute one nominal TC(12,5) with one PMON and verify it
  *   is executed successfully and that the number of available PMON is decremented
@@ -123,6 +123,27 @@ CrFwBool_t CrPsMonTestCase3();
  * @return 1 if the test was successful, 0 otherwise
  */
 CrFwBool_t CrPsMonTestCase4();
+
+/**
+ * Test the non-nominal cases of the command to delete a parameter monitor.
+ * The following actions are performed:
+ * - Configure the PMDL to be empty, instantiate and execute one nominal TC(12,5) with one PMON and then enable
+ *   it
+ * - Instantiate and execute one TC(12,6) to delete four PMONs with the following characteristics: the
+ *   first PMON is not in use; the second one has a data item identifier which is out-of-range; the third one
+ *   has a data item identifier equal to zero; and the fourth one is enabled and verify that the command
+ *   is rejected with four (1,4) reports and one (1,8) report
+ * .
+ * @verify Command, Delete Parameter Monitoring Definition, Rejection due to PMON not in use
+ * @verify Command, Delete Parameter Monitoring Definition, Rejection due to data item identifier out-of-range
+ * @verify Command, Delete Parameter Monitoring Definition, Rejection due to PMON being enabled
+ * @verify Command Rejection Code, VER_ILL_MON
+ * @verify Command Rejection Code, VER_MON_ENB
+ * @verify Command Rejection Code, VER_MI_S12_FD
+ *
+ * @return 1 if the test was successful, 0 otherwise
+ */
+CrFwBool_t CrPsMonTestCase5();
 
 /**
  * Create a (12,6) command for test purposes.
