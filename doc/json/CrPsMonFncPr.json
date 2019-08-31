@@ -1,11 +1,11 @@
 {
-     "editorVersion": "5.01",
+     "editorVersion": "5.23",
      "states": [
           {
                "id": 1,
                "attrs": {
-                    "x": 345,
-                    "y": 231,
+                    "x": 832,
+                    "y": 435,
                     "width": 30,
                     "height": 30,
                     "r": 15,
@@ -43,16 +43,16 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N1",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN1",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
                     "doCode": "",
                     "exitCode": "",
-                    "entryDesc": "i = 0 ",
+                    "entryDesc": "i = -1 ",
                     "doDesc": "",
                     "exitDesc": "",
                     "entryAp": false,
@@ -82,10 +82,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N2",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN2",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -128,9 +128,9 @@
           {
                "id": 7,
                "attrs": {
-                    "x": 232,
-                    "y": 272,
-                    "width": 210,
+                    "x": 235,
+                    "y": 237,
+                    "width": 204,
                     "height": 78,
                     "r": 0,
                     "rx": 0,
@@ -144,7 +144,7 @@
                "fwprop": {
                     "autoid": 1,
                     "type": "note",
-                    "note": "Action_1: initialize all period counters\nand repetition counters to zero; initialize\nall checking status to UNCHECKED; and\nset index i to zero (index i iterates over all\nall Parameter Monitors in the PMDL)"
+                    "note": "Action_1: initialize all period counters\nand repetition counters to zero; initialize\nall checking status to UNCHECKED; and\nset index i to -1 (index i iterates overl\nall Parameter Monitors in the PMDL)"
                },
                "selected": false
           },
@@ -168,10 +168,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N3",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN3",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -207,10 +207,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N4",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN4",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -316,10 +316,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N9",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN9",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -496,10 +496,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N10",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN10",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -511,7 +511,7 @@
                     "entryAp": false,
                     "doAp": false,
                     "exitAp": false,
-                    "embedSmId": "0"
+                    "embedSmId": null
                },
                "selected": false
           },
@@ -535,10 +535,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N11",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN11",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -621,10 +621,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N12",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN12",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -684,10 +684,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N13",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN13",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -723,10 +723,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N14",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN14",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -809,10 +809,10 @@
                     "type": "state",
                     "note": "",
                     "identifier": "N15",
-                    "entryFunc": "",
+                    "entryFunc": "CrPsMonFncPrN15",
                     "doFunc": "",
                     "exitFunc": "",
-                    "entryType": "call function",
+                    "entryType": "define function",
                     "doType": "call function",
                     "exitType": "call function",
                     "entryCode": "",
@@ -850,77 +850,48 @@
                     "note": "Flag_3 is true if the parameter monitor has an\nassociated event to report a monitoring violation"
                },
                "selected": false
+          },
+          {
+               "id": 50,
+               "attrs": {
+                    "x": 695,
+                    "y": 435,
+                    "width": 102,
+                    "height": 30,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 16,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N5",
+                    "entryFunc": "CrPsMonFncPrN5",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "define function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "Do Action_1",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
           }
      ],
      "connections": [
-          {
-               "attrs": {
-                    "fill": "none",
-                    "stroke": "#000",
-                    "path": [
-                         [
-                              "M",
-                              380,
-                              246.37037037037038
-                         ],
-                         [
-                              "L",
-                              414,
-                              247
-                         ],
-                         [
-                              "L",
-                              414,
-                              246
-                         ],
-                         [
-                              "L",
-                              470.32692307692315,
-                              275
-                         ]
-                    ],
-                    "stroke-width": 2,
-                    "stroke-linecap": "round",
-                    "stroke-linejoin": "round",
-                    "stroke-dasharray": ""
-               },
-               "fwprop": {
-                    "order": "1",
-                    "identifier": "",
-                    "guardFunc": "",
-                    "actionFunc": "",
-                    "guardType": "call function",
-                    "actionType": "call function",
-                    "guardCode": "",
-                    "actionCode": "",
-                    "guardDesc": "Action_1 ",
-                    "guardAp": false,
-                    "actionDesc": "",
-                    "actionAp": false,
-                    "note": ""
-               },
-               "shiftx": -12,
-               "shifty": -5,
-               "vertexes": [
-                    {
-                         "x": 414,
-                         "y": 247,
-                         "hasMoved": true
-                    },
-                    {
-                         "x": 414,
-                         "y": 246,
-                         "hasMoved": true
-                    }
-               ],
-               "shiftxy": {
-                    "x": 0,
-                    "y": 0
-               },
-               "stateFromID": 1,
-               "stateToID": 4,
-               "selected": false
-          },
           {
                "attrs": {
                     "fill": "none",
@@ -997,9 +968,9 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrIsParDis",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "define function",
                     "actionType": "call function",
                     "guardCode": "",
                     "actionCode": "",
@@ -1057,9 +1028,9 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
                     "guardDesc": "Else ",
                     "guardAp": false,
@@ -1154,9 +1125,9 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrIsPerSmaller",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "define function",
                     "actionType": "call function",
                     "guardCode": "",
                     "actionCode": "",
@@ -1214,11 +1185,11 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
-                    "guardDesc": " Else ",
+                    "guardDesc": "Else ",
                     "guardAp": false,
                     "actionDesc": "",
                     "actionAp": false,
@@ -1266,11 +1237,11 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return (FwPrGetNodeExecCnt(prDesc) == 1);",
                     "actionCode": "",
-                    "guardDesc": "Next execution ",
+                    "guardDesc": "Wait 1 cycle ",
                     "guardAp": false,
                     "actionDesc": "",
                     "actionAp": false,
@@ -1329,9 +1300,9 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
                     "guardDesc": "Else ",
                     "guardAp": false,
@@ -1400,9 +1371,9 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrGN1",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "define function",
                     "actionType": "call function",
                     "guardCode": "",
                     "actionCode": "",
@@ -1475,9 +1446,9 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
                     "guardDesc": "Else ",
                     "guardAp": false,
@@ -1536,7 +1507,7 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrGN1",
                     "actionFunc": "",
                     "guardType": "call function",
                     "actionType": "call function",
@@ -1577,11 +1548,6 @@
                          ],
                          [
                               "L",
-                              447,
-                              682
-                         ],
-                         [
-                              "L",
                               439,
                               682
                          ]
@@ -1594,9 +1560,9 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrIsParInv",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "define function",
                     "actionType": "call function",
                     "guardCode": "",
                     "actionCode": "",
@@ -1608,13 +1574,7 @@
                },
                "shiftx": 12,
                "shifty": -8,
-               "vertexes": [
-                    {
-                         "x": 447,
-                         "y": 682,
-                         "hasMoved": true
-                    }
-               ],
+               "vertexes": [],
                "shiftxy": {
                     "x": 0,
                     "y": 0
@@ -1649,9 +1609,9 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
                     "guardDesc": "Else ",
                     "guardAp": false,
@@ -1842,9 +1802,9 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrIsFlag1",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "define function",
                     "actionType": "call function",
                     "guardCode": "",
                     "actionCode": "",
@@ -1891,9 +1851,9 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
                     "guardDesc": "Else ",
                     "guardAp": false,
@@ -2031,9 +1991,9 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrIsFlag2",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "define function",
                     "actionType": "call function",
                     "guardCode": "",
                     "actionCode": "",
@@ -2085,9 +2045,9 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
                     "guardDesc": "Else ",
                     "guardAp": false,
@@ -2180,11 +2140,11 @@
                     "identifier": "",
                     "guardFunc": "",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "run code",
                     "actionType": "call function",
-                    "guardCode": "",
+                    "guardCode": "return 1;",
                     "actionCode": "",
-                    "guardDesc": "Esle ",
+                    "guardDesc": "Else ",
                     "guardAp": false,
                     "actionDesc": "",
                     "actionAp": false,
@@ -2225,9 +2185,9 @@
                "fwprop": {
                     "order": "1",
                     "identifier": "",
-                    "guardFunc": "",
+                    "guardFunc": "CrPsMonFncPrIsFlag3",
                     "actionFunc": "",
-                    "guardType": "call function",
+                    "guardType": "define function",
                     "actionType": "call function",
                     "guardCode": "",
                     "actionCode": "",
@@ -2363,16 +2323,100 @@
                "stateFromID": 18,
                "stateToID": 24,
                "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              827,
+                              450
+                         ],
+                         [
+                              "L",
+                              805,
+                              450
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1,
+               "stateToID": 50,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              746,
+                              430
+                         ],
+                         [
+                              "L",
+                              746,
+                              400
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 50,
+               "stateToID": 24,
+               "selected": false
           }
      ],
      "globals": {
           "paperPanX": 0,
-          "paperPanY": 60,
+          "paperPanY": 120,
           "attrs": {
                "x": 0,
-               "y": 60,
-               "width": 1670,
-               "height": 893,
+               "y": 120,
+               "width": 1244,
+               "height": 698,
                "r": 0,
                "rx": 0,
                "ry": 0,

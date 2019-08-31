@@ -24,6 +24,18 @@
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 
+/** PUS Framework function definitions */
+#include "CrPsMonConfig.h"
+#include "Pckt/CrPsPcktMon.h"
+#include "DataPool/CrPsDpMon.h"
+#include "DataPool/CrPsDpVer.h"
+#include "DataPool/CrPsDp.h"
+#include "InCmd/CrFwInCmd.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "FwPrCore.h"
+
+#include <assert.h>
+
 /** Index for looping through the parameter monitors */
 static int i;
 
@@ -49,14 +61,30 @@ void CrPsMonFncPrN3(FwPrDesc_t prDesc) {
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* Action for node N4. */
-void CrPsMonFncPrN4(FwPrDesc_t prDesc)
-{	(void)prDesc;
+void CrPsMonFncPrN4(FwPrDesc_t prDesc) {
+    (void)prDesc;
+
+    /* Increment period counter */
+    CrPsMonPer_t temp = getDpMonPerCntItem(i);
+    setDpMonPerCntItem(temp+1, 0);
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /* Action for node N5. */
 void CrPsMonFncPrN5(FwPrDesc_t prDesc) {
     (void)prDesc;
+    int j;
+
+    /* Initialize all period counters and repetition counters to zero and
+     * checking status to UNCHECKED */
+    for (j=0; j<MON_N_PMON; j++) {
+        setDpMonPerCntItem(j, 0);
+        setDpMonRepCntItem(j, 0);
+        setDpMonCheckStatus(j, MON_UNCHECKED);
+    }
+
+    /* Initialize monitor index to -1 */
+    i = -1;
 }
 
 /* Action for node N9. */
@@ -64,9 +92,11 @@ void CrPsMonFncPrN9(FwPrDesc_t prDesc)
 {	(void)prDesc;
 }
 
+/* ---------------------------------------------------------------------- */
 /* Action for node N10. */
-void CrPsMonFncPrN10(FwPrDesc_t prDesc)
-{	(void)prDesc;
+void CrPsMonFncPrN10(FwPrDesc_t prDesc) {
+	(void)prDesc;
+    setDpMonPerCntItem(i, 0);
 }
 
 /* Action for node N11. */
@@ -74,9 +104,11 @@ void CrPsMonFncPrN11(FwPrDesc_t prDesc)
 {	(void)prDesc;
 }
 
+/* ---------------------------------------------------------------------- */
 /* Action for node N12. */
-void CrPsMonFncPrN12(FwPrDesc_t prDesc)
-{	(void)prDesc;
+void CrPsMonFncPrN12(FwPrDesc_t prDesc) {
+	(void)prDesc;
+	setDpMonRepCntItem(i, 0);
 }
 
 /* Action for node N13. */
@@ -94,28 +126,47 @@ void CrPsMonFncPrN15(FwPrDesc_t prDesc)
 {	(void)prDesc;
 }
 
+/* ---------------------------------------------------------------------- */
 /* Guard on the Control Flow from DECISION2 to DECISION6. */
-FwPrBool_t CrPsMonFncPrIsParDis(FwPrDesc_t prDesc)
-{	(void)prDesc;
-    return 1;
+FwPrBool_t CrPsMonFncPrIsParDis(FwPrDesc_t prDesc){
+    (void)prDesc;
+    if (getDpMonParMonEnbStatusItem(i) == DISABLED)
+        return 1;
+    else
+        return 0;
 }
 
+/* ---------------------------------------------------------------------- */
 /* Guard on the Control Flow from DECISION4 to DECISION7. */
-FwPrBool_t CrPsMonFncPrIsPerSmaller(FwPrDesc_t prDesc)
-{	(void)prDesc;
-return 1;
+FwPrBool_t CrPsMonFncPrIsPerSmaller(FwPrDesc_t prDesc) {
+	(void)prDesc;
+	if (getDpMonPerCntItem(i) < getDpMonPerItem(i))
+	    return 1;
+	else
+	    return 0;
 }
 
+/* ---------------------------------------------------------------------- */
 /* Guard on the Control Flow from DECISION6 to N1. */
-FwPrBool_t CrPsMonFncPrGN1(FwPrDesc_t prDesc)
-{	(void)prDesc;
-    return 1;
+FwPrBool_t CrPsMonFncPrGN1(FwPrDesc_t prDesc) {
+    (void)prDesc;
+    if (i == (MON_N_PMON-1))
+        return 1;
+    else
+        return 0;
 }
 
+/* ---------------------------------------------------------------------- */
 /* Guard on the Control Flow from DECISION8 to N11. */
-FwPrBool_t CrPsMonFncPrIsParInv(FwPrDesc_t prDesc)
-{	(void)prDesc;
-    return 1;
+FwPrBool_t CrPsMonFncPrIsParInv(FwPrDesc_t prDesc) {
+	(void)prDesc;
+
+    /* A parameter is valid if data item valDataItemId masked with
+     * valMask is equal to valExpVal */
+
+
+
+	return 1;
 }
 
 /* Guard on the Control Flow from DECISION9 to N12. */

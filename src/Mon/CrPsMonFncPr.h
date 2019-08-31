@@ -12,7 +12,7 @@
  * @image html CrPsMonFncPr.png
  *
  * @author FW Profile code generator version 5.23
- * @date Created on: Jun 1 2019 17:15:41
+ * @date Created on: Aug 31 2019 23:36:9
  */
 
 /* Make sure to include this header file only once */
@@ -79,15 +79,6 @@ void CrPsMonFncPrN3(FwPrDesc_t prDesc);
  * @param prDesc the procedure descriptor
  */
 void CrPsMonFncPrN4(FwPrDesc_t prDesc);
-
-/**
- * Action for node N5.
- * <pre>
- * TBD
- * </pre>
- * @param prDesc the procedure descriptor
- */
-void CrPsMonFncPrN5(FwPrDesc_t prDesc);
 
 /**
  * Action for node N9.
@@ -159,6 +150,13 @@ void CrPsMonFncPrN14(FwPrDesc_t prDesc);
  * @param prDesc the procedure descriptor
  */
 void CrPsMonFncPrN15(FwPrDesc_t prDesc);
+
+/**
+ * Action for node N5.
+ * Do Action_1
+ * @param prDesc the procedure descriptor
+ */
+void CrPsMonFncPrN5(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION2 to DECISION6.

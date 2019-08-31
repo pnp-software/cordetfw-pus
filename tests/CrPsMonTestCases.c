@@ -455,7 +455,6 @@ CrFwBool_t CrPsMonTestCase2() {
 
 /* --------------------------------------------------------------------------- */
 CrFwBool_t CrPsMonTestCase3() {
-    CrPsNParMon_t NParMon = 2;
     CrPsParMonId_t parMonId[2] = {1, 2};
     CrPsParId_t parId[2] = {DpIddummy16Bit, DpIddummy32Bit};
     CrPsMonPer_t per[2] = {1, 1};
@@ -782,7 +781,7 @@ CrFwBool_t CrPsMonTestCase5() {
     /* Reset the framework components */
     CrPsTestUtilitiesResetFw();
 
-    /* -------------------------------------- step 1 -------------------------- */
+    /* -------------------------------------- step 2 -------------------------- */
     /* Instantiate the (12,6) command and execute it four times */
     inCmd12s6 = CrPsMonTestCaseMake12s6(4, parMonIdDel);
     nOfOutCmp = CrFwOutFactoryGetNOfAllocatedOutCmp();
