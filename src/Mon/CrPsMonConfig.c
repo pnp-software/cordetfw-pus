@@ -278,6 +278,19 @@ CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId) {
 }
 
 /* --------------------------------------------------------------------------- */
+CrPsValMask_t CrPsMonConfigMaskParVal(CrPsParId_t parToBeMasked, CrPsValMask_t mask) {
+    CrPsValMask_t valToBeMasked;
+
+    getDpValueElem(parToBeMasked, &valToBeMasked);
+    return (valToBeMasked & mask);
+}
+
+/* --------------------------------------------------------------------------- */
+CrPsMonPrFnc_t CrPsMonConfigSetMonPrFnc(CrPsParMonId_t i) {
+    return monFncPr[i];
+}
+
+/* --------------------------------------------------------------------------- */
 void CrPsMonConfigInitParMon(CrPsParMonId_t parMonId, CrPsParId_t parId, CrPsMonPrType_t monPrType,
         CrPsMonPer_t per, CrPsMonPer_t repNmb, CrPsParId_t valDataItemId,
         CrPsValMask_t valExpVal, CrPsValMask_t valMask, CrPsThirtytwoBit_t* lim1,

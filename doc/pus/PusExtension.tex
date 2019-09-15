@@ -1170,7 +1170,7 @@ After it is established that the Monitor Procedure has returned the same value \
 \item If the parameter monitor is part of one or more functional monitors (i.e. if there are non-zero entries in \texttt{fMonList} in table \ref{tab:pmonAtt}), then the functional monitors are notified
 \end{itemize}
 
-The violation events are: EVT\_MON\_*. The ground can choose whether or not an event is associated to a monitor but, once the type of monitor and the type of the monitored parameter (integer or real) is specified, the event type is also defined.
+The ground can choose whether or not an event is associated to a monitor and it can choose the identifier of the event but the layout of the event must be like that of the EVT\_MON\_* events.
 
 Parameter monitors can be individually enabled and disabled. When a parameter monitor becomes disabled, its Parameter Monitor Procedure is stopped. When a parameter monitor becomes enabled, its Parameter Monitor Procedure is started. Thus, the enable status of a parameter monitor is given by the started/stopped state of its Parameter Monitor Procedure.
 

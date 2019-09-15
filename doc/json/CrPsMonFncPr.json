@@ -2,7 +2,7 @@
      "editorVersion": "5.23",
      "states": [
           {
-               "id": 1,
+               "id": 913,
                "attrs": {
                     "x": 832,
                     "y": 435,
@@ -24,7 +24,7 @@
                "selected": false
           },
           {
-               "id": 2,
+               "id": 914,
                "attrs": {
                     "x": 471,
                     "y": 206,
@@ -63,7 +63,7 @@
                "selected": false
           },
           {
-               "id": 4,
+               "id": 916,
                "attrs": {
                     "x": 465,
                     "y": 283,
@@ -102,7 +102,7 @@
                "selected": false
           },
           {
-               "id": 6,
+               "id": 918,
                "attrs": {
                     "x": 503,
                     "y": 358,
@@ -126,12 +126,12 @@
                "selected": false
           },
           {
-               "id": 7,
+               "id": 919,
                "attrs": {
                     "x": 235,
                     "y": 237,
-                    "width": 204,
-                    "height": 78,
+                    "width": 200,
+                    "height": 102,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -144,12 +144,12 @@
                "fwprop": {
                     "autoid": 1,
                     "type": "note",
-                    "note": "Action_1: initialize all period counters\nand repetition counters to zero; initialize\nall checking status to UNCHECKED; and\nset index i to -1 (index i iterates overl\nall Parameter Monitors in the PMDL)"
+                    "note": "Action_1: initialize all period counters\nand repetition counters to zero; initialize\nall checking status to UNCHECKED; \ninitiallize the return value of the Monitor\nProcedures to INVALID, and\nset index i to -1 (index i iterates overl\nall Parameter Monitors in the PMDL)"
                },
                "selected": false
           },
           {
-               "id": 9,
+               "id": 921,
                "attrs": {
                     "x": 614,
                     "y": 661,
@@ -188,7 +188,7 @@
                "selected": false
           },
           {
-               "id": 11,
+               "id": 925,
                "attrs": {
                     "x": 431,
                     "y": 429,
@@ -227,7 +227,7 @@
                "selected": false
           },
           {
-               "id": 13,
+               "id": 927,
                "attrs": {
                     "x": 503,
                     "y": 515,
@@ -251,7 +251,7 @@
                "selected": false
           },
           {
-               "id": 14,
+               "id": 928,
                "attrs": {
                     "x": 551,
                     "y": 481,
@@ -274,7 +274,7 @@
                "selected": false
           },
           {
-               "id": 16,
+               "id": 930,
                "attrs": {
                     "x": 294,
                     "y": 134,
@@ -297,7 +297,7 @@
                "selected": false
           },
           {
-               "id": 18,
+               "id": 932,
                "attrs": {
                     "x": 653,
                     "y": 1039,
@@ -336,7 +336,7 @@
                "selected": false
           },
           {
-               "id": 20,
+               "id": 934,
                "attrs": {
                     "x": 228,
                     "y": 603,
@@ -359,7 +359,7 @@
                "selected": false
           },
           {
-               "id": 22,
+               "id": 936,
                "attrs": {
                     "x": 581,
                     "y": 749,
@@ -377,12 +377,12 @@
                "fwprop": {
                     "autoid": 5,
                     "type": "note",
-                    "note": "Flag_1 is true if previous and current return\nvalues of monitor procedure are equal"
+                    "note": "Flag_1 is true if previous and current return\nvalues of monitor procedure are not equal"
                },
                "selected": false
           },
           {
-               "id": 24,
+               "id": 938,
                "attrs": {
                     "x": 734,
                     "y": 358,
@@ -406,7 +406,7 @@
                "selected": false
           },
           {
-               "id": 25,
+               "id": 939,
                "attrs": {
                     "x": 208,
                     "y": 515,
@@ -430,7 +430,7 @@
                "selected": false
           },
           {
-               "id": 26,
+               "id": 940,
                "attrs": {
                     "x": 503,
                     "y": 670,
@@ -454,7 +454,7 @@
                "selected": false
           },
           {
-               "id": 27,
+               "id": 941,
                "attrs": {
                     "x": 276,
                     "y": 543,
@@ -477,7 +477,7 @@
                "selected": false
           },
           {
-               "id": 29,
+               "id": 943,
                "attrs": {
                     "x": 465,
                     "y": 579,
@@ -516,7 +516,7 @@
                "selected": false
           },
           {
-               "id": 31,
+               "id": 945,
                "attrs": {
                     "x": 241,
                     "y": 661,
@@ -555,7 +555,7 @@
                "selected": false
           },
           {
-               "id": 33,
+               "id": 947,
                "attrs": {
                     "x": 220,
                     "y": 869,
@@ -578,7 +578,7 @@
                "selected": false
           },
           {
-               "id": 35,
+               "id": 949,
                "attrs": {
                     "x": 503,
                     "y": 723,
@@ -602,7 +602,7 @@
                "selected": false
           },
           {
-               "id": 36,
+               "id": 950,
                "attrs": {
                     "x": 279,
                     "y": 714,
@@ -641,7 +641,7 @@
                "selected": false
           },
           {
-               "id": 38,
+               "id": 952,
                "attrs": {
                     "x": 503,
                     "y": 873,
@@ -665,7 +665,7 @@
                "selected": false
           },
           {
-               "id": 39,
+               "id": 953,
                "attrs": {
                     "x": 415,
                     "y": 799,
@@ -704,7 +704,7 @@
                "selected": false
           },
           {
-               "id": 41,
+               "id": 955,
                "attrs": {
                     "x": 658,
                     "y": 840,
@@ -743,7 +743,7 @@
                "selected": false
           },
           {
-               "id": 43,
+               "id": 957,
                "attrs": {
                     "x": 582,
                     "y": 573,
@@ -766,7 +766,7 @@
                "selected": false
           },
           {
-               "id": 45,
+               "id": 959,
                "attrs": {
                     "x": 744,
                     "y": 973,
@@ -790,7 +790,7 @@
                "selected": false
           },
           {
-               "id": 46,
+               "id": 960,
                "attrs": {
                     "x": 522,
                     "y": 964,
@@ -829,7 +829,7 @@
                "selected": false
           },
           {
-               "id": 48,
+               "id": 962,
                "attrs": {
                     "x": 216,
                     "y": 951,
@@ -852,7 +852,7 @@
                "selected": false
           },
           {
-               "id": 50,
+               "id": 964,
                "attrs": {
                     "x": 695,
                     "y": 435,
@@ -930,8 +930,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 4,
-               "stateToID": 6,
+               "stateFromID": 916,
+               "stateToID": 918,
                "selected": false
           },
           {
@@ -998,8 +998,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 6,
-               "stateToID": 24,
+               "stateFromID": 918,
+               "stateToID": 938,
                "selected": false
           },
           {
@@ -1045,8 +1045,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 6,
-               "stateToID": 11,
+               "stateFromID": 918,
+               "stateToID": 925,
                "selected": false
           },
           {
@@ -1087,8 +1087,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 11,
-               "stateToID": 13,
+               "stateFromID": 925,
+               "stateToID": 927,
                "selected": false
           },
           {
@@ -1155,8 +1155,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 13,
-               "stateToID": 25,
+               "stateFromID": 927,
+               "stateToID": 939,
                "selected": false
           },
           {
@@ -1202,8 +1202,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 13,
-               "stateToID": 29,
+               "stateFromID": 927,
+               "stateToID": 943,
                "selected": false
           },
           {
@@ -1260,8 +1260,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 2,
-               "stateToID": 4,
+               "stateFromID": 914,
+               "stateToID": 916,
                "selected": false
           },
           {
@@ -1328,8 +1328,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 24,
-               "stateToID": 4,
+               "stateFromID": 938,
+               "stateToID": 916,
                "selected": false
           },
           {
@@ -1406,8 +1406,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 24,
-               "stateToID": 2,
+               "stateFromID": 938,
+               "stateToID": 914,
                "selected": false
           },
           {
@@ -1474,8 +1474,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 25,
-               "stateToID": 4,
+               "stateFromID": 939,
+               "stateToID": 916,
                "selected": false
           },
           {
@@ -1532,8 +1532,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 25,
-               "stateToID": 2,
+               "stateFromID": 939,
+               "stateToID": 914,
                "selected": false
           },
           {
@@ -1579,8 +1579,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 26,
-               "stateToID": 31,
+               "stateFromID": 940,
+               "stateToID": 945,
                "selected": false
           },
           {
@@ -1626,8 +1626,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 26,
-               "stateToID": 9,
+               "stateFromID": 940,
+               "stateToID": 921,
                "selected": false
           },
           {
@@ -1668,8 +1668,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 29,
-               "stateToID": 26,
+               "stateFromID": 943,
+               "stateToID": 940,
                "selected": false
           },
           {
@@ -1721,8 +1721,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 31,
-               "stateToID": 25,
+               "stateFromID": 945,
+               "stateToID": 939,
                "selected": false
           },
           {
@@ -1774,8 +1774,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 9,
-               "stateToID": 35,
+               "stateFromID": 921,
+               "stateToID": 949,
                "selected": false
           },
           {
@@ -1821,8 +1821,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 35,
-               "stateToID": 36,
+               "stateFromID": 949,
+               "stateToID": 950,
                "selected": false
           },
           {
@@ -1868,8 +1868,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 35,
-               "stateToID": 39,
+               "stateFromID": 949,
+               "stateToID": 953,
                "selected": false
           },
           {
@@ -1910,8 +1910,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 39,
-               "stateToID": 38,
+               "stateFromID": 953,
+               "stateToID": 952,
                "selected": false
           },
           {
@@ -1963,8 +1963,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 36,
-               "stateToID": 39,
+               "stateFromID": 950,
+               "stateToID": 953,
                "selected": false
           },
           {
@@ -2010,8 +2010,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 38,
-               "stateToID": 41,
+               "stateFromID": 952,
+               "stateToID": 955,
                "selected": false
           },
           {
@@ -2068,8 +2068,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 38,
-               "stateToID": 18,
+               "stateFromID": 952,
+               "stateToID": 932,
                "selected": false
           },
           {
@@ -2110,8 +2110,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 41,
-               "stateToID": 45,
+               "stateFromID": 955,
+               "stateToID": 959,
                "selected": false
           },
           {
@@ -2157,8 +2157,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 45,
-               "stateToID": 18,
+               "stateFromID": 959,
+               "stateToID": 932,
                "selected": false
           },
           {
@@ -2204,8 +2204,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 45,
-               "stateToID": 46,
+               "stateFromID": 959,
+               "stateToID": 960,
                "selected": false
           },
           {
@@ -2257,8 +2257,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 46,
-               "stateToID": 18,
+               "stateFromID": 960,
+               "stateToID": 932,
                "selected": false
           },
           {
@@ -2320,8 +2320,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 18,
-               "stateToID": 24,
+               "stateFromID": 932,
+               "stateToID": 938,
                "selected": false
           },
           {
@@ -2362,8 +2362,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 1,
-               "stateToID": 50,
+               "stateFromID": 913,
+               "stateToID": 964,
                "selected": false
           },
           {
@@ -2404,19 +2404,19 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 50,
-               "stateToID": 24,
+               "stateFromID": 964,
+               "stateToID": 938,
                "selected": false
           }
      ],
      "globals": {
           "paperPanX": 0,
-          "paperPanY": 120,
+          "paperPanY": 60,
           "attrs": {
                "x": 0,
-               "y": 120,
-               "width": 1244,
-               "height": 698,
+               "y": 60,
+               "width": 1382,
+               "height": 776,
                "r": 0,
                "rx": 0,
                "ry": 0,

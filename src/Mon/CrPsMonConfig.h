@@ -197,24 +197,31 @@ CrPsParMonCheckStatus_t CrPsMonConfigOutOfLimitCheckUI(CrPsParMonId_t parMonId);
 CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId);
 
 /**
- * Return the function implementing the monitor procedure for the i-th
- * parameter monitor.
+ * Apply a mask to the value of a parameter.
+ * This function proceeds as follows:
+ * - It assumes the value of the parameter to be masked to be of type #CrPsValMask_t
+ *   and retrieves its value from the data pool
+ * - It performs a bit-wise operation between the value of the parameeter to be masked
+ *    and the mask and returns the results of he bit-wise operation
+ * .
  *
- * @param i the index of the parameter monitor
+ * @constraint Masking operations should only be performed on data items of type
+ * #CrPsValMask_t (outcome of function in other cases is implementation-dependent)
+ * @param parToBeMasked the index of the parameter monitor
  * @return the function implementing the monitor procedure for the i-th
  * parameter monitor.
  */
-CrPsMonPrFnc_t CrPsMonConfigGetMonPrFnc(CrPsParMonId_t i);
+CrPsValMask_t CrPsMonConfigMaskParVal(CrPsParId_t parToBeMasked, CrPsValMask_t mask);
 
 /**
- * Set the function implementing the monitor procedure for the i-th
+ * Get the function implementing the monitor procedure for the i-th
  * parameter monitor.
  *
- * @param i the index of the parameter monitor
- * @param monPrFnc the function implementing the monitor procedure for the i-th
+ * @param i the index of the parameter monitor (starting at zero)
+ * @return monPrFnc the function implementing the monitor procedure for the i-th
  * parameter monitor.
  */
-void CrPsMonConfigSetMonPrFnc(CrPsParMonId_t i, CrPsMonPrFnc_t monPrFnc);
+CrPsMonPrFnc_t CrPsMonConfigSetMonPrFnc(CrPsParMonId_t i);
 
 /**
  * Define a parameter monitor.
