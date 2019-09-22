@@ -147,9 +147,24 @@ void CrPsMonFncPrN13(FwPrDesc_t prDesc) {
         setDpMonRepCntItem(i, repCnt+1);
 }
 
+/* ---------------------------------------------------------------------- */
 /* Action for node N14. */
-void CrPsMonFncPrN14(FwPrDesc_t prDesc)
-{	(void)prDesc;
+void CrPsMonFncPrN14(FwPrDesc_t prDesc) {
+	(void)prDesc;
+    CrPsParMonCheckStatus_t curCheckStatus;
+
+    /* Set checking status equal to return value of monitor procedure, */
+    curCheckStatus = getDpMonMonPrRetValItem(i);
+    setDpMonCheckStatusItem(i, curCheckStatus);
+
+    /* Add an entry in Check Transition List */
+    // TBD
+
+    /* Notify functional monitors to which the parameter monitor belongs */
+    // TBD
+
+    /* Run the CTL Processing Procedure */
+    // TBD
 }
 
 /* Action for node N15. */
@@ -242,9 +257,26 @@ FwPrBool_t CrPsMonFncPrIsFlag2(FwPrDesc_t prDesc) {
     return 0;
 }
 
+/* ---------------------------------------------------------------------- */
 /* Guard on the Control Flow from DECISION11 to N15. */
-FwPrBool_t CrPsMonFncPrIsFlag3(FwPrDesc_t prDesc)
-{	(void)prDesc;
-    return 1;
+FwPrBool_t CrPsMonFncPrIsFlag3(FwPrDesc_t prDesc) {
+    (void)prDesc;
+
+    /* Flag_3 is true if the parameter monitor has an
+       associated event to report a monitoring violation */
+
+    if (getDpMonCheckStatus(i) == MON_ABOVE)
+      if (getDpMonUpperLimEvtIdItem(i) != 0)
+        return 1;
+
+    if (getDpMonCheckStatus(i) == MON_BELOW)
+      if (getDpMonLowerLimEvtIdItem(i) != 0)
+        return 1;
+
+    if (getDpMonCheckStatus(i) == MON_NOT_EXP)
+      if (getDpMonUpperLimEvtIdItem(i) != 0)
+        return 1;
+
+    return 0;
 }
 
