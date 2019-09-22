@@ -36,6 +36,15 @@
 
 #include "CrPsTypes.h"
 
+/** Type to hold the outcome of performing a monitoring check (return value of a Monitor Procedure) */
+struct CrPsMonCheckOutcome_t {
+    /** Status of the parameter monitor after execution of the monitoring check */
+    CrPsParMonCheckStatus_t monCheckStatus;
+    /** Type of the monitor procedure which executed the monitoring check */
+    CrPsMonPrType_t monPrType;
+
+};
+
 /**
  * Type for a pointer to a function implementing a service 12 Monitor Procedure.
  * The function takes as an input the identifier of the parameter monitor; it
@@ -202,7 +211,7 @@ CrPsParMonCheckStatus_t CrPsMonConfigExpValCheck(CrPsParMonId_t parMonId);
  * - It assumes the value of the parameter to be masked to be of type #CrPsValMask_t
  *   and retrieves its value from the data pool
  * - It performs a bit-wise operation between the value of the parameeter to be masked
- *    and the mask and returns the results of he bit-wise operation
+ *   and the mask and returns the results of he bit-wise operation
  * .
  *
  * @constraint Masking operations should only be performed on data items of type

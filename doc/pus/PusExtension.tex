@@ -1170,7 +1170,7 @@ After it is established that the Monitor Procedure has returned the same value \
 \item If the parameter monitor is part of one or more functional monitors (i.e. if there are non-zero entries in \texttt{fMonList} in table \ref{tab:pmonAtt}), then the functional monitors are notified
 \end{itemize}
 
-The ground can choose whether or not an event is associated to a monitor and it can choose the identifier of the event but the layout of the event must be like that of the EVT\_MON\_* events.
+The ground can choose whether or not an event is associated to a monitor and it can choose the identifier of the event but the layout of the event must be like that of the EVT\_MON\_VIOL event.
 
 Parameter monitors can be individually enabled and disabled. When a parameter monitor becomes disabled, its Parameter Monitor Procedure is stopped. When a parameter monitor becomes enabled, its Parameter Monitor Procedure is started. Thus, the enable status of a parameter monitor is given by the started/stopped state of its Parameter Monitor Procedure.
 
@@ -1303,7 +1303,7 @@ The destination of the (12,12) report is the "service 12 user". This is either p
 \hline
 \texttt{checkStatus} & Checking status which triggered the violation & See table \ref{tab:retValMonPr} \\
 \hline
-\texttt{prevCheckStatus} & Checking status in the cycle before the violation was detected & A CUC time value \\
+\texttt{prevCheckStatus} & Checking status in the cycle before the violation was detected & See table \ref{tab:retValMonPr}  \\
 \hline
 \end{pnptable}  
 
