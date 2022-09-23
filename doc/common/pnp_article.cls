@@ -10,7 +10,12 @@
 % NB: as usual with Latex commands interact with each other in unpredictable ways
 \usepackage[a4paper, total={5.5in, 8.5in}, headsep=0.7cm, head=36pt, top=4.5cm]{geometry}	
 
-\usepackage[utf8x]{inputenc}
+% The arial font is commercial and would have to be installed; 
+% Instead, I am using the helvet font which looks like arial
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{array}
 \usepackage[pdftex]{graphicx}
@@ -18,7 +23,10 @@
 \usepackage{enumitem}
 \usepackage{color, colortbl}
 \usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
 \usepackage{float}
+\usepackage{amsmath}
 \usepackage[ddmmyyyy]{datetime}
 \usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
 %\setcounter{secnumdepth}{5}% Allow numbering for paragaphs and subparagraphs.
@@ -42,16 +50,35 @@
 \usepackage{csvsimple}
 \usepackage{calc}
 \usepackage{ifthen}
+\usepackage{pdfpages}   % Provides the includepdf command for including PDF files
+\usepackage{pbox}
+\usepackage[T1]{fontenc}   % To ensure that all characters are searchable in PDF
 
+% Add cross-references to external documents (e.g.: \externaldocument{Xyz})
+\usepackage{xr}		
+\usepackage{xr-hyper}
+\usepackage{booktabs}   % Provides facilities for cell-specific borders	
+\usepackage{xstring}	% Required for string substitution \StrSubstitute
+\usepackage[titles]{tocloft}
 
 \usepackage{underscore}  % Allows underscores to be used in non-math text (use of
                          % this package apparently is not compatible with use of
                          % underscores in labels and other 'special' text)
-
-% Add cross-references to external documents (e.g.: \externaldocument{Xyz})
-\usepackage{xr}			
+	
 
 \newcolumntype{x}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+
+%---------------------------------------------
+% String substitution command
+% \substr{someString}[old}{new}
+%---------------------------------------------
+\newcommand\substr[3]{%
+  \setsepchar{#2}%
+  \readlist\parsedinput{#1}%
+  \foreachitem\x\in\parsedinput{%
+    \ifnum\xcnt=1\else#3\fi\x%
+  }%
+}
 
 %---------------------------------------------
 % Management of Figure and Table Numbering
@@ -154,17 +181,6 @@
 {\oldenddescription}
 
 
-\newenvironment{fw_itemize}
-{\begin{itemize}}
-{\end{itemize}}
-
-\newenvironment{fw_enumerate}
-{\begin{enumerate}}
-{\end{enumerate}}
-
-\newenvironment{fw_description}					
-{\begin{description}}
-{\end{description}}
 
 %---------------------------------------------
 % Definition of colours
@@ -172,6 +188,7 @@
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{light-gray}{gray}{0.85}
+\definecolor{very-light-gray}{gray}{0.92}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \definecolor{lightblue}{RGB}{128,179,255}
 \definecolor{blue}{RGB}{41,85,204}
@@ -319,10 +336,6 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
   \csvreader[head to column names, separator=pipe, late after line=\\\hline, #1]{#6}{}
   {#7}
   \end{pnptable}}
-
-\newcommand{\listofchanges}{
-  \section*{Change Record}	
-  \pnpcsvtable{|c|c|p{10.5cm}|}{}{}{Issue & Section & Description}{./changes.csv}{\issue & \sect & \desc}}
 
 \makeatother
 
