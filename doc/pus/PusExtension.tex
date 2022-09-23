@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\SetDocIssue{0.2}
+\SetDocIssue{0.3 -- DRAFT}
 \SetDocRefNumber{PP-SP-PUX-0001}
 \SetDocTitle{CORDET Framework - PUS Extension}
 \SetDocSubtitle{Specification}
@@ -1696,6 +1696,22 @@ The table in this section lists requirements for the test service.
  \caption{Up-Transfer Start Action}
  \label{fig:Cmd13s10Start}
 \end{figure}
+
+
+
+%=============================================================================================
+\section{On-Board Parameter Management}\label{sec:serv20}
+The service type of the Parameter Management Service is 20. The PUS Extension of the CORDET Framework supports this service in part.
+
+The on-board parameter management service provides the capability to manage on-board parameters. In the PUS Extension, an "on-board parameter" is a data item in the data pool (see section \ref{sec:dp}). The definition of an "on-board parameter" is therefore as follows:
+
+\begin{itemize}
+\item The \textit{on-board parameter identifier} is the data pool identifier
+\item The \textit{memory identifier} is the same for all on-board parameters (since on-board parameters reside in the data pool and an application can only have one data pool)
+\item The \textit{address} of the on-board parameter identifier is the address of the data pool item
+\item The \textit{packet field code} is derived from the type of the data pool item
+\end{itemize}
+
 
 
 
