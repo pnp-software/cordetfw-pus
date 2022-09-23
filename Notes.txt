@@ -1,3 +1,6 @@
+Checking out cordetfw:
+	git submodule update --init --recursive
+
 
 python export_csv.py datapool 1006 100
 python export_csv.py constants 1006
