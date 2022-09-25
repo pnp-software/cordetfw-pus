@@ -34,7 +34,6 @@ pattern_edit = re.compile('#('+cats+'):([a-zA-Z0-9_]+):([a-zA-Z0-9_]+)')
 # Format string for output to a Latex text file
 def frmt_string(s):
     replacements = [['\r\n', ' \\newline '],
-                ['\r', ' \\newline '],
                 ['\n', ' \\newline '],
                 ['%', '\\%'],
                 ['&', '\\&'],
@@ -85,7 +84,7 @@ def convertEditToLatex(s):
     # Function called by sub() to replace occurrences of the #iref:n regex pattern """
     def edit_to_latex(match):
         if match.group(1) == 'Model':
-            return '\ref{fig:'+match.group(3)
+            return '\\ref{fig:'+match.group(3)+'}'
         else:
             return match.group(2)+':'+match.group(3)
     

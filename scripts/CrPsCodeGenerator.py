@@ -51,14 +51,17 @@ def generateDataPool():
         for id, specItem in specItems.items():
             if specItem['cat'] == 'DataItem' and specItem['p_kind'] in ('PAR', 'VAR'):
                 dataItemType = specItems[specItem['p_link']]
+                multiplicity = convertEditToLatex(specItem['t1'])
+                if ':' in multiplicity:
+                    multiplicity = multiplicity.split(':')[1]
                 fd.write(specItem['p_kind'].lower() + '|' +
                          specItem['domain'] + '|' +
                          specItem['name'] + '|' +
                          convertEditToLatex(specItem['title']) + '|' +
                          convertEditToLatex(specItem['value']) + '|' +
                          convertEditToLatex(specItem['t2']) + '|' +
-                         convertEditToLatex(specItem['t1']) + '|' +
-                         dataItemType['domain'] + ':' + dataItemType['name'] + '|' +
+                         multiplicity + '|' +
+                         dataItemType['name'] + '|' +
                          convertEditToLatex(specItem['remarks']) + '\n')
 
 
@@ -99,6 +102,10 @@ def generateCrPsSpec():
             if specItem['cat'] == 'OutComponent':
                 repName = specItem['domain'] + specItem['name'][:-6]
                 caption = 'OutCmp' + repName + 'RepSpec'
+                # Captions in \def commands cannot contain numbers; we 
+                # therefore replace them with letters
+                digitsToLetters = caption.maketrans('1234567890', 'abcdefghij')
+                caption = caption.translate(digitsToLetters)
                 caption_tbl = 'Specification of '+repName+'Rep Component'
                 repPacket = specItems[specItem['p_link']]
                 packetService = specItems[repPacket['p_link']]
