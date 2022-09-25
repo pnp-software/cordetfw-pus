@@ -35,6 +35,8 @@ def generateConstants():
     with open(generatedTablesDir+'/Constants.csv', 'w') as fd:
         fd.write('Domain|Name|Desc|Value|Remarks\n')
         for id, specItem in specItems.items():
+            if not specItem['status'] in ('NEW', 'CNF', 'MOD'):
+                continue
             if specItem['cat'] == 'DataItem' and specItem['p_kind'] == 'CNS':
                 fd.write(specItem['domain'] + '|' +
                          specItem['name'] + '|' +
@@ -49,6 +51,8 @@ def generateDataPool():
     with open(generatedTablesDir+'/DataPool.csv', 'w') as fd:
         fd.write('Kind|Domain|Name|ShortDesc|Value|Unit|Multiplicity|Type|Remarks\n')
         for id, specItem in specItems.items():
+            if not specItem['status'] in ('NEW', 'CNF', 'MOD'):
+                continue
             if specItem['cat'] == 'DataItem' and specItem['p_kind'] in ('PAR', 'VAR'):
                 dataItemType = specItems[specItem['p_link']]
                 multiplicity = convertEditToLatex(specItem['t1'])
@@ -70,6 +74,8 @@ def generateDataPool():
 def generateCrPsSpec():
     with open(generatedTablesDir+'/CrPsSpec.tex', 'w') as fd:
         for id, specItem in specItems.items():
+            if not specItem['status'] in ('NEW', 'CNF', 'MOD'):
+                continue
             if specItem['cat'] == 'InCommand':
                 cmdName = specItem['domain'] + specItem['name'][:-5]
                 caption = 'InCmd' + cmdName + 'CmdSpec'

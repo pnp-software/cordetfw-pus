@@ -31,7 +31,12 @@ cats = 'AdaptPoint|DataItem|DataItemType|InCommand|Packet|PacketPar|DerPacket|En
 pattern_edit = re.compile('#('+cats+'):([a-zA-Z0-9_]+):([a-zA-Z0-9_]+)')
     
 # ----------------------------------------------------------------------
-# Format string for output to a Latex text file
+# Format string for output to a Latex text file.
+# The output is forced to be in ASCII. Non-ASCII characters are replced
+# by question marks.
+# 
+# NB: In Python, 'strange' characters in a string are rendered as one of:
+#     '\x..', or '\u....' or '\U........'  
 def frmt_string(s):
     replacements = [['\r\n', ' \\newline '],
                 ['\n', ' \\newline '],
@@ -42,9 +47,9 @@ def frmt_string(s):
                 ['~', "\\textasciitilde "],
                 ['_', "\\_"]]
     for old, new in replacements:
-       s = s.replace(old, new)    
-    return s
-
+       s = s.replace(old, new)   
+    return s.encode('ascii', 'replace').decode()
+ 
 # ----------------------------------------------------------------------
 def emphasis_to_latex(match):
     if match.group(1) != None:
