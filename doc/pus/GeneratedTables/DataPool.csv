@@ -1,0 +1,107 @@
+Kind|Domain|Name|ShortDesc|Value|Unit|Multiplicity|Type|Remarks
+var|Ver|nOfAccFailed|Number of commands which have failed their Acceptance Check|0|||Ver:CrPsNOfCmd_t|
+var|Ver|failCodeAccFailed|Failure code of last command which failed its Acceptance|0|||Ver:CrPsFailCode_t|
+var|Ver|pcktIdAccFailed|Packet identifier of last command which failed its Acceptance Check|0|||Gen:CrPsThirteenBit_t|
+var|Ver|nOfStartFailed|Number of commands which have failed their Start Action|0|||Ver:CrPsNOfCmd_t|
+var|Ver|failCodeStartFailed|Failure code of last command which failed its Start Check|0|||Ver:CrPsFailCode_t|
+var|Ver|pcktIdStartFailed|Packet identifier of last command which failed its Start Check|0|||Gen:CrPsThirteenBit_t|
+var|Ver|nOfPrgrFailed|Number of commands which have failed their Progress Action|0|||Ver:CrPsNOfCmd_t|
+var|Ver|failCodePrgrFailed|Failure code of last command which failed its Progress Check|0|||Ver:CrPsFailCode_t|
+var|Ver|pcktIdPrgrFailed|Packet identifier of last command which failed its Progress Action|0|||Gen:CrPsThirteenBit_t|
+var|Ver|stepPrgrFailed|Step identifier of last command which failed its Progress Check|0|||Gen:CrFwProgressStepId_t|
+var|Ver|nOfTermFailed|Number of commands which have failed their Termination Action|0|||Ver:CrPsNOfCmd_t|
+var|Ver|failCodeTermFailed|Failure code of last command which failed its Termination|0|||Ver:CrPsFailCode_t|
+var|Ver|pcktIdTermFailed|Packet identifier of last command which failed its Termination|0|||Gen:CrPsThirteenBit_t|
+var|Ver|nOfReroutingFailed|Number of commands for which re-routing failed|0|||Ver:CrPsNOfCmd_t|
+var|Ver|pcktIdReroutingFailed|Packet identifier of last command for which re-routing failed|0|||Gen:CrPsThirteenBit_t|
+var|Ver|invDestRerouting|Destination of last command for which re-routing failed|0|||Gen:CrFwDestSrc_t|
+var|Ver|failData|Verification Failure Data (data item of fixed size but variable meaning)|0|||Ver:CrPsFailData_t|
+var|Tst|areYouAliveSrc|Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command|0|||Gen:CrFwDestSrc_t|
+par|Tst|areYouAliveTimeOut|Time-out for the Are-You-Alive Test initiated in response to an On-Board Connection Test|0|||Gen:CrFwTime_t|
+var|Tst|onBoardConnectDest|Destination of the (17,1) triggered by a (17,3) command|0|||Gen:CrFwDestSrc_t|
+par|Tst|onBoardConnectDestLst|Identifiers of target applications for an On-Board-Connection Test|0||Tst:TST\_N\_DEST|Gen:CrFwDestSrc_t|
+var|Hk|cycleCnt|Cycle Counter for Reports in RDL|0||Hk:HK\_N\_REP\_DEF|Hk:CrPsCycleCnt_t|
+var|Hk|sampleBufId|Identifiers of Sampling Buffers|0||Hk:HK\_N\_REP\_DEF|Hk:CrPsSampleBufId_t|The i-th element of this array is the identifier of the Sampling Buffer for the i-th Report Definition in the RDL
+var|Hk|debugVar|Value of Debug Variables|0||Hk:HK\_N\_DEBUG\_VAR|Gen:CrPsThirtytwoBit_t|
+par|Hk|debugVarAddr|Address of Debug Variables|0||Hk:HK\_N\_DEBUG\_VAR|Gen:CrPsThirtytwoBit_t|
+var|Evt|nOfDisabledEid|Number of disabled event identifiers (one element for each severity level)|0||4|Evt:CrPsNEvtId_t|
+var|Evt|nOfDetectedEvts|Number of detected occurrences of events (one element for each severity level)|0||4|Evt:CrPsNEvtRep_t|
+var|Evt|nOfGenEvtRep|Number of generated event reports (one element for each severity level)|0||4|Evt:CrPsNEvtRep_t|
+var|Evt|lastEvtEid|Event identifier of the last generated level event report (one element for each severity level)|0||4|Evt:CrPsEvtId_t|
+var|Evt|lastEvtTime|Time when last event report was generated (one element for each severity level)|0||4|Gen:CrFwTime_t|
+par|Hk|sid|SIDs of report definitions in the RDL|Hk:SID\_HK\_CNT||Hk:HK\_N\_REP\_DEF|Hk:CrPsSID_t|
+var|Lpt|nOfDownlinks|Number of on-going down-transfers|0|||Lpt:CrPsNOfLinks_t|
+var|Lpt|nOfUplinks|Number of on-going up-transfers|0|||Lpt:CrPsNOfLinks_t|
+var|Lpt|lptSize|Size of large packet in the LPT Buffer|0||Lpt:LPT\_N\_BUF|Lpt:CrPsSize_t|
+var|Lpt|lptRemSize|Remaining size of a large packet in the LPT Buffer (part of the large packet not yet down-transferred)|0||Lpt:LPT\_N\_BUF|Lpt:CrPsSize_t|
+var|Lpt|lptSrc|Source of the large packet up-transfer to the LPT Buffer|0||Lpt:LPT\_N\_BUF|Gen:CrFwDestSrc_t|
+var|Lpt|lptTime|Time when last up-transfer command to the LPT Buffer was received|0||Lpt:LPT\_N\_BUF|Gen:CrPsTimeSec_t|
+par|Lpt|lptTimeOut|Time-out for up-tramsfer to LPT Buffer|0||Lpt:LPT\_N\_BUF|Gen:CrPsTimeSec_t|
+par|Mon|maxRepDelay|Maximum reporting delay|0|||Mon:CrPsRepDelay_t|
+par|Mon|repNmb|Repetition number for the parameter monitor|1||Mon:MON\_N\_PMON|Mon:CrPsMonPer_t|
+var|Mon|fMonEnbStatus|Functional monitoring enable status|Gen:DISABLED|||Gen:CrPsEnDis_t|
+var|Mon|parMonFuncEnbStatus|Enable state of parameter monitoring function|Gen:DISABLED|||Gen:CrPsEnDis_t|
+var|Mon|nmbAvailParMon|Number of available parameter monitors in the PMDL|0|||Mon:CrPsParMonId_t|
+var|Mon|nmbEnbParMon|Number of enabled parameter monitors in the PMDL|0|||Mon:CrPsParMonId_t|
+var|Mon|ctlTimeFirstEntry|Time when first entry has been added to the CTL|0|||Gen:CrFwTime_t|
+var|Mon|nmbAvailFMon|Number of available functional monitors in the FMDL|0|||Mon:CrPsFuncMonId_t|
+var|Mon|nmbEnbFMon|Number of enabled functional monitors in the FMDL|0|||Mon:CrPsFuncMonId_t|
+par|Mon|servUser|Identifier of the application acting as user of the on-board monitoring service (source of most recent (12,15) command enabling monitoring function)|0|||Gen:CrFwDestSrc_t|The default user of the service is the ground.
+var|Mon|ctlRepDelay|Maximum reporting delay for the CTL in multiples of MON\_PER|0|||Mon:CrPsRepDelay_t|
+par|Hk|period|Periods of report definitions in the RDL|0||Hk:HK\_N\_REP\_DEF|Hk:CrPsCycleCnt_t|
+par|Hk|isEnabled|Enable status of report definitions in the RDL|0||Hk:HK\_N\_REP\_DEF|Gen:CrFwBool_t|
+par|Hk|dest|Destination of report definitions in the RDL|0||Hk:HK\_N\_REP\_DEF|Gen:CrFwDestSrc_t|
+par|Lpt|lptDest|Destination of transfer from LPT Buffer|0||Lpt:LPT\_N\_BUF|Gen:CrFwDestSrc_t|
+par|Lpt|partSize|Part size for transfers to/from LPT Buffer|0||Lpt:LPT\_N\_BUF|Lpt:CrPsSize_t|
+var|Fct|nOfAllocatedInRep|Number of currently allocated InReports (i.e. successfully created by the InFactory and not yet released)|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfAllocatedInCmd|Number of currently allocated InCommands (i.e. successfully created by the InFactory and not yet released)|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfAllocatedOutCmp|Number of currently allocated OutComponents (i.e. successfully created by the OutFactory and not yet released)|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfFailedInRep|Number of InReports whose creation by the InFactory failed|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfFailedInCmd|Number of InCommands whose creation by the InFactory failed|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfFailedOutCmp|Number of OutComponents whose creation by the OutFactory failed|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfTotAllocatedInRep|Number of InReports successfully created by the InFactory since application start|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfTotAllocatedInCmd|Number of InCommands successfully created by the InFactory since application start|0|||Fct:CrPsNCmdRep_t|
+var|Fct|nOfTotAllocatedOutCmp|Number of OutComponents successfully created by the InFac- tory since application start|0|||Fct:CrPsNCmdRep_t|
+var|Scd|firstTba|Identifier of next time-based activity due for release|0|||Scd:CrPsNTba_t|
+par|Scd|timeMargin|Time margin for time-based scheduling service|0|||Gen:CrFwTime_t|
+par|Scd|isTbsEnabled|Enable status of time-based schedule|0|||Gen:CrFwBool_t|
+var|Scd|nOfSubSched|Number of non-empty sub-schedules|0|||Scd:CrPsNSubSchedGroup_t|
+var|Scd|nOfGroup|Number of non-empty groups|0|||Scd:CrPsNSubSchedGroup_t|
+var|Scd|isGroupInUse|InUse flag for time-based schedule group|0||Scd:SCD\_N\_GROUP|Gen:CrFwBool_t|
+par|Scd|nOfTbaInSubSched|Number of TBAs in sub-schedule|0||Scd:SCD\_N\_SUB\_TBS|Scd:CrPsNTba_t|
+var|Scd|nOfTba|Number of currently defined time-based activities (TBAs)|0|||Scd:CrPsNTba_t|
+par|Scd|isSubSchedEnabled|Enable status of a sub-schedule|0||Scd:SCD\_N\_SUB\_TBS|Gen:CrFwBool_t|
+par|Scd|nOfTbaInGroup|Number of TBAs in group|0||Scd:SCD\_N\_GROUP|Scd:CrPsNTba_t|
+var|Scd|isGroupEnabled|Enabled flag for time-based schedule group|1||Scd:SCD\_N\_GROUP|Gen:CrFwBool_t|
+var|Ver|failCode|Verification Failure Code|0|||Ver:CrPsFailCode_t|
+var|Tst|areYouAliveStart|Time when the Are-You-Alive Test is started in response to an On-Board Connection Test|0|||Gen:CrFwTime_t|
+par|Hk|nSimple|Number of simply commutated data items in HK report in RDL|0||Hk:HK\_N\_REP\_DEF|Hk:CrPsNPar_t|
+par|Mon|dataItemId|Identifier of the data item monitored by a Parameter Monitor (or zero if the Parameter Monitor is unused)|0||Mon:MON\_N\_PMON|Hk:CrPsParId_t|
+par|Mon|monPrType|Identifier of the Monitor Procedure type|Mon:MON\_PR\_OOL\_R||Mon:MON\_N\_PMON|Mon:CrPsMonPrType_t|
+var|Mon|monPrRetVal|Most recent return value of the Monitor Procedure|Mon:MON\_UNCHECKED||Mon:MON\_N\_PMON|Mon:CrPsParMonCheckStatus_t|
+var|Mon|monPrPrevRetVal|Previous return value of the Monitor Procedure (or INVALID after the monitoring procedure or the monitoring function has been enabled)|Mon:MON\_UNCHECKED||Mon:MON\_N\_PMON|Mon:CrPsParMonCheckStatus_t|
+var|Mon|checkStatus|Checking status of monitored parameter|Mon:MON\_UNCHECKED||Mon:MON\_N\_PMON|Mon:CrPsParMonCheckStatus_t|
+par|Mon|per|Monitoring period for the parameter monitor|1||Mon:MON\_N\_PMON|Mon:CrPsMonPer_t|
+var|Mon|perCnt|Phase counter for the parameter monitor (integer in the range 0..(per-1))|0||Mon:MON\_N\_PMON|Mon:CrPsMonPer_t|
+var|Mon|repCnt|Repetition counter for the parameter monitor (integer in the range (0..(repNmb-1))|0||Mon:MON\_N\_PMON|Mon:CrPsMonPer_t|
+par|Mon|lowerLimEvtId|Identifier of event generated if the lower limit or the expect value is violated or zero if no event is generated|0||Mon:MON\_N\_PMON|Evt:CrPsEvtId_t|
+par|Mon|valDataItemId|Identifier of data item used for validity check of parameter monitor|0||Mon:MON\_N\_PMON|Hk:CrPsParId_t|
+par|Mon|valMask|Mask used for validity check of parameter monitor|0||Mon:MON\_N\_PMON|Mon:CrPsValMask_t|
+par|Mon|valExpValue|Expected value for validity check of parameter monitor|0||Mon:MON\_N\_PMON|Mon:CrPsExpValue_t|
+var|Mon|ctlDataItemId|Identifier of the data item where the monitoring violation was detected|0||Mon:MON\_N\_CTL|Hk:CrPsParId_t|
+var|Mon|ctlMonId|Identifier of the Parameter Monitor which detected the violation|0||Mon:MON\_N\_CTL|Mon:CrPsParMonId_t|
+var|Mon|ctlMonPrType|Identifier of the type of the Monitor Procedure which detected the violation|0||Mon:MON\_N\_CTL|Mon:CrPsMonPrType_t|
+var|Mon|ctlExpValChkMask|In the case of an Expected Value Monitor, the expected value check mask|0||Mon:MON\_N\_CTL|Mon:CrPsExpValue_t|
+var|Mon|ctlCheckStatus|Checking status which triggered the monitoring violation|Mon:MON\_UNCHECKED||Mon:MON\_N\_CTL|Mon:CrPsParMonCheckStatus_t|
+var|Mon|ctlPrevCheckStatus|Checking status in the cycle before the monitoring violation was detected|Mon:MON\_UNCHECKED||Mon:MON\_N\_CTL|Mon:CrPsParMonCheckStatus_t|
+var|Mon|ctlParVal|The parameter value which triggered the violation|0||Mon:MON\_N\_CTL|Gen:CrFwGenericParVal_t|
+var|Mon|ctlParValLimit|The parameter value limit whose violation triggered the violation|0||Mon:MON\_N\_CTL|Gen:CrFwGenericParVal_t|
+par|Mon|lowerLim|Lower limit for Limit Check Procedure|0||Mon:MON\_N\_PMON|Gen:CrFwGenericParVal_t|
+par|Mon|upperLim|Upper llimit for Limit Check Procedure|0||Mon:MON\_N\_PMON|Gen:CrFwGenericParVal_t|
+par|Mon|expValue|Expected value for Expected Value Procedure associated to Parameter Monitor|0||Mon:MON\_N\_PMON|Mon:CrPsExpValue_t|
+var|Mon|parMonEnbStatus|Parameter monitor enable status|Gen:DISABLED||Mon:MON\_N\_PMON|Gen:CrPsEnDis_t|
+var|Dum|dummy32Bit|Dummy item used for testing|0|||Gen:CrPsThirtytwoBit_t|
+var|Dum|dummy16Bit|Dummy item used for testing|0|||Gen:CrPsSixteenBit_t|
+var|Dum|dummy8Bit|Dummy item used for testing|0|||Gen:CrPsEightBit_t|
+par|Mon|upperLimEvtId|Identifier of event generated if the upper limit is violated or zero if no event is generated|0||Mon:MON\_N\_PMON|Evt:CrPsEvtId_t|
+par|Mon|expValueMask|Mask applied to monitored value before comparing it to its expected value in the Expected Value Procedure associated to Parameter Monitor|0||Mon:MON\_N\_PMON|Mon:CrPsExpValue_t|

@@ -120,3 +120,6 @@ dkms.conf
 /doc/icd/GeneratedTables/PUSExtensionCrPsParValueFloatt.tex
 /doc/icd/GeneratedTables/PUSExtensionCrPsParValueSIntt.tex
 /doc/icd/GeneratedTables/PUSExtensionCrPsParValueUIntt.tex
+/scripts/*.pyc
+/scripts/__pycache__/*.pyc
+/tmp/**
