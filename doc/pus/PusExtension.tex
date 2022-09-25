@@ -33,7 +33,6 @@
 }
 
 
-
 %---------------------------------------------
 % Import file with definition of commands and reports
 %---------------------------------------------
@@ -413,7 +412,7 @@ The CORDET Framework specifies the interface of the factory components but does 
 \subsection{Observables}
 The table in this section lists the variables which are maintained and made accessible through the data pool by the two factory components.
 
-\pnpcsvtable[filter equal={\Domain}{Fct}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:Obs-FAC}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Fct}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:Obs-FAC}{Name & Description}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \ShortDesc}
 
 %---------------------------------------------------------------------------------
 \subsection{Adaptation Points}
@@ -647,7 +646,7 @@ With reference to the first bullet, it is recalled that the OutRegistry componen
 \subsection{Service 1 Observables}\label{sec:serv1Obs}
 Service 1 maintains and makes available in the data pool various information related to the generation of the failure reports. No information related to the generation of the success reports is maintained because these reports are optional and the conditions under which they are generated depend on the setting of the verification acknowledge flags which are under external control (they are set by the user of a service). Table \ref{tab:Obs-S1} lists the data pool data items which are maintained by service 1.
 
-\pnpcsvtable[filter equal={\Domain}{Ver}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:Obs-S1}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Ver}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:Obs-S1}{Name & Description}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \ShortDesc}
 
 
 %---------------------------------------------------------------------------------
@@ -857,7 +856,7 @@ The tables in this section formally specify the service 3 commands and reports b
 \subsection{Service 3 Constants}\label{sec:serv3Const}
 The service 3 constants are listed in table \ref{tab:Const-S3}.
 
-\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{2.5cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Housekeeping Service}{tab:Const-S3}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
+\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{3.5cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Housekeeping Service}{tab:Const-S3}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 
 %---------------------------------------------------------------------------------
@@ -867,7 +866,7 @@ The service 3 internal state is defined by the content of the Report Definition 
 
 The observables defined by the framework provide additional visiblity and control over the service 3 variables and parameters. The observables and the parameters for service 3 are listed in table \ref{tab:Obs-S3}.
 
-\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{2.5cm}|l|>{\raggedright\arraybackslash}p{5.5cm}|c|}{Observables and Parameters for Housekeeping Service}{tab:Obs-S3}{Name & Kind & Description & Multiplicity}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
+\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{2.5cm}|l|>{\raggedright\arraybackslash}p{5.5cm}|c|}{Observables and Parameters for Housekeeping Service}{tab:Obs-S3}{Name & Kind & Description & Multiplicity}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Adaptation Points}\label{sec:serv3AP}
@@ -935,11 +934,11 @@ The tables in this section formally specify the service 5 commands and reports b
 \end{itemize}
 
 \newpage
-\printOutCmpEvtRepaSpec{|c|p{10cm}|}
-\printOutCmpEvtRepbSpec{|c|p{10cm}|}
+\printOutCmpEvtRepaRepSpec{|c|p{10cm}|}
+\printOutCmpEvtRepbRepSpec{|c|p{10cm}|}
 \newpage
-\printOutCmpEvtRepcSpec{|c|p{10cm}|}
-\printOutCmpEvtRepdSpec{|c|p{10cm}|}
+\printOutCmpEvtRepcRepSpec{|c|p{10cm}|}
+\printOutCmpEvtRepdRepSpec{|c|p{10cm}|}
 \newpage
 \printInCmdEvtEnbCmdSpec{|c|p{10cm}|}
 \newpage
@@ -961,7 +960,7 @@ The service 5 constants are listed in table \ref{tab:Const-S5}.
 \subsection{Service 5 Observables}\label{sec:serv5Obs}
 The service 5 observables consist of counters and flags which are updated by the service commands. They are listed in table \ref{tab:Obs-S5}.
 
-\pnpcsvtable[filter equal={\Domain}{Evt}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Event Reporting Service}{tab:Obs-S5}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Evt}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Event Reporting Service}{tab:Obs-S5}{Name & Description}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \ShortDesc}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 5 Adaptation Points}\label{sec:serv5AP}
@@ -1096,7 +1095,7 @@ The service 11 observables and parameters are listed in table \ref{tab:Obs-S11}.
 
 The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (TBS) are visible through service 11 reports and are therefore not defined as "observables" in the data pool.
 
-\pnpcsvtable[filter equal={\Domain}{Scd}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|l|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description & Multiplicity}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
+\pnpcsvtable[filter equal={\Domain}{Scd}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|l|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description & Multiplicity}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
 
 
 %---------------------------------------------------------------------------------
@@ -1444,7 +1443,7 @@ The attributes of the parameter and functional monitors in the PMDL and FMDL are
 
 The service 12 configuration is defined by the parameter holding the identifier of the service 12 user. This is either a pre-defined value or it is the source of the most recent (12,15) command to enable the Parameter Monitoring Function.
 
-\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{9.5cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{9.5cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
 %----------------------------------------------------------------------------------------
@@ -1670,7 +1669,7 @@ The service 13 constants are listed in table \ref{tab:Const-S13}.
 \subsection{Service 13 Observables and Parameters}\label{sec:serv13Obs}
 The service 13 observables and parameters are listed in table \ref{tab:Obs-S13}.
 
-\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{2.5cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|l|}{Observables and Parameters for LPT Service}{tab:Obs-S13}{Name & Kind & Description & Multiplicity}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
+\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{2.5cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|l|}{Observables and Parameters for LPT Service}{tab:Obs-S13}{Name & Kind & Description & Multiplicity}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
 
 
 %----------------------------------------------------------------------------------------
@@ -1791,7 +1790,7 @@ The service 17 constants are listed in table \ref{tab:Const-S17}.
 \subsection{Service 17 Observables and Parameters}\label{sec:serv17Obs}
 The service 17 observables and parameters are listed in table \ref{tab:Obs-S13}.
 
-\pnpcsvtable[filter equal={\Domain}{Tst}]{|p{4cm}|c|>{\raggedright\arraybackslash}p{7.5cm}|}{Observables and Parameters for Test Service}{tab:Obs-S17}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Tst}]{|p{4cm}|c|>{\raggedright\arraybackslash}p{7.5cm}|}{Observables and Parameters for Test Service}{tab:Obs-S17}{Name & Kind & Description}{./GeneratedTables/DataPool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
 %---------------------------------------------------------------------------------
