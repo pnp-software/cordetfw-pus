@@ -29,15 +29,19 @@ pattern_bullets = re.compile('((\n^-\s.+$)+)', re.MULTILINE)
 # for that project.
 cats = 'AdaptPoint|DataItem|DataItemType|InCommand|Packet|PacketPar|DerPacket|EnumType|EnumValue|Model|OutComponet|Service'
 pattern_edit = re.compile('#('+cats+'):([a-zA-Z0-9_]+):([a-zA-Z0-9_]+)')
-    
-# ----------------------------------------------------------------------
-# Format string for output to a Latex text file.
-# The output is forced to be in ASCII. Non-ASCII characters are replced
-# by question marks.
-# 
+
+# Regex expression to match non-visible UTF characters
 # NB: In Python, 'strange' characters in a string are rendered as one of:
 #     '\x..', or '\u....' or '\U........'  
-def frmt_string(s):
+pattern_non_vis = re.compile(r'(\\x\w\w)|(\\u\w\w\w\w)|(\\U\w\w\w\w\w\w)')    
+
+# ----------------------------------------------------------------------
+# Format string for output to a Latex text file.
+# The output is forced to be in ASCII. Non-ASCII characters are replaced
+# by question marks.
+# Non-printable ASCII characters (character code from 0x0 to 0x19 are 
+# converted to double-question marks.
+def frmtString(s):
     replacements = [['\r\n', ' \\newline '],
                 ['\n', ' \\newline '],
                 ['%', '\\%'],
@@ -48,7 +52,10 @@ def frmt_string(s):
                 ['_', "\\_"]]
     for old, new in replacements:
        s = s.replace(old, new)   
-    return s.encode('ascii', 'replace').decode()
+    
+    s_ascii = s.encode('ascii', 'replace').decode()
+    s_printable = re.sub(r'[\x00-\x1F]+','??', s_ascii)
+    return s_printable
  
 # ----------------------------------------------------------------------
 def emphasis_to_latex(match):
@@ -86,14 +93,14 @@ def markdown_to_latex(s):
 #  category-specific form and special latex characters are escaped.
 #  Markdown text is converted to latex.
 def convertEditToLatex(s):
-    # Function called by sub() to replace occurrences of the #iref:n regex pattern """
-    def edit_to_latex(match):
+    # Function called by sub() to replace occurrences of regex pattern
+    def editToLatex(match):
         if match.group(1) == 'Model':
             return '\\ref{fig:'+match.group(3)+'}'
         else:
             return match.group(2)+':'+match.group(3)
     
-    s_ref = pattern_edit.sub(edit_to_latex, s)
+    s_ref = pattern_edit.sub(editToLatex, s)
     s_md = markdown_to_latex(s_ref)
-    return frmt_string(s_md)
+    return frmtString(s_md)
     

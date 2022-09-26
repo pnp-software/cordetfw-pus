@@ -28,6 +28,35 @@ pattern_db = re.compile('#(iref):([0-9]+)')
 # Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'
 
+#===============================================================================
+# Create table with the requirements
+def generatePusReqs():
+    with open(generatedTablesDir+'/PusExtensionReq.csv', 'w') as fd:
+        fd.write('Category|Type|Id|Text|Implementation|Verification|Remarks\n')
+        for id, specItem in specItems.items():
+            if specItem['cat'] == 'Requirement' and specItem['domain'] == 'PUS':
+                if '_' not in specItem['name']:
+                    print('ERROR: PUS requirement with incorrect name format: '+specItem['name'])
+                    continue
+                if specItem['p_kind'] == 'CNS':
+                    reqKind = 'C'
+                elif specItem['p_kind'] == 'STD':
+                    reqKind = 'S'
+                elif specItem['p_kind'] == 'PRP':
+                    reqKind = 'P'
+                elif specItem['p_kind'] == 'AP':
+                    reqKind = 'A'
+                else:
+                    reqKind = '??'
+
+                fd.write(specItem['name'].split('_')[0] + '|' +
+                         reqKind + '|' +
+                         specItem['name'].split('_')[1] + '|' +
+                         convertEditToLatex(specItem['value']) + '|' +
+                         convertEditToLatex(specItem['implementation']) + '|' +
+                         convertEditToLatex(specItem['t1']) + '|' +
+                         convertEditToLatex(specItem['remarks']) + '\n')
+
 
 #===============================================================================
 # Create table with the definition of the constants
@@ -35,8 +64,6 @@ def generateConstants():
     with open(generatedTablesDir+'/Constants.csv', 'w') as fd:
         fd.write('Domain|Name|Desc|Value|Remarks\n')
         for id, specItem in specItems.items():
-            if not specItem['status'] in ('NEW', 'CNF', 'MOD'):
-                continue
             if specItem['cat'] == 'DataItem' and specItem['p_kind'] == 'CNS':
                 fd.write(specItem['domain'] + '|' +
                          specItem['name'] + '|' +
@@ -51,8 +78,6 @@ def generateDataPool():
     with open(generatedTablesDir+'/DataPool.csv', 'w') as fd:
         fd.write('Kind|Domain|Name|ShortDesc|Value|Unit|Multiplicity|Type|Remarks\n')
         for id, specItem in specItems.items():
-            if not specItem['status'] in ('NEW', 'CNF', 'MOD'):
-                continue
             if specItem['cat'] == 'DataItem' and specItem['p_kind'] in ('PAR', 'VAR'):
                 dataItemType = specItems[specItem['p_link']]
                 multiplicity = convertEditToLatex(specItem['t1'])
@@ -74,8 +99,6 @@ def generateDataPool():
 def generateCrPsSpec():
     with open(generatedTablesDir+'/CrPsSpec.tex', 'w') as fd:
         for id, specItem in specItems.items():
-            if not specItem['status'] in ('NEW', 'CNF', 'MOD'):
-                continue
             if specItem['cat'] == 'InCommand':
                 cmdName = specItem['domain'] + specItem['name'][:-5]
                 caption = 'InCmd' + cmdName + 'CmdSpec'
@@ -159,11 +182,14 @@ def procCordetFw(cordetFwPrFile):
     with open('tmp/spec_items.csv') as fd:
         fdDict = csv.DictReader(fd)
         for row in fdDict:
+            if not row['status'] in ('NEW', 'CNF', 'MOD'):
+                continue
             specItems[row['id']] = row
     
     generateCrPsSpec()
     generateConstants()
     generateDataPool()
+    generatePusReqs()
     
 #===============================================================================
 ## Dummy main to be used to test the functions defined in this module.
