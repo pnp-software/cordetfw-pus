@@ -28,6 +28,28 @@ pattern_db = re.compile('#(iref):([0-9]+)')
 # Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'
 
+
+#===============================================================================
+# Create table with the adaptation points
+def generatePusAPs():
+    with open(generatedTablesDir+'/PusExtensionAP.csv', 'w') as fd:
+        fd.write('Category|Id|Origin|AP|DefValue|Implementation|Remarks\n')
+        for id, specItem in specItems.items():
+            if specItem['cat'] == 'Requirement' and specItem['domain'] == 'PUS':
+                if specItem['name'].count('_') != 2:
+                    print('ERROR: PUS adaptation point with incorrect name format: '+specItem['name'])
+                    continue
+
+                fd.write(specItem['name'].split('_')[1] + '|' +
+                         reqKind + '|' +
+                         specItem['name'].split('_')[2] + '|' +
+                         convertEditToLatex(specItem['rationale']) + '|' +
+                         convertEditToLatex(specItem['title']) + '|' +
+                         convertEditToLatex(specItem['value']) + '|' +
+                         convertEditToLatex(specItem['implementation']) + '|' +
+                         convertEditToLatex(specItem['remarks']) + '\n')
+
+
 #===============================================================================
 # Create table with the requirements
 def generatePusReqs():
@@ -190,6 +212,8 @@ def procCordetFw(cordetFwPrFile):
     generateConstants()
     generateDataPool()
     generatePusReqs()
+    generatePusAPs()
+    
     
 #===============================================================================
 ## Dummy main to be used to test the functions defined in this module.
