@@ -18,7 +18,7 @@ import re
 import copy
 import zipfile
 
-from Config import specItems
+from Config import specItems, enumTypesToEnumValues
 from Format import convertEditToLatex
 
 # Regex pattern for internal references to specification items as they
@@ -30,18 +30,40 @@ generatedTablesDir = 'doc/pus/GeneratedTables'
 
 
 #===============================================================================
-# Create table with the adaptation points
+# Create table with the event IDs and fail code IDs
 def generatePusAPs():
-    with open(generatedTablesDir+'/PusExtensionAP.csv', 'w') as fd:
+    with open(generatedTablesDir+'/PUSExtensionCrPsEvtIdt.csv', 'w') as fd:
         fd.write('Category|Id|Origin|AP|DefValue|Implementation|Remarks\n')
         for id, specItem in specItems.items():
-            if specItem['cat'] == 'Requirement' and specItem['domain'] == 'PUS':
+            if specItem['cat'] == 'AdaptPoint' and specItem['domain'] == 'PUS':
                 if specItem['name'].count('_') != 2:
                     print('ERROR: PUS adaptation point with incorrect name format: '+specItem['name'])
                     continue
 
                 fd.write(specItem['name'].split('_')[1] + '|' +
-                         reqKind + '|' +
+                         specItem['name'].split('_')[2] + '|' +
+                         convertEditToLatex(specItem['rationale']) + '|' +
+                         convertEditToLatex(specItem['title']) + '|' +
+                         convertEditToLatex(specItem['value']) + '|' +
+                         convertEditToLatex(specItem['implementation']) + '|' +
+                         convertEditToLatex(specItem['remarks']) + '\n')
+
+
+Value	Name	Description	Parameters
+
+
+#===============================================================================
+# Create table with the adaptation points
+def generatePusAPs():
+    with open(generatedTablesDir+'/PusExtensionAP.csv', 'w') as fd:
+        fd.write('Category|Id|Origin|AP|DefValue|Implementation|Remarks\n')
+        for id, specItem in specItems.items():
+            if specItem['cat'] == 'AdaptPoint' and specItem['domain'] == 'PUS':
+                if specItem['name'].count('_') != 2:
+                    print('ERROR: PUS adaptation point with incorrect name format: '+specItem['name'])
+                    continue
+
+                fd.write(specItem['name'].split('_')[1] + '|' +
                          specItem['name'].split('_')[2] + '|' +
                          convertEditToLatex(specItem['rationale']) + '|' +
                          convertEditToLatex(specItem['title']) + '|' +
@@ -184,6 +206,32 @@ def generateCrPsSpec():
 
 
 #===============================================================================
+# Build a cross-table. 
+# A cross-table is a dictionary where:
+# - the key is the Domain:Name of a spec_item of category C1
+# - the value is a list of spec_items of type C2 which have either a p_link
+#   or an s_link to the key
+# .
+# The arguments of this function are:
+# - the cross-table dictionary (must be empty when the function is called)
+# - the categories C1 and C2
+# - the type of link (either 'p_link' or 's_link')
+# .
+def buildCrossTable(crossTable, keyCatParent, keyCatChild, keyLink): 
+    for id, specItem in specItems.items():
+        if specItem['cat'] == keyCatParent:
+            keyName = specItem['domain'] + ':' + specItem['name']
+            crossTable[keyName] = []
+    for id, specItem in specItems.items():
+        if specItem['cat'] == keyCatChild:
+            if specItem[keyLink] in specItems:
+                specItemDomName = specItems[specItem[keyLink]]['domain'] + ':' + \
+                                  specItems[specItem[keyLink]]['name'] 
+                if specItemDomName in crossTable:
+                    crossTable[specItemDomName].append(specItem)
+
+
+#===============================================================================
 # Delete the tmp directory if it exists; therwise create it.
 # Expand the Cordet FW Project file in the tmp directory,
 # read the configuration file and initialize the global variables,
@@ -208,11 +256,18 @@ def procCordetFw(cordetFwPrFile):
                 continue
             specItems[row['id']] = row
     
+    # Build cross-tables
+    buildCrossTable(enumTypesToEnumValues, 'EnumType', 'EnumValue', 's_link')
+    import pdb; pdb.set_trace()
+    
+    # Build tables required for the PUS specification
     generateCrPsSpec()
     generateConstants()
     generateDataPool()
     generatePusReqs()
     generatePusAPs()
+    
+    # Build implementation-level generated products 
     
     
 #===============================================================================
