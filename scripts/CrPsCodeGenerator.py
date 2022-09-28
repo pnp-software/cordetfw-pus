@@ -18,7 +18,7 @@ import re
 import copy
 import zipfile
 
-from Config import specItems, enumTypesToEnumValues
+from Config import specItems, enumTypesToEnumValues, enumValToDerPckts
 from Format import convertEditToLatex
 
 # Regex pattern for internal references to specification items as they
@@ -28,28 +28,29 @@ pattern_db = re.compile('#(iref):([0-9]+)')
 # Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'
 
+#===============================================================================
+# Return the spec_item name as 'Domain:Name'.
+def getSpecItemName(specItem):
+    return specItem['domain'] + ':' + specItem['name']
+
 
 #===============================================================================
-# Create table with the event IDs and fail code IDs
-def generatePusAPs():
+# Create table with the event IDs
+def generateEvtIds():
     with open(generatedTablesDir+'/PUSExtensionCrPsEvtIdt.csv', 'w') as fd:
-        fd.write('Category|Id|Origin|AP|DefValue|Implementation|Remarks\n')
-        for id, specItem in specItems.items():
-            if specItem['cat'] == 'AdaptPoint' and specItem['domain'] == 'PUS':
-                if specItem['name'].count('_') != 2:
-                    print('ERROR: PUS adaptation point with incorrect name format: '+specItem['name'])
-                    continue
-
-                fd.write(specItem['name'].split('_')[1] + '|' +
-                         specItem['name'].split('_')[2] + '|' +
-                         convertEditToLatex(specItem['rationale']) + '|' +
-                         convertEditToLatex(specItem['title']) + '|' +
-                         convertEditToLatex(specItem['value']) + '|' +
-                         convertEditToLatex(specItem['implementation']) + '|' +
-                         convertEditToLatex(specItem['remarks']) + '\n')
-
-
-Value	Name	Description	Parameters
+        fd.write('Value|Name|Description|Parameters\n')
+        for eid in enumTypesToEnumValues['Evt:CrPsEvtId_t']:
+            derPckts = enumValToDerPckts[getSpecItemName(eid)]
+            if len(derPckts) > 1:
+                print('WARNING: Event '+eid['name']+' acts as discriminant for multiple derived packets')
+            if len(derPckts) == 0:
+                print('WARNING: Event '+eid['name']+' does not act as discriminant for any derived packet')
+                continue
+            parametersDesc = derPckts[0]['t1']
+            fd.write(eid['value'] + '|' +
+                     eid['name'] + '|' +
+                     eid['title'] + '|' +
+                     parametersDesc + '\n')
 
 
 #===============================================================================
@@ -258,7 +259,7 @@ def procCordetFw(cordetFwPrFile):
     
     # Build cross-tables
     buildCrossTable(enumTypesToEnumValues, 'EnumType', 'EnumValue', 's_link')
-    import pdb; pdb.set_trace()
+    buildCrossTable(enumValToDerPckts, 'EnumValue', 'DerPacket', 'p_link')
     
     # Build tables required for the PUS specification
     generateCrPsSpec()
@@ -266,6 +267,7 @@ def procCordetFw(cordetFwPrFile):
     generateDataPool()
     generatePusReqs()
     generatePusAPs()
+    generateEvtIds()
     
     # Build implementation-level generated products 
     
