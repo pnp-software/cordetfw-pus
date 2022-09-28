@@ -347,6 +347,7 @@ The Data Pool Component provides read-write access to a set of \textit{Data Item
 \item \textit{Default Value}: the value of the data item when the data pool is reset
 \item \textit{Current Value}: the value of the data item at a particular point in time
 \item \textit{Identifier}: a positive integer which uniquely identifies the Data Item within the Data Pool
+\item \textit{Multiplicity}: a positive integere which is either 1 for data items of primitive types or the number of elements for array-like data items
 \item \textit{Type}: an enumerated value which determines the range of possible values of the Data Item and its representation in the Data Pool
 \end{itemize}
 
@@ -357,6 +358,10 @@ With reference to the last bullet, it is noted that the set of supported types i
 \item \textit{Variables}: data items whose value is autonomously updated by the host application as part of its normal operation
 \end{itemize}
 
+Array-like data pool items (i.e. data pool items with multiplicity greater than 1) may only contains elements of the same type. The type of the array-like data pool item is then the type of its elements. 
+
+Array-like data pool items have two sets of identifiers: one identifier for the data pool item itself and then individual identifiers for each element in the data pool item. This allows user to address either the entire array as a single entity or each one of its elements. If N is the identifier of an array-like data pool items with m elements, then the identifiers of its elements are: (N+1), (N+2), ... (N+m).
+
 The CORDET Framework makes the following assumptions about the range of identifiers of the data pool items:
 
 \begin{itemize}
@@ -366,8 +371,6 @@ The CORDET Framework makes the following assumptions about the range of identifi
 \end{itemize}
 
 In practice, the data pool is the means through which a component can access data belonging to other components. Note that this specification is silent about the physical location of the data items in the data pool, which can be either the components which own the data item (in which case the data pool only offers a link to the data items), or the data pool itself, or a mixed solution where some data items reside in the data pool and others in peripheral components. 
-
-This specification is similarly silent about the internal structure of data items and, in particular, it neither restricts them to be of primitive type nor does it mandate an array-like structure for them. Any such restrictions or options must be introduced at implementation level.
 
 %---------------------------------------------------------------------------------
 \subsection{Data Pool Behaviour}\label{sec:dpBehaviour}
@@ -663,7 +666,7 @@ Table \ref{tab:AP-S1} lists the CORDET Framework adaptation points which are clo
 \subsection{Service 1 Requirements}
 The table in this section lists requirements for the request verification service.
 
-\begin{crReq}{S1}{Requirements for Service 1 (Request Verification)}
+\begin{crReq}{S01}{Requirements for Service 1 (Request Verification)}
 \end{crReq}
 
 
@@ -672,35 +675,35 @@ The table in this section lists requirements for the request verification servic
  \centering
  \includegraphics[scale=0.6,keepaspectratio=true]{CrPsPcktReroutingFail.png}
  \caption{Packet Rerouting Failure Procedure}
- \label{fig:PcktReroutingFail}
+ \label{fig:CrPsPcktReroutingFail}
 \end{figure}
 
 \begin{figure}[htbp]
  \centering
  \includegraphics[scale=0.6,keepaspectratio=true]{CrPsCmdVerSucc.png}
  \caption{Command Verification Success Procedure}
- \label{fig:CmdVerSucc}
+ \label{fig:CrPsCmdVerSucc}
 \end{figure}
 
 \begin{figure}[htbp]
  \centering
  \includegraphics[scale=0.6,keepaspectratio=true]{CrPsCmdVerFail.png}
  \caption{Command Verification Failure Procedure}
- \label{fig:CmdVerFail}
+ \label{fig:CrPsCmdVerFail}
 \end{figure}
 
 \begin{figure}[htbp]
  \centering
  \includegraphics[scale=0.6,keepaspectratio=true]{CrPsCmdPrgrSucc.png}
  \caption{Command Progress Success Procedure}
- \label{fig:CmdPrgrSucc}
+ \label{fig:CrPsCmdPrgrSucc}
 \end{figure}
 
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.6,keepaspectratio=true]{CrPsCmdPrgrFail.png}
  \caption{Command Progress Failure Procedure}
- \label{fig:CmdPrgrFail}
+ \label{fig:CrPsCmdPrgrFail}
 \end{figure}
 
 %=============================================================================================
@@ -813,7 +816,6 @@ The tables in this section formally specify the service 3 commands and reports b
 \item When a request is made for a one-shot generation of a housekeeping/diagnostic report (through the (3,27) or (3,28) command), then the report is enabled and its cycle counter in the RDL is set equal to its period. This causes the report to be generated at its next execution. Note that, if the report was defined to have a non-zero period, then it will continue to be generated periodically.
 \end{itemize}
 
-\newpage
 \printInCmdHkCreHkCmdSpec{|c|p{10cm}|}
 \newpage
 \printInCmdHkCreDiagCmdSpec{|c|p{10cm}|}
@@ -872,14 +874,14 @@ The observables defined by the framework provide additional visiblity and contro
 \subsection{Service 3 Adaptation Points}\label{sec:serv3AP}
 Table \ref{tab:AP-S3} lists the CORDET Framework adaptation points for the housekeeping service. 
 
-\begin{crAp}{S3}{Adaptation Points for Service 3 (Housekeeping)}
+\begin{crAp}{S03}{Adaptation Points for Service 3 (Housekeeping)}
 \end{crAp}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Requirements}
 The table in this section lists requirements for the test service.
 
-\begin{crReq}{S3}{Requirements for Service 3 (Housekeeping Service)}
+\begin{crReq}{S03}{Requirements for Service 3 (Housekeeping Service)}
 \end{crReq}
 
 \begin{figure}[H]
@@ -973,7 +975,7 @@ Table \ref{tab:AP-S5} lists the CORDET Framework adaptation points for the event
 \subsection{Service 5 Requirements}
 The table in this section lists requirements for the event reporting service.
 
-\begin{crReq}{S5}{Requirements for Service 5 (Event Reporting Service)}
+\begin{crReq}{S05}{Requirements for Service 5 (Event Reporting Service)}
 \end{crReq}
 
 
@@ -1007,7 +1009,7 @@ Note that the processing logic outlined above is the same as is applied by the I
 \begin{itemize}
 \item The checks on the legality of the time-scheduled command are done in the Start Action of the (11,4) command (see table \ref{tab:InCmdScdInsTbaCmdSpec} and in particular figure \ref{fig:Cmd11s4Start})
 \item The insertion of the TBA in the TBS is done by the Progress Action of the (11,4) command (see table \ref{tab:InCmdScdInsTbaCmdSpec})
-\item The extraction of the TBA from the TBS and the loading of its embedded command in an InManager is done by the Time-Based Schedule Execution Procedure of figure \ref{fig:TbsExec}
+\item The extraction of the TBA from the TBS and the loading of its embedded command in an InManager is done by the Time-Based Schedule Execution Procedure of figure \ref{fig:CrPsTbsExec}
 \end{itemize}
 
 Command (11,5) is the antagonist of command (11,4): it can be used to delete one or more TBAs from the TBS. A TBA to be deleted are identified by the "request identifier", namely a triplet holding the source identifier, the APID and the source sequence count of the command embedded in the TBA, 
@@ -1120,7 +1122,7 @@ The table in this section lists requirements for the time-based scheduling servi
 \pnpfigure[scale=0.5]{Start Action of (11,24) and (11,25) Command Procedure}{fig:Cmd11s24And25Start}{CrPsCmd11s24And25Start.png}
 
 
-\pnpfigure[scale=0.5]{Time-Based Schedule Execution Procedure}{fig:TbsExec}{CrPsTbsExec.png}
+\pnpfigure[scale=0.5]{Time-Based Schedule Execution Procedure}{fig:CrPsTbsExec}{CrPsTbsExec.png}
 
 
 
@@ -1134,9 +1136,9 @@ The service type of the On-Board Monitoring Service is 12. The PUS Extension of 
 \subsection{Parameter Monitoring Sub-Service}
 The parameter monitoring subservice controls the \textit{parameter monitoring function}. This function monitors the values of a set of data items in the data pool\footnote{It is recalled that the PUS uses the term 'parameter' to designate any data pool item. The PUS Extension of the CORDET Framework, instead, uses the term 'parameter' to designate a data pool item whose value is under the control of the external user of the application (e.g. the ground) and uses the term 'variable' to designate a data pool item whose value is under the control of the application itself (see section \ref{sec:dp}). In this section, the term 'parameter' is mostly used in the sense of the PUS.}. Each monitored value is checked periodically to verify whether it conforms to a certain pattern of behaviour (e.g. whether it remains within certain limits). In some cases, the check is done uncondionally while in other cases it is done only if a validity condition is satisfied. Violations of the expected pattern of behaviour are reported through service 5 events. 
 
-Data pool items may have a multiplicity greater than 1 (array-like data items). In this case, monitoring is done on the elements of the data item array.
+Data pool items may have a multiplicity greater than 1 (array-like data items). In this case, monitoring may be done either on the individual elements of the data item array or on the data item array as a whole (it is recalled that the data pool concept allows both the array as a whole or its individual elements to be separately addressd, see section \ref{sec:dpConcepts}).
 
-The behaviour of the parameter monitoring function is described by the Parameter Monitoring Procedure of figure \ref{fig:MonFncPr}. The procedure is started when the parameter monitoring function becomes enabled and it is stopped when it becomes disabled. Thus, the enable status of the parameter monitoring function is given by the status of the Parameter Monitoring Procedure.
+The behaviour of the parameter monitoring function is described by the Parameter Monitoring Procedure of figure \ref{fig:CrPsMonFncPr}. The procedure is started when the parameter monitoring function becomes enabled and it is stopped when it becomes disabled. Thus, the enable status of the parameter monitoring function is given by the status of the Parameter Monitoring Procedure.
 
 The Parameter Monitoring Procedure should be executed cyclically with a period of MON\_PER by the host application. The period MON\_PER is the unit of time for all parameter monitoring actions in the sense that parameters are monitored periodically with a period which is a multiple of MON\_PER.
 
@@ -1229,8 +1231,8 @@ The PUS Extension of the CORDET Framework provides the following commands to con
 The monitor procedures are responsible for checking the values of the monitored parameters and for determining whether or not they are nominal. The definition of the monitor procedures is an adaptation point for which the PUS Extension pre-defines the following options:
 
 \begin{itemize}
-\item Limit Check Monitor Procedure: verifies whether the value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonLimCheckPr}.
-\item Expected Value Monitor Procedure: verifies whether the monitored parameter has a pre-defined value. See figure \ref{fig:MonExpValPr}.
+\item Limit Check Monitor Procedure: verifies whether the value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:CrPsMonLimCheckPr}.
+\item Expected Value Monitor Procedure: verifies whether the monitored parameter has a pre-defined value. See figure \ref{fig:CrPsMonExpValPr}.
 \item Delta Check Monitor Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDeltaValPr}.
 \end{itemize}
 
@@ -1271,7 +1273,7 @@ An application may define and load some parameter monitors as part of its initia
 \subsubsection{Check Transition List}\label{sec:ChkTransList}
 The Check Transition List (CTL) is a data structure where the monitoring violations are accumulated. It consists of MON\_N\_CTL entries where each entry has the attributes listed in table \ref{tab:chkTransAttr}.
 
-Entries are added to the CTL by the Parameter Monitoring Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. For this purpose, the framework provides an operation to add an entry to the CTL. When the first entry is added to the CTL, variable \texttt{ctlTimeFirstEntry} is updated with the current time.
+Entries are added to the CTL by the Parameter Monitoring Procedure (see figure \ref{fig:CrPsMonFncPr}) when it wishes to report a monitoring violation. For this purpose, the framework provides an operation to add an entry to the CTL. When the first entry is added to the CTL, variable \texttt{ctlTimeFirstEntry} is updated with the current time.
 
 The CTL is processed by the CTL Procedure of figure \ref{fig:ProcCTL}. This procedure checks whether either of the following conditions holds:
 
@@ -1464,11 +1466,11 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 \end{crReq}
 
 %-------------------------------------------------------------------------------------
-\pnpfigure[scale=0.55]{Parameter Monitoring Procedure}{fig:MonFncPr}{CrPsMonFncPr.png}
+\pnpfigure[scale=0.55]{Parameter Monitoring Procedure}{fig:CrPsMonFncPr}{CrPsMonFncPr.png}
 
-\pnpfigure[scale=0.5]{Limit Check Monitor Procedure}{fig:MonLimCheckPr}{CrPsMonLimCheckPr.png}
+\pnpfigure[scale=0.5]{Limit Check Monitor Procedure}{fig:CrPsMonLimCheckPr}{CrPsMonLimCheckPr.png}
 
-\pnpfigure[scale=0.5]{Expected Value Monitor Procedure}{fig:MonExpValPr}{CrPsMonExpValPr.png}
+\pnpfigure[scale=0.5]{Expected Value Monitor Procedure}{fig:CrPsMonExpValPr}{CrPsMonExpValPr.png}
 
 \pnpfigure[scale=0.5]{Delta Value Monitor Procedure}{fig:MonDeltaValPr}{CrPsMonDeltaValPr.png}
 
@@ -1698,19 +1700,6 @@ The table in this section lists requirements for the test service.
 
 
 
-%=============================================================================================
-\section{On-Board Parameter Management}\label{sec:serv20}
-The service type of the Parameter Management Service is 20. The PUS Extension of the CORDET Framework supports this service in part.
-
-The on-board parameter management service provides the capability to manage on-board parameters. In the PUS Extension, an "on-board parameter" is a data item in the data pool (see section \ref{sec:dp}). The definition of an "on-board parameter" is therefore as follows:
-
-\begin{itemize}
-\item The \textit{on-board parameter identifier} is the data pool identifier
-\item The \textit{memory identifier} is the same for all on-board parameters (since on-board parameters reside in the data pool and an application can only have one data pool)
-\item The \textit{address} of the on-board parameter identifier is the address of the data pool item
-\item The \textit{packet field code} is derived from the type of the data pool item
-\end{itemize}
-
 
 
 
@@ -1819,6 +1808,47 @@ The table in this section lists requirements for the test service.
 %=============================================================================================
 \section{Event Action Service}\label{sec:serv19}
 The specification of this service is still TBD.
+
+
+%=============================================================================================
+\section{On-Board Parameter Management}\label{sec:serv20}
+The service type of the Parameter Management Service is 20. The PUS Extension of the CORDET Framework supports this service in part.
+
+The on-board parameter management service provides the capability to manage on-board parameters. In the PUS Extension, an "on-board parameter" is a data item in the data pool (see section \ref{sec:dp}). The definition of an "on-board parameter" is therefore as follows:
+
+\begin{itemize}
+\item The \textit{on-board parameter identifier} is the data pool identifier
+\item The \textit{memory identifier} is the same for all on-board parameters (since on-board parameters reside in the data pool and an application can only have one data pool)
+\item The \textit{address} of the on-board parameter identifier is the address of the data pool item
+\item The \textit{packet field code} is derived from the type of the data pool item
+\end{itemize}
+
+It is recalled that the data pool concept of section \ref{sec:dpConcepts} provides  distinct identifiers for an array-like data pool item and for its elemens. Hence, the commands and reports in this service may be used to update or report the values both of an entire array or of one of its elements.
+
+In reference [PS-SP], the On-Board Parameter Management Service provides the capability to report and update the values of on-board parameters and it provides the capability to dynamically modify the parameter definition. The PUS Extension only supports the first capability (i.e. it only supports sub-services 1, 2 and 3). Note that some of the functionality provided by the dynamic parameter re-definition is provided within the PUS Extension by the 'Debug Variable' concept of section \ref{sec:debugVar}.
+
+The PUS Extension defines neither constants, nor variable, nor parameters, nor adaptation points for this service.
+
+%-------------------------------------------------------------------------------------
+\subsection{Service 20 Report and Command Definition}\label{sec:serv20RepCmdDef}
+Tables \ref{tab:OutCmpLptDownFirstRepSpec} to \ref{tab:InCmdLptAbortDownCmdSpec} formally specify the service 13 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 13 (see section \ref{sec:defPusRepCmd}). 
+
+\newpage
+\printInCmdParRepParValCmdSpec{|c|p{10cm}|}
+
+\newpage
+\printOutCmpParParValRepSpec{|c|p{10cm}|}
+\printInCmdParSetParValCmdSpec{|c|p{10cm}|}
+
+%-------------------------------------------------------------------------------------
+\newpage
+\subsection{Service 20 Requirements}
+The table in this section lists requirements for the test service.
+
+\begin{crReq}{S20}{Requirements for Service 20 (On-Board Parameter Service)}
+\end{crReq}
+
+
 
 
 
