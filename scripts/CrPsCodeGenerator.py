@@ -18,20 +18,20 @@ import re
 import copy
 import zipfile
 
-from Config import specItems, enumTypesToEnumValues, enumValToDerPckts
+from Config import specItems, enumTypesToEnumValues, enumValToDerPckts,
+                   pcktToPcktPars
 from Format import convertEditToLatex
-
-# Regex pattern for internal references to specification items as they
-# are stored in the database (e.g. '#iref:1234')
-pattern_db = re.compile('#(iref):([0-9]+)')     
+from Utilities import getSpecItemName
 
 # Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'
 
 #===============================================================================
-# Return the spec_item name as 'Domain:Name'.
-def getSpecItemName(specItem):
-    return specItem['domain'] + ':' + specItem['name']
+# Create content of OutFactory header file.
+def createOutFactoryHeaderContent(s):
+
+
+    return s
 
 
 #===============================================================================
@@ -49,7 +49,7 @@ def generateEvtIds():
             parametersDesc = derPckts[0]['t1']
             fd.write(eid['value'] + '|' +
                      eid['name'] + '|' +
-                     eid['title'] + '|' +
+                     eid['desc'] + '|' +
                      parametersDesc + '\n')
 
 
@@ -112,7 +112,7 @@ def generateConstants():
             if specItem['cat'] == 'DataItem' and specItem['p_kind'] == 'CNS':
                 fd.write(specItem['domain'] + '|' +
                          specItem['name'] + '|' +
-                         convertEditToLatex(specItem['title']) + '|' +
+                         convertEditToLatex(specItem['desc']) + '|' +
                          convertEditToLatex(specItem['value']) + '|' +
                          convertEditToLatex(specItem['remarks']) + '\n')
 
@@ -131,7 +131,7 @@ def generateDataPool():
                 fd.write(specItem['p_kind'].lower() + '|' +
                          specItem['domain'] + '|' +
                          specItem['name'] + '|' +
-                         convertEditToLatex(specItem['title']) + '|' +
+                         convertEditToLatex(specItem['desc']) + '|' +
                          convertEditToLatex(specItem['value']) + '|' +
                          convertEditToLatex(specItem['t2']) + '|' +
                          multiplicity + '|' +
@@ -156,7 +156,7 @@ def generateCrPsSpec():
                     discTitle = 'None'
                 else:
                     disc = specItems[cmdPacket['s_link']]
-                    discTitle = disc['title']
+                    discTitle = disc['desc']
                 fd.write('\\def \\print{0}#1 {{\n'.format(caption) + 
                          '\\begin{pnptable}{#1}' + 
                          '{' + caption_tbl + '}' + 
@@ -260,6 +260,9 @@ def procCordetFw(cordetFwPrFile):
     # Build cross-tables
     buildCrossTable(enumTypesToEnumValues, 'EnumType', 'EnumValue', 's_link')
     buildCrossTable(enumValToDerPckts, 'EnumValue', 'DerPacket', 'p_link')
+    buildCrossTable(pcktToPcktPars, 'Packet', 'PacketPar', 'p_link')
+    buildCrossTable(derPcktToPcktPars, 'DerPacket', 'PacketPar', 'p_link')
+    buildCrossTable(pcktToDerPckts, 'Packet', 'DerPacket', 's_link')
     
     # Build tables required for the PUS specification
     generateCrPsSpec()
