@@ -36,6 +36,12 @@ derPcktToPcktPars = {}
 # is a list of specItems holding the packets derived from that packet.
 pcktToDerPckts = {}
 
+# List of spec_items of type OutComponent
+outComponents = []
+
+# List of spec_items of type InCommand
+inCommands = []
+
 # Length in bytes of the header in a telemetry packet
 tmPcktHeaderLen = 20
 

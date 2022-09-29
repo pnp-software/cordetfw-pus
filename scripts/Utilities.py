@@ -40,9 +40,38 @@ def getPcktParLen(pcktPar):
 # The argument can be one of: a packet, a derived packet, a telecommand or a
 # telemetry report.
 def getTypeAndSubType(specItem):
+    if specItem['cat'] == 'Packet':
+        service = specItem['p_link']
+        servType = specItems[service]['value']
+        servSubtype = specItem['value']
+        return (servType, servSubStype)
+        
+    if specItem['cat'] == 'DerPacket':
+        parentPckt = specItems[specItem['s_link']]
+        if parentPckt['cat'] != 'Packet':
+            print('ERROR: Database is corrupted: parent of '+specItem['name']+' is also a Derived Packet')
+            return (0, 0)
+        return getTypeAndSubType(parentPckt)
+        
+    if specItem['cat'] == 'InCommand' or specItem['cat'] == 'OutComponent':
+        packet = specItems[specItem['p_link']]
+        if packet['cat'] != 'Packet':
+            print('ERROR: Database is corrupted: packet of InCommand/OutComponent '+specItem['name']+' is not a Packet')
+            return (0, 0)
+        return getTypeAndSubType(packet)
+        
     return (0,0)
 
 
+#===============================================================================
+# Return the value of the discriminant of the argument derived packet.
+def getDiscVal(derPacket):
+    disc = derPacket['p_link']
+    if disc['cat'] != 'DataItem':
+        print('ERROR: Derived packet '+derPacket['name']+' has a discriminant which is non a data item') 
+        return 0
+    return disc['value']
+        
 
 #===============================================================================
 # Return the length in bits of a packet.
@@ -61,7 +90,7 @@ def getPcktLen(specItem):
         pcktName = getSpecItemName(specItem)
         parentPckt = specItems[specItem['s_link']]
         if parentPckt['cat'] != 'Packet':
-            print('ERROR: Database is corrupted: parent of '=pcktName+' is also a Derived Packet')
+            print('ERROR: Database is corrupted: parent of '+pcktName+' is also a Derived Packet')
             return 0
         parentPcktLen = getPcktLen(specItem)
         pcktLen = 0

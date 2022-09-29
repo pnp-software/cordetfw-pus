@@ -19,19 +19,26 @@ import copy
 import zipfile
 
 from Config import specItems, enumTypesToEnumValues, enumValToDerPckts,
-                   pcktToPcktPars
+                   pcktToPcktPars, outComponents, inCommands
 from Format import convertEditToLatex
-from Utilities import getSpecItemName
+from Utilities import createHeaderFile, getSpecItemName
 
 # Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'
 
+# Directory where configuration files are stored
+configDir = 'tests/PusConfig'
+
+
 #===============================================================================
 # Create content of OutFactory header file.
-def createOutFactoryHeaderContent(s):
+def createOutFactoryHeaderContent():
+    s = ''
+    for outComponent in outComponents:
+         s = s + '#include ' + outComponent['domain'] + '/' + outComponent['name'] + '.h\n'
 
-
-    return s
+    createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s)
+    return 
 
 
 #===============================================================================
@@ -256,6 +263,10 @@ def procCordetFw(cordetFwPrFile):
             if not row['status'] in ('NEW', 'CNF', 'MOD'):
                 continue
             specItems[row['id']] = row
+            if row['cat'] == 'InCommand':
+                inCommands.append(row)
+            if row['cat'] == 'OutComponent':
+                outComponents.append(row)
     
     # Build cross-tables
     buildCrossTable(enumTypesToEnumValues, 'EnumType', 'EnumValue', 's_link')
