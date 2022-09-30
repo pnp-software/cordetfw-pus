@@ -18,7 +18,9 @@ import zipfile
 import datetime;
 
 from Config import tmPcktHeaderLen, tcPcktHeaderLen, pcktCrcLen, pcktToPcktPars, \
-                   derPcktToPcktPars, specItems, MAX_LINE_LENGTH
+                   derPcktToPcktPars, specItems, domNameToSpecItem, \
+                   MAX_LINE_LENGTH
+from Format import pattern_edit
 
 
 #===============================================================================
@@ -107,23 +109,104 @@ def getDiscVal(derPacket):
 #===============================================================================
 # Return the name of the function implementing a command's or component's action
 # or check.
+# Argument 'name' holds the name of the action or check (e.g. 'EnableCheck' or
+# 'StartAction'.
+# This function considers two special cases of action or check name:
+# - If the specification of the action or check name begins with 'default 
+#   implementation', then the name of the function with the default implementation
+#   for the corresponding check or action is returned
+# - If the specification of the action or check begins with: 'same as' and
+#   then contains a reference to an InCommand or OutComponent, then the
+#   name of the function implementing the action or check in the referenced
+#   InCommand or OutComponent is returned
+# .
+# If neither of the above conditions are satisfied, then the name for the 
+# function implementing the action or check is built from the name of the 
+# argument InCommand or OutComponent and the name of the action or check.
 def getActionOrCheckFunction(specItem, name):
     def isDefault(actionOrCheckText):
         return actionOrCheckText.lower().startswith('default implementation')
     
-    if name == 'EnableCheck':
-        if isDefault(specItem['t1']):
-            return 'CrFwOutCmpDefEnableCheck'
-    if name == 'ReadyCheck':
-        if isDefault(specItem['t2']):
-            return 'CrFwSmCheckAlwaysTrue'
-    if name == 'RepeatCheck':
-        if isDefault(specItem['t3']):
-            return 'CrFwSmCheckAlwaysFalse'
-    if name == 'UpdateAction':
-        if isDefault(specItem['t5']):
-            return 'CrFwSmEmptyAction'
-    return 'CrPsOutCmp' + specItem['domain'] + specItem['name'][:-5] + name
+    def getSameAs(actionOrCheckText, specItem, name):
+        if not actionOrCheckText.lower().startswith('same as'):
+            return ''
+        else: 
+            match = pattern_edit.search(actionOrCheckText)
+            referredItem = domNameToSpecItem[match.group(2)+':'+match.group(3)]
+            assert referredItem['cat']==specItem['cat']
+            return getActionOrCheckFunction(referredItem, name)
+    
+    assert specItem['cat'] in ('OutComponent', 'InCommand') 
+    if specItem['cat'] == 'OutComponent':
+        if name == 'EnableCheck':
+            if isDefault(specItem['t1']):
+                return 'CrFwOutCmpDefEnableCheck'
+            temp = getSameAs(specItem['t1'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'ReadyCheck':
+            if isDefault(specItem['t2']):
+                return 'CrFwSmCheckAlwaysTrue'
+            temp = getSameAs(specItem['t2'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'RepeatCheck':
+            if isDefault(specItem['t3']):
+                return 'CrFwSmCheckAlwaysFalse'
+            temp = getSameAs(specItem['t3'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'UpdateAction':
+            if isDefault(specItem['t5']):
+                return 'CrFwSmEmptyAction'
+            temp = getSameAs(specItem['t5'], specItem, name)
+            if temp != '':
+                return temp
+                
+        return 'CrPsOutCmp' + specItem['domain'] + specItem['name'][:-6] + name
+
+    if specItem['cat'] == 'InCommand':
+        if name == 'ValidityCheck':
+            if isDefault(specItem['value']):
+                return 'CrFwInCmdDefValidityCheck'
+            temp = getSameAs(specItem['value'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'ReadyCheck':
+            if isDefault(specItem['t1']):
+                return 'CrFwSmCheckAlwaysTrue'
+            temp = getSameAs(specItem['t1'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'StartAction':
+            if isDefault(specItem['t2']):
+                return 'CrFwSmEmptyAction'
+            temp = getSameAs(specItem['t2'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'ProgressAction':
+            if isDefault(specItem['t3']):
+                return 'CrFwSmEmptyAction'
+            temp = getSameAs(specItem['t3'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'TerminationAction':
+            if isDefault(specItem['t4']):
+                return 'CrFwSmSuccessAction'
+            temp = getSameAs(specItem['t4'], specItem, name)
+            if temp != '':
+                return temp
+        if name == 'AbortAction':
+            if isDefault(specItem['t5']):
+                return 'CrFwSmEmptyAction'
+            temp = getSameAs(specItem['t5'], specItem, name)
+            if temp != '':
+                return temp
+
+        return 'CrPsInCmd' + specItem['domain'] + specItem['name'][:-5] + name
+
+    assert False
+
 
 
 #===============================================================================

@@ -36,6 +36,10 @@ derPcktToPcktPars = {}
 # is a list of specItems holding the packets derived from that packet.
 pcktToDerPckts = {}
 
+# Dictionary linking a spec_item name of the form 'Dom:Name" to the
+# the spec_item itself.
+domNameToSpecItem = {}
+
 # List of spec_items of type OutComponent
 outComponents = []
 
@@ -56,4 +60,7 @@ CR_FW_OUTFACTORY_MAX_NOF_OUTCMP = 60
 
 # Maximum length of a line in doxygen comment
 MAX_LINE_LENGTH = 80
+
+# Maximum number of InCommands which may be allocated at any one time
+CR_FW_INFACTORY_MAX_NOF_INCMD = 63
 

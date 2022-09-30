@@ -20,8 +20,8 @@ import zipfile
 
 from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    pcktToPcktPars, outComponents, inCommands, \
-                   derPcktToPcktPars, pcktToDerPckts, \
-                   CR_FW_OUTFACTORY_MAX_NOF_OUTCMP
+                   derPcktToPcktPars, pcktToDerPckts, domNameToSpecItem, \
+                   CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen
@@ -31,6 +31,56 @@ generatedTablesDir = 'doc/pus/GeneratedTables'
 
 # Directory where configuration files are stored
 configDir = 'tests/PusConfig'
+
+
+#===============================================================================
+# Create content of InFactory header file (only the InCommand part of the 
+# InFactory is generated)
+def createInFactoryHeaderContent():
+    s = ''
+    for inCommand in inCommands:
+        s = s + '#include \"' + inCommand['domain'] + '/' + inCommand['name'] + '.h\"\n'
+    s = s + '\n'
+
+    s = s + writeDoxy(['Maximum number of OutComponents which may be allocated at any one time'])
+    s = s + '#define CR_FW_INFACTORY_MAX_NOF_INCMD (' + str(CR_FW_INFACTORY_MAX_NOF_INCMD) + ')\n\n'
+    
+    inCmdTemp = {}
+    for inCommand in inCommands:
+        packet = specItems[inCommand['p_link']]
+        if packet['cat'] == 'DerPacket':
+            disc = getDiscVal(packet)
+        else:
+            disc = '0'
+        inCmdSortIndex = (int(getTypeAndSubType(inCommand)[0]),
+                          int(getTypeAndSubType(inCommand)[1]),
+                          int(disc))
+        inCmdTemp[inCmdSortIndex] = inCommand
+    inCmdSorted = dict(sorted(inCmdTemp.items()))
+            
+    s = s + writeDoxy(['The total number of kinds of inCommands supported by the application'])
+    s = s + '#define CR_FW_INCMD_NKINDS (' + str(len(inCmdSorted)) + ')\n\n'
+    
+    s = s + writeDoxy(['Definition of the inCommand kinds supported by the application'])
+    s = s + '#define CR_FW_INCMD_INIT_KIND_DESC {\\\n'
+    for index, inCommand in inCmdSorted.items():
+        inCmdDef = '    {' + getTypeAndSubType(inCommand)[0] + ', ' + \
+                             getTypeAndSubType(inCommand)[1] + ', ' + \
+                             disc + ', ' + \
+                             '1'  + ', ' + \
+                             str(getPcktLen(inCommand)) + ', ' + \
+                             '&' + getActionOrCheckFunction(inCommand, 'ValidityCheck') + ', ' + \
+                             '&' + getActionOrCheckFunction(inCommand, 'ReadyCheck') + ', ' + \
+                             '&' + getActionOrCheckFunction(inCommand, 'StartAction') + ', \\\n        ' + \
+                             '&' + getActionOrCheckFunction(inCommand, 'ProgressAction') + ', ' + \
+                             '&' + getActionOrCheckFunction(inCommand, 'TerminationAction') + ', ' + \
+                             '&' + getActionOrCheckFunction(inCommand, 'AbortAction') + ',\\\n'
+        s = s + inCmdDef 
+    s = s + '}\n\n'
+        
+    createHeaderFile(configDir, 'CrFwInFactoryUserPar.h', s)
+    return 
+
 
 
 #===============================================================================
@@ -76,7 +126,6 @@ def createOutFactoryHeaderContent():
         s = s + outCmpDef 
     s = s + '}\n\n'
         
-
     createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s)
     return 
 
@@ -307,6 +356,7 @@ def procCordetFw(cordetFwPrFile):
                 inCommands.append(row)
             if row['cat'] == 'OutComponent':
                 outComponents.append(row)
+            domNameToSpecItem[row['domain']+':'+row['name']] = row
     
     # Build cross-tables
     buildCrossTable(enumTypesToEnumValues, 'EnumType', 'EnumValue', 's_link')
@@ -325,6 +375,7 @@ def procCordetFw(cordetFwPrFile):
     
     # Build implementation-level generated products 
     createOutFactoryHeaderContent()
+    createInFactoryHeaderContent()
     
     
 #===============================================================================
