@@ -74,8 +74,11 @@ def createInFactoryHeaderContent():
                              '&' + getActionOrCheckFunction(inCommand, 'StartAction') + ', \\\n        ' + \
                              '&' + getActionOrCheckFunction(inCommand, 'ProgressAction') + ', ' + \
                              '&' + getActionOrCheckFunction(inCommand, 'TerminationAction') + ', ' + \
-                             '&' + getActionOrCheckFunction(inCommand, 'AbortAction') + ',\\\n'
-        s = s + inCmdDef 
+                             '&' + getActionOrCheckFunction(inCommand, 'AbortAction') + '}'
+        if index == len(inCmdSorted)-1:
+            s = s + '\\\n' + inCmdDef
+        else:
+            s = s + ',\\\n' + inCmdDef 
     s = s + '}\n\n'
         
     createHeaderFile(configDir, 'CrFwInFactoryUserPar.h', s)
@@ -122,8 +125,11 @@ def createOutFactoryHeaderContent():
                               '&' + getActionOrCheckFunction(outComponent, 'ReadyCheck') + ', \\\n        ' + \
                               '&' + getActionOrCheckFunction(outComponent, 'RepeatCheck') + ', ' + \
                               '&' + getActionOrCheckFunction(outComponent, 'UpdateAction') + ', ' + \
-                              '&CrFwOutCmpDefSerialize}, \\\n'
-        s = s + outCmpDef 
+                              '&CrFwOutCmpDefSerialize}'
+        if index == len(outCmpSorted)-1:
+            s = s + '\\\n' + outCmpDef
+        else:
+            s = s + ',\\\n' + outCmpDef 
     s = s + '}\n\n'
         
     createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s)
