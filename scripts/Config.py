@@ -51,4 +51,7 @@ tcPcktHeaderLen = 16
 # Length in bytes of the header in a telecommand packet
 pcktCrcLen = 2
 
+# Maximum number of OutComponents which may be allocated at any one time 
+CR_FW_OUTFACTORY_MAX_NOF_OUTCMP = 60
+
 
