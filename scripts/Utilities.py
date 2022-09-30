@@ -17,16 +17,17 @@ import copy
 import zipfile
 import datetime;
 
-from Config import tmPcktHeaderLen, tcPcktHeaderLen, pcktCrcLen, pcktToPcktPars,
-                   derPcktToPcktPars
+from Config import tmPcktHeaderLen, tcPcktHeaderLen, pcktCrcLen, pcktToPcktPars, \
+                   derPcktToPcktPars, specItems, MAX_LINE_LENGTH
 
 
 #===============================================================================
-# Write a list of strings as a doxygen comment.
+# Write a list of strings as a doxygen comment to a string and return the string.
 # Strings which are longer than MAX_LINE_LENGTH are split to fit within MAX_LINE_LENGTH.
 # @param f the file string to which the comments are written
 # @param lines the list of lines to be written out as doxygen comments
-def writeDoxy(f, lines):
+def writeDoxy(lines):
+    f = ''
     newLines = []
     for line in lines:
         if len(line)<=MAX_LINE_LENGTH:
@@ -44,16 +45,15 @@ def writeDoxy(f, lines):
                     length =0
             if length>0:
                 newLines.append(newLine)
-        
+       
     if len(newLines) == 1:
-        s = newLines[0]
-        f += '/** '+s+' */'+'\n'
-        return 
+        f += '/** ' + newLines[0] + ' */'+'\n'
     else:
-        WriteLn(f, '/**')
+        f = f + '/**'
         for s in newLines:
-            WriteLn(f, ' * ' + s)
-        WriteLn(f,' */')
+            f = f + ' * ' + s + '\n'
+        f = f + ' */\n'
+    return f
 
 
 #===============================================================================
@@ -67,7 +67,7 @@ def getSpecItemName(specItem):
 def getPcktParLen(pcktPar):
     pcktParDataItem = specItems[pcktPar['s_link']]
     pcktParDataItemType = specItems[pcktParDataItem['p_link']]
-    return pcktParDataItemType['n1']
+    return int(pcktParDataItemType['n1'])
 
 
 #===============================================================================
@@ -78,8 +78,8 @@ def getTypeAndSubType(specItem):
     if specItem['cat'] == 'Packet':
         service = specItem['p_link']
         servType = specItems[service]['value']
-        servSubtype = specItem['value']
-        return (servType, servSubStype)
+        servSubType = specItem['value']
+        return (servType, servSubType)
         
     if specItem['cat'] == 'DerPacket':
         parentPckt = specItems[specItem['s_link']]
@@ -88,7 +88,7 @@ def getTypeAndSubType(specItem):
         
     if specItem['cat'] == 'InCommand' or specItem['cat'] == 'OutComponent':
         packet = specItems[specItem['p_link']]
-        assert parentPckt['cat'] == 'Packet'
+        assert packet['cat'] == 'Packet'
         return getTypeAndSubType(packet)
         
     return (0,0)
@@ -127,41 +127,61 @@ def getActionOrCheckFunction(specItem, name):
 
 
 #===============================================================================
-# Return the length in bytes of a packet.
+# Return the length in bytes of a packet. The argument can be either a packet,
+# or a derived packet, or an InCommand or an OutComponent.
+# If a packet contains a parameter with length 0 (parameter of 'deduced type'),
+# then the length of the packet is set to 0  to indicate that the length can
+# only be determined at run time (e.g. a dynamically defined (3,25) packet).
 def getPcktLen(specItem):
     pcktName = getSpecItemName(specItem)
     if specItem['cat'] == 'Packet':
         pcktLen = 0
         for pcktPar in pcktToPcktPars[pcktName]:
-            pcktLen = pcktLen + getPcktParLen(pcktPar)
+            pcktParLen = getPcktParLen(pcktPar)
+            if pcktParLen == 0:     # Parameter of 'deduced type'
+                return 0
+            pcktLen = pcktLen + pcktParLen
         if specItem['p_kind'] == 'TC':
-            lenInBits = pcktLen + tcPcktHeaderLen + pcktCrcLen
+            lenInBits = pcktLen + tcPcktHeaderLen*8 + pcktCrcLen*8
         else:
-            lenInBits = pcktLen + tmPcktHeaderLen + pcktCrcLen
+            lenInBits = pcktLen + tmPcktHeaderLen*8 + pcktCrcLen*8
+        assert (lenInBits % 8)==0, 'Packet '+pcktName+' has non-integer length'
+        return int(lenInBits/8)
     
     if specItem['cat'] == 'DerPacket':
         parentPckt = specItems[specItem['s_link']]
         assert parentPckt['cat'] == 'Packet'
         parentPcktLen = getPcktLen(specItem)
+        if parentPcktLen == 0:      # Parent packet contains a par of 'deduced type'
+            return 0
         pcktLen = 0
         for pcktPar in derPcktToPcktPars[pcktName]:
+            pcktParLen = getPcktParLen(pcktPar)
+            if pcktParLen == 0:     # Parameter of 'deduced type'
+                return 0
             pcktLen = pcktLen + getPcktParLen(pcktPar)
         lenInBits = parentPcktLen + pcktLen
+        assert (lenInBits % 8)==0, 'DerPacket '+pcktName+' has non-integer length'
+        return int(lenInBits/8)
+        
+    if specItem['cat'] in ('OutComponent', 'InCommand'):
+        idPckt = specItem['p_link']
+        assert specItems[idPckt]['cat'] in ('Packet', 'DerPacket') 
+        return getPcktLen(specItems[idPckt])
 
-    assert (lenInBits % 8)==o, 'Packet '+pcktName+' has non-integer length'
-    retrun lenInBits/8
+    assert False
 
 #===============================================================================
 # Create a header file with the given name and the given content.
 def createHeaderFile(dirName, fileName, content):
     name = dirName + '/' + fileName
-    ct = datetime.datetime.now()
+    ct = str(datetime.datetime.now())
     ifdefName = fileName[:-2].replace('_','').upper()
     with open(name, 'w') as fd:
         fd.write('/**                                          \n')
         fd.write(' * @ingroup gen_cfw                          \n')
         fd.write(' *                                           \n')
-        fd.write(' * This file is part of the PUS Extention of the  CORDET Framework \n')
+        fd.write(' * This file is part of the PUS Extension of the  CORDET Framework \n')
         fd.write(' *                                           \n')
         fd.write(' * @note This file was generated on  ' + ct + '\n')
         fd.write(' * @author Automatically generated by CORDET Editor Generator\n')

@@ -54,4 +54,6 @@ pcktCrcLen = 2
 # Maximum number of OutComponents which may be allocated at any one time 
 CR_FW_OUTFACTORY_MAX_NOF_OUTCMP = 60
 
+# Maximum length of a line in doxygen comment
+MAX_LINE_LENGTH = 80
 

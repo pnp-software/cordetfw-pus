@@ -18,12 +18,13 @@ import re
 import copy
 import zipfile
 
-from Config import specItems, enumTypesToEnumValues, enumValToDerPckts,
-                   pcktToPcktPars, outComponents, inCommands,
+from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
+                   pcktToPcktPars, outComponents, inCommands, \
+                   derPcktToPcktPars, pcktToDerPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP
 from Format import convertEditToLatex
-from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType,
-                      getActionOrCheckFunction
+from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
+                      getActionOrCheckFunction, writeDoxy, getPcktLen
 
 # Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'
@@ -38,13 +39,14 @@ def createOutFactoryHeaderContent():
     s = ''
     for outComponent in outComponents:
         s = s + '#include \"' + outComponent['domain'] + '/' + outComponent['name'] + '.h\"\n'
+    s = s + '\n'
 
-    writeDoxy(s, 'Maximum number of OutComponents which may be allocated at any one time')
+    s = s + writeDoxy(['Maximum number of OutComponents which may be allocated at any one time'])
     s = s + '#define CR_FW_OUTFACTORY_MAX_NOF_OUTCMP (' + str(CR_FW_OUTFACTORY_MAX_NOF_OUTCMP) + ')\n\n'
     
     outCmpTemp = {}
-    for outComponent in OutComponents:
-        packet = outComponent['p_link']
+    for outComponent in outComponents:
+        packet = specItems[outComponent['p_link']]
         if packet['cat'] == 'DerPacket':
             disc = getDiscVal(packet)
         else:
@@ -55,24 +57,25 @@ def createOutFactoryHeaderContent():
         outCmpTemp[outCmpSortIndex] = outComponent
     outCmpSorted = dict(sorted(outCmpTemp.items()))
             
-    writeDoxy(s, 'The total number of kinds of OutComponents supported by the application')
+    s = s + writeDoxy(['The total number of kinds of OutComponents supported by the application'])
     s = s + '#define CR_FW_OUTCMP_NKINDS (' + str(len(outCmpSorted)) + ')\n\n'
     
-    writeDoxy(s, 'Definition of the OutComponent kinds supported by the application')
-    s = s + 'CR_FW_OUTCMP_INIT_KIND_DESC {\\ \n'
-    for outComponent in outCmpSorted:
-        outCmpDef = '{' + getTypeAndSubType(outComponent)[0] + ', ' + \
-                          getTypeAndSubType(outComponent)[1] + ', ' + \
-                          disc + ', ' + \
-                          '2'  + ', ' + \
-                          str(getPcktLen(outComponent)) + ', ' + \
-                          '&' + getActionOrCheckFunction(outComponent, 'EnableCheck') + ', ' + \
-                          '&' + getActionOrCheckFunction(outComponent, 'ReadyCheck') + ', \\ \n' + \
-                          '&' + getActionOrCheckFunction(outComponent, 'RepeatCheck') + ', ' + \
-                          '&' + getActionOrCheckFunction(outComponent, 'UpdateAction') + ', ' + \
-                          '&CrFwOutCmpDefSerialize}, \\ \n'
-        s = s + outCmpDef
-    s = s + '}\n\n'    
+    s = s + writeDoxy(['Definition of the OutComponent kinds supported by the application'])
+    s = s + '#define CR_FW_OUTCMP_INIT_KIND_DESC {\\\n'
+    for index, outComponent in outCmpSorted.items():
+        outCmpDef = '    {' + getTypeAndSubType(outComponent)[0] + ', ' + \
+                              getTypeAndSubType(outComponent)[1] + ', ' + \
+                              disc + ', ' + \
+                              '2'  + ', ' + \
+                              str(getPcktLen(outComponent)) + ', ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'EnableCheck') + ', ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'ReadyCheck') + ', \\\n        ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'RepeatCheck') + ', ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'UpdateAction') + ', ' + \
+                              '&CrFwOutCmpDefSerialize}, \\\n'
+        s = s + outCmpDef 
+    s = s + '}\n\n'
+        
 
     createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s)
     return 
@@ -321,6 +324,7 @@ def procCordetFw(cordetFwPrFile):
     generateEvtIds()
     
     # Build implementation-level generated products 
+    createOutFactoryHeaderContent()
     
     
 #===============================================================================
