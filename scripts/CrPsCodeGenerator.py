@@ -36,6 +36,7 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    pcktToPcktPars, outComponents, inCommands, \
                    derPcktToPcktPars, pcktToDerPckts, domNameToSpecItem, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
+                   services, packets, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
@@ -43,7 +44,32 @@ from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
 
 
 #===============================================================================
-# Create header files which defines the CrPs types (DataItemTypes and EnumTypes).
+# Create header file which defines the constants with the service and sub-service
+# identifiers.
+def createCrPsServTypeIdHeader():
+    s = ''
+    
+    for service in services:
+        s = s + writeDoxy([service['title'], service['remarks']])
+        s = s + '#define ' + service['name'].upper() + '_TYPE (' + service['value'] + ')\n\n' 
+
+    for packet in packets:
+        idService = packet['p_link']
+        service = specItems[idService]
+        s = s + writeDoxy(['Identifier for sub-type of packet '+packet['name']+\
+                           ' in service '+service['value'] +' ('+packet['title']+')'])
+        if packet['p_kind']=='TM':
+            endName = packet['name'][:-3] + 'REP_STYPE ('
+        else: 
+            endName = packet['name'][:-3] + 'CMD_STYPE ('
+        s = s + '#define ' + packet['domain'].upper() + endName.upper() + packet['value'] + ')\n\n'
+            
+    createHeaderFile(configDir, 'CrPsServTypeId.h', s)
+    return
+
+
+#===============================================================================
+# Create header file which defines the CrPs types (DataItemTypes and EnumTypes).
 def createCrPsTypesHeader():
     s = ''
     s = s + '#include \"CrFwUserConstants.h\"\n'
@@ -52,10 +78,7 @@ def createCrPsTypesHeader():
     for dataItemType in dataItemTypes:
         if dataItemType['name'][0:4] != 'CrPs':
             continue
-        if dataItemType['remarks'] == '':
-            s = s + writeDoxy([dataItemType['desc']])
-        else:
-            s = s + writeDoxy([dataItemType['desc'], dataItemType['remarks']])
+        s = s + writeDoxy([dataItemType['desc'], dataItemType['remarks']])
         s = s + 'typedef ' + dataItemType['implementation'] + ' ' +  dataItemType['name'] + ';\n\n'
     for enumType in enumTypes:
         if enumType['name'][0:4] != 'CrPs':
@@ -411,6 +434,10 @@ def procCordetFw(cordetFwPrFile):
                 dataItemTypes.append(row)
             if row['cat'] == 'EnumType':
                 enumTypes.append(row)
+            if row['cat'] == 'Service':
+                services.append(row)
+            if row['cat'] == 'Packet':
+                packets.append(row)
             domNameToSpecItem[row['domain']+':'+row['name']] = row
     
     # Build cross-tables
@@ -432,6 +459,7 @@ def procCordetFw(cordetFwPrFile):
     createOutFactoryHeader()
     createInFactoryHeader()
     createCrPsTypesHeader()
+    createCrPsServTypeIdHeader()
     
     
 #===============================================================================

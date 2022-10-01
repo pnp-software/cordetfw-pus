@@ -46,11 +46,17 @@ outComponents = []
 # List of spec_items of type InCommand
 inCommands = []
 
-# List of Data Item Types of type InCommand
+# List of Data Item Types 
 dataItemTypes = []
 
-# List of Enumerated Types of type InCommand
+# List of Enumerated Types 
 enumTypes = []
+
+# List of Services 
+services = []
+
+# List of Packets
+packets = []
 
 # Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'

@@ -25,13 +25,14 @@ from Format import pattern_edit
 
 #===============================================================================
 # Write a list of strings as a doxygen comment to a string and return the string.
+# Empty items in the list of strings are ignored.
 # Strings which are longer than MAX_LINE_LENGTH are split to fit within MAX_LINE_LENGTH.
-# @param f the file string to which the comments are written
-# @param lines the list of lines to be written out as doxygen comments
 def writeDoxy(lines):
     f = ''
     newLines = []
     for line in lines:
+        if line == '':
+            continue
         if len(line)<=MAX_LINE_LENGTH:
             newLines.append(line)
         else:
