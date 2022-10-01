@@ -8,13 +8,13 @@
 specItems = {}
 
 # Dictionary linking enumerated types to their enumerated values.
-# The key is a spec_item of enumerated type and the value
+# The key is the name of a spec_item of enumerated type and the value
 # is a list of specItems holding the associated enumerated values.
 enumTypesToEnumValues = {}
 
 # Dictionary linking enumerated values to the derived packets for which 
 # they serve as discriminant.
-# The key is a spec_item of enumerated value type and the value
+# The key is the name of a spec_item of enumerated value type and the value
 # is a list of specItems holding the derived packets which have that
 # enumerated value as discriminant. Normally, the list should only
 # contain one item (since the same discriminant value should not be used
@@ -45,6 +45,18 @@ outComponents = []
 
 # List of spec_items of type InCommand
 inCommands = []
+
+# List of Data Item Types of type InCommand
+dataItemTypes = []
+
+# List of Enumerated Types of type InCommand
+enumTypes = []
+
+# Directory where generated tables for PUS Spec are stored
+generatedTablesDir = 'doc/pus/GeneratedTables'
+
+# Directory where configuration files are stored
+configDir = 'tests/PusConfig'
 
 # Length in bytes of the header in a telemetry packet
 tmPcktHeaderLen = 20

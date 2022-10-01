@@ -1,8 +1,22 @@
 __author__ = 'Alessandro Pasetti, P&P software GmbH'
 
 #===============================================================================
-# Convenience functions to extract information from the export file of the 
-# Cordet FW Editor Project. 
+# Code Generator for the PUS Extension of the Cordet Framework.
+# The input to the code generator is the project export file of the 
+# PUS Extension of the Corder Framework.
+#
+# This script should be run from the top level directory of the PUS Project (e.g.
+# from: /home/ap/Projects/cordetfwpus/) with a command like:
+#
+#   python3 ./scripts/CrPsCodeGenerator.py ~/Downloads/cordetfw_editor_CordetFw.zip
+#
+# The argument of the script is the project export file of the PUS Extension.
+#
+# The configuration information for the script is defined in module config.py.
+# This configuration information includes in particular the location of the 
+# directories where the generated products are created.
+# 
+# @copyright P&P Software GmbH, All Rights Reserved
 #
 #===============================================================================
 
@@ -21,22 +35,54 @@ import zipfile
 from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    pcktToPcktPars, outComponents, inCommands, \
                    derPcktToPcktPars, pcktToDerPckts, domNameToSpecItem, \
+                   dataItemTypes, enumTypes, generatedTablesDir, configDir, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen
 
-# Directory where generated tables for PUS Spec are stored
-generatedTablesDir = 'doc/pus/GeneratedTables'
 
-# Directory where configuration files are stored
-configDir = 'tests/PusConfig'
+#===============================================================================
+# Create header files which defines the CrPs types (DataItemTypes and EnumTypes).
+def createCrPsTypesHeader():
+    s = ''
+    s = s + '#include \"CrFwUserConstants.h\"\n'
+    s = s + '#include \"CrFwConstants.h\"\n\n'
+    
+    for dataItemType in dataItemTypes:
+        if dataItemType['name'][0:4] != 'CrPs':
+            continue
+        if dataItemType['remarks'] == '':
+            s = s + writeDoxy([dataItemType['desc']])
+        else:
+            s = s + writeDoxy([dataItemType['desc'], dataItemType['remarks']])
+        s = s + 'typedef ' + dataItemType['implementation'] + ' ' +  dataItemType['name'] + ';\n\n'
+    for enumType in enumTypes:
+        if enumType['name'][0:4] != 'CrPs':
+            continue
+        if enumType['remarks'] == '':
+            s = s + writeDoxy([enumType['desc']])
+        else:
+            s = s + writeDoxy([enumType['desc'], enumType['remarks']])
+        s = s + 'typedef ' + enumType['implementation'] + ' ' +  enumType['name'] + ';\n'
+        s = s + 'enum {\n'
+        enumTypeName = enumType['domain'] + ':' + enumType['name']
+        for index, enumValue in enumerate(enumTypesToEnumValues[enumTypeName]):
+            s = s + '    ' + enumValue['name'] + ' = ' + enumValue['value']
+            if index < len(enumTypesToEnumValues[enumTypeName])-1:
+                s = s + ',\n'
+            else:
+                s = s + '\n'
+        s = s + '};\n\n'
+            
+    createHeaderFile(configDir, 'CrPsTypes.h', s)
+    return
 
 
 #===============================================================================
 # Create content of InFactory header file (only the InCommand part of the 
 # InFactory is generated)
-def createInFactoryHeaderContent():
+def createInFactoryHeader():
     s = ''
     for inCommand in inCommands:
         s = s + '#include \"' + inCommand['domain'] + '/' + inCommand['name'] + '.h\"\n'
@@ -85,10 +131,9 @@ def createInFactoryHeaderContent():
     return 
 
 
-
 #===============================================================================
 # Create content of OutFactory header file.
-def createOutFactoryHeaderContent():
+def createOutFactoryHeader():
     s = ''
     for outComponent in outComponents:
         s = s + '#include \"' + outComponent['domain'] + '/' + outComponent['name'] + '.h\"\n'
@@ -362,6 +407,10 @@ def procCordetFw(cordetFwPrFile):
                 inCommands.append(row)
             if row['cat'] == 'OutComponent':
                 outComponents.append(row)
+            if row['cat'] == 'DataItemType':
+                dataItemTypes.append(row)
+            if row['cat'] == 'EnumType':
+                enumTypes.append(row)
             domNameToSpecItem[row['domain']+':'+row['name']] = row
     
     # Build cross-tables
@@ -380,8 +429,9 @@ def procCordetFw(cordetFwPrFile):
     generateEvtIds()
     
     # Build implementation-level generated products 
-    createOutFactoryHeaderContent()
-    createInFactoryHeaderContent()
+    createOutFactoryHeader()
+    createInFactoryHeader()
+    createCrPsTypesHeader()
     
     
 #===============================================================================

@@ -51,7 +51,7 @@ def writeDoxy(lines):
     if len(newLines) == 1:
         f += '/** ' + newLines[0] + ' */'+'\n'
     else:
-        f = f + '/**'
+        f = f + '/**\n'
         for s in newLines:
             f = f + ' * ' + s + '\n'
         f = f + ' */\n'
