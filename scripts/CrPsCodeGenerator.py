@@ -37,70 +37,67 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    derPcktToPcktPars, pcktToDerPckts, domNameToSpecItem, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
                    services, packets, \
-                   CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD
+                   CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
+                   CR_FW_OUTREGISTRY_N
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
-                      getActionOrCheckFunction, writeDoxy, getPcktLen
+                      getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal
 
 
 #===============================================================================
 # Create header file which the CrPwOutRegistryUserPar header file.
-def createCrPsServTypeIdHeader():
+def createCrPsOutRegistryHeader():
     s = ''
     s = s + '#include \"CrPsConstants.h\"\n'
     s = s + '#include \"CrPsTypes.h\"\n\n'
 
-    outRegistryList = []
+    outRegistryEntries = {}
     for packet in packets:
-        if packet['p_kind'] == 'TC':
+        if packet['p_kind'] != 'TM' or packet['domain'] == 'Hdr':
             continue
         idServ = packet['p_link']
-        servType = specItems['idServ']['value']
-        servSubType = packet['value']
+        servType = int(specItems[idServ]['value'])
+        servSubType = int(packet['value'])
         pcktDomName = getSpecItemName(packet)
-        discList = []
+        discToDerPckt = {}
         if pcktDomName in pcktToDerPckts:
-            for derPacket in pcktToDerPckts['pcktDomName']:
+            for derPacket in pcktToDerPckts[pcktDomName]:
                 idDiscEnumVal = derPacket['p_link']
                 discEnumVal = specItems[idDiscEnumVal]
                 disc = discEnumVal['value']
-                assert disc.isdigit(), 'Discriminant of '+pcktDomName+' is not a positive integer'
-                discList.append(int(disc)
-        if len(discList) == 0:
-            discMin = 0
-            discMax = 0
+                assert disc.isdigit(), 'Discriminant of ' + pcktDomName + ' is not a positive integer'
+                discToDerPckt[int(disc)] = derPacket
+        if len(discToDerPckt) == 0:
+            outRegistryEntries[(int(servType), int(servSubType), 0, 0)] = ('0', '0')
         else:
-            discMin = min(discList)
-            discMax = max(discList)
-        outRegistryList.append((servType, servSubType, discMin, discMax))
-    
-    outRegistryListSorted = sort(outRegistryList)
+            discMin = min(discToDerPckt)
+            discMax = max(discToDerPckt)
+            discMinEnumVal = getDiscVal(discToDerPckt[discMin])[1]
+            discMaxEnumVal = getDiscVal(discToDerPckt[discMax])[1]
+            outRegistryEntries[(servType, servSubType, discMin, discMax)] = (discMinEnumVal, discMaxEnumVal)
+            
+    outRegistryEntriesSorted = dict(sorted(outRegistryEntries.items()))
     
     s = s + writeDoxy(['Total number of out-going service types/sub-types provided by the application'])
-    s = s + '#define CR_FW_OUTREGISTRY_NSERV (' + str(len(outRegistryListSorted)) + ')\n\n'
+    s = s + '#define CR_FW_OUTREGISTRY_NSERV (' + str(len(outRegistryEntriesSorted)) + ')\n\n'
 
     s = s + writeDoxy(['Maximum number of out-going reports which can be tracked by OutRegstry'])
     s = s + '#define CR_FW_OUTREGISTRY_N (' + str(CR_FW_OUTREGISTRY_N) + ')\n\n'
     
     s = s + '#define CR_FW_OUTREGISTRY_INIT_SERV_DESC {\\\n'
-    for index, entry in enumerate(outRegistryListSorted):
-        outCmpDef = '    {' + getTypeAndSubType(outComponent)[0] + ', ' + \
-                              getTypeAndSubType(outComponent)[1] + ', ' + \
-                              disc + ', ' + \
-                              '2'  + ', ' + \
-                              str(getPcktLen(outComponent)) + ', ' + \
-                              '&' + getActionOrCheckFunction(outComponent, 'EnableCheck') + ', ' + \
-                              '&' + getActionOrCheckFunction(outComponent, 'ReadyCheck') + ', \\\n        ' + \
-                              '&' + getActionOrCheckFunction(outComponent, 'RepeatCheck') + ', ' + \
-                              '&' + getActionOrCheckFunction(outComponent, 'UpdateAction') + ', ' + \
-                              '&CrFwOutCmpDefSerialize}'
-        if index == len(outCmpSorted)-1:
-            s = s + '\\\n' + outCmpDef
+    for index, (key, entry) in enumerate(outRegistryEntriesSorted.items()):
+        outRegDef = '    {' + str(key[0]) + ', ' + \
+                              str(key[1]) + ', ' + \
+                              entry[0] + ', ' + \
+                              entry[1]  + ', ' + \
+                              '0, 0, 0, 0}'
+        if index == len(outRegistryEntriesSorted)-1:
+            s = s + outRegDef + '\\\n' 
         else:
-            s = s + ',\\\n' + outCmpDef 
+            s = s + outRegDef + ',\\\n' 
     s = s + '}\n\n'
         
-    createHeaderFile(configDir, 'CrFwOutRegistry.h', s)
+    createHeaderFile(configDir, 'CrFwOutRegistryUserPar.h', s)
     return 
 
 
@@ -179,7 +176,7 @@ def createInFactoryHeader():
     for inCommand in inCommands:
         packet = specItems[inCommand['p_link']]
         if packet['cat'] == 'DerPacket':
-            disc = getDiscVal(packet)
+            disc = getDiscVal(packet)[0]
         else:
             disc = '0'
         inCmdSortIndex = (int(getTypeAndSubType(inCommand)[0]),
@@ -193,7 +190,7 @@ def createInFactoryHeader():
     
     s = s + writeDoxy(['Definition of the inCommand kinds supported by the application'])
     s = s + '#define CR_FW_INCMD_INIT_KIND_DESC {\\\n'
-    for index, inCommand in inCmdSorted.items():
+    for index, (key, inCommand) in enumerate(inCmdSorted.items()):
         inCmdDef = '    {' + getTypeAndSubType(inCommand)[0] + ', ' + \
                              getTypeAndSubType(inCommand)[1] + ', ' + \
                              disc + ', ' + \
@@ -230,7 +227,7 @@ def createOutFactoryHeader():
     for outComponent in outComponents:
         packet = specItems[outComponent['p_link']]
         if packet['cat'] == 'DerPacket':
-            disc = getDiscVal(packet)
+            disc = getDiscVal(packet)[0]
         else:
             disc = '0'
         outCmpSortIndex = (int(getTypeAndSubType(outComponent)[0]),
@@ -244,7 +241,7 @@ def createOutFactoryHeader():
     
     s = s + writeDoxy(['Definition of the OutComponent kinds supported by the application'])
     s = s + '#define CR_FW_OUTCMP_INIT_KIND_DESC {\\\n'
-    for index, outComponent in outCmpSorted.items():
+    for index, (key, outComponent) in enumerate(outCmpSorted.items()):
         outCmpDef = '    {' + getTypeAndSubType(outComponent)[0] + ', ' + \
                               getTypeAndSubType(outComponent)[1] + ', ' + \
                               disc + ', ' + \
@@ -521,6 +518,7 @@ def procCordetFw(cordetFwPrFile):
     createInFactoryHeader()
     createCrPsTypesHeader()
     createCrPsServTypeIdHeader()
+    createCrPsOutRegistryHeader()
     
     
 #===============================================================================

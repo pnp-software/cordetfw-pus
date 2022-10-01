@@ -98,13 +98,13 @@ def getTypeAndSubType(specItem):
 
 
 #===============================================================================
-# Return the value of the discriminant of a derived packet as an integer.
+# Return the value of the discriminant of a derived packet as an integer and
+# as an enumerated value.
 def getDiscVal(derPacket):
-    disc = derPacket['p_link']
-    if disc['cat'] != 'DataItem':
-        print('ERROR: Derived packet '+derPacket['name']+' has a discriminant which is non a data item') 
-        return 0
-    return disc['value']
+    idDiscDataItem = derPacket['p_link']
+    discDataItem = specItems[idDiscDataItem]
+    assert discDataItem['cat'] == 'EnumValue'
+    return (discDataItem['value'], discDataItem['name'])
         
 
 #===============================================================================
