@@ -44,8 +44,69 @@ from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
 
 
 #===============================================================================
+# Create header file which the CrPwOutRegistryUserPar header file.
+def createCrPsServTypeIdHeader():
+    s = ''
+    s = s + '#include \"CrPsConstants.h\"\n'
+    s = s + '#include \"CrPsTypes.h\"\n\n'
+
+    outRegistryList = []
+    for packet in packets:
+        if packet['p_kind'] == 'TC':
+            continue
+        idServ = packet['p_link']
+        servType = specItems['idServ']['value']
+        servSubType = packet['value']
+        pcktDomName = getSpecItemName(packet)
+        discList = []
+        if pcktDomName in pcktToDerPckts:
+            for derPacket in pcktToDerPckts['pcktDomName']:
+                idDiscEnumVal = derPacket['p_link']
+                discEnumVal = specItems[idDiscEnumVal]
+                disc = discEnumVal['value']
+                assert disc.isdigit(), 'Discriminant of '+pcktDomName+' is not a positive integer'
+                discList.append(int(disc)
+        if len(discList) == 0:
+            discMin = 0
+            discMax = 0
+        else:
+            discMin = min(discList)
+            discMax = max(discList)
+        outRegistryList.append((servType, servSubType, discMin, discMax))
+    
+    outRegistryListSorted = sort(outRegistryList)
+    
+    s = s + writeDoxy(['Total number of out-going service types/sub-types provided by the application'])
+    s = s + '#define CR_FW_OUTREGISTRY_NSERV (' + str(len(outRegistryListSorted)) + ')\n\n'
+
+    s = s + writeDoxy(['Maximum number of out-going reports which can be tracked by OutRegstry'])
+    s = s + '#define CR_FW_OUTREGISTRY_N (' + str(CR_FW_OUTREGISTRY_N) + ')\n\n'
+    
+    s = s + '#define CR_FW_OUTREGISTRY_INIT_SERV_DESC {\\\n'
+    for index, entry in enumerate(outRegistryListSorted):
+        outCmpDef = '    {' + getTypeAndSubType(outComponent)[0] + ', ' + \
+                              getTypeAndSubType(outComponent)[1] + ', ' + \
+                              disc + ', ' + \
+                              '2'  + ', ' + \
+                              str(getPcktLen(outComponent)) + ', ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'EnableCheck') + ', ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'ReadyCheck') + ', \\\n        ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'RepeatCheck') + ', ' + \
+                              '&' + getActionOrCheckFunction(outComponent, 'UpdateAction') + ', ' + \
+                              '&CrFwOutCmpDefSerialize}'
+        if index == len(outCmpSorted)-1:
+            s = s + '\\\n' + outCmpDef
+        else:
+            s = s + ',\\\n' + outCmpDef 
+    s = s + '}\n\n'
+        
+    createHeaderFile(configDir, 'CrFwOutRegistry.h', s)
+    return 
+
+
+#===============================================================================
 # Create header file which defines the constants with the service and sub-service
-# identifiers.
+# identifiers (CrPsServTypeId header file).
 def createCrPsServTypeIdHeader():
     s = ''
     

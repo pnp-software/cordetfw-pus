@@ -22,17 +22,17 @@ enumTypesToEnumValues = {}
 enumValToDerPckts = {}
 
 # Dictionary linking a packet to its parameters.
-# The key is a spec_item of Packet type value type and the value
+# The key is the name of a spec_item of Packet type value type and the value
 # is a list of specItems holding the parameters in that packet.
 pcktToPcktPars = {}
 
 # Dictionary linking a derived packet to its parameters.
-# The key is a spec_item of DerPacket type value type and the value
+# The key is the name of a spec_item of DerPacket type value type and the value
 # is a list of specItems holding the parameters in that packet.
 derPcktToPcktPars = {}
 
 # Dictionary linking a packet to its derived packets.
-# The key is a spec_item of Packet type value type and the value
+# The key is the name of a spec_item of Packet type value type and the value
 # is a list of specItems holding the packets derived from that packet.
 pcktToDerPckts = {}
 
@@ -82,3 +82,6 @@ MAX_LINE_LENGTH = 80
 # Maximum number of InCommands which may be allocated at any one time
 CR_FW_INFACTORY_MAX_NOF_INCMD = 63
 
+# The maximum number of out-going commands or reports which can be 
+# tracked by the OutRegistry
+CR_FW_OUTREGISTRY_N = 60
