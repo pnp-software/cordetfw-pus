@@ -72,21 +72,25 @@ def createCrPsOutCmpHeaders():
         s = s + '#include \"CrFwCore.h\"\n'
         s = s + '#include \"CrFwConstants.h\"\n\n'
         headerFileName = 'CrPsOutCmp' + getServName(outComponent) + outComponent['name'][:-6] + 'Rep'
+        typeAndSubType = getTypeAndSubType(outComponent)
         for actionOrCheck in actionsAndChecks:
             actionOrCheckSpec = outComponent[actionOrCheck[1]]
             if isDefault(actionOrCheckSpec) or \
                (getSameAs(actionOrCheckSpec, outComponent, actionOrCheck[0]) != ''):
                 continue
-            typeAndSubType = getTypeAndSubType(outComponent)
             commentFirstLine = actionOrCheck[0] + ' of TM(' + typeAndSubType[0] + \
-                               ',' + typeAndSubType[1] + ') ' + outComponent['name'] + '.'
+                               ',' + typeAndSubType[1] + ') ' + outComponent['name'] + \
+                               ' (' + outComponent['title'] + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
             s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
                 actionOrCheck[3] + ' ' + actionOrCheck[4] + ')\n\n'
+        
         servDirName = cmdRepSrcDir + '/' + getServName(outComponent)
-        createHeaderFile(servDirName, headerFileName + '.h', s)
-    
+        shortDesc = 'Header file for module implementing TM(' + typeAndSubType[0] + \
+                    ',' + typeAndSubType[1] + ') ' + outComponent['name'] + '.'
+        createHeaderFile(servDirName, headerFileName + '.h', s, shortDesc)
+    '.'
     return 
 
 #===============================================================================
@@ -118,20 +122,24 @@ def createCrPsInCmdHeaders():
         s = s + '#include \"CrFwCore.h\"\n'
         s = s + '#include \"CrFwConstants.h\"\n\n'
         headerFileName = 'CrPsInCmd' + getServName(inCommand) + inCommand['name'][:-5] + 'Cmd'
+        typeAndSubType = getTypeAndSubType(inCommand)
         for actionOrCheck in actionsAndChecks:
             actionOrCheckSpec = inCommand[actionOrCheck[1]]
             if isDefault(actionOrCheckSpec) or \
                (getSameAs(actionOrCheckSpec, inCommand, actionOrCheck[0]) != ''):
                 continue
-            typeAndSubType = getTypeAndSubType(inCommand)
             commentFirstLine = actionOrCheck[0] + ' of TC(' + typeAndSubType[0] + \
-                               ',' + typeAndSubType[1] + ') ' + inCommand['name'] + '.'
+                               ',' + typeAndSubType[1] + ') ' + inCommand['name'] + \
+                               ' (' + inCommand['title'] + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
             s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
                 actionOrCheck[3] + ' ' + actionOrCheck[4] + ')\n\n'
+                
         servDirName = cmdRepSrcDir + '/' + getServName(inCommand)
-        createHeaderFile(servDirName, headerFileName + '.h', s)
+        shortDesc = 'Header file for module implementing TC(' + typeAndSubType[0] + \
+                    ',' + typeAndSubType[1] + ') ' + inCommand['name'] + '.'
+        createHeaderFile(servDirName, headerFileName + '.h', s, shortDesc)
     
     return 
             
@@ -189,7 +197,8 @@ def createCrPsOutRegistryHeader():
             s = s + outRegDef + ',\\\n' 
     s = s + '}\n\n'
         
-    createHeaderFile(configDir, 'CrFwOutRegistryUserPar.h', s)
+    shortDesc = 'Definition of the constants for the OutRegistry component.'
+    createHeaderFile(configDir, 'CrFwOutRegistryUserPar.h', s, shortDesc)
     return 
 
 
@@ -214,7 +223,8 @@ def createCrPsServTypeIdHeader():
             endName = packet['name'][:-3] + 'CMD_STYPE ('
         s = s + '#define ' + packet['domain'].upper() + endName.upper() + packet['value'] + ')\n\n'
             
-    createHeaderFile(configDir, 'CrPsServTypeId.h', s)
+    shortDesc = 'Definition of constants representing supported service types and sub-types.'
+    createHeaderFile(configDir, 'CrPsServTypeId.h', s, shortDesc)
     return
 
 
@@ -247,8 +257,9 @@ def createCrPsTypesHeader():
             else:
                 s = s + '\n'
         s = s + '};\n\n'
-            
-    createHeaderFile(configDir, 'CrPsTypes.h', s)
+
+    shortDesc = 'Definition of PUS Extension types (types whose name starts with \'CrPs\').'            
+    createHeaderFile(configDir, 'CrPsTypes.h', s, shortDesc)
     return
 
 
@@ -300,7 +311,8 @@ def createInFactoryHeader():
             s = s + ',\\\n' + inCmdDef 
     s = s + '}\n\n'
         
-    createHeaderFile(configDir, 'CrFwInFactoryUserPar.h', s)
+    shortDesc = 'Definition of the constants for the InFactory component.'
+    createHeaderFile(configDir, 'CrFwInFactoryUserPar.h', s, shortDesc)
     return 
 
 
@@ -350,7 +362,8 @@ def createOutFactoryHeader():
             s = s + ',\\\n' + outCmpDef 
     s = s + '}\n\n'
         
-    createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s)
+    shortDesc = 'Definition of the constants for the OutFactory component.'
+    createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s, shortDesc)
     return 
 
 

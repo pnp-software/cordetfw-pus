@@ -292,7 +292,7 @@ def getPcktLen(specItem):
 
 #===============================================================================
 # Create a header file with the given name and the given content.
-def createHeaderFile(dirName, fileName, content):
+def createHeaderFile(dirName, fileName, content, shortDesc):
     name = dirName + '/' + fileName
     ct = str(datetime.datetime.now())
     ifdefName = fileName[:-2].replace('_','').upper()
@@ -300,6 +300,7 @@ def createHeaderFile(dirName, fileName, content):
         fd.write('/**                                          \n')
         fd.write(' * @ingroup gen_cfw                          \n')
         fd.write(' *                                           \n')
+        fd.write(' * ' + shortDesc + ' \n')
         fd.write(' * This file is part of the PUS Extension of the  CORDET Framework \n')
         fd.write(' *                                           \n')
         fd.write(' * @note This file was generated on  ' + ct + '\n')
