@@ -76,7 +76,7 @@ def getPcktParLen(pcktPar):
 #===============================================================================
 # Return the name of the service to which an InCommand or OutComponent belongs.
 def getServName(specItem):
-    assert specItem['cat'] in ('InCommand', 'OutComponent']
+    assert specItem['cat'] in ('InCommand', 'OutComponent')
     idPacket = specItem['p_link']
     packet = specItems[idPacket]
     idServ = packet['p_link']
@@ -136,15 +136,22 @@ def isDefault(actionOrCheckText):
 # action or check, the function returns an empty string.
 # A specification is declared to be the same as the specificatin of another 
 # action or check if it begins with: 'same as' and then contains a reference 
-# to an InCommand or OutComponent
-def getSameAs(actionOrCheckText, specItem, name):
+# to an InCommand or OutComponent.
+# Argument 'name' holds the name of the action or check (e.g. 'EnableCheck' or
+# 'StartAction'.
+def getSameAs(actionOrCheckText, specItem, actionOrCheckName):
     if not actionOrCheckText.lower().startswith('same as'):
         return ''
-    else: 
-        match = pattern_edit.search(actionOrCheckText)
-        referredItem = domNameToSpecItem[match.group(2)+':'+match.group(3)]
-        assert referredItem['cat']==specItem['cat']
-        return getActionOrCheckFunction(referredItem, name)
+    
+    match = pattern_edit.search(actionOrCheckText)
+    if match == None:
+        return ''
+    
+    referredItemName = match.group(2)+':'+match.group(3)
+    assert referredItemName in domNameToSpecItem
+    referredItem = domNameToSpecItem[referredItemName]
+    assert referredItem['cat'] == specItem['cat']
+    return getActionOrCheckFunction(referredItem, actionOrCheckName)
 
 
 #===============================================================================

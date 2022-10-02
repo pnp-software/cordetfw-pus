@@ -27,7 +27,7 @@ pattern_bullets = re.compile('((\n^-\s.+$)+)', re.MULTILINE)
 # rendered in edit representation (e.g. '#cat:dom:name').
 # One such regex pattern is created for each project holding the categories
 # for that project.
-cats = 'AdaptPoint|DataItem|DataItemType|InCommand|Packet|PacketPar|DerPacket|EnumType|EnumValue|Model|OutComponet|Service'
+cats = 'AdaptPoint|DataItem|DataItemType|InCommand|Packet|PacketPar|DerPacket|EnumType|EnumValue|Model|OutComponent|Service'
 pattern_edit = re.compile('#('+cats+'):([a-zA-Z0-9_]+):([a-zA-Z0-9_]+)')
 
 # Regex expression to match non-visible UTF characters

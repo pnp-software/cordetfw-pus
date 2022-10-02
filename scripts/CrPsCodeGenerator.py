@@ -46,12 +46,57 @@ from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
 
 
 #===============================================================================
-# Create header files for modules implementing commands and reports.
-def createCrPsCmdRepHeaders():
+# Create header files for modules implementing OutComponents.
+def createCrPsOutCmpHeaders():
     for service in services:
-        servDirName = cmdRepSrcDir + '/' + service['name']
-        if os.path.isdir(servDirName):
-            os.makedirs(servDirName)
+        if service['name'] != 'Hdr':
+            servDirName = cmdRepSrcDir + '/' + service['name']
+            if not os.path.isdir(servDirName):
+                os.makedirs(servDirName)
+ 
+    # Each element of this tuple contains:
+    # - The name of an OutComponent action or check
+    # - The name of attribute in the OutComponent specItem where the spec of the 
+    #   action or check is stored
+    # - The return type of the action or check
+    # - The type of the argument of the action or check
+    # - The name of the argument of the action or check
+    actionsAndChecks = [('Enable Check', 't1', 'CrFwBool_t', 'FwSmDesc_t', 'smDesc'),
+                        ('Ready Check', 't2', 'CrFwBool_t', 'FwSmDesc_t', 'smDesc'),
+                        ('Repeat Check', 't3', 'CrFwBool_t', 'FwSmDesc_t', 'smDesc'),
+                        ('Update Action', 't5', 'void', 'FwSmDesc_t', 'smDesc')]
+    for outComponent in outComponents:
+        s = ''
+        s = s + '#include \"CrPsConstants.h\"\n'
+        s = s + '#include \"CrPsTypes.h\"\n\n'
+        s = s + '#include \"CrFwCore.h\"\n'
+        s = s + '#include \"CrFwConstants.h\"\n\n'
+        headerFileName = 'CrPsOutCmp' + getServName(outComponent) + outComponent['name'][:-6] + 'Rep'
+        for actionOrCheck in actionsAndChecks:
+            actionOrCheckSpec = outComponent[actionOrCheck[1]]
+            if isDefault(actionOrCheckSpec) or \
+               (getSameAs(actionOrCheckSpec, outComponent, actionOrCheck[0]) != ''):
+                continue
+            typeAndSubType = getTypeAndSubType(outComponent)
+            commentFirstLine = actionOrCheck[0] + ' of TM(' + typeAndSubType[0] + \
+                               ',' + typeAndSubType[1] + ') ' + outComponent['name'] + '.'
+            functionName = headerFileName + actionOrCheck[0].replace(' ','')
+            s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
+            s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
+                actionOrCheck[3] + ' ' + actionOrCheck[4] + ')\n\n'
+        servDirName = cmdRepSrcDir + '/' + getServName(outComponent)
+        createHeaderFile(servDirName, headerFileName + '.h', s)
+    
+    return 
+
+#===============================================================================
+# Create header files for modules implementing InCommands.
+def createCrPsInCmdHeaders():
+    for service in services:
+        if service['name'] != 'Hdr':
+            servDirName = cmdRepSrcDir + '/' + service['name']
+            if not os.path.isdir(servDirName):
+                os.makedirs(servDirName)
  
     # Each element of this tuple contains:
     # - The name of an InCommand action or check
@@ -66,22 +111,29 @@ def createCrPsCmdRepHeaders():
                         ('Progress Action', 't3', 'void', 'FwSmDesc_t', 'smDesc'),
                         ('Termination Action', 't4', 'void', 'FwSmDesc_t', 'smDesc'),
                         ('Abort Action', 't5', 'void', 'FwSmDesc_t', 'smDesc')]
-    for inCommand in InCommands:
+    for inCommand in inCommands:
         s = ''
         s = s + '#include \"CrPsConstants.h\"\n'
         s = s + '#include \"CrPsTypes.h\"\n\n'
         s = s + '#include \"CrFwCore.h\"\n'
         s = s + '#include \"CrFwConstants.h\"\n\n'
+        headerFileName = 'CrPsInCmd' + getServName(inCommand) + inCommand['name'][:-5] + 'Cmd'
         for actionOrCheck in actionsAndChecks:
-            actionOrCheckSpec = actionOrCheck[1]
-            if isDefault(inCommand[actionOrCheckSpec]) or (getSameAs(inCommand[actionOrCheckSpec]) == ''):
+            actionOrCheckSpec = inCommand[actionOrCheck[1]]
+            if isDefault(actionOrCheckSpec) or \
+               (getSameAs(actionOrCheckSpec, inCommand, actionOrCheck[0]) != ''):
                 continue
             typeAndSubType = getTypeAndSubType(inCommand)
-            commentFirstLine = actionOrCheck[0] + ' of TC' + str(typeAndSubType) + ' ' + inCommand['name']
-            s = s + writeDoxy([commentFirstLine, inCommand[actionOrCheckSpec]])
-            s = s + actionOrCheck[2] + ' CrPsInCmd' + getServName(inCommand) + \
-                inCommand['name'][:-5] + actionOrCheck[0].replace(' ','') + '(' +
-                actionOrCheck[3] + ' ' + actionOrChecl[4] + ')\n\n'
+            commentFirstLine = actionOrCheck[0] + ' of TC(' + typeAndSubType[0] + \
+                               ',' + typeAndSubType[1] + ') ' + inCommand['name'] + '.'
+            functionName = headerFileName + actionOrCheck[0].replace(' ','')
+            s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
+            s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
+                actionOrCheck[3] + ' ' + actionOrCheck[4] + ')\n\n'
+        servDirName = cmdRepSrcDir + '/' + getServName(inCommand)
+        createHeaderFile(servDirName, headerFileName + '.h', s)
+    
+    return 
             
 
 #===============================================================================
@@ -559,6 +611,8 @@ def procCordetFw(cordetFwPrFile):
     createCrPsTypesHeader()
     createCrPsServTypeIdHeader()
     createCrPsOutRegistryHeader()
+    createCrPsOutCmpHeaders()
+    createCrPsInCmdHeaders()
     
     
 #===============================================================================
