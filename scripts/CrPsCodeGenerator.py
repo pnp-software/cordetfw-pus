@@ -36,13 +36,29 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    pcktToPcktPars, outComponents, inCommands, \
                    derPcktToPcktPars, pcktToDerPckts, domNameToSpecItem, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
-                   services, packets, cmdRepSrcDir, \
+                   services, packets, cmdRepSrcDir, pcktDir, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
                    CR_FW_OUTREGISTRY_N
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
                       isDefault, getSameAs, getServName
+
+
+#===============================================================================
+# Create header files which defines the accessor methods for the packet parameters.
+def createCrPsPcktHeader():
+    s = ''
+    if not os.path.isdir(pcktdir):
+        os.makedirs(pcktDir)
+    for service in services:
+        if service['name'] == 'Hdr':
+            continue
+        servDirName = cmdRepSrcDir + '/' + service['name']
+
+        shortDesc = 'Header file for accessor methods for packets in service ' + service['name'] + \
+                    ' (' + service['title'] + ').'
+        createHeaderFile(pcktDir, headerFileName + '.h', s, shortDesc)
 
 
 #===============================================================================
@@ -90,7 +106,7 @@ def createCrPsOutCmpHeaders():
         shortDesc = 'Header file for module implementing TM(' + typeAndSubType[0] + \
                     ',' + typeAndSubType[1] + ') ' + outComponent['name'] + '.'
         createHeaderFile(servDirName, headerFileName + '.h', s, shortDesc)
-    '.'
+        
     return 
 
 #===============================================================================
