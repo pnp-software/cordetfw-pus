@@ -74,6 +74,16 @@ def getPcktParLen(pcktPar):
 
 
 #===============================================================================
+# Return the name of the service to which an InCommand or OutComponent belongs.
+def getServName(specItem):
+    assert specItem['cat'] in ('InCommand', 'OutComponent']
+    idPacket = specItem['p_link']
+    packet = specItems[idPacket]
+    idServ = packet['p_link']
+    return specItems[idServ]['name']
+
+
+#===============================================================================
 # Return the type and sub-type of the argument packet as a tuple (x,y).
 # The argument can be one of: a packet, a derived packet, a telecommand or a
 # telemetry report.
@@ -94,6 +104,7 @@ def getTypeAndSubType(specItem):
         assert packet['cat'] == 'Packet'
         return getTypeAndSubType(packet)
         
+    assert False
     return (0,0)
 
 
@@ -105,7 +116,36 @@ def getDiscVal(derPacket):
     discDataItem = specItems[idDiscDataItem]
     assert discDataItem['cat'] == 'EnumValue'
     return (discDataItem['value'], discDataItem['name'])
+      
         
+#===============================================================================
+# Return True if the argument text specifies a default implementation for
+# an InCommand or OutComponent check or action. A check or action specification
+# is declared to be "default implementation" if its specification starts
+# with the string 'default implementation' (case insensitive).
+def isDefault(actionOrCheckText):
+    return actionOrCheckText.lower().startswith('default implementation')
+
+
+#===============================================================================
+# The argument text specifies an action or check of a command/report.
+# This function checks whether the specification is the same as the specification
+# of an action or check of another command/report. In that case, it returns
+# the specification of the referenced action or check. 
+# If, instead, the specification is not the same as the specification of another
+# action or check, the function returns an empty string.
+# A specification is declared to be the same as the specificatin of another 
+# action or check if it begins with: 'same as' and then contains a reference 
+# to an InCommand or OutComponent
+def getSameAs(actionOrCheckText, specItem, name):
+    if not actionOrCheckText.lower().startswith('same as'):
+        return ''
+    else: 
+        match = pattern_edit.search(actionOrCheckText)
+        referredItem = domNameToSpecItem[match.group(2)+':'+match.group(3)]
+        assert referredItem['cat']==specItem['cat']
+        return getActionOrCheckFunction(referredItem, name)
+
 
 #===============================================================================
 # Return the name of the function implementing a command's or component's action
@@ -125,18 +165,6 @@ def getDiscVal(derPacket):
 # function implementing the action or check is built from the name of the 
 # argument InCommand or OutComponent and the name of the action or check.
 def getActionOrCheckFunction(specItem, name):
-    def isDefault(actionOrCheckText):
-        return actionOrCheckText.lower().startswith('default implementation')
-    
-    def getSameAs(actionOrCheckText, specItem, name):
-        if not actionOrCheckText.lower().startswith('same as'):
-            return ''
-        else: 
-            match = pattern_edit.search(actionOrCheckText)
-            referredItem = domNameToSpecItem[match.group(2)+':'+match.group(3)]
-            assert referredItem['cat']==specItem['cat']
-            return getActionOrCheckFunction(referredItem, name)
-    
     assert specItem['cat'] in ('OutComponent', 'InCommand') 
     if specItem['cat'] == 'OutComponent':
         if name == 'EnableCheck':

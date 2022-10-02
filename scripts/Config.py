@@ -64,6 +64,9 @@ generatedTablesDir = 'doc/pus/GeneratedTables'
 # Directory where configuration files are stored
 configDir = 'tests/PusConfig'
 
+# Directory where command/report source files are stored
+cmdRepSrcDir = 'src'
+
 # Length in bytes of the header in a telemetry packet
 tmPcktHeaderLen = 20
 

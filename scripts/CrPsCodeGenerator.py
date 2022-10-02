@@ -36,13 +36,53 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    pcktToPcktPars, outComponents, inCommands, \
                    derPcktToPcktPars, pcktToDerPckts, domNameToSpecItem, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
-                   services, packets, \
+                   services, packets, cmdRepSrcDir, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
                    CR_FW_OUTREGISTRY_N
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
-                      getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal
+                      getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
+                      isDefault, getSameAs, getServName
 
+
+#===============================================================================
+# Create header files for modules implementing commands and reports.
+def createCrPsCmdRepHeaders():
+    for service in services:
+        servDirName = cmdRepSrcDir + '/' + service['name']
+        if os.path.isdir(servDirName):
+            os.makedirs(servDirName)
+ 
+    # Each element of this tuple contains:
+    # - The name of an InCommand action or check
+    # - The name of attribute in the InCommand specItem where the spec of the 
+    #   action or check is stored
+    # - The return type of the action or check
+    # - The type of the argument of the action or check
+    # - The name of the argument of the action or check
+    actionsAndChecks = [('Validity Check', 'value', 'CrFwBool_t', 'FwPrDesc_t', 'prDesc'),
+                        ('Ready Check', 't1', 'CrFwBool_t', 'FwSmDesc_t', 'smDesc'),
+                        ('Start Action', 't2', 'void', 'FwSmDesc_t', 'smDesc'),
+                        ('Progress Action', 't3', 'void', 'FwSmDesc_t', 'smDesc'),
+                        ('Termination Action', 't4', 'void', 'FwSmDesc_t', 'smDesc'),
+                        ('Abort Action', 't5', 'void', 'FwSmDesc_t', 'smDesc')]
+    for inCommand in InCommands:
+        s = ''
+        s = s + '#include \"CrPsConstants.h\"\n'
+        s = s + '#include \"CrPsTypes.h\"\n\n'
+        s = s + '#include \"CrFwCore.h\"\n'
+        s = s + '#include \"CrFwConstants.h\"\n\n'
+        for actionOrCheck in actionsAndChecks:
+            actionOrCheckSpec = actionOrCheck[1]
+            if isDefault(inCommand[actionOrCheckSpec]) or (getSameAs(inCommand[actionOrCheckSpec]) == ''):
+                continue
+            typeAndSubType = getTypeAndSubType(inCommand)
+            commentFirstLine = actionOrCheck[0] + ' of TC' + str(typeAndSubType) + ' ' + inCommand['name']
+            s = s + writeDoxy([commentFirstLine, inCommand[actionOrCheckSpec]])
+            s = s + actionOrCheck[2] + ' CrPsInCmd' + getServName(inCommand) + \
+                inCommand['name'][:-5] + actionOrCheck[0].replace(' ','') + '(' +
+                actionOrCheck[3] + ' ' + actionOrChecl[4] + ')\n\n'
+            
 
 #===============================================================================
 # Create header file which the CrPwOutRegistryUserPar header file.
