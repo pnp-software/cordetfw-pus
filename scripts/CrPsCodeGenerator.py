@@ -36,13 +36,13 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    pcktToPcktPars, outComponents, inCommands, \
                    derPcktToPcktPars, pcktToDerPckts, domNameToSpecItem, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
-                   services, packets, cmdRepSrcDir, pcktDir, \
+                   services, packets, cmdRepSrcDir, pcktDir, servToPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
                    CR_FW_OUTREGISTRY_N
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
-                      isDefault, getSameAs, getServName
+                      isDefault, getSameAs, getServName, getPcktParType
 
 
 #===============================================================================
@@ -55,7 +55,71 @@ def createCrPsPcktHeader():
         if service['name'] == 'Hdr':
             continue
         servDirName = cmdRepSrcDir + '/' + service['name']
+        if not os.path.isdir(servDirName):
+            os.makedirs(servDirName)
+        s = ''
+        s = s + '#include \"CrPsTypes.h\"\n'
+        s = s + '#include \"CrPsPckt.h\"\n\n'
 
+        s = s + writeDoxy(['Constants defining:',
+                           '- For statically defined packets: the full length',
+                           '- For packets with groups of dynamic size: length of header + length of CRC field',
+                           '- For parent packets: length of the parent part of a packet',
+                           'Constant name format is: LEN_<domain>_<basePacketName>_<discriminant> \n'])
+        
+        for packet in servToPckts[getSpecItemName(service)]:
+            s = s + writeDoxy(['Length constant for packet '+packet['name']])
+            s = s + '#define LEN_' + service['name'].upper() + '_'+packet['name'].upper() + \
+                ' ' + str(getPcktLen(packet) + '\n\n'
+            for derPacket in pcktToDerPckts[getSpecItemName(packet)]:
+                s = s + writeDoxy(['Length constant for derived packet '+derPacket['name']])
+                disc = getDiscVal(derPacket)[1]
+                s = s + '#define LEN_' + service['name'].upper() + '_'+derPacket['name'].upper() + \
+                    '_' + disc.upper() + ' ' + str(getPcktLen(derPacket) + '\n\n'
+         
+        for packet in servToPckts[getSpecItemName(service)]:
+            derPckts = pcktToDerPckts[getSpecItemName(packet)]
+            nDerPckts = len(derPckts)
+            if nDerPckts == 0:
+                continue
+            s = s +  writeDoxy(['Number of derived packets in packet '+getSpecItemName([packet])])
+            s = s + '#define N_OF_DER_PCKT_' + service['name'].upper() + '_' + \
+                packet['name'].upper() + ' ' + str(nDerPckts) + '\n'
+            s = s +  writeDoxy(['List of discriminants for derived packets of packet '+ \
+                getSpecItemName([packet])])
+            s = s + '#define LIST_OF_DER_PCKT_' + service['name'].upper() + '_' + \
+                packet['name'].upper() + ' {'
+            for derPacket in derPckts:
+                s = s + service['name'].upper() + '_' + derPacket['name'].upper() + ', '
+            s = s[:-2] + '}\n\n'
+            
+         for packet in servToPckts[getSpecItemName(service)]:
+            s = s +  writeDoxy(['Structure for packet '+getSpecItemName([packet])])
+            s = s + 'typedef struct __attribute__((packed)) _'+packet['name']+'_t {\n'
+            s = s + '    /** Packet header */\n'
+            s = s + '    TmHeader_t Header;\n'
+            for par in pcktToPcktPars[getSpecItemName(packet)]:
+                s = s + '    /** ' + par['title'] + ' */\n'
+                s = s + '   ' + getPcktParType(par) + ' ' par['name'] + ';\n'
+            s = s + '} ' + packet['name'] + '_t;\n\n' 
+            derPckts = pcktToDerPckts[getSpecItemName(packet)]
+            nDerPckts = len(derPckts)
+            for derPckt in derPckts:
+                derPcktName = '_' + getSpecItemName([packet]) + '_' + derPckt['name']
+                s = s +  writeDoxy(['Structure for derived packet '+derPcktName])
+                s = s + 'typedef struct __attribute__((packed)) '+derPcktName+'_t {\n'
+                s = s + '    /** Packet header */\n'
+                s = s + '    TmHeader_t Header;\n'
+                for par in pcktToPcktPars[getSpecItemName(packet)]:
+                    s = s + '    /** ' + par['title'] + '(from parent packet) */\n'
+                    s = s + '   ' + getPcktParType(par) + ' ' par['name'] + ';\n'
+                for par in derPckt:
+                    s = s + '    /** ' + par['title'] + ' */\n'
+                    s = s + '   ' + getPcktParType(par) + ' ' par['name'] + ';\n'
+                s = s + '} ' + derPcktName + '_t;\n\n' 
+
+        
+        headerFileName = 'CrPsPckt' + service['name']
         shortDesc = 'Header file for accessor methods for packets in service ' + service['name'] + \
                     ' (' + service['title'] + ').'
         createHeaderFile(pcktDir, headerFileName + '.h', s, shortDesc)
@@ -625,6 +689,7 @@ def procCordetFw(cordetFwPrFile):
     buildCrossTable(pcktToPcktPars, 'Packet', 'PacketPar', 'p_link')
     buildCrossTable(derPcktToPcktPars, 'DerPacket', 'PacketPar', 'p_link')
     buildCrossTable(pcktToDerPckts, 'Packet', 'DerPacket', 's_link')
+    buildCrossTable(servToPckts, 'Service', 'Packet', 'p_link')
     
     # Build tables required for the PUS specification
     generateCrPsSpec()

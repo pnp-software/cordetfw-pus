@@ -31,6 +31,11 @@ pcktToPcktPars = {}
 # is a list of specItems holding the parameters in that packet.
 derPcktToPcktPars = {}
 
+# Dictionary linking a packet to the service to which it belongs.
+# The key is the name of a service and the value is a list of packets
+# in that service.
+servToPckts = {}
+
 # Dictionary linking a packet to its derived packets.
 # The key is the name of a spec_item of Packet type value type and the value
 # is a list of specItems holding the packets derived from that packet.

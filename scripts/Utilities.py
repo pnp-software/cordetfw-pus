@@ -68,9 +68,19 @@ def getSpecItemName(specItem):
 #===============================================================================
 # Return the length in bits of a packet parameter.
 def getPcktParLen(pcktPar):
+    assert pcktPar['cat'] = 'PacketPar'
     pcktParDataItem = specItems[pcktPar['s_link']]
     pcktParDataItemType = specItems[pcktParDataItem['p_link']]
     return int(pcktParDataItemType['n1'])
+
+
+#===============================================================================
+# Return the type of a packet parameter.
+def getPcktParType(pcktPar):
+    assert pcktPar['cat'] = 'PacketPar'
+    pcktParDataItem = specItems[pcktPar['s_link']]
+    pcktParDataItemType = specItems[pcktParDataItem['p_link']]
+    return pcktParDataItemType['name']
 
 
 #===============================================================================
