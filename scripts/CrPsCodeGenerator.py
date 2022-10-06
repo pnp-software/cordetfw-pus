@@ -38,11 +38,12 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
                    services, packets, cmdRepSrcDir, pcktDir, servToPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
-                   CR_FW_OUTREGISTRY_N
+                   CR_FW_OUTREGISTRY_N, isEndianitySwapNeeded
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
-                      isDefault, getSameAs, getServName, getPcktParType
+                      isDefault, getSameAs, getServName, getPcktParType, \
+                      writePcktParGetterFunction, writePcktParSetterFunction
 
 
 #===============================================================================
@@ -98,9 +99,22 @@ def createCrPsPcktHeader():
             s = s + 'typedef struct __attribute__((packed)) _'+packet['name']+'_t {\n'
             s = s + '    /** Packet header */\n'
             s = s + '    TmHeader_t Header;\n'
+            groupSize = 0
+            indent = '    '
             for par in pcktToPcktPars[getSpecItemName(packet)]:
-                s = s + '    /** ' + par['title'] + ' */\n'
-                s = s + '   ' + getPcktParType(par) + ' ' par['name'] + ';\n'
+                if groupSize > 0:
+                    groupSize = groupSize - 1
+                    indent = '        '
+                s = s + indent + '/** ' + par['title'] + ' */\n'
+                s = s + indent + getPcktParType(par) + ' ' par['name'] + ';\n'
+                if par['n2'] > 0:  # Parameter is not a group size
+                    groupSize = par['n2']
+                    s = s + indent + 'struct __attribute__((packed)) _{\n'
+                    parGroupSize = par
+                if groupSize == 0:
+                    indent = '    '
+                    s = s + '} ' + parGroupSize['name'] + '_[1];\n' 
+                    
             s = s + '} ' + packet['name'] + '_t;\n\n' 
             derPckts = pcktToDerPckts[getSpecItemName(packet)]
             nDerPckts = len(derPckts)
@@ -117,6 +131,42 @@ def createCrPsPcktHeader():
                     s = s + '    /** ' + par['title'] + ' */\n'
                     s = s + '   ' + getPcktParType(par) + ' ' par['name'] + ';\n'
                 s = s + '} ' + derPcktName + '_t;\n\n' 
+
+         for packet in servToPckts[getSpecItemName(service)]:
+            for par in pcktToPcktPars[getSpecItemName(packet)]:
+                s = s + writePcktParGetterFunction(par['name'], 
+                                                   packet['name'], 
+                                                   service['name'], 
+                                                   getPcktParType(par))
+                s = s + writePcktParSetterFunction(par['name'], 
+                                                   packet['name'], 
+                                                   service['name'], 
+                                                   getPcktParType(par))
+            for derPckt in pcktToDerPckts[getSpecItemName(packet)]:
+                for par in derPckt:
+                    s = s + writePcktParGetterFunction(par['name'], 
+                                                       packet['name'], 
+                                                       service['name'], 
+                                                       getPcktParType(par))
+                    s = s + writePcktParSetterFunction(par['name'], 
+                                                       packet['name'], 
+                                                       service['name'], 
+                                                       getPcktParType(par))
+                
+
+
+
+
+/**
+ * Get "EventId" array from "DisCmd" packet.
+ * @param p Pointer to the packet.
+ * @param dest Pointer to memory location where array data are copied to.
+ */
+static inline void readEvtDisCmdEventIdArray(void* p, void* dest) {
+   DisCmd_t* t;
+   t = (DisCmd_t*)p;
+   memcpy(dest, &t->N_[0].EventId, t->N*sizeof(t->N_[0].EventId));
+}
 
         
         headerFileName = 'CrPsPckt' + service['name']

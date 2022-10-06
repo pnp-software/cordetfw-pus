@@ -19,7 +19,7 @@ import datetime;
 
 from Config import tmPcktHeaderLen, tcPcktHeaderLen, pcktCrcLen, pcktToPcktPars, \
                    derPcktToPcktPars, specItems, domNameToSpecItem, \
-                   MAX_LINE_LENGTH
+                   MAX_LINE_LENGTH, isEndianitySwapNeeded
 from Format import pattern_edit
 
 
@@ -254,7 +254,6 @@ def getActionOrCheckFunction(specItem, name):
     assert False
 
 
-
 #===============================================================================
 # Return the length in bytes of a packet. The argument can be either a packet,
 # or a derived packet, or an InCommand or an OutComponent.
@@ -299,6 +298,44 @@ def getPcktLen(specItem):
         return getPcktLen(specItems[idPckt])
 
     assert False
+
+
+#===============================================================================
+# Write a getter function for a packet parameter to a string and return the string.
+def writePcktParGetterFunction(parName, pcktName, servName, parType):
+    s = writeDoxy(['Getter function for parameter '+parName+' in packet '+pcktName,
+                   '@param p Pointer to the packet',
+                   '@return Value of parameyer '+pcktName])
+    s = s + 'static inline ' + parType + ' get' +
+        servName + pcktName + parName + '(void* p) {\n'
+    s = s + '    ' + parName + '_t* t;\n'
+    s = s + '     t = (' + parName + '_t*)p;\n'
+    if isEndianitySwapNeeded:
+        s = s + '    return __builtin_bswap16(t->' + parName + ');\n'
+    else:
+        s = s + '    return __t->' + parName + ';\n'
+    s = s + '}\n\n'
+    return s
+
+
+#===============================================================================
+# Write a setter function for a packet parameter to a string and return the string.
+def writePcktParSetterFunction(parName, pcktName, servName, parType):
+    s = writeDoxy(['Setter function for parameter '+parName+' in packet '+packet['name'],
+                   '@param p Pointer to the packet',
+                   '@param '+parName+' Value to be set in packet\n'])
+    s = s + 'static inline void set' + service['name'] + pcktName + \
+        parName + '(void* p, ' + parType + '_t ' +
+        + par['name'] + ') {\n'
+    s = s + '    ' + parName + '_t* t;\n'
+    s = s + '     t = (' + parName + '_t*)p;\n'
+    if isEndianitySwapNeeded:
+        s = s + '    t->' + parName + '= _builtin_bswap16(' + parName + ');\n'
+    else:
+        s = s + '    t->' + parName + '= ' + parName + ';\n'
+    s = s + '}\n\n'
+    return s
+
 
 #===============================================================================
 # Create a header file with the given name and the given content.

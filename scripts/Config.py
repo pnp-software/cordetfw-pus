@@ -96,3 +96,6 @@ CR_FW_INFACTORY_MAX_NOF_INCMD = 63
 # The maximum number of out-going commands or reports which can be 
 # tracked by the OutRegistry
 CR_FW_OUTREGISTRY_N = 60
+
+# Flag indicating whether endianity swap is needed when accessing packet parameters
+isEndianitySwapNeeded = True
