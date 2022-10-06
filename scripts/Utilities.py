@@ -68,7 +68,7 @@ def getSpecItemName(specItem):
 #===============================================================================
 # Return the length in bits of a packet parameter.
 def getPcktParLen(pcktPar):
-    assert pcktPar['cat'] = 'PacketPar'
+    assert pcktPar['cat'] == 'PacketPar'
     pcktParDataItem = specItems[pcktPar['s_link']]
     pcktParDataItemType = specItems[pcktParDataItem['p_link']]
     return int(pcktParDataItemType['n1'])
@@ -77,7 +77,7 @@ def getPcktParLen(pcktPar):
 #===============================================================================
 # Return the type of a packet parameter.
 def getPcktParType(pcktPar):
-    assert pcktPar['cat'] = 'PacketPar'
+    assert pcktPar['cat'] == 'PacketPar'
     pcktParDataItem = specItems[pcktPar['s_link']]
     pcktParDataItemType = specItems[pcktParDataItem['p_link']]
     return pcktParDataItemType['name']
@@ -302,37 +302,74 @@ def getPcktLen(specItem):
 
 #===============================================================================
 # Write a getter function for a packet parameter to a string and return the string.
-def writePcktParGetterFunction(parName, pcktName, servName, parType):
-    s = writeDoxy(['Getter function for parameter '+parName+' in packet '+pcktName,
-                   '@param p Pointer to the packet',
-                   '@return Value of parameyer '+pcktName])
-    s = s + 'static inline ' + parType + ' get' +
-        servName + pcktName + parName + '(void* p) {\n'
+# If groupSizePar is equal to None, the parameter for which the getter method
+# is generated is a non-group parameter; else, the parameter is part of a group
+# and groupSizePar is the parameter holding the group size.
+def writePcktParGetterFunction(parName, pcktName, servName, parType, groupSizePar):
+    if groupSizePar == None:
+        s = writeDoxy(['Getter function for parameter '+parName+' in packet '+pcktName,
+                       '@param p Pointer to the packet',
+                       '@return Value of parameter '+pcktName])
+        s = s + 'static inline ' + parType + ' get' + \
+            servName + pcktName + parName + '(void* p) {\n'
+    else:
+        s = writeDoxy(['Getter function for an instance of parameter '+parName+' in packet '+pcktName,
+                       'The parameter '+parName+' is part of a group. The function returns the value',
+                       'of the n-th instance of the group.'
+                       '@param p Pointer to the packet',
+                       '@param n The index (starting from 0) of the instance of '+parName,
+                       '@return Value of n-th instance of parameter '+pcktName])
+        s = s + 'static inline ' + parType + ' get' + \
+            servName + pcktName + parName + '(void* p, '+getPcktParType(groupSizePar)+' n) {\n'
+        
     s = s + '    ' + parName + '_t* t;\n'
     s = s + '     t = (' + parName + '_t*)p;\n'
-    if isEndianitySwapNeeded:
-        s = s + '    return __builtin_bswap16(t->' + parName + ');\n'
+    if groupSizePar == None:
+        retVal = parName
     else:
-        s = s + '    return __t->' + parName + ';\n'
+        retVal = groupSizePar['name']+'_[n].'+parName
+    if isEndianitySwapNeeded:
+        s = s + '    return __builtin_bswap16(t->' + retVal + ');\n'
+    else:
+        s = s + '    return __t->' + retVal + ';\n'
     s = s + '}\n\n'
     return s
 
 
 #===============================================================================
 # Write a setter function for a packet parameter to a string and return the string.
-def writePcktParSetterFunction(parName, pcktName, servName, parType):
-    s = writeDoxy(['Setter function for parameter '+parName+' in packet '+packet['name'],
-                   '@param p Pointer to the packet',
-                   '@param '+parName+' Value to be set in packet\n'])
-    s = s + 'static inline void set' + service['name'] + pcktName + \
-        parName + '(void* p, ' + parType + '_t ' +
-        + par['name'] + ') {\n'
+# If groupSizePar is equal to None, the parameter for which the getter method
+# is generated is a non-group parameter; else, the parameter is part of a group
+# and groupSizePar is the parameter holding the group size.
+def writePcktParSetterFunction(parName, pcktName, servName, parType, groupSizePar):
+    if groupSizePar == None:
+        s = writeDoxy(['Setter function for parameter '+parName+' in packet '+packet['name'],
+                       '@param p Pointer to the packet',
+                       '@param '+parName+' Value to be set in packet\n'])
+        s = s + 'static inline void set' + service['name'] + pcktName + \
+            parName + '(void* p, ' + parType + '_t ' + \
+            + par['name'] + ') {\n'
+    else:
+        s = writeDoxy(['Setter function for an instance of parameter '+parName+' in packet '+packet['name'],
+                       'The parameter '+parName+' is part of a group. The function sets the value',
+                       'of the n-th instance of the group.'
+                       '@param p Pointer to the packet',
+                       '@param n The index (starting from 0) of the instance of '+parName,
+                       '@param '+parName+' Value to be set in packet\n'])
+        s = s + 'static inline void set' + service['name'] + pcktName + \
+            parName + '(void* p, ' + getPcktParType(groupSizePar) + ' n, ' + parType + '_t ' + \
+            + par['name'] + ') {\n'
+        
     s = s + '    ' + parName + '_t* t;\n'
     s = s + '     t = (' + parName + '_t*)p;\n'
-    if isEndianitySwapNeeded:
-        s = s + '    t->' + parName + '= _builtin_bswap16(' + parName + ');\n'
+    if groupSizePar == None:
+        setVal = parName
     else:
-        s = s + '    t->' + parName + '= ' + parName + ';\n'
+        setVal = groupSizePar['name'] + '_[n].' + parName
+    if isEndianitySwapNeeded:
+        s = s + '    t->' + setVal + '= _builtin_bswap16(' + parName + ');\n'
+    else:
+        s = s + '    t->' + setVal + '= ' + parName + ';\n'
     s = s + '}\n\n'
     return s
 

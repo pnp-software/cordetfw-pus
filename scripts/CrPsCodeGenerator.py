@@ -71,12 +71,12 @@ def createCrPsPcktHeader():
         for packet in servToPckts[getSpecItemName(service)]:
             s = s + writeDoxy(['Length constant for packet '+packet['name']])
             s = s + '#define LEN_' + service['name'].upper() + '_'+packet['name'].upper() + \
-                ' ' + str(getPcktLen(packet) + '\n\n'
+                ' ' + str(getPcktLen(packet)) + '\n\n'
             for derPacket in pcktToDerPckts[getSpecItemName(packet)]:
                 s = s + writeDoxy(['Length constant for derived packet '+derPacket['name']])
                 disc = getDiscVal(derPacket)[1]
                 s = s + '#define LEN_' + service['name'].upper() + '_'+derPacket['name'].upper() + \
-                    '_' + disc.upper() + ' ' + str(getPcktLen(derPacket) + '\n\n'
+                    '_' + disc.upper() + ' ' + str(getPcktLen(derPacket)) + '\n\n'
          
         for packet in servToPckts[getSpecItemName(service)]:
             derPckts = pcktToDerPckts[getSpecItemName(packet)]
@@ -94,26 +94,28 @@ def createCrPsPcktHeader():
                 s = s + service['name'].upper() + '_' + derPacket['name'].upper() + ', '
             s = s[:-2] + '}\n\n'
             
-         for packet in servToPckts[getSpecItemName(service)]:
+        for packet in servToPckts[getSpecItemName(service)]:
             s = s +  writeDoxy(['Structure for packet '+getSpecItemName([packet])])
             s = s + 'typedef struct __attribute__((packed)) _'+packet['name']+'_t {\n'
             s = s + '    /** Packet header */\n'
             s = s + '    TmHeader_t Header;\n'
             groupSize = 0
             indent = '    '
+            groupSizePar = None
             for par in pcktToPcktPars[getSpecItemName(packet)]:
                 if groupSize > 0:
                     groupSize = groupSize - 1
                     indent = '        '
                 s = s + indent + '/** ' + par['title'] + ' */\n'
-                s = s + indent + getPcktParType(par) + ' ' par['name'] + ';\n'
+                s = s + indent + getPcktParType(par) + ' ' + par['name'] + ';\n'
                 if par['n2'] > 0:  # Parameter is not a group size
                     groupSize = par['n2']
                     s = s + indent + 'struct __attribute__((packed)) _{\n'
-                    parGroupSize = par
-                if groupSize == 0:
+                    groupSizePar = par
+                if groupSize == 0 and groupSizePar != None:
                     indent = '    '
-                    s = s + '} ' + parGroupSize['name'] + '_[1];\n' 
+                    s = s + '} ' + groupSizePar['name'] + '_[1];\n' 
+                    groupSizePar = None
                     
             s = s + '} ' + packet['name'] + '_t;\n\n' 
             derPckts = pcktToDerPckts[getSpecItemName(packet)]
@@ -126,49 +128,47 @@ def createCrPsPcktHeader():
                 s = s + '    TmHeader_t Header;\n'
                 for par in pcktToPcktPars[getSpecItemName(packet)]:
                     s = s + '    /** ' + par['title'] + '(from parent packet) */\n'
-                    s = s + '   ' + getPcktParType(par) + ' ' par['name'] + ';\n'
+                    s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
                 for par in derPckt:
                     s = s + '    /** ' + par['title'] + ' */\n'
-                    s = s + '   ' + getPcktParType(par) + ' ' par['name'] + ';\n'
+                    s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
                 s = s + '} ' + derPcktName + '_t;\n\n' 
 
-         for packet in servToPckts[getSpecItemName(service)]:
+        for packet in servToPckts[getSpecItemName(service)]:
+            groupSize = 0
+            groupSizePar = None
             for par in pcktToPcktPars[getSpecItemName(packet)]:
+                if groupSize > 0:
+                    groupSize = groupSize - 1
+                if par['n2'] > 0:  # Parameter is not a group size
+                    groupSize = par['n2']
+                    groupSizePar = par
                 s = s + writePcktParGetterFunction(par['name'], 
                                                    packet['name'], 
                                                    service['name'], 
-                                                   getPcktParType(par))
+                                                   getPcktParType(par),
+                                                   groupSizePar)
                 s = s + writePcktParSetterFunction(par['name'], 
                                                    packet['name'], 
                                                    service['name'], 
-                                                   getPcktParType(par))
+                                                   getPcktParType(par),
+                                                   groupSizePar)
+                if groupSize == 0:
+                    groupSizePar = None
+            groupSizePar = None     # We assume that there are no groups in derived packets
             for derPckt in pcktToDerPckts[getSpecItemName(packet)]:
                 for par in derPckt:
                     s = s + writePcktParGetterFunction(par['name'], 
                                                        packet['name'], 
                                                        service['name'], 
-                                                       getPcktParType(par))
+                                                       getPcktParType(par),
+                                                       groupSizePar)
                     s = s + writePcktParSetterFunction(par['name'], 
                                                        packet['name'], 
                                                        service['name'], 
-                                                       getPcktParType(par))
-                
-
-
-
-
-/**
- * Get "EventId" array from "DisCmd" packet.
- * @param p Pointer to the packet.
- * @param dest Pointer to memory location where array data are copied to.
- */
-static inline void readEvtDisCmdEventIdArray(void* p, void* dest) {
-   DisCmd_t* t;
-   t = (DisCmd_t*)p;
-   memcpy(dest, &t->N_[0].EventId, t->N*sizeof(t->N_[0].EventId));
-}
-
-        
+                                                       getPcktParType(par),
+                                                       groupSizePar)
+            
         headerFileName = 'CrPsPckt' + service['name']
         shortDesc = 'Header file for accessor methods for packets in service ' + service['name'] + \
                     ' (' + service['title'] + ').'
@@ -757,6 +757,7 @@ def procCordetFw(cordetFwPrFile):
     createCrPsOutRegistryHeader()
     createCrPsOutCmpHeaders()
     createCrPsInCmdHeaders()
+    createCrPsPcktHeader()
     
     
 #===============================================================================
