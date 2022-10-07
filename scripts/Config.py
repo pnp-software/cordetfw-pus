@@ -67,7 +67,7 @@ packets = []
 generatedTablesDir = 'doc/pus/GeneratedTables'
 
 # Directory where generated packet accessor modules are stored
-pcktDir = 'src/pkct'
+pcktDir = 'src/Pckt'
 
 # Directory where configuration files are stored
 configDir = 'tests/PusConfig'

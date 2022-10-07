@@ -38,7 +38,7 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
                    services, packets, cmdRepSrcDir, pcktDir, servToPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
-                   CR_FW_OUTREGISTRY_N, isEndianitySwapNeeded
+                   CR_FW_OUTREGISTRY_N, isEndianitySwapNeeded, pcktDir
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
@@ -50,7 +50,7 @@ from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
 # Create header files which defines the accessor methods for the packet parameters.
 def createCrPsPcktHeader():
     s = ''
-    if not os.path.isdir(pcktdir):
+    if not os.path.isdir(pcktDir):
         os.makedirs(pcktDir)
     for service in services:
         if service['name'] == 'Hdr':
@@ -83,11 +83,11 @@ def createCrPsPcktHeader():
             nDerPckts = len(derPckts)
             if nDerPckts == 0:
                 continue
-            s = s +  writeDoxy(['Number of derived packets in packet '+getSpecItemName([packet])])
+            s = s +  writeDoxy(['Number of derived packets in packet '+getSpecItemName(packet)])
             s = s + '#define N_OF_DER_PCKT_' + service['name'].upper() + '_' + \
                 packet['name'].upper() + ' ' + str(nDerPckts) + '\n'
             s = s +  writeDoxy(['List of discriminants for derived packets of packet '+ \
-                getSpecItemName([packet])])
+                getSpecItemName(packet)])
             s = s + '#define LIST_OF_DER_PCKT_' + service['name'].upper() + '_' + \
                 packet['name'].upper() + ' {'
             for derPacket in derPckts:
@@ -95,7 +95,7 @@ def createCrPsPcktHeader():
             s = s[:-2] + '}\n\n'
             
         for packet in servToPckts[getSpecItemName(service)]:
-            s = s +  writeDoxy(['Structure for packet '+getSpecItemName([packet])])
+            s = s +  writeDoxy(['Structure for packet '+getSpecItemName(packet)])
             s = s + 'typedef struct __attribute__((packed)) _'+packet['name']+'_t {\n'
             s = s + '    /** Packet header */\n'
             s = s + '    TmHeader_t Header;\n'
@@ -108,8 +108,8 @@ def createCrPsPcktHeader():
                     indent = '        '
                 s = s + indent + '/** ' + par['title'] + ' */\n'
                 s = s + indent + getPcktParType(par) + ' ' + par['name'] + ';\n'
-                if par['n2'] > 0:  # Parameter is not a group size
-                    groupSize = par['n2']
+                if int(par['n2']) > 0:  # Parameter is not a group size
+                    groupSize = int(par['n2'])
                     s = s + indent + 'struct __attribute__((packed)) _{\n'
                     groupSizePar = par
                 if groupSize == 0 and groupSizePar != None:
@@ -121,7 +121,7 @@ def createCrPsPcktHeader():
             derPckts = pcktToDerPckts[getSpecItemName(packet)]
             nDerPckts = len(derPckts)
             for derPckt in derPckts:
-                derPcktName = '_' + getSpecItemName([packet]) + '_' + derPckt['name']
+                derPcktName = '_' + getSpecItemName(packet) + '_' + derPckt['name']
                 s = s +  writeDoxy(['Structure for derived packet '+derPcktName])
                 s = s + 'typedef struct __attribute__((packed)) '+derPcktName+'_t {\n'
                 s = s + '    /** Packet header */\n'
@@ -129,7 +129,7 @@ def createCrPsPcktHeader():
                 for par in pcktToPcktPars[getSpecItemName(packet)]:
                     s = s + '    /** ' + par['title'] + '(from parent packet) */\n'
                     s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
-                for par in derPckt:
+                for par in derPcktToPcktPars[getSpecItemName(derPckt)]:
                     s = s + '    /** ' + par['title'] + ' */\n'
                     s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
                 s = s + '} ' + derPcktName + '_t;\n\n' 
@@ -140,8 +140,8 @@ def createCrPsPcktHeader():
             for par in pcktToPcktPars[getSpecItemName(packet)]:
                 if groupSize > 0:
                     groupSize = groupSize - 1
-                if par['n2'] > 0:  # Parameter is not a group size
-                    groupSize = par['n2']
+                if int(par['n2']) > 0:  # Parameter is not a group size
+                    groupSize = int(par['n2'])
                     groupSizePar = par
                 s = s + writePcktParGetterFunction(par['name'], 
                                                    packet['name'], 
@@ -157,7 +157,7 @@ def createCrPsPcktHeader():
                     groupSizePar = None
             groupSizePar = None     # We assume that there are no groups in derived packets
             for derPckt in pcktToDerPckts[getSpecItemName(packet)]:
-                for par in derPckt:
+                for par in derPcktToPcktPars[getSpecItemName(derPckt)]:
                     s = s + writePcktParGetterFunction(par['name'], 
                                                        packet['name'], 
                                                        service['name'], 

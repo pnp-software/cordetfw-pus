@@ -279,7 +279,7 @@ def getPcktLen(specItem):
     if specItem['cat'] == 'DerPacket':
         parentPckt = specItems[specItem['s_link']]
         assert parentPckt['cat'] == 'Packet'
-        parentPcktLen = getPcktLen(specItem)
+        parentPcktLen = getPcktLen(parentPckt)*8
         if parentPcktLen == 0:      # Parent packet contains a par of 'deduced type'
             return 0
         pcktLen = 0
@@ -343,22 +343,22 @@ def writePcktParGetterFunction(parName, pcktName, servName, parType, groupSizePa
 # and groupSizePar is the parameter holding the group size.
 def writePcktParSetterFunction(parName, pcktName, servName, parType, groupSizePar):
     if groupSizePar == None:
-        s = writeDoxy(['Setter function for parameter '+parName+' in packet '+packet['name'],
+        s = writeDoxy(['Setter function for parameter '+parName+' in packet '+pcktName,
                        '@param p Pointer to the packet',
                        '@param '+parName+' Value to be set in packet\n'])
-        s = s + 'static inline void set' + service['name'] + pcktName + \
+        s = s + 'static inline void set' + servName + pcktName + \
             parName + '(void* p, ' + parType + '_t ' + \
-            + par['name'] + ') {\n'
+            parName + ') {\n'
     else:
-        s = writeDoxy(['Setter function for an instance of parameter '+parName+' in packet '+packet['name'],
+        s = writeDoxy(['Setter function for an instance of parameter '+parName+' in packet '+pcktName,
                        'The parameter '+parName+' is part of a group. The function sets the value',
                        'of the n-th instance of the group.'
                        '@param p Pointer to the packet',
                        '@param n The index (starting from 0) of the instance of '+parName,
                        '@param '+parName+' Value to be set in packet\n'])
-        s = s + 'static inline void set' + service['name'] + pcktName + \
+        s = s + 'static inline void set' + servName + pcktName + \
             parName + '(void* p, ' + getPcktParType(groupSizePar) + ' n, ' + parType + '_t ' + \
-            + par['name'] + ') {\n'
+            parName + ') {\n'
         
     s = s + '    ' + parName + '_t* t;\n'
     s = s + '     t = (' + parName + '_t*)p;\n'
