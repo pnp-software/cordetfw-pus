@@ -38,12 +38,62 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
                    services, packets, cmdRepSrcDir, pcktDir, servToPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
-                   CR_FW_OUTREGISTRY_N, isEndianitySwapNeeded, pcktDir
+                   CR_FW_OUTREGISTRY_N, isEndianitySwapNeeded, pcktDir, \
+                   dataItemPars, dataItemVars, constToSpecItem
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
                       isDefault, getSameAs, getServName, getPcktParType, \
-                      writePcktParGetterFunction, writePcktParSetterFunction
+                      writePcktParGetterFunction, writePcktParSetterFunction, \
+                      getMultiplicity
+
+
+#===============================================================================
+# Create the header of the data pool component.
+def createCrPsDataPoolHeader():
+    s = ''
+    dataPoolDir = cmdRepSrcDir + '/DataPool'
+    if not os.path.isdir(dataPoolDir):
+        os.makedirs(dataPoolDir)
+
+    s = s + '#include \"CrPsTypes.h\"\n'
+    s = s + '#include \"CrPsConstants.h\"\n'
+    s = s + '#include \"CrFwUserConstants.h\"\n'
+    s = s + '#include \"CrFwConstants.h\"\n\n'
+
+    s = s + 'enum {\n'
+    s = s + '    /* Parameters */\n'
+    s = s + '    DpIpParamsLowest = 1,\n'
+    i = 1
+    for dataItemPar in dataItemPars:
+        s = s + '    ' + dataItemPar['name'] + ' = ' + str(i) + ',\n'
+        i = i + 1
+        mult = getMultiplicity(dataItemPar)
+        if mult > 1:
+            for index in [1:mult]:
+                s = s + '    ' + dataItemPar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
+                i = i +1
+    s = s + '    DpIpParamsHighest = ' + str(i-1) + ',\n'
+    s = s + '    /* Variables */\n'
+    s = s + '    DpIpVarsLowest = ' + str(i)+ ',\n'
+    for dataItemVar in dataItemVars:
+        s = s + '    ' + dataItemVar['name'] + ' = ' + str(i) + ',\n'
+        i = i + 1
+        mult = getMultiplicity(dataItemVar)
+        if mult > 1:
+            for index in [1:mult]:
+                s = s + '    ' + dataItemVar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
+                i = i +1
+    s = s + '    DpIpVarsHighest = ' + str(i-1) + ',\n'
+    
+
+
+
+
+    headerFileName = 'CrPsDp'
+    shortDesc = 'Interface for accessing data pool items.'
+    createHeaderFile(pcktDir, headerFileName + '.h', s, shortDesc)
+
 
 
 #===============================================================================
@@ -731,6 +781,12 @@ def procCordetFw(cordetFwPrFile):
                 services.append(row)
             if row['cat'] == 'Packet':
                 packets.append(row)
+            if row['cat'] == 'DataItem' and row['p_kind'] = 'PAR':
+                dataItemPars.append(row)
+            if row['cat'] == 'DataItem' and row['p_kind'] = 'VAR':
+                dataItemVars.append(row)
+            if row['cat'] == 'DataItem' and row['p_kind'] = 'CNS':
+                constToSpecItem[row['name']] = row
             domNameToSpecItem[row['domain']+':'+row['name']] = row
     
     # Build cross-tables

@@ -19,7 +19,7 @@ import datetime;
 
 from Config import tmPcktHeaderLen, tcPcktHeaderLen, pcktCrcLen, pcktToPcktPars, \
                    derPcktToPcktPars, specItems, domNameToSpecItem, \
-                   MAX_LINE_LENGTH, isEndianitySwapNeeded
+                   MAX_LINE_LENGTH, isEndianitySwapNeeded,constToSpecItem
 from Format import pattern_edit
 
 
@@ -126,7 +126,20 @@ def getDiscVal(derPacket):
     discDataItem = specItems[idDiscDataItem]
     assert discDataItem['cat'] == 'EnumValue'
     return (discDataItem['value'], discDataItem['name'])
-      
+  
+    
+#===============================================================================
+# Return the multiplicity of a data item of Parameter or Variable kind as an integer.
+def getMultiplicity(dataItem):
+    assert dataItem['cat'] == 'DataItem' and dataItem['p_kind'] in ['VAR', 'PAR']
+    mult = dataItem['t1']
+    try:
+        return int(mult)
+    except TypeError:
+        assert mult in constToSpecItem
+        symbolic_mult = constToSpecItem[mult]
+        return int(symbolic_mult['value'])
+          
         
 #===============================================================================
 # Return True if the argument text specifies a default implementation for

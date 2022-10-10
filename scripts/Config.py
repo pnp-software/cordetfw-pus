@@ -45,6 +45,9 @@ pcktToDerPckts = {}
 # the spec_item itself.
 domNameToSpecItem = {}
 
+# Dictionary linking a symbolic constant to the spec_item which holds it.
+constToSpecItem = {}
+
 # List of spec_items of type OutComponent
 outComponents = []
 
@@ -63,7 +66,13 @@ services = []
 # List of Packets
 packets = []
 
-# Directory where generated tables for PUS Spec are stored
+# List of Data Items of Parameter Kind
+dataItemPars = []
+
+# List of Data Items of Variable Kind
+dataItemVars = []
+
+# List of Dat# Directory where generated tables for PUS Spec are stored
 generatedTablesDir = 'doc/pus/GeneratedTables'
 
 # Directory where generated packet accessor modules are stored
