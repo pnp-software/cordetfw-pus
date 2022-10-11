@@ -129,16 +129,35 @@ def getDiscVal(derPacket):
   
     
 #===============================================================================
-# Return the multiplicity of a data item of Parameter or Variable kind as an integer.
+# Return the multiplicity of a data item of Parameter or Variable kind as a
+# tuple (s, i) where 's' is the symbolic value of the multiplicty and 'i' is
+# its integer value.
+# If no symbolic value for the multiplicity is defined, 's' is set to the 
+# empty string.
+# The following cases are handled:
+# - No multiplicity is defined (empty string): a value of ('', 1) 1 is returned
+# - The multiplicity field contains a reference to another data item: (s,i) is
+#   returned with 's' being the name of the referenced data item and 'i' its
+#   value as an integer
+# - The multiplicity is assumed to be a string representing an integer: ('',i)
+#   is returned value with 'i' being the integer representation of the string
 def getMultiplicity(dataItem):
     assert dataItem['cat'] == 'DataItem' and dataItem['p_kind'] in ['VAR', 'PAR']
-    mult = dataItem['t1']
     try:
-        return int(mult)
-    except TypeError:
-        assert mult in constToSpecItem
-        symbolic_mult = constToSpecItem[mult]
-        return int(symbolic_mult['value'])
+        mult = dataItem['t1']
+        if mult == '':          # No multiplicity is defined, 1 is assumed
+            return ('', 1)
+            
+        match = pattern_edit.search(dataItem['t1'])
+        if match != None:
+            refName = match.group(2)+':'+match.group(3)
+            return (match.group(2), int(domNameToSpecItem[refName]['value']))
+        
+        return ('', int(mult))
+    except:
+        print('ERROR: multiplicity of '+getSpecItemName(dataItem)+' could not '+\
+              ' be established. A value of 1 is returned')
+        return ('', 1)
           
         
 #===============================================================================

@@ -49,6 +49,69 @@ from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
 
 
 #===============================================================================
+# Create the body of the data pool component.
+def createCrPsDataPoolBody():
+    s = ''
+    dataPoolDir = cmdRepSrcDir + '/DataPool'
+    if not os.path.isdir(dataPoolDir):
+        os.makedirs(dataPoolDir)
+
+    s = s + '#include \"CrPsDp.h\"\n\n'
+    s = s + '#include \"CrPsFct.h\"\n'
+    for service in services:
+        s = s + '#include \"CrPsDp' + service['name'] + '.h\"\n'
+    s = s + '\n'
+    s = s + writeDoxy(['Structure to hold the location and size information of a data pool entry.'])
+    s = s + 'typedef struct _DpMetaInfoEntry_t {\n'
+    s = s + '/** The address of the data pool entry */\n'
+    s = s + 'void* addr;\n'
+    s = s + '/** The length in bytes of the data pool entry */\n'
+    s = s + 'size_t length;\n'
+    s = s + '/** The number of array elements */\n'
+    s = s + 'unsigned int nElements;\n'
+    s = s + '/** The length of a single array element */\n'
+    s = s + 'size_t elementLength;\n'
+    s = s + '} DpMetaInfoEntry_t;\n\n'
+
+    s = s + writeDoxy(['Array of @ref _DpMetaInfoEntry_t to hold the meta information of all ' + \
+                       ' data pool entries.'])
+    s = s + 'static DpMetaInfoEntry_t dpMetaInfoParams[] = {\n'
+    for par in dataItemPars:
+        strucName = 'dp'+par['domain']+'Params'
+        if getMultiplicity(par)[0] != '':
+            mult = getMultiplicity(par)[0]
+        else:
+            mult = str(getMultiplicity(par)[1])
+        s = s + '{(void*)&' + strucName + '.' + par['name'] + ',' + \
+            'sizeof(' + structName + '.' + par['name'] + ')' + ',' + \
+            mult + ',' + \
+            'sizeof(' + structName + '.' + par['name'] + '[0])},\n'
+    s = s[:-2] + '\n}\n\n'
+
+    s = s + 'static DpMetaInfoEntry_t dpMetaInfoVars[] = {\n'
+    for var in dataItemVars:
+        strucName = 'dp'+var['domain']+'Params'
+        if getMultiplicity(var)[0] != '':
+            mult = getMultiplicity(var)[0]
+        else:
+            mult = str(getMultiplicity(var)[1])
+        s = s + '{(void*)&' + strucName + '.' + var['name'] + ',' + \
+            'sizeof(' + structName + '.' + var['name'] + ')' + ',' + \
+            mult + ',' + \
+            'sizeof(' + structName + '.' + var['name'] + '[0])},\n'
+    s = s[:-2] + '\n}\n\n'
+
+
+
+
+    headerFileName = 'CrPsDp'
+    shortDesc = 'Implementation of interface for accessing data pool items.'
+    createHeaderFile(dataPoolDir, 'CrPsDp.c', s, shortDesc)
+
+
+
+
+#===============================================================================
 # Create the header of the data pool component.
 def createCrPsDataPoolHeader():
     s = ''
@@ -68,9 +131,9 @@ def createCrPsDataPoolHeader():
     for dataItemPar in dataItemPars:
         s = s + '    ' + dataItemPar['name'] + ' = ' + str(i) + ',\n'
         i = i + 1
-        mult = getMultiplicity(dataItemPar)
+        mult = getMultiplicity(dataItemPar)[1]
         if mult > 1:
-            for index in [1:mult]:
+            for index in range(1,mult+1):
                 s = s + '    ' + dataItemPar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
                 i = i +1
     s = s + '    DpIpParamsHighest = ' + str(i-1) + ',\n'
@@ -79,20 +142,61 @@ def createCrPsDataPoolHeader():
     for dataItemVar in dataItemVars:
         s = s + '    ' + dataItemVar['name'] + ' = ' + str(i) + ',\n'
         i = i + 1
-        mult = getMultiplicity(dataItemVar)
+        mult = getMultiplicity(dataItemVar)[1]
         if mult > 1:
-            for index in [1:mult]:
+            for index in range(1,mult+1):
                 s = s + '    ' + dataItemVar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
                 i = i +1
     s = s + '    DpIpVarsHighest = ' + str(i-1) + ',\n'
+    s = s[:-2] + '\n};\n\n'
+
+    s = s + writeDoxy(['Get the value of a data pool item by identifier.',
+                       '@param id The data pool item identifier',
+                       '@param dest The address of the target variable where the value gets copied to.',
+                       '@return Number of bytes copied. 0 if id is invalid.'])
+    s = s + 'extern size_t getDpValue(CrPsParId_t id, void* dest);\n\n'
     
+    s = s + writeDoxy(['Get the value of a data pool item plus meta information by identifier.',
+                       '@param id The data pool item identifier',
+                       '@param dest The address of the target variable where the value gets copied to.',
+                       '@param pElementLength Pointer to where the element size is copied to.',
+                       '@param pNElements Pointer to where the number of elements is copied to.',
+                       '@return Number of bytes copied. 0 if id is invalid.'])
+    s = s + 'extern size_t getDpValueEx(CrPsParId_t id, void* dest, size_t* pElementLength, unsigned int* pNElements);\n\n'
 
+    s = s + writeDoxy(['Set the value of a data pool item by identifier.',
+                       '@param id The data pool item identifier',
+                       '@param src The address of the source variable where the value gets copied from.',
+                       '@return Number of bytes copied. 0 if id is invalid.'])
+    s = s + 'extern int setDpValue(CrPsParId_t id, const void* src);\n\n'
+    
+    s = s + writeDoxy(['Set the value of a data pool item by identifier and get meta information.',
+                       '@param id The data pool item identifier',
+                       '@param src The address of the target variable where the value gets copied from.',
+                       '@param pElementLength Pointer to where the element size is copied to.',
+                       '@param pNElements Pointer to where the number of elements is copied to.',
+                       '@return Number of bytes copied. 0 if id is invalid.'])
+    s = s + 'extern int setDpValueEx(CrPsParId_t id, const void* src, void** dest, ' + \
+            'size_t* pElementLength, unsigned int* pNElements);\n\n'
 
-
+    s = s + writeDoxy(['Get the size of a data pool item by identifier.',
+                       '@param id The data pool item identifier',
+                       '@return The size of the data pool item. 0 if id is invalid.'])
+    s = s + 'extern size_t getDpSize(CrPsParId_t id);\n\n'
+    
+    s = s + writeDoxy(['Get the size of a data pool parameter by identifier.',
+                       '@param id The data pool parameter identifier',
+                       '@return The size of the data pool parameter. 0 if id is invalid.'])
+    s = s + 'extern size_t getDpParamSize(CrPsParId_t id);\n\n'
+    
+    s = s + writeDoxy(['Get the size of a data pool variable by identifier.',
+                       '@param id The data pool variable identifier',
+                       '@return The size of the data pool variable. 0 if id is invalid.'])
+    s = s + 'extern size_t getDpVarSize(CrPsParId_t id);\n\n'
 
     headerFileName = 'CrPsDp'
     shortDesc = 'Interface for accessing data pool items.'
-    createHeaderFile(pcktDir, headerFileName + '.h', s, shortDesc)
+    createHeaderFile(dataPoolDir, headerFileName + '.h', s, shortDesc)
 
 
 
@@ -781,11 +885,11 @@ def procCordetFw(cordetFwPrFile):
                 services.append(row)
             if row['cat'] == 'Packet':
                 packets.append(row)
-            if row['cat'] == 'DataItem' and row['p_kind'] = 'PAR':
+            if row['cat'] == 'DataItem' and row['p_kind'] == 'PAR':
                 dataItemPars.append(row)
-            if row['cat'] == 'DataItem' and row['p_kind'] = 'VAR':
+            if row['cat'] == 'DataItem' and row['p_kind'] == 'VAR':
                 dataItemVars.append(row)
-            if row['cat'] == 'DataItem' and row['p_kind'] = 'CNS':
+            if row['cat'] == 'DataItem' and row['p_kind'] == 'CNS':
                 constToSpecItem[row['name']] = row
             domNameToSpecItem[row['domain']+':'+row['name']] = row
     
@@ -814,6 +918,7 @@ def procCordetFw(cordetFwPrFile):
     createCrPsOutCmpHeaders()
     createCrPsInCmdHeaders()
     createCrPsPcktHeader()
+    createCrPsDataPoolHeader()
     
     
 #===============================================================================
