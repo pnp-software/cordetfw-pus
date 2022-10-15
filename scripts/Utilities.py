@@ -151,7 +151,7 @@ def getMultiplicity(dataItem):
         match = pattern_edit.search(dataItem['t1'])
         if match != None:
             refName = match.group(2)+':'+match.group(3)
-            return (match.group(2), int(domNameToSpecItem[refName]['value']))
+            return (match.group(3), int(domNameToSpecItem[refName]['value']))
         
         return ('', int(mult))
     except:

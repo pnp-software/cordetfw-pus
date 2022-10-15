@@ -77,14 +77,14 @@ def createCrPsDataPoolBody():
                        ' data pool entries.'])
     s = s + 'static DpMetaInfoEntry_t dpMetaInfoParams[] = {\n'
     for par in dataItemPars:
-        strucName = 'dp'+par['domain']+'Params'
+        structName = 'dp'+par['domain']+'Params'
         if getMultiplicity(par)[0] != '':
             mult = getMultiplicity(par)[0]
         else:
             mult = str(getMultiplicity(par)[1])
-        s = s + '{(void*)&' + strucName + '.' + par['name'] + ',' + \
-            'sizeof(' + structName + '.' + par['name'] + ')' + ',' + \
-            mult + ',' + \
+        s = s + '{(void*)&' + structName + '.' + par['name'] + ', ' + \
+            'sizeof(' + structName + '.' + par['name'] + ')' + ', ' + \
+            mult + ', ' + \
             'sizeof(' + structName + '.' + par['name'] + '[0])},\n'
     s = s[:-2] + '\n}\n\n'
 
@@ -95,14 +95,113 @@ def createCrPsDataPoolBody():
             mult = getMultiplicity(var)[0]
         else:
             mult = str(getMultiplicity(var)[1])
-        s = s + '{(void*)&' + strucName + '.' + var['name'] + ',' + \
-            'sizeof(' + structName + '.' + var['name'] + ')' + ',' + \
-            mult + ',' + \
+        s = s + '{(void*)&' + strucName + '.' + var['name'] + ', ' + \
+            'sizeof(' + structName + '.' + var['name'] + ')' + ', ' + \
+            mult + ', ' + \
             'sizeof(' + structName + '.' + var['name'] + '[0])},\n'
     s = s[:-2] + '\n}\n\n'
 
+    s = s + 'static DpMetaInfoEntry_t* getMetaInfoParam(CrPsParId_t id) {\n'
+    s = s + '   DpMetaInfoEntry_t* p;\n'
+    s = s + '   p = NULL;\n'
+    s = s + '   if (id >= DpIdParamsLowest && id <= DpIdParamsHighest) {\n'
+    s = s + '       p = &dpMetaInfoParams[id-DpIdParamsLowest];\n'
+    s = s + '   }\n'
+    s = s + '   return p;\n'
+    s = s + '}\n\n'
 
+   {
+      p = &dpMetaInfoParams[id-DpIdParamsLowest];
+   }
 
+    s = s + 'static DpMetaInfoEntry_t* getMetaInfoVar(CrPsParId_t id) {\n'
+    s = s + '   DpMetaInfoEntry_t* p;\n'
+    s = s + '   p = NULL;\n'
+    s = s + '   if (id >= DpIdParamsLowest && id <= DpIdParamsHighest) {\n'
+    s = s + '       p = &dpMetaInfoVars[id-DpIdVarsLowest];\n'
+    s = s + '   }\n'
+    s = s + '   return p;\n'
+    s = s + '}\n\n'
+
+    s = s + 'static DpMetaInfoEntry_t* getMetaInfo(CrPsParId_t id) {\n'
+    s = s + '   DpMetaInfoEntry_t* p;\n'
+    s = s + '   p = getMetaInfoParam(id);\n'
+    s = s + '   if (p == NULL) {\n'
+    s = s + '       p = getMetaInfoVar(id);\n'
+    s = s + '   }\n'
+    s = s + '   return p;\n'
+    s = s + '}\n\n'
+ 
+    s = s + 'size_t getDpValue(CrPsParId_t id, void* dest) {\n'
+    s = s + '   DpMetaInfoEntry_t* entry;\n'
+    s = s + '   entry = getMetaInfo(id);\n'
+    s = s + '   if (entry == NULL) {\n'
+    s = s + '       reurn 0;\n'
+    s = s + '   }\n'
+    s = s + '   (void)memcpy(dest, entry->addr, entry->length);\n'
+    s = s + '   return entry->length;\n'
+    s = s + '}\n\n'
+ 
+    s = s + 'size_t getDpValueEx(CrPsParId_t id, void* dest, size_t* pElementLength, unsigned int* pNElements) {\n'
+    s = s + '   DpMetaInfoEntry_t* entry;\n'
+    s = s + '   entry = getMetaInfo(id);\n'
+    s = s + '   if (entry == NULL) {\n'
+    s = s + '       reurn 0;\n'
+    s = s + '   }\n'
+    s = s + '   (void)memcpy(dest, entry->addr, entry->length);\n'
+    s = s + '   *pElementLength = entry->elementLength;\n'
+    s = s + '   return entry->length;\n'
+    s = s + '}\n\n'
+
+    s = s + 'int setDpValue(CrPsParId_t id, const void* src) {\n'
+    s = s + '   DpMetaInfoEntry_t* entry;\n'
+    s = s + '   entry = getMetaInfo(id);\n'
+    s = s + '   if (entry == NULL) {\n'
+    s = s + '       reurn 0;\n'
+    s = s + '   }\n'
+    s = s + '   (void)memcpy(entry->addr, src, entry->length);\n'
+    s = s + '   return entry->length;\n'
+    s = s + '}\n\n'
+
+    s = s + 'int setDpValueEx(CrPsParId_t id, const void* src, void** dest, size_t* pElementLength, unsigned int* pNElements) {\n'
+    s = s + '   DpMetaInfoEntry_t* entry;\n'
+    s = s + '   entry = getMetaInfo(id);\n'
+    s = s + '   if (entry == NULL) {\n'
+    s = s + '       reurn 0;\n'
+    s = s + '   }\n'
+    s = s + '   (void)memcpy(entry->addr, src, entry->length);\n'
+    s = s + '   *dest = entry->addr;\n'
+    s = s + '   *pElementLength = entry->elementLength;\n'
+    s = s + '   *pNElements = entry->nElements;\n'
+    s = s + '   return entry->length;\n'
+    s = s + '}\n\n'
+
+    s = s + 'size_t getDpSize(CrPsParId_t id) {\n'
+    s = s + '   DpMetaInfoEntry_t* entry;\n'
+    s = s + '   entry = getMetaInfo(id);\n'
+    s = s + '   if (entry == NULL) {\n'
+    s = s + '       reurn 0;\n'
+    s = s + '   }\n'
+    s = s + '   return entry->length;\n'
+    s = s + '}\n\n'
+
+    s = s + 'size_t getDpParamSize(CrPsParId_t id) {\n'
+    s = s + '   DpMetaInfoEntry_t* entry;\n'
+    s = s + '   entry = getMetaInfoParam(id);\n'
+    s = s + '   if (entry == NULL) {\n'
+    s = s + '       reurn 0;\n'
+    s = s + '   }\n'
+    s = s + '   return entry->length;\n'
+    s = s + '}\n\n'
+
+    s = s + 'size_t getDpVarSize(CrPsParId_t id) {\n'
+    s = s + '   DpMetaInfoEntry_t* entry;\n'
+    s = s + '   entry = getMetaInfoVar(id);\n'
+    s = s + '   if (entry == NULL) {\n'
+    s = s + '       reurn 0;\n'
+    s = s + '   }\n'
+    s = s + '   return entry->length;\n'
+    s = s + '}\n\n'
 
     headerFileName = 'CrPsDp'
     shortDesc = 'Implementation of interface for accessing data pool items.'
@@ -919,7 +1018,7 @@ def procCordetFw(cordetFwPrFile):
     createCrPsInCmdHeaders()
     createCrPsPcktHeader()
     createCrPsDataPoolHeader()
-    
+    createCrPsDataPoolBody()
     
 #===============================================================================
 ## Dummy main to be used to test the functions defined in this module.
