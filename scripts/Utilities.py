@@ -94,6 +94,18 @@ def getServName(specItem):
 
 
 #===============================================================================
+# Return the type of a data item. If the type of the data item has a native
+# type, then the native type is returned; otherwise the type name is returned.
+def getDataItemNativeType(specItem):
+    assert specItem['cat'] == 'DataItem'
+    dataItemTypeId = specItem['p_link']
+    dataItemType = specItems[dataItemTypeId]
+    if dataItemType['implementation'] == '':
+        return dataItemType['name']
+    else:
+        return dataItemType['implementation']
+
+#===============================================================================
 # Return the type and sub-type of the argument packet as a tuple (x,y).
 # The argument can be one of: a packet, a derived packet, a telecommand or a
 # telemetry report.

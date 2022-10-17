@@ -39,17 +39,80 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    services, packets, cmdRepSrcDir, pcktDir, servToPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
                    CR_FW_OUTREGISTRY_N, isEndianitySwapNeeded, pcktDir, \
-                   dataItemPars, dataItemVars, constToSpecItem
+                   dataItemPars, dataItemVars, constToSpecItem, dataItems
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
                       isDefault, getSameAs, getServName, getPcktParType, \
                       writePcktParGetterFunction, writePcktParSetterFunction, \
-                      getMultiplicity
+                      getMultiplicity, getDataItemNativeType
 
 
 #===============================================================================
-# Create the body of the data pool component.
+# Create the body of the service-specific data pool components.
+def createCrPsDataPoolServHeader():
+    s = ''
+    for service services:
+        dataPoolDir = cmdRepSrcDir + '/' + service['name']
+        if not os.path.isdir(dataPoolDir):
+            os.makedirs(dataPoolDir)
+
+    s = s + '#include \"CrPsTypes.h\"\n'
+    s = s + '#include \"CrPsConstants.h\"\n'
+    s = s + '#include \"CrFwUserConstants.h\"\n'
+    s = s + '#include \"CrFwConstants.h\"\n\n'
+
+    s = s + writeDoxy(['Structure holding data pool parameters for service ' + service['name']])
+    s = s + 'typedef struct {\n'
+    for par in dataItemPars:
+        if par['domain'] == service['name']:
+            s + writeDoxy([par['title']])
+            mult = getMultiplicity(par)
+            if mult[1] == 1:
+                s = s + getDataItemNativeType(par) + ' ' + par['name'] + ';\n'
+            else:
+                if mult[0] != '':
+                    s = s + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[0] + '];\n'
+                 else:
+                    s = s + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[1] + '];\n'
+    s = s + '} Dp' + service['name'] + 'Params_t;\n\n'
+    
+    s = s + writeDoxy(['Structure holding data pool variables for service ' + service['name']])
+    s = s + 'typedef struct {\n'
+    for var in dataItemVars:
+        if var['domain'] == service['name']:
+            s + writeDoxy([var['title']])
+            mult = getMultiplicity(var)
+            if mult[1] == 1:
+                s = s + getDataItemNativeType(var) + ' ' + var['name'] + ';\n'
+            else:
+                if mult[0] != '':
+                    s = s + getDataItemNativeType(var) + ' ' + var['name'] + '[' + mult[0] + '];\n'
+                 else:
+                    s = s + getDataItemNativeType(var) + ' ' + var['name'] + '[' + mult[1] + '];\n'
+    s = s + '} Dp' + service['name'] + 'Vars_t;\n\n'
+    
+    s = s + writeDoxy(['Extern declaration for structure holding data pool variables in service '+service['name']])
+    s = s + 'extern Dp' + service['name'] + 'Params_t Dp' + service['name'] + 'Params;\n\n'
+    s = s + writeDoxy(['Extern declaration for structure holding data pool parameters in service '+service['name']])
+    s = s + 'extern Dp' + service['name'] + 'Vars_t Dp' + service['name'] + 'Vas;\n\n'
+
+    for dataItem in dataItems:
+        if not dataItem['p_kind'] in ['PAR', 'VAR']:
+            continue
+        mult = getMultiplicity(var)
+        if mult[1] == 1:
+            s = s + writeDoxy(['Get the value of data pool item '+dataItem['name'],
+                               '@return the value of data pool item '+dataItem['name']])
+            s = s + 'static inline ' + getDataItemNativeType(dataItem) 
+            
+
+
+
+
+
+#===============================================================================
+# Create the body of the generic data pool component.
 def createCrPsDataPoolBody():
     s = ''
     dataPoolDir = cmdRepSrcDir + '/DataPool'
@@ -211,7 +274,7 @@ def createCrPsDataPoolBody():
 
 
 #===============================================================================
-# Create the header of the data pool component.
+# Create the header of the generic data pool component.
 def createCrPsDataPoolHeader():
     s = ''
     dataPoolDir = cmdRepSrcDir + '/DataPool'
@@ -296,7 +359,6 @@ def createCrPsDataPoolHeader():
     headerFileName = 'CrPsDp'
     shortDesc = 'Interface for accessing data pool items.'
     createHeaderFile(dataPoolDir, headerFileName + '.h', s, shortDesc)
-
 
 
 #===============================================================================
@@ -990,6 +1052,8 @@ def procCordetFw(cordetFwPrFile):
                 dataItemVars.append(row)
             if row['cat'] == 'DataItem' and row['p_kind'] == 'CNS':
                 constToSpecItem[row['name']] = row
+            if row['cat'] == 'DataItem':
+                dataItems.append(row)
             domNameToSpecItem[row['domain']+':'+row['name']] = row
     
     # Build cross-tables

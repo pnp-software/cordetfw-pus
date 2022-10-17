@@ -66,6 +66,9 @@ services = []
 # List of Packets
 packets = []
 
+# List of Data Items
+dataItems = []
+
 # List of Data Items of Parameter Kind
 dataItemPars = []
 
