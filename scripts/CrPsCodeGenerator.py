@@ -51,9 +51,9 @@ from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
 #===============================================================================
 # Create the bodies of the service-specific data pool components.
 def createCrPsDataPoolServBodies():
-    s = ''
-    for service services:
-        dataPoolDir = cmdRepSrcDir + '/' + service['name']
+    for service in services:
+        s = ''
+        dataPoolDir = cmdRepSrcDir + '/DataPool'
         if not os.path.isdir(dataPoolDir):
             os.makedirs(dataPoolDir)
 
@@ -66,9 +66,9 @@ def createCrPsDataPoolServBodies():
             if par['domain'] == service['name']:
                 mult = getMultiplicity(par)
                 if mult[1] == 1:
-                    s = s + '0, /* ' + par['name'] + ' */ \\\n'
+                    s = s + '    0, /* ' + par['name'] + ' */ \\\n'
                 else:
-                    s = s + '{0}, /* ' + par['name'] + ' */ \\\n'
+                    s = s + '    {0}, /* ' + par['name'] + ' */ \\\n'
         if len(s) == s2:    # There are no parameters in this service 
             s = s[:(s2-s1)] # Remove definition of data structure
         else:
@@ -81,9 +81,9 @@ def createCrPsDataPoolServBodies():
             if var['domain'] == service['name']:
                 mult = getMultiplicity(var)
                 if mult[1] == 1:
-                    s = s + '0, /* ' + var['name'] + ' */ \\\n'
+                    s = s + '    0, /* ' + var['name'] + ' */ \\\n'
                 else:
-                    s = s + '{0}, /* ' + var['name'] + ' */ \\\n'
+                    s = s + '    {0}, /* ' + var['name'] + ' */ \\\n'
         if len(s) == s2:    # There are no variables in this service 
             s = s[:(s2-s1)] # Remove definition of data structure
         else:
@@ -98,9 +98,9 @@ def createCrPsDataPoolServBodies():
 #===============================================================================
 # Create the headers of the service-specific data pool components.
 def createCrPsDataPoolServHeaders():
-    s = ''
     for service in services:
-        dataPoolDir = cmdRepSrcDir + '/' + service['name']
+        s = ''
+        dataPoolDir = cmdRepSrcDir + '/DataPool'
         if not os.path.isdir(dataPoolDir):
             os.makedirs(dataPoolDir)
 
@@ -116,12 +116,12 @@ def createCrPsDataPoolServHeaders():
                 s + writeDoxy([par['title']])
                 mult = getMultiplicity(par)
                 if mult[1] == 1:
-                    s = s + getDataItemNativeType(par) + ' ' + par['name'] + ';\n'
+                    s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + ';\n'
                 else:
                     if mult[0] != '':
-                        s = s + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[0] + '];\n'
-                     else:
-                        s = s + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[1] + '];\n'
+                        s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[0] + '];\n'
+                    else:
+                        s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[1] + '];\n'
         s = s + '} Dp' + service['name'] + 'Params_t;\n\n'
         
         s = s + writeDoxy(['Structure holding data pool variables for service ' + service['name']])
@@ -131,12 +131,12 @@ def createCrPsDataPoolServHeaders():
                 s + writeDoxy([var['title']])
                 mult = getMultiplicity(var)
                 if mult[1] == 1:
-                    s = s + getDataItemNativeType(var) + ' ' + var['name'] + ';\n'
+                    s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + ';\n'
                 else:
                     if mult[0] != '':
-                        s = s + getDataItemNativeType(var) + ' ' + var['name'] + '[' + mult[0] + '];\n'
-                     else:
-                        s = s + getDataItemNativeType(var) + ' ' + var['name'] + '[' + mult[1] + '];\n'
+                        s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + '[' + mult[0] + '];\n'
+                    else:
+                        s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + '[' + str(mult[1]) + '];\n'
         s = s + '} Dp' + service['name'] + 'Vars_t;\n\n'
         
         s = s + writeDoxy(['Extern declaration for structure holding data pool variables in service '+service['name']])
@@ -145,54 +145,57 @@ def createCrPsDataPoolServHeaders():
         s = s + 'extern Dp' + service['name'] + 'Vars_t Dp' + service['name'] + 'Vas;\n\n'
 
         for dataItem in dataItems:
+            if dataItem['domain'] != service['name']:
+                continue
             if not dataItem['p_kind'] in ['PAR', 'VAR']:
                 continue
-            mult = getMultiplicity(var)
+            mult = getMultiplicity(dataItem)
             kind = 'Vars' if dataItem['p_kind']=='VAR' else 'Params'    
+            nameFirstCap = dataItem['name'][0:1].upper() + dataItem['name'][1:]
             if mult[1] == 1:
-                s = s + writeDoxy(['Get the value of data pool item '+dataItem['name']+' ('+dataItem['title']+')',
+                s = s + writeDoxy(['Get the value of data pool item '+dataItem['name']+' ('+dataItem['desc']+')',
                                    '@return the value of data pool item '+dataItem['name']])
                 s = s + 'static inline ' + getDataItemNativeType(dataItem) + ' getDp' + service['name'] +\
-                    dataItem['name'] + '() {\n'
+                    nameFirstCap + '() {\n'
                 s = s + '    return dp' + service['name'] + kind  + '.' + dataItem['name'] + ';\n'
                 s = s + '}\n\n'
 
-                s = s + writeDoxy(['Set the value of data pool item '+dataItem['name']+' ('+dataItem['title']+')',
+                s = s + writeDoxy(['Set the value of data pool item '+dataItem['name']+' ('+dataItem['desc']+')',
                                    '@param the value of data pool item '+dataItem['name']])
-                s = s + 'static inline void setDp' + service['name'] + dataItem['name'] + \
+                s = s + 'static inline void setDp' + service['name'] + nameFirstCap + \
                     '(' + getDataItemNativeType(dataItem) + ' ' + dataItem['name'] + ') {\n'
                 s = s + '    dp' + service['name'] + kind  + '.' + dataItem['name'] + \
                     '=' + dataItem['name'] + ';\n'
                 s = s + '}\n\n'
             else:
-                s = s + writeDoxy(['Get the data pool array '+dataItem['name']+' ('+dataItem['title']+')',
+                s = s + writeDoxy(['Get the data pool array '+dataItem['name']+' ('+dataItem['desc']+')',
                                    '@return the value of data pool array '+dataItem['name']])
                 s = s + 'static inline ' + getDataItemNativeType(dataItem) + '* getDp' + service['name'] +\
-                    dataItem['name'] + '() {\n'
+                    nameFirstCap + '() {\n'
                 s = s + '    return &dp' + service['name'] + kind  + '.' + dataItem['name'] + ';\n'
                 s = s + '}\n\n'
                 
-                s = s + writeDoxy(['Get i-th element of data pool array '+dataItem['name']+' ('+dataItem['title']+')',
+                s = s + writeDoxy(['Get i-th element of data pool array '+dataItem['name']+' ('+dataItem['desc']+')',
                     '@param i index variable',
                     '@return value of i-th element of data pool array '+dataItem['name']])
                 s = s + 'static inline ' + getDataItemNativeType(dataItem) + '* getDp' + service['name'] +\
-                    dataItem['name'] + 'Item(int i) {\n'
-                s = s + '    return &dp' + service['name'] + kind  + '.' + dataItem['name'] + '[i];\n'
+                    nameFirstCap + 'Item(int i) {\n'
+                s = s + '    return dp' + service['name'] + kind  + '.' + dataItem['name'] + '[i];\n'
                 s = s + '}\n\n'
                 
-                s = s + writeDoxy(['Set i-th element of data pool item '+dataItem['name']+' ('+dataItem['title']+')',
+                s = s + writeDoxy(['Set i-th element of data pool item '+dataItem['name']+' ('+dataItem['desc']+')',
                                    '@param i index variable',
                                    '@param value of i-th element of data pool item '+dataItem['name']])
-                s = s + 'static inline void setDp' + service['name'] + dataItem['name'] + \
+                s = s + 'static inline void setDp' + service['name'] + nameFirstCap + \
                     '(int i, ' + getDataItemNativeType(dataItem) + ' ' + dataItem['name'] + ') {\n'
                 s = s + '    dp' + service['name'] + kind  + '.' + dataItem['name'] + '[i]' + \
                     '=' + dataItem['name'] + ';\n'
                 s = s + '}\n\n'
 
-        headerFileName = 'CrPsDp' + service['name'] + '.h'
-        shortDesc = 'Interface for accessing data pool items of service ' + service['name'] + \
-                    ' (' + service['title'] + ')'
-        createHeaderFile(dataPoolDir, headerFileName, s, shortDesc)
+            headerFileName = 'CrPsDp' + service['name'] + '.h'
+            shortDesc = 'Interface for accessing data pool items of service ' + service['name'] + \
+                        ' (' + service['title'] + ')'
+            createHeaderFile(dataPoolDir, headerFileName, s, shortDesc)
 
 
 #===============================================================================
@@ -256,10 +259,6 @@ def createCrPsDataPoolBody():
     s = s + '   }\n'
     s = s + '   return p;\n'
     s = s + '}\n\n'
-
-   {
-      p = &dpMetaInfoParams[id-DpIdParamsLowest];
-   }
 
     s = s + 'static DpMetaInfoEntry_t* getMetaInfoVar(CrPsParId_t id) {\n'
     s = s + '   DpMetaInfoEntry_t* p;\n'
@@ -1163,6 +1162,8 @@ def procCordetFw(cordetFwPrFile):
     createCrPsPcktHeader()
     createCrPsDataPoolHeader()
     createCrPsDataPoolBody()
+    createCrPsDataPoolServHeaders()
+    createCrPsDataPoolServBodies()
     
 #===============================================================================
 ## Dummy main to be used to test the functions defined in this module.
