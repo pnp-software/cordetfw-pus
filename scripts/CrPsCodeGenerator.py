@@ -593,7 +593,7 @@ def createCrPsOutCmpHeaders():
         s = ''
         s = s + '#include \"CrPsConstants.h\"\n'
         s = s + '#include \"CrPsTypes.h\"\n\n'
-        s = s + '#include \"CrFwCore.h\"\n'
+        s = s + '#include \"FwSmCore.h\"\n'
         s = s + '#include \"CrFwConstants.h\"\n\n'
         headerFileName = 'CrPsOutCmp' + getServName(outComponent) + outComponent['name'][:-6] + 'Rep'
         typeAndSubType = getTypeAndSubType(outComponent)
@@ -608,7 +608,7 @@ def createCrPsOutCmpHeaders():
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
             s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
-                actionOrCheck[3] + ' ' + actionOrCheck[4] + ')\n\n'
+                actionOrCheck[3] + ' ' + actionOrCheck[4] + ');\n\n'
         
         servDirName = cmdRepSrcDir + '/' + getServName(outComponent)
         shortDesc = 'Header file for module implementing TM(' + typeAndSubType[0] + \
@@ -845,7 +845,8 @@ def createInFactoryHeader():
 def createOutFactoryHeader():
     s = ''
     for outComponent in outComponents:
-        s = s + '#include \"' + outComponent['domain'] + '/' + outComponent['name'] + '.h\"\n'
+        s = s + '#include \"' + outComponent['domain'] + '/CrPsOutCmp' + outComponent['domain'] +\
+            outComponent['name'][:-6] + 'Rep.h\"\n'
     s = s + '\n'
 
     s = s + writeDoxy(['Maximum number of OutComponents which may be allocated at any one time'])
@@ -880,11 +881,8 @@ def createOutFactoryHeader():
                               '&' + getActionOrCheckFunction(outComponent, 'RepeatCheck') + ', ' + \
                               '&' + getActionOrCheckFunction(outComponent, 'UpdateAction') + ', ' + \
                               '&CrFwOutCmpDefSerialize}'
-        if index == len(outCmpSorted)-1:
-            s = s + '\\\n' + outCmpDef
-        else:
-            s = s + ',\\\n' + outCmpDef 
-    s = s + '}\n\n'
+        s = s + outCmpDef + ',\\\n' 
+    s = s[:-3] + '\\\n}\n\n'
         
     shortDesc = 'Definition of the constants for the OutFactory component.'
     createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s, shortDesc)

@@ -16,7 +16,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include "CrPsOutCmpHkRep.h"
+#include "CrPsOutCmpHkRepRep.h"
 #include "DataPool/CrPsDpHk.h"
 #include "Pckt/CrPsPcktHk.h"
 #include "CrPsHkConfig.h"
