@@ -20,18 +20,19 @@ indent_mode=2
 [project]
 name=CordetFwPus
 base_path=/home/ap/Projects/cordetfw-pus
+description=
 
 [long line marker]
 long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=2450;Python;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw-pus%2Fscripts%2FConfig.py;0;4
-FILE_NAME_1=3888;Python;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw-pus%2Fscripts%2FCrPsCodeGenerator.py;0;4
+current_page=3
+FILE_NAME_0=2434;Python;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw-pus%2Fscripts%2FConfig.py;0;4
+FILE_NAME_1=44325;Python;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw-pus%2Fscripts%2FCrPsCodeGenerator.py;0;4
 FILE_NAME_2=0;Python;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw-pus%2Fscripts%2FFormat.py;0;4
-FILE_NAME_3=0;JSON;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw_editor%2Feditor%2Fstatic%2Fjson%2Fconfigs.json;0;4
-FILE_NAME_4=2904;Python;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw-pus%2Fscripts%2FUtilities.py;0;4
+FILE_NAME_3=66925;JSON;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw_editor%2Feditor%2Fstatic%2Fjson%2Fconfigs.json;0;4
+FILE_NAME_4=3388;Python;0;EUTF-8;0;1;0;%2Fhome%2Fap%2FProjects%2Fcordetfw-pus%2Fscripts%2FUtilities.py;0;4
 
 [VTE]
 last_dir=/home/ap
