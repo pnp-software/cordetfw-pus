@@ -26,7 +26,7 @@
 static short int rdlPos;
 
 /* --------------------------------------------------------------------------- */
-CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
+CrFwBool_t CrPsOutCmpHkRepRepReadyCheck(FwSmDesc_t smDesc) {
   CrFwBool_t temp;
   CrPsSID_t sid;
   CrFwPckt_t pckt = CrFwOutCmpGetPckt(smDesc);
@@ -52,7 +52,7 @@ CrFwBool_t CrPsOutCmpHkRepReadyCheck(FwSmDesc_t smDesc) {
 }
 
 /* --------------------------------------------------------------------------- */
-CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
+CrFwBool_t CrPsOutCmpHkRepRepRepeatCheck(FwSmDesc_t smDesc) {
   (void)smDesc;
   if (getDpHkSidItem(rdlPos) == 0)
     return 0;
@@ -61,6 +61,6 @@ CrFwBool_t CrPsOutCmpHkRepRepeatCheck(FwSmDesc_t smDesc) {
 }
 
 /* --------------------------------------------------------------------------- */
-void CrPsOutCmpHkRepUpdateAction(FwSmDesc_t smDesc) {
+void CrPsOutCmpHkRepRepUpdateAction(FwSmDesc_t smDesc) {
   CrPsHkConfigUpdateRep(rdlPos, smDesc);
 }

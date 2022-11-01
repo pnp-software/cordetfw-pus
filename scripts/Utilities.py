@@ -253,7 +253,7 @@ def getActionOrCheckFunction(specItem, name):
             if temp != '':
                 return temp
                 
-        return 'CrPsOutCmp' + specItem['domain'] + specItem['name'][:-6] + name
+        return 'CrPsOutCmp' + specItem['domain'] + specItem['name'][:-6] + 'Rep' + name
 
     if specItem['cat'] == 'InCommand':
         if name == 'ValidityCheck':
@@ -293,7 +293,7 @@ def getActionOrCheckFunction(specItem, name):
             if temp != '':
                 return temp
 
-        return 'CrPsInCmd' + specItem['domain'] + specItem['name'][:-5] + name
+        return 'CrPsInCmd' + specItem['domain'] + specItem['name'][:-5] + 'Cmd' + name
 
     assert False
 
