@@ -643,7 +643,7 @@ def createCrPsInCmdHeaders():
         s = ''
         s = s + '#include \"CrPsConstants.h\"\n'
         s = s + '#include \"CrPsTypes.h\"\n\n'
-        s = s + '#include \"CrFwCore.h\"\n'
+        s = s + '#include \"FwSmCore.h\"\n'
         s = s + '#include \"CrFwConstants.h\"\n\n'
         headerFileName = 'CrPsInCmd' + getServName(inCommand) + inCommand['name'][:-5] + 'Cmd'
         typeAndSubType = getTypeAndSubType(inCommand)
@@ -793,7 +793,8 @@ def createCrPsTypesHeader():
 def createInFactoryHeader():
     s = ''
     for inCommand in inCommands:
-        s = s + '#include \"' + inCommand['domain'] + '/' + inCommand['name'] + '.h\"\n'
+        s = s + '#include \"' + inCommand['domain'] + '/CrPsInCmd' + inCommand['domain'] +\
+            inCommand['name'][:-5] + 'Cmd.h\"\n'
     s = s + '\n'
 
     s = s + writeDoxy(['Maximum number of OutComponents which may be allocated at any one time'])
