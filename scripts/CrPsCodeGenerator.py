@@ -38,7 +38,8 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    dataItemTypes, enumTypes, generatedTablesDir, configDir, \
                    services, packets, cmdRepSrcDir, pcktDir, servToPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
-                   CR_FW_OUTREGISTRY_N, isEndianitySwapNeeded, pcktDir, \
+                   CR_FW_OUTREGISTRY_N, CR_FW_INFACTORY_MAX_NOF_INREP, \
+                   isEndianitySwapNeeded, pcktDir, \
                    dataItemPars, dataItemVars, constToSpecItem, dataItems
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
@@ -658,7 +659,7 @@ def createCrPsInCmdHeaders():
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
             s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
-                actionOrCheck[3] + ' ' + actionOrCheck[4] + ')\n\n'
+                actionOrCheck[3] + ' ' + actionOrCheck[4] + ');\n\n'
                 
         servDirName = cmdRepSrcDir + '/' + getServName(inCommand)
         shortDesc = 'Header file for module implementing TC(' + typeAndSubType[0] + \
@@ -797,9 +798,12 @@ def createInFactoryHeader():
             inCommand['name'][:-5] + 'Cmd.h\"\n'
     s = s + '\n'
 
-    s = s + writeDoxy(['Maximum number of OutComponents which may be allocated at any one time'])
+    s = s + writeDoxy(['Maximum number of InCommands which may be allocated at any one time'])
     s = s + '#define CR_FW_INFACTORY_MAX_NOF_INCMD (' + str(CR_FW_INFACTORY_MAX_NOF_INCMD) + ')\n\n'
     
+    s = s + writeDoxy(['Maximum number of InReports which may be allocated at any one time'])
+    s = s + '#define CR_FW_INFACTORY_MAX_NOF_INCMD (' + str(CR_FW_INFACTORY_MAX_NOF_INREP) + ')\n\n'
+
     inCmdTemp = {}
     for inCommand in inCommands:
         packet = specItems[inCommand['p_link']]
@@ -830,11 +834,8 @@ def createInFactoryHeader():
                              '&' + getActionOrCheckFunction(inCommand, 'ProgressAction') + ', ' + \
                              '&' + getActionOrCheckFunction(inCommand, 'TerminationAction') + ', ' + \
                              '&' + getActionOrCheckFunction(inCommand, 'AbortAction') + '}'
-        if index == len(inCmdSorted)-1:
-            s = s + '\\\n' + inCmdDef
-        else:
-            s = s + ',\\\n' + inCmdDef 
-    s = s + '}\n\n'
+        s = s + inCmdDef + ',\\\n' 
+    s = s[:-3] + '}\n\n'
         
     shortDesc = 'Definition of the constants for the InFactory component.'
     createHeaderFile(configDir, 'CrFwInFactoryUserPar.h', s, shortDesc)
@@ -887,6 +888,20 @@ def createOutFactoryHeader():
         
     shortDesc = 'Definition of the constants for the OutFactory component.'
     createHeaderFile(configDir, 'CrFwOutFactoryUserPar.h', s, shortDesc)
+    return 
+
+
+#===============================================================================
+# Create table with the definition of the constants
+def createCrPsConstants():
+    s = ''
+    for dataItem in dataItems:
+        if dataItem['p_kind'] == 'CNS':
+            s = s + writeDoxy([dataItem['desc']])
+            s = s + '#define ' + dataItem['name'] + ' (' + dataItem['value'] + ')\n\n'
+             
+    shortDesc = 'Definition of data items of constant kind'
+    createHeaderFile(configDir, 'CrPsConstants.h', s, shortDesc)
     return 
 
 
@@ -1151,6 +1166,7 @@ def procCordetFw(cordetFwPrFile):
     generateEvtIds()
     
     # Build implementation-level generated products 
+    createCrPsConstants()
     createOutFactoryHeader()
     createInFactoryHeader()
     createCrPsTypesHeader()
