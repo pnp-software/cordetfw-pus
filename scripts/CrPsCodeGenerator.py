@@ -141,9 +141,9 @@ def createCrPsDataPoolServHeaders():
         s = s + '} Dp' + service['name'] + 'Vars_t;\n\n'
         
         s = s + writeDoxy(['Extern declaration for structure holding data pool variables in service '+service['name']])
-        s = s + 'extern Dp' + service['name'] + 'Params_t Dp' + service['name'] + 'Params;\n\n'
+        s = s + 'extern Dp' + service['name'] + 'Params_t dp' + service['name'] + 'Params;\n\n'
         s = s + writeDoxy(['Extern declaration for structure holding data pool parameters in service '+service['name']])
-        s = s + 'extern Dp' + service['name'] + 'Vars_t Dp' + service['name'] + 'Vas;\n\n'
+        s = s + 'extern Dp' + service['name'] + 'Vars_t dp' + service['name'] + 'Vars;\n\n'
 
         for dataItem in dataItems:
             if dataItem['domain'] != service['name']:
@@ -172,19 +172,19 @@ def createCrPsDataPoolServHeaders():
                 s = s + writeDoxy(['Get the data pool array '+dataItem['name']+' ('+dataItem['desc']+')',
                                    '@return the value of data pool array '+dataItem['name']])
                 s = s + 'static inline ' + getDataItemNativeType(dataItem) + '* getDp' + service['name'] +\
-                    nameFirstCap + '() {\n'
-                s = s + '    return &dp' + service['name'] + kind  + '.' + dataItem['name'] + ';\n'
+                    nameFirstCap + 'Array() {\n'
+                s = s + '    return &dp' + service['name'] + kind  + '.' + dataItem['name'] + '[0];\n'
                 s = s + '}\n\n'
                 
                 s = s + writeDoxy(['Get i-th element of data pool array '+dataItem['name']+' ('+dataItem['desc']+')',
                     '@param i index variable',
                     '@return value of i-th element of data pool array '+dataItem['name']])
-                s = s + 'static inline ' + getDataItemNativeType(dataItem) + '* getDp' + service['name'] +\
+                s = s + 'static inline ' + getDataItemNativeType(dataItem) + ' getDp' + service['name'] +\
                     nameFirstCap + 'Item(int i) {\n'
                 s = s + '    return dp' + service['name'] + kind  + '.' + dataItem['name'] + '[i];\n'
                 s = s + '}\n\n'
                 
-                s = s + writeDoxy(['Set i-th element of data pool item '+dataItem['name']+' ('+dataItem['desc']+')',
+                s = s + writeDoxy(['Set i-th element of data pool array '+dataItem['name']+' ('+dataItem['desc']+')',
                                    '@param i index variable',
                                    '@param value of i-th element of data pool item '+dataItem['name']])
                 s = s + 'static inline void setDp' + service['name'] + nameFirstCap + \
@@ -797,12 +797,15 @@ def createInFactoryHeader():
         s = s + '#include \"' + inCommand['domain'] + '/CrPsInCmd' + inCommand['domain'] +\
             inCommand['name'][:-5] + 'Cmd.h\"\n'
     s = s + '\n'
+    
+    s = s + '#include \"InCmd/CrFwInCmd.h\"\n'
+    s = s + '#include \"InRep/CrFwInRep.h\"\n'
 
     s = s + writeDoxy(['Maximum number of InCommands which may be allocated at any one time'])
     s = s + '#define CR_FW_INFACTORY_MAX_NOF_INCMD (' + str(CR_FW_INFACTORY_MAX_NOF_INCMD) + ')\n\n'
     
     s = s + writeDoxy(['Maximum number of InReports which may be allocated at any one time'])
-    s = s + '#define CR_FW_INFACTORY_MAX_NOF_INCMD (' + str(CR_FW_INFACTORY_MAX_NOF_INREP) + ')\n\n'
+    s = s + '#define CR_FW_INFACTORY_MAX_NOF_INREP (' + str(CR_FW_INFACTORY_MAX_NOF_INREP) + ')\n\n'
 
     inCmdTemp = {}
     for inCommand in inCommands:
@@ -820,14 +823,15 @@ def createInFactoryHeader():
     s = s + writeDoxy(['The total number of kinds of inCommands supported by the application'])
     s = s + '#define CR_FW_INCMD_NKINDS (' + str(len(inCmdSorted)) + ')\n\n'
     
+    s = s + writeDoxy(['The total number of kinds of inReports supported by the application'])
+    s = s + '#define CR_FW_INREP_NKINDS (0)\n\n'
+
     s = s + writeDoxy(['Definition of the inCommand kinds supported by the application'])
     s = s + '#define CR_FW_INCMD_INIT_KIND_DESC {\\\n'
     for index, (key, inCommand) in enumerate(inCmdSorted.items()):
         inCmdDef = '    {' + getTypeAndSubType(inCommand)[0] + ', ' + \
                              getTypeAndSubType(inCommand)[1] + ', ' + \
                              disc + ', ' + \
-                             '1'  + ', ' + \
-                             str(getPcktLen(inCommand)) + ', ' + \
                              '&' + getActionOrCheckFunction(inCommand, 'ValidityCheck') + ', ' + \
                              '&' + getActionOrCheckFunction(inCommand, 'ReadyCheck') + ', ' + \
                              '&' + getActionOrCheckFunction(inCommand, 'StartAction') + ', \\\n        ' + \
@@ -836,6 +840,10 @@ def createInFactoryHeader():
                              '&' + getActionOrCheckFunction(inCommand, 'AbortAction') + '}'
         s = s + inCmdDef + ',\\\n' 
     s = s[:-3] + '}\n\n'
+
+    s = s + writeDoxy(['Definition of the inReport kinds supported by the application'])
+    s = s + '#define CR_FW_INREP_INIT_KIND_DESC {\\\n'
+    s = s + '}\n\n'
         
     shortDesc = 'Definition of the constants for the InFactory component.'
     createHeaderFile(configDir, 'CrFwInFactoryUserPar.h', s, shortDesc)
