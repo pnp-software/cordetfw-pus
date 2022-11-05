@@ -13,12 +13,11 @@
 **/src/Scd/CrPsInCmd*.h
 **/src/Scd/CrPsOutCmp*.h
 **/src/Tst/CrPsInCmd*.h
-**/src/Tst/CrPsOutCmp*.h
-**/src/Tst/CrPsInRep*.h
+**/src/Tst/CrPsOutCmpTstAreYouAliveRep.h
+**/src/Tst/CrPsOutCmpTstConnectRep.h
 **/src/Ver/CrPsInCmd*.h
 **/src/Ver/CrPsOutCmp*.h
 **/src/Pckt/CrPs*.h
-
 **/tests/PusConfig/CrFwInFactoryUserPar.h
 **/tests/PusConfig/CrFwOutFactoryUserPar.h
 **/tests/PusConfig/CrFwOutRegistryUserPar.h
