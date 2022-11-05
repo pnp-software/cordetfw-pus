@@ -110,40 +110,53 @@ def createCrPsDataPoolServHeaders():
         s = s + '#include \"CrFwUserConstants.h\"\n'
         s = s + '#include \"CrFwConstants.h\"\n\n'
 
-        s = s + writeDoxy(['Structure holding data pool parameters for service ' + service['name']])
-        s = s + 'typedef struct {\n'
+        thereAreParsInServ = False
         for par in dataItemPars:
             if par['domain'] == service['name']:
-                s + writeDoxy([par['title']])
-                mult = getMultiplicity(par)
-                if mult[1] == 1:
-                    s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + ';\n'
-                else:
-                    if mult[0] != '':
-                        s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[0] + '];\n'
+                thereAreParsInServ = True
+                break
+        if thereAreParsInServ:
+            s = s + writeDoxy(['Structure holding data pool parameters for service ' + service['name']])
+            s = s + 'typedef struct {\n'
+            for par in dataItemPars:
+                if par['domain'] == service['name']:
+                    s + writeDoxy([par['title']])
+                    mult = getMultiplicity(par)
+                    if mult[1] == 1:
+                        s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + ';\n'
                     else:
-                        s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[1] + '];\n'
-        s = s + '} Dp' + service['name'] + 'Params_t;\n\n'
+                        if mult[0] != '':
+                            s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[0] + '];\n'
+                        else:
+                            s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + '[' + mult[1] + '];\n'
+            s = s + '} Dp' + service['name'] + 'Params_t;\n\n'
         
-        s = s + writeDoxy(['Structure holding data pool variables for service ' + service['name']])
-        s = s + 'typedef struct {\n'
-        for var in dataItemVars:
-            if var['domain'] == service['name']:
-                s + writeDoxy([var['title']])
-                mult = getMultiplicity(var)
-                if mult[1] == 1:
-                    s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + ';\n'
-                else:
-                    if mult[0] != '':
-                        s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + '[' + mult[0] + '];\n'
+            s = s + writeDoxy(['Extern declaration for structure holding data pool parameters in service '+service['name']])
+            s = s + 'extern Dp' + service['name'] + 'Params_t dp' + service['name'] + 'Params;\n\n'
+
+        thereAreVarsInServ = False
+        for par in dataItemVars:
+            if par['domain'] == service['name']:
+                thereAreVarsInServ = True
+                break
+        if thereAreVarsInServ:
+            s = s + writeDoxy(['Structure holding data pool variables for service ' + service['name']])
+            s = s + 'typedef struct {\n'
+            for var in dataItemVars:
+                if var['domain'] == service['name']:
+                    s + writeDoxy([var['title']])
+                    mult = getMultiplicity(var)
+                    if mult[1] == 1:
+                        s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + ';\n'
                     else:
-                        s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + '[' + str(mult[1]) + '];\n'
-        s = s + '} Dp' + service['name'] + 'Vars_t;\n\n'
+                        if mult[0] != '':
+                            s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + '[' + mult[0] + '];\n'
+                        else:
+                            s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + '[' + str(mult[1]) + '];\n'
+            s = s + '} Dp' + service['name'] + 'Vars_t;\n\n'
         
-        s = s + writeDoxy(['Extern declaration for structure holding data pool variables in service '+service['name']])
-        s = s + 'extern Dp' + service['name'] + 'Params_t dp' + service['name'] + 'Params;\n\n'
-        s = s + writeDoxy(['Extern declaration for structure holding data pool parameters in service '+service['name']])
-        s = s + 'extern Dp' + service['name'] + 'Vars_t dp' + service['name'] + 'Vars;\n\n'
+            s = s + writeDoxy(['Extern declaration for structure holding data pool variables in service '+service['name']])
+            s = s + 'extern Dp' + service['name'] + 'Vars_t dp' + service['name'] + 'Vars;\n\n'
 
         for dataItem in dataItems:
             if dataItem['domain'] != service['name']:

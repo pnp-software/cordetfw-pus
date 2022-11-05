@@ -366,8 +366,8 @@ def writePcktParGetterFunction(parName, pcktName, servName, parType, groupSizePa
         s = s + 'static inline ' + parType + ' get' + \
             servName + pcktName + parName + '(void* p, '+getPcktParType(groupSizePar)+' n) {\n'
         
-    s = s + '    ' + parName + '_t* t;\n'
-    s = s + '     t = (' + parName + '_t*)p;\n'
+    s = s + '    ' + pcktName + '_t* t;\n'
+    s = s + '     t = (' + pcktName + '_t*)p;\n'
     if groupSizePar == None:
         retVal = parName
     else:
@@ -391,7 +391,7 @@ def writePcktParSetterFunction(parName, pcktName, servName, parType, groupSizePa
                        '@param p Pointer to the packet',
                        '@param '+parName+' Value to be set in packet\n'])
         s = s + 'static inline void set' + servName + pcktName + \
-            parName + '(void* p, ' + parType + '_t ' + \
+            parName + '(void* p, ' + parType + ' ' + \
             parName + ') {\n'
     else:
         s = writeDoxy(['Setter function for an instance of parameter '+parName+' in packet '+pcktName,
@@ -401,17 +401,17 @@ def writePcktParSetterFunction(parName, pcktName, servName, parType, groupSizePa
                        '@param n The index (starting from 0) of the instance of '+parName,
                        '@param '+parName+' Value to be set in packet\n'])
         s = s + 'static inline void set' + servName + pcktName + \
-            parName + '(void* p, ' + getPcktParType(groupSizePar) + ' n, ' + parType + '_t ' + \
+            parName + '(void* p, ' + getPcktParType(groupSizePar) + ' n, ' + parType + ' ' + \
             parName + ') {\n'
         
-    s = s + '    ' + parName + '_t* t;\n'
-    s = s + '     t = (' + parName + '_t*)p;\n'
+    s = s + '    ' + pcktName + '_t* t;\n'
+    s = s + '     t = (' + pcktName + '_t*)p;\n'
     if groupSizePar == None:
         setVal = parName
     else:
         setVal = groupSizePar['name'] + '_[n].' + parName
     if isEndianitySwapNeeded:
-        s = s + '    t->' + setVal + '= _builtin_bswap16(' + parName + ');\n'
+        s = s + '    t->' + setVal + '= __builtin_bswap16(' + parName + ');\n'
     else:
         s = s + '    t->' + setVal + '= ' + parName + ';\n'
     s = s + '}\n\n'
