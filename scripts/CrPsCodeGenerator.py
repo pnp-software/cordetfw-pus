@@ -382,7 +382,7 @@ def createCrPsDataPoolHeader():
 
     s = s + 'enum {\n'
     s = s + '    /* Parameters */\n'
-    s = s + '    DpIpParamsLowest = 1,\n'
+    s = s + '    DpIdParamsLowest = 1,\n'
     i = 1
     for dataItemPar in dataItemPars:
         s = s + '    ' + dataItemPar['name'] + ' = ' + str(i) + ',\n'
@@ -392,9 +392,9 @@ def createCrPsDataPoolHeader():
             for index in range(1,mult+1):
                 s = s + '    ' + dataItemPar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
                 i = i +1
-    s = s + '    DpIpParamsHighest = ' + str(i-1) + ',\n'
+    s = s + '    DpIdParamsHighest = ' + str(i-1) + ',\n'
     s = s + '    /* Variables */\n'
-    s = s + '    DpIpVarsLowest = ' + str(i)+ ',\n'
+    s = s + '    DpIdVarsLowest = ' + str(i)+ ',\n'
     for dataItemVar in dataItemVars:
         s = s + '    ' + dataItemVar['name'] + ' = ' + str(i) + ',\n'
         i = i + 1
@@ -403,7 +403,7 @@ def createCrPsDataPoolHeader():
             for index in range(1,mult+1):
                 s = s + '    ' + dataItemVar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
                 i = i +1
-    s = s + '    DpIpVarsHighest = ' + str(i-1) + ',\n'
+    s = s + '    DpIdVarsHighest = ' + str(i-1) + ',\n'
     s = s[:-2] + '\n};\n\n'
 
     s = s + writeDoxy(['Get the value of a data pool item by identifier.',
@@ -456,6 +456,12 @@ def createCrPsDataPoolHeader():
 
 #===============================================================================
 # Create header files which defines the accessor methods for the packet parameters.
+# This functions makes the following assumptions:
+# - There are no groups in derived packets
+# - Packet parameters of kind 'PCK' have multiplicity 1
+# - Packet parameters of kind 'VAR' or 'PAR' may have non-unary multiplicity but
+#   can only appear in a derived packet and cannot appear in a group a
+# .
 def createCrPsPcktHeader():
     s = ''
     if not os.path.isdir(pcktDir):
@@ -507,75 +513,121 @@ def createCrPsPcktHeader():
             s = s + 'typedef struct __attribute__((packed)) _'+packet['name']+'_t {\n'
             s = s + '    /** Packet header */\n'
             s = s + '    TmHeader_t Header;\n'
-            groupSize = 0
+            groupSize1 = 0
+            groupSize2 = 0
             indent = '    '
-            groupSizePar = None
+            groupSizePar1 = None    
+            groupSizePar2 = None    # Groups can be embedded within other groups
             for par in pcktToPcktPars[getSpecItemName(packet)]:
-                if groupSize > 0:
-                    groupSize = groupSize - 1
+                dataItemId = par['s_link']
+                dataItem = specItems[dataItemId]
+                multiplicity = getMultiplicity(dataItem)[1]
+                if groupSize1 > 0:
+                    groupSize1 = groupSize1 - 1
                     indent = '        '
+                if groupSize2 > 0:
+                    groupSize2 = groupSize2 - 1
+                    indent = '            '
                 s = s + indent + '/** ' + par['title'] + ' */\n'
-                s = s + indent + getPcktParType(par) + ' ' + par['name'] + ';\n'
-                if int(par['n2']) > 0:  # Parameter is not a group size
-                    groupSize = int(par['n2'])
-                    s = s + indent + 'struct __attribute__((packed)) _{\n'
-                    groupSizePar = par
-                if groupSize == 0 and groupSizePar != None:
+                if multiplicity == 1:
+                    s = s + indent + getPcktParType(par) + ' ' + par['name'] + ';\n'
+                else:
+                    s = s + indent + getPcktParType(par) + ' ' + par['name'] + '[' +\
+                        str(multiplicity) + '];\n'
+                if int(par['n2']) > 0 and groupSize1 == 0:  # Start of outer group 
+                    groupSize1 = int(par['n2'])
+                    s = s + indent + 'struct __attribute__((packed)) {\n'
+                    groupSizePar1 = par
+                elif int(par['n2']) > 0 and groupSize2 == 0:  # Start of inner group 
+                      groupSize2 = int(par['n2'])
+                      s = s + indent + 'struct __attribute__((packed)) {\n'
+                      groupSizePar2 = par
+                if groupSize2 == 0 and groupSizePar2 != None:   # End of inner group
                     indent = '    '
-                    s = s + '} ' + groupSizePar['name'] + '_[1];\n' 
-                    groupSizePar = None
+                    s = s + '        } ' + groupSizePar2['name'] + '_[1];\n' 
+                    groupSizePar2 = None
+                if groupSize1 == 0 and groupSizePar1 != None:   # End of outer group
+                    indent = '    '
+                    s = s + '    } ' + groupSizePar1['name'] + '_[1];\n' 
+                    groupSizePar1 = None
                     
             s = s + '} ' + packet['name'] + '_t;\n\n' 
             derPckts = pcktToDerPckts[getSpecItemName(packet)]
             nDerPckts = len(derPckts)
             for derPckt in derPckts:
-                derPcktName = '_' + getSpecItemName(packet) + '_' + derPckt['name']
+                derPcktName = packet['name'] + '_' + derPckt['name']
                 s = s +  writeDoxy(['Structure for derived packet '+derPcktName])
-                s = s + 'typedef struct __attribute__((packed)) '+derPcktName+'_t {\n'
+                s = s + 'typedef struct __attribute__((packed)) _'+derPcktName+'_t {\n'
                 s = s + '    /** Packet header */\n'
                 s = s + '    TmHeader_t Header;\n'
                 for par in pcktToPcktPars[getSpecItemName(packet)]:
+                    dataItemId = par['s_link']
+                    dataItem = specItems[dataItemId]
+                    multiplicity = getMultiplicity(dataItem)[1]
                     s = s + '    /** ' + par['title'] + '(from parent packet) */\n'
-                    s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
+                    if multiplicity == 1:
+                        s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
+                    else:
+                        s = s + indent + getPcktParType(par) + ' ' + par['name'] + '[' +\
+                            str(multiplicity) + '];\n'
                 for par in derPcktToPcktPars[getSpecItemName(derPckt)]:
+                    dataItemId = par['s_link']
+                    dataItem = specItems[dataItemId]
+                    multiplicity = getMultiplicity(dataItem)[1]
                     s = s + '    /** ' + par['title'] + ' */\n'
-                    s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
+                    if multiplicity == 1:
+                        s = s + '   ' + getPcktParType(par) + ' ' + par['name'] + ';\n'
+                    else:
+                        s = s + indent + getPcktParType(par) + ' ' + par['name'] + '[' +\
+                            str(multiplicity) + '];\n'
                 s = s + '} ' + derPcktName + '_t;\n\n' 
 
         for packet in servToPckts[getSpecItemName(service)]:
-            groupSize = 0
-            groupSizePar = None
+            groupSize1 = 0
+            groupSizePar1 = None
+            groupSize2 = 0
+            groupSizePar2 = None
             for par in pcktToPcktPars[getSpecItemName(packet)]:
-                if groupSize > 0:
-                    groupSize = groupSize - 1
-                if int(par['n2']) > 0:  # Parameter is not a group size
-                    groupSize = int(par['n2'])
-                    groupSizePar = par
                 s = s + writePcktParGetterFunction(par['name'], 
                                                    packet['name'], 
                                                    service['name'], 
                                                    getPcktParType(par),
-                                                   groupSizePar)
+                                                   groupSizePar1,
+                                                   groupSizePar2)
                 s = s + writePcktParSetterFunction(par['name'], 
                                                    packet['name'], 
                                                    service['name'], 
                                                    getPcktParType(par),
-                                                   groupSizePar)
-                if groupSize == 0:
-                    groupSizePar = None
-            groupSizePar = None     # We assume that there are no groups in derived packets
+                                                   groupSizePar1,
+                                                   groupSizePar2)
+                if groupSize1 > 0:
+                    groupSize1 = groupSize1 - 1
+                    if groupSize1 == 0:
+                        groupSizePar1 = None
+                if groupSize2 > 0:
+                    groupSize2 = groupSize2 - 1
+                    if groupSize2 == 0:
+                        groupSizePar2 = None
+                if int(par['n2']) > 0 and groupSizePar1 == None:  # Parameter is an outer group size
+                    groupSize1 = int(par['n2'])
+                    groupSizePar1 = par
+                elif int(par['n2']) > 0 and groupSize2 == 0:  # Parameter is an outer group size 
+                    groupSize2 = int(par['n2'])
+                    groupSizePar2 = par
+                    
+            # NB: We assume that there are no groups in derived packets
             for derPckt in pcktToDerPckts[getSpecItemName(packet)]:
                 for par in derPcktToPcktPars[getSpecItemName(derPckt)]:
                     s = s + writePcktParGetterFunction(par['name'], 
-                                                       packet['name'], 
+                                                       packet['name']+'_'+derPckt['name'], 
                                                        service['name'], 
                                                        getPcktParType(par),
-                                                       groupSizePar)
+                                                       None)
                     s = s + writePcktParSetterFunction(par['name'], 
-                                                       packet['name'], 
+                                                       packet['name']+'_'+derPckt['name'], 
                                                        service['name'], 
                                                        getPcktParType(par),
-                                                       groupSizePar)
+                                                       None)
             
         headerFileName = 'CrPsPckt' + service['name']
         shortDesc = 'Header file for accessor methods for packets in service ' + service['name'] + \
@@ -1103,14 +1155,17 @@ def generateCrPsSpec():
 # A cross-table is a dictionary where:
 # - the key is the Domain:Name of a spec_item of category C1
 # - the value is a list of spec_items of type C2 which have either a p_link
-#   or an s_link to the key
+#   or an s_link to the key. The items in the list may be ordered with
+#   respect to the field F interpreted as an integer
 # .
 # The arguments of this function are:
 # - the cross-table dictionary (must be empty when the function is called)
 # - the categories C1 and C2
 # - the type of link (either 'p_link' or 's_link')
+# - the field with respect the values in the list are ordered (or none 
+#   if no odering is desired)
 # .
-def buildCrossTable(crossTable, keyCatParent, keyCatChild, keyLink): 
+def buildCrossTable(crossTable, keyCatParent, keyCatChild, keyLink, orderField=None): 
     for id, specItem in specItems.items():
         if specItem['cat'] == keyCatParent:
             keyName = specItem['domain'] + ':' + specItem['name']
@@ -1122,6 +1177,9 @@ def buildCrossTable(crossTable, keyCatParent, keyCatChild, keyLink):
                                   specItems[specItem[keyLink]]['name'] 
                 if specItemDomName in crossTable:
                     crossTable[specItemDomName].append(specItem)
+    if not orderField is None:
+        for id, crossTableItem in crossTable.items():
+            crossTableItem.sort(key=lambda x: int(x[orderField]))
 
 
 #===============================================================================
@@ -1173,8 +1231,8 @@ def procCordetFw(cordetFwPrFile):
     # Build cross-tables
     buildCrossTable(enumTypesToEnumValues, 'EnumType', 'EnumValue', 's_link')
     buildCrossTable(enumValToDerPckts, 'EnumValue', 'DerPacket', 'p_link')
-    buildCrossTable(pcktToPcktPars, 'Packet', 'PacketPar', 'p_link')
-    buildCrossTable(derPcktToPcktPars, 'DerPacket', 'PacketPar', 'p_link')
+    buildCrossTable(pcktToPcktPars, 'Packet', 'PacketPar', 'p_link', 'n1')
+    buildCrossTable(derPcktToPcktPars, 'DerPacket', 'PacketPar', 'p_link', 'n1')
     buildCrossTable(pcktToDerPckts, 'Packet', 'DerPacket', 's_link')
     buildCrossTable(servToPckts, 'Service', 'Packet', 'p_link')
     

@@ -141,9 +141,8 @@ def getDiscVal(derPacket):
   
     
 #===============================================================================
-# Return the multiplicity of a data item of Parameter or Variable kind as a
-# tuple (s, i) where 's' is the symbolic value of the multiplicty and 'i' is
-# its integer value.
+# Return the multiplicity of a data item as a tuple (s, i) where 's' is the 
+# symbolic value of the multiplicty and 'i' is its integer value.
 # If no symbolic value for the multiplicity is defined, 's' is set to the 
 # empty string.
 # The following cases are handled:
@@ -154,7 +153,7 @@ def getDiscVal(derPacket):
 # - The multiplicity is assumed to be a string representing an integer: ('',i)
 #   is returned value with 'i' being the integer representation of the string
 def getMultiplicity(dataItem):
-    assert dataItem['cat'] == 'DataItem' and dataItem['p_kind'] in ['VAR', 'PAR']
+    assert dataItem['cat'] == 'DataItem'
     try:
         mult = dataItem['t1']
         if mult == '':          # No multiplicity is defined, 1 is assumed
@@ -346,32 +345,47 @@ def getPcktLen(specItem):
 
 #===============================================================================
 # Write a getter function for a packet parameter to a string and return the string.
-# If groupSizePar is equal to None, the parameter for which the getter method
+# If groupSizePar1 is equal to None, the parameter for which the getter method
 # is generated is a non-group parameter; else, the parameter is part of a group
-# and groupSizePar is the parameter holding the group size.
-def writePcktParGetterFunction(parName, pcktName, servName, parType, groupSizePar):
-    if groupSizePar == None:
+# and groupSizePar1 is the parameter holding the group size.
+def writePcktParGetterFunction(parName, pcktName, servName, parType, groupSizePar1, groupSizePar2=None):
+    assert not ((groupSizePar2!=None) and (groupSizePar1==None))
+    if groupSizePar1 == None:
         s = writeDoxy(['Getter function for parameter '+parName+' in packet '+pcktName,
                        '@param p Pointer to the packet',
                        '@return Value of parameter '+pcktName])
         s = s + 'static inline ' + parType + ' get' + \
             servName + pcktName + parName + '(void* p) {\n'
-    else:
+    if groupSizePar1 != None and groupSizePar2 == None:
         s = writeDoxy(['Getter function for an instance of parameter '+parName+' in packet '+pcktName,
                        'The parameter '+parName+' is part of a group. The function returns the value',
-                       'of the n-th instance of the group.'
+                       'of the parameter in the n-th instance of the group.',
                        '@param p Pointer to the packet',
-                       '@param n The index (starting from 0) of the instance of '+parName,
+                       '@param n The index (starting from 0) of the group instance from which '+parName+' is read',
                        '@return Value of n-th instance of parameter '+pcktName])
         s = s + 'static inline ' + parType + ' get' + \
-            servName + pcktName + parName + '(void* p, '+getPcktParType(groupSizePar)+' n) {\n'
-        
+            servName + pcktName + parName + '(void* p, '+getPcktParType(groupSizePar1)+' n) {\n'
+    if groupSizePar1 != None and groupSizePar2 != None:
+        s = writeDoxy(['Getter function for an instance of parameter '+parName+' in packet '+pcktName,
+                       'The parameter '+parName+' is part of a nested group. The function returns the value',
+                       'of the parameter in the k-th instance of the inner group in the n-th instance of',
+                       'the outer group.',
+                       '@param p Pointer to the packet',
+                       '@param n The index (starting from 0) of the outer group',
+                       '@param k The index (starting from 0) of the inner group',
+                       '@return Value of n-th instance of parameter '+pcktName])
+        s = s + 'static inline ' + parType + ' get' + \
+            servName + pcktName + parName + '(void* p, '+getPcktParType(groupSizePar1)+' n, '+\
+            getPcktParType(groupSizePar2)+' k) {\n'
+    
     s = s + '    ' + pcktName + '_t* t;\n'
     s = s + '     t = (' + pcktName + '_t*)p;\n'
-    if groupSizePar == None:
+    if groupSizePar1 == None:
         retVal = parName
-    else:
-        retVal = groupSizePar['name']+'_[n].'+parName
+    if groupSizePar1 != None and groupSizePar2 == None:
+        retVal = groupSizePar1['name']+'_[n].'+parName
+    if groupSizePar1 != None and groupSizePar2 != None:
+        retVal = groupSizePar1['name']+'_[n].'+groupSizePar2['name']+'_[k].'+parName
     if isEndianitySwapNeeded:
         s = s + '    return __builtin_bswap16(t->' + retVal + ');\n'
     else:
@@ -382,34 +396,48 @@ def writePcktParGetterFunction(parName, pcktName, servName, parType, groupSizePa
 
 #===============================================================================
 # Write a setter function for a packet parameter to a string and return the string.
-# If groupSizePar is equal to None, the parameter for which the getter method
+# If groupSizePar1 is equal to None, the parameter for which the getter method
 # is generated is a non-group parameter; else, the parameter is part of a group
-# and groupSizePar is the parameter holding the group size.
-def writePcktParSetterFunction(parName, pcktName, servName, parType, groupSizePar):
-    if groupSizePar == None:
+# and groupSizePar1 is the parameter holding the group size.
+def writePcktParSetterFunction(parName, pcktName, servName, parType, groupSizePar1, groupSizePar2=None):
+    if groupSizePar1 == None:
         s = writeDoxy(['Setter function for parameter '+parName+' in packet '+pcktName,
                        '@param p Pointer to the packet',
                        '@param '+parName+' Value to be set in packet\n'])
         s = s + 'static inline void set' + servName + pcktName + \
             parName + '(void* p, ' + parType + ' ' + \
             parName + ') {\n'
-    else:
+    if groupSizePar1 != None and groupSizePar2 == None:
         s = writeDoxy(['Setter function for an instance of parameter '+parName+' in packet '+pcktName,
                        'The parameter '+parName+' is part of a group. The function sets the value',
-                       'of the n-th instance of the group.'
+                       'of the parameter in the n-th instance of the group.',
                        '@param p Pointer to the packet',
-                       '@param n The index (starting from 0) of the instance of '+parName,
+                       '@param n The index (starting from 0) of the group instance where '+parName+' is written',
                        '@param '+parName+' Value to be set in packet\n'])
         s = s + 'static inline void set' + servName + pcktName + \
-            parName + '(void* p, ' + getPcktParType(groupSizePar) + ' n, ' + parType + ' ' + \
+            parName + '(void* p, ' + getPcktParType(groupSizePar1) + ' n, ' + parType + ' ' + \
             parName + ') {\n'
+    if groupSizePar1 != None and groupSizePar2 != None:
+        s = writeDoxy(['Setter function for an instance of parameter '+parName+' in packet '+pcktName,
+                       'The parameter '+parName+' is part of a nested group. The function sets the value',
+                       'of the parameter in the k-th instance of the inner group of the n-th instance',
+                       'of the outer group',
+                       '@param p Pointer to the packet',
+                       '@param n The index (starting from 0) of the outer group',
+                       '@param k The index (starting from 0) of the inner group',
+                       '@param '+parName+' Value to be set in packet\n'])
+        s = s + 'static inline void set' + servName + pcktName + \
+            parName + '(void* p, ' + getPcktParType(groupSizePar1) + ' n, ' + \
+            getPcktParType(groupSizePar2) + ' k, ' + parType + ' ' + parName + ') {\n'
         
     s = s + '    ' + pcktName + '_t* t;\n'
     s = s + '     t = (' + pcktName + '_t*)p;\n'
-    if groupSizePar == None:
+    if groupSizePar1 == None:
         setVal = parName
-    else:
-        setVal = groupSizePar['name'] + '_[n].' + parName
+    if groupSizePar1 != None and groupSizePar2 == None:
+        setVal = groupSizePar1['name'] + '_[n].' + parName
+    if groupSizePar1 != None and groupSizePar2 != None:
+        setVal = groupSizePar1['name'] + '_[n].' + groupSizePar2['name'] + '_[k].' +  parName
     if isEndianitySwapNeeded:
         s = s + '    t->' + setVal + '= __builtin_bswap16(' + parName + ');\n'
     else:
