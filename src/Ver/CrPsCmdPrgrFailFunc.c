@@ -94,6 +94,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   CrFwServSubType_t subType;
   CrFwDiscriminant_t disc;
   CrPsThreeBit_t tcPcktVersNmb;
+  CrPsSixteenBit_t versNmbPcktId;
   FwSmDesc_t inCmd;
 
   /* Configure report (1,6) */
@@ -111,8 +112,9 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc) {
   tcPcktId = getTcHeaderPcktType(inPckt)*0x1000+getTcHeaderSecHeaderFlag(inPckt)*0x800+getTcHeaderAPID(inPckt);
   prgrStepId = CrFwInCmdGetProgressStepId(inCmd);
 
-  setVerFailedPrgrRepPcktVersNumber(outPckt,tcPcktVersNmb);
-  setVerFailedPrgrRepTcPcktId(outPckt, tcPcktId);
+  versNmbPcktId = tcPcktVersNmb;
+  versNmbPcktId = (versNmbPcktId<<13) + tcPcktId;
+  setVerFailedPrgrRepVersNmbTcPcktId(outPckt,versNmbPcktId);
   setVerFailedPrgrRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
   setVerFailedPrgrRepTcFailCode(outPckt, failCode);
   setVerFailedPrgrRepTcFailData(outPckt, failData);

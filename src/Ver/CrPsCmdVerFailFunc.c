@@ -118,6 +118,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
   CrFwDiscriminant_t disc;
   CrPsThreeBit_t tcPcktVersNmb;
   CrPsNOfCmd_t nOfCmds;
+  CrPsSixteenBit_t versNmbPcktId;
 
   /* Configure report and load it in the OutLoader */
   outPckt = CrFwOutCmpGetPckt(rep);
@@ -136,11 +137,14 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
   tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*0x4000+getTcHeaderSeqCount(inPckt);
   tcPcktId = getTcHeaderPcktType(inPckt)*0x1000+getTcHeaderSecHeaderFlag(inPckt)*0x800+getTcHeaderAPID(inPckt);
 
+  versNmbPcktId = tcPcktVersNmb;
+  versNmbPcktId = (versNmbPcktId<<13) + tcPcktId;
+  setVerFailedRoutingRepVersNmbTcPcktId(outPckt,versNmbPcktId);
+
   switch (outcome) {
     case crCmdAckAccFail:   /* InCommand failed its validity check */
-        setVerFailedAccRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedAccRepVersNmbTcPcktId(outPckt,versNmbPcktId);
         setVerFailedAccRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerFailedAccRepTcPcktId(outPckt, tcPcktId);
         setVerFailedAccRepTcFailCode(outPckt, failCode);
         setVerFailedAccRepTcFailData(outPckt, failData);
         setVerFailedAccRepTcType(outPckt, type);
@@ -153,9 +157,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
         setDpVerPcktIdAccFailed(tcPcktId);
         break;
     case crCmdAckStrFail:   /* InCommand Start Action has failed */
-        setVerFailedStartRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedStartRepVersNmbTcPcktId(outPckt,versNmbPcktId);
         setVerFailedStartRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerFailedStartRepTcPcktId(outPckt, tcPcktId);
         setVerFailedStartRepTcFailCode(outPckt, failCode);
         setVerFailedStartRepTcFailData(outPckt, failData);
         setVerFailedStartRepTcType(outPckt, type);
@@ -168,9 +171,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
         setDpVerPcktIdStartFailed(tcPcktId);
         break;
     case crCmdAckTrmFail:    /* InCommand Termination Action failed */
-        setVerFailedTermRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedTermRepVersNmbTcPcktId(outPckt,versNmbPcktId);
         setVerFailedTermRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerFailedTermRepTcPcktId(outPckt, tcPcktId);
         setVerFailedTermRepTcFailCode(outPckt, failCode);
         setVerFailedTermRepTcFailData(outPckt, failData);
         setVerFailedTermRepTcType(outPckt, type);
@@ -183,9 +185,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
         setDpVerPcktIdTermFailed(tcPcktId);
         break;
     case crCmdAckLdFail:    /* InCommand could not be loaded in its InManager */
-        setVerFailedAccRepPcktVersNumber(outPckt, tcPcktVersNmb);
+        setVerFailedAccRepVersNmbTcPcktId(outPckt,versNmbPcktId);
         setVerFailedAccRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerFailedAccRepTcPcktId(outPckt, tcPcktId);
         setVerFailedAccRepTcFailCode(outPckt, failCode);
         setVerFailedAccRepTcFailData(outPckt, failData);
         setVerFailedAccRepTcType(outPckt, type);
@@ -198,9 +199,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc) {
         setDpVerPcktIdStartFailed(tcPcktId);
         break;
     default:                /* InCommand component could not be created (crCmdAckCreFail) */
-        setVerFailedAccRepPcktVersNumber(outPckt, 0);
+        setVerFailedAccRepVersNmbTcPcktId(outPckt,0);
         setVerFailedAccRepTcPcktSeqCtrl(outPckt, 0);
-        setVerFailedAccRepTcPcktId(outPckt, 0);
         setVerFailedAccRepTcFailCode(outPckt, failCode);
         setVerFailedAccRepTcFailData(outPckt, 0);
         setVerFailedAccRepTcType(outPckt, type);

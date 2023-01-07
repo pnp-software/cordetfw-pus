@@ -85,6 +85,7 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t prDesc) {
     CrFwPckt_t inPckt, outPckt;
     CrPsSixteenBit_t tcPcktSeqCtrl;
     CrPsThirteenBit_t tcPcktId;
+    CrPsSixteenBit_t versNmbPcktId;
     CrFwProgressStepId_t prgrStepId;
 
     /* Configure report and load it in the OutLoader */
@@ -95,9 +96,11 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t prDesc) {
     tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*(2^13)+getTcHeaderAPID(inPckt);
     prgrStepId = CrFwInCmdGetProgressStepId(inCmd);
 
-    setVerSuccPrgrRepPcktVersNumber(outPckt, getTcHeaderPcktVersionNmb(inCmd));
+    versNmbPcktId = getTcHeaderPcktVersionNmb(inCmd);;
+    versNmbPcktId = (versNmbPcktId<<13) + tcPcktId;
+    setVerFailedPrgrRepVersNmbTcPcktId(outPckt,versNmbPcktId);
+    setVerSuccPrgrRepVersNmbTcPcktId(outPckt,versNmbPcktId);
     setVerSuccPrgrRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-    setVerSuccPrgrRepTcPcktId(outPckt, tcPcktId);
     setVerSuccPrgrRepTcPrgStep(outPckt, prgrStepId);
 
     /* Set the destination of the report to the source of the in-coming packet */

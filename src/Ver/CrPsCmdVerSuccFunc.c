@@ -104,6 +104,7 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
   CrFwRepInCmdOutcome_t outcome;
   CrPsSixteenBit_t tcPcktSeqCtrl;
   CrPsThirteenBit_t tcPcktId;
+  CrPsSixteenBit_t versNmbPcktId;
 
   /* Configure report and load it in the OutLoader */
   outPckt = CrFwOutCmpGetPckt(rep);
@@ -112,22 +113,21 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc) {
   inPckt = CrFwInCmdGetPckt(inCmd);
   tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*(2^14)+getTcHeaderSeqCount(inPckt);
   tcPcktId = getTcHeaderPcktType(inPckt)*(2^13)+getTcHeaderSecHeaderFlag(inPckt)*(2^13)+getTcHeaderAPID(inPckt);
+  versNmbPcktId = getTcHeaderPcktVersionNmb(inCmd);
+  versNmbPcktId = (versNmbPcktId<<13) + tcPcktId;
 
   switch (outcome) {
     case crCmdAckAccSucc:
-        setVerSuccAccRepPcktVersNumber(outPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccAccRepVersNmbTcPcktId(outPckt,versNmbPcktId);
         setVerSuccAccRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerSuccAccRepTcPcktId(outPckt, tcPcktId);
         break;
     case crCmdAckStrSucc:
-        setVerSuccStartRepPcktVersNumber(outPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccStartRepVersNmbTcPcktId(outPckt,versNmbPcktId);
         setVerSuccStartRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerSuccStartRepTcPcktId(outPckt, tcPcktId);
         break;
     default:
-        setVerSuccTermRepPcktVersNumber(outPckt, getTcHeaderPcktVersionNmb(inCmd));
+        setVerSuccTermRepVersNmbTcPcktId(outPckt,versNmbPcktId);
         setVerSuccTermRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
-        setVerSuccTermRepTcPcktId(outPckt, tcPcktId);
         assert (outcome == crCmdAckTrmSucc);
   }
 

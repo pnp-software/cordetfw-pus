@@ -105,6 +105,7 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {
   CrFwServSubType_t subType;
   CrFwDiscriminant_t disc;
   CrPsThreeBit_t tcPcktVersNmb;
+  CrPsSixteenBit_t versNmbPcktId;
 
   /* Configure report (1,10) */
   inPckt = CrPsVerConfigGetInPckt();
@@ -117,8 +118,9 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc) {
   tcPcktSeqCtrl = getTcHeaderSeqFlags(inPckt)*0x4000+getTcHeaderSeqCount(inPckt);
   tcPcktId = getTcHeaderPcktType(inPckt)*0x1000+getTcHeaderSecHeaderFlag(inPckt)*0x800+getTcHeaderAPID(inPckt);
 
-  setVerFailedRoutingRepPcktVersNumber(outPckt,tcPcktVersNmb);
-  setVerFailedRoutingRepTcPcktId(outPckt, tcPcktId);
+  versNmbPcktId = tcPcktVersNmb;
+  versNmbPcktId = (versNmbPcktId<<13) + tcPcktId;
+  setVerFailedRoutingRepVersNmbTcPcktId(outPckt,versNmbPcktId);
   setVerFailedRoutingRepTcPcktSeqCtrl(outPckt, tcPcktSeqCtrl);
   setVerFailedRoutingRepInvDest(outPckt, invDest);
   setVerFailedRoutingRepTcType(outPckt, type);
