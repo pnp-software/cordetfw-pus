@@ -46,7 +46,8 @@ from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
                       getActionOrCheckFunction, writeDoxy, getPcktLen, getDiscVal, \
                       isDefault, getSameAs, getServName, getPcktParType, \
                       writePcktParGetterFunction, writePcktParSetterFunction, \
-                      getMultiplicity, getDataItemNativeType
+                      getMultiplicity, getDataItemNativeType, \
+                      writePcktArrayParFunctions, createBodyFile
 
 
 #===============================================================================
@@ -93,7 +94,7 @@ def createCrPsDataPoolServBodies():
         headerFileName = 'CrPsDp' + service['name'] + '.c'
         shortDesc = 'Interface for accessing data pool items of service ' + service['name'] + \
                     ' (' + service['title'] + ')'
-        createHeaderFile(dataPoolDir, headerFileName, s, shortDesc)
+        createBodyFile(dataPoolDir, headerFileName, s, shortDesc)
 
 
 #===============================================================================
@@ -201,7 +202,7 @@ def createCrPsDataPoolServHeaders():
                                    '@param i index variable',
                                    '@param value of i-th element of data pool item '+dataItem['name']])
                 s = s + 'static inline void setDp' + service['name'] + nameFirstCap + \
-                    '(int i, ' + getDataItemNativeType(dataItem) + ' ' + dataItem['name'] + ') {\n'
+                    'Item(int i, ' + getDataItemNativeType(dataItem) + ' ' + dataItem['name'] + ') {\n'
                 s = s + '    dp' + service['name'] + kind  + '.' + dataItem['name'] + '[i]' + \
                     '=' + dataItem['name'] + ';\n'
                 s = s + '}\n\n'
@@ -385,23 +386,23 @@ def createCrPsDataPoolHeader():
     s = s + '    DpIdParamsLowest = 1,\n'
     i = 1
     for dataItemPar in dataItemPars:
-        s = s + '    ' + dataItemPar['name'] + ' = ' + str(i) + ',\n'
+        s = s + '    DpId' + dataItemPar['name'] + ' = ' + str(i) + ',\n'
         i = i + 1
         mult = getMultiplicity(dataItemPar)[1]
         if mult > 1:
             for index in range(1,mult+1):
-                s = s + '    ' + dataItemPar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
+                s = s + '    DpId' + dataItemPar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
                 i = i +1
     s = s + '    DpIdParamsHighest = ' + str(i-1) + ',\n'
     s = s + '    /* Variables */\n'
     s = s + '    DpIdVarsLowest = ' + str(i)+ ',\n'
     for dataItemVar in dataItemVars:
-        s = s + '    ' + dataItemVar['name'] + ' = ' + str(i) + ',\n'
+        s = s + '    DpId' + dataItemVar['name'] + ' = ' + str(i) + ',\n'
         i = i + 1
         mult = getMultiplicity(dataItemVar)[1]
         if mult > 1:
             for index in range(1,mult+1):
-                s = s + '    ' + dataItemVar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
+                s = s + '    DpId' + dataItemVar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
                 i = i +1
     s = s + '    DpIdVarsHighest = ' + str(i-1) + ',\n'
     s = s[:-2] + '\n};\n\n'
@@ -456,11 +457,22 @@ def createCrPsDataPoolHeader():
 
 #===============================================================================
 # Create header files which defines the accessor methods for the packet parameters.
+# This function generates a header file for each service. 
+# Each such header file defines the following items:
+# - The DEFINE constants holding the lengths of all report packets in the service
+# - The DEFINE constants holding the number of derived packets for each report
+#   with a discriminant
+# - The DEFINE constants holding the list of discriminants for each report with
+#   a discriminant
+# - The data structures representing the packet body (one for each report packet 
+#   in the service)
+# - The getter and setter functions for each parameter of each report packet
+# .
 # This functions makes the following assumptions:
 # - There are no groups in derived packets
 # - Packet parameters of kind 'PCK' have multiplicity 1
 # - Packet parameters of kind 'VAR' or 'PAR' may have non-unary multiplicity but
-#   can only appear in a derived packet and cannot appear in a group a
+#   can only appear in a derived packet and cannot appear in a group
 # .
 def createCrPsPcktHeader():
     s = ''
@@ -505,7 +517,7 @@ def createCrPsPcktHeader():
             s = s + '#define LIST_OF_DER_PCKT_' + service['name'].upper() + '_' + \
                 packet['name'].upper() + ' {'
             for derPacket in derPckts:
-                s = s + service['name'].upper() + '_' + derPacket['name'].upper() + ', '
+                s = s + getDiscVal(derPacket)[1] + ', '
             s = s[:-2] + '}\n\n'
             
         for packet in servToPckts[getSpecItemName(service)]:
@@ -615,19 +627,29 @@ def createCrPsPcktHeader():
                     groupSize2 = int(par['n2'])
                     groupSizePar2 = par
                     
-            # NB: We assume that there are no groups in derived packets
+            # NB: We assume that there are no groups in derived packets (but parameters
+            #     may have a multiplicity greater than 1)
             for derPckt in pcktToDerPckts[getSpecItemName(packet)]:
                 for par in derPcktToPcktPars[getSpecItemName(derPckt)]:
-                    s = s + writePcktParGetterFunction(par['name'], 
-                                                       packet['name']+'_'+derPckt['name'], 
-                                                       service['name'], 
-                                                       getPcktParType(par),
-                                                       None)
-                    s = s + writePcktParSetterFunction(par['name'], 
-                                                       packet['name']+'_'+derPckt['name'], 
-                                                       service['name'], 
-                                                       getPcktParType(par),
-                                                       None)
+                    dataItemId = par['s_link']
+                    dataItem = specItems[dataItemId]
+                    multiplicity = getMultiplicity(dataItem)[1]
+                    if multiplicity == 1:
+                        s = s + writePcktParGetterFunction(par['name'], 
+                                                           packet['name']+'_'+derPckt['name'], 
+                                                           service['name'], 
+                                                           getPcktParType(par),
+                                                           None)
+                        s = s + writePcktParSetterFunction(par['name'], 
+                                                           packet['name']+'_'+derPckt['name'], 
+                                                           service['name'], 
+                                                           getPcktParType(par),
+                                                           None)
+                    else:
+                        s = s + writePcktArrayParFunctions(par['name'], 
+                                                           packet['name']+'_'+derPckt['name'], 
+                                                           service['name'], 
+                                                           getPcktParType(par))
             
         headerFileName = 'CrPsPckt' + service['name']
         shortDesc = 'Header file for accessor methods for packets in service ' + service['name'] + \
