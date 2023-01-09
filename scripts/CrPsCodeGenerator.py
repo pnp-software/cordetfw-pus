@@ -90,11 +90,11 @@ def createCrPsDataPoolServBodies():
             s = s[:(s2-s1)] # Remove definition of data structure
         else:
             s = s + '};\n\n'
-
-        headerFileName = 'CrPsDp' + service['name'] + '.c'
+        
+        bodyFileName = 'CrPsDp' + service['name'] + '.c'
         shortDesc = 'Interface for accessing data pool items of service ' + service['name'] + \
                     ' (' + service['title'] + ')'
-        createBodyFile(dataPoolDir, headerFileName, s, shortDesc)
+        createBodyFile(dataPoolDir, bodyFileName, s, shortDesc)
 
 
 #===============================================================================
@@ -207,10 +207,10 @@ def createCrPsDataPoolServHeaders():
                     '=' + dataItem['name'] + ';\n'
                 s = s + '}\n\n'
 
-            headerFileName = 'CrPsDp' + service['name'] + '.h'
-            shortDesc = 'Interface for accessing data pool items of service ' + service['name'] + \
-                        ' (' + service['title'] + ')'
-            createHeaderFile(dataPoolDir, headerFileName, s, shortDesc)
+        headerFileName = 'CrPsDp' + service['name'] + '.h'
+        shortDesc = 'Interface for accessing data pool items of service ' + service['name'] + \
+                    ' (' + service['title'] + ')'
+        createHeaderFile(dataPoolDir, headerFileName, s, shortDesc)
 
 
 #===============================================================================
@@ -222,9 +222,9 @@ def createCrPsDataPoolBody():
         os.makedirs(dataPoolDir)
 
     s = s + '#include \"CrPsDp.h\"\n\n'
-    s = s + '#include \"CrPsFct.h\"\n'
     for service in services:
-        s = s + '#include \"CrPsDp' + service['name'] + '.h\"\n'
+        if service['domain'] != 'Hdr':
+            s = s + '#include \"CrPsDp' + service['name'] + '.h\"\n'
     s = s + '\n'
     s = s + writeDoxy(['Structure to hold the location and size information of a data pool entry.'])
     s = s + 'typedef struct _DpMetaInfoEntry_t {\n'
@@ -243,27 +243,41 @@ def createCrPsDataPoolBody():
     s = s + 'static DpMetaInfoEntry_t dpMetaInfoParams[] = {\n'
     for par in dataItemPars:
         structName = 'dp'+par['domain']+'Params'
-        if getMultiplicity(par)[0] != '':
-            mult = getMultiplicity(par)[0]
+        assert getMultiplicity(par)[2] in ('scalar', 'array')
+        if getMultiplicity(par)[2] == 'scalar':
+            s = s + '{(void*)&' + structName + '.' + par['name'] + ', ' + \
+                'sizeof(' + structName + '.' + par['name'] + ')' + ', ' + \
+                '1' + ', ' + \
+                'sizeof(' + structName + '.' + par['name'] + ')},\n'
         else:
-            mult = str(getMultiplicity(par)[1])
-        s = s + '{(void*)&' + structName + '.' + par['name'] + ', ' + \
-            'sizeof(' + structName + '.' + par['name'] + ')' + ', ' + \
-            mult + ', ' + \
-            'sizeof(' + structName + '.' + par['name'] + '[0])},\n'
+            if getMultiplicity(par)[0] != '':
+                mult = getMultiplicity(par)[0]
+            else:
+                mult = str(getMultiplicity(par)[1])
+            s = s + '{(void*)&' + structName + '.' + par['name'] + ', ' + \
+                'sizeof(' + structName + '.' + par['name'] + ')' + ', ' + \
+                mult + ', ' + \
+                'sizeof(' + structName + '.' + par['name'] + '[0])},\n'
     s = s[:-2] + '\n}\n\n'
 
     s = s + 'static DpMetaInfoEntry_t dpMetaInfoVars[] = {\n'
     for var in dataItemVars:
         strucName = 'dp'+var['domain']+'Params'
-        if getMultiplicity(var)[0] != '':
-            mult = getMultiplicity(var)[0]
+        assert getMultiplicity(par)[2] in ('scalar', 'array')
+        if getMultiplicity(var)[2] == 'scalar':
+            s = s + '{(void*)&' + strucName + '.' + var['name'] + ', ' + \
+                'sizeof(' + structName + '.' + var['name'] + ')' + ', ' + \
+                '1' + ', ' + \
+                'sizeof(' + structName + '.' + var['name'] + ')},\n'
         else:
-            mult = str(getMultiplicity(var)[1])
-        s = s + '{(void*)&' + strucName + '.' + var['name'] + ', ' + \
-            'sizeof(' + structName + '.' + var['name'] + ')' + ', ' + \
-            mult + ', ' + \
-            'sizeof(' + structName + '.' + var['name'] + '[0])},\n'
+            if getMultiplicity(var)[0] != '':
+                mult = getMultiplicity(var)[0]
+            else:
+                mult = str(getMultiplicity(var)[1])
+            s = s + '{(void*)&' + strucName + '.' + var['name'] + ', ' + \
+                'sizeof(' + structName + '.' + var['name'] + ')' + ', ' + \
+                mult + ', ' + \
+                'sizeof(' + structName + '.' + var['name'] + '[0])},\n'
     s = s[:-2] + '\n}\n\n'
 
     s = s + 'static DpMetaInfoEntry_t* getMetaInfoParam(CrPsParId_t id) {\n'
@@ -297,7 +311,7 @@ def createCrPsDataPoolBody():
     s = s + '   DpMetaInfoEntry_t* entry;\n'
     s = s + '   entry = getMetaInfo(id);\n'
     s = s + '   if (entry == NULL) {\n'
-    s = s + '       reurn 0;\n'
+    s = s + '       return 0;\n'
     s = s + '   }\n'
     s = s + '   (void)memcpy(dest, entry->addr, entry->length);\n'
     s = s + '   return entry->length;\n'
@@ -307,7 +321,7 @@ def createCrPsDataPoolBody():
     s = s + '   DpMetaInfoEntry_t* entry;\n'
     s = s + '   entry = getMetaInfo(id);\n'
     s = s + '   if (entry == NULL) {\n'
-    s = s + '       reurn 0;\n'
+    s = s + '       return 0;\n'
     s = s + '   }\n'
     s = s + '   (void)memcpy(dest, entry->addr, entry->length);\n'
     s = s + '   *pElementLength = entry->elementLength;\n'
@@ -318,7 +332,7 @@ def createCrPsDataPoolBody():
     s = s + '   DpMetaInfoEntry_t* entry;\n'
     s = s + '   entry = getMetaInfo(id);\n'
     s = s + '   if (entry == NULL) {\n'
-    s = s + '       reurn 0;\n'
+    s = s + '       return 0;\n'
     s = s + '   }\n'
     s = s + '   (void)memcpy(entry->addr, src, entry->length);\n'
     s = s + '   return entry->length;\n'
@@ -328,7 +342,7 @@ def createCrPsDataPoolBody():
     s = s + '   DpMetaInfoEntry_t* entry;\n'
     s = s + '   entry = getMetaInfo(id);\n'
     s = s + '   if (entry == NULL) {\n'
-    s = s + '       reurn 0;\n'
+    s = s + '       return 0;\n'
     s = s + '   }\n'
     s = s + '   (void)memcpy(entry->addr, src, entry->length);\n'
     s = s + '   *dest = entry->addr;\n'
@@ -341,7 +355,7 @@ def createCrPsDataPoolBody():
     s = s + '   DpMetaInfoEntry_t* entry;\n'
     s = s + '   entry = getMetaInfo(id);\n'
     s = s + '   if (entry == NULL) {\n'
-    s = s + '       reurn 0;\n'
+    s = s + '       return 0;\n'
     s = s + '   }\n'
     s = s + '   return entry->length;\n'
     s = s + '}\n\n'
@@ -350,7 +364,7 @@ def createCrPsDataPoolBody():
     s = s + '   DpMetaInfoEntry_t* entry;\n'
     s = s + '   entry = getMetaInfoParam(id);\n'
     s = s + '   if (entry == NULL) {\n'
-    s = s + '       reurn 0;\n'
+    s = s + '       return 0;\n'
     s = s + '   }\n'
     s = s + '   return entry->length;\n'
     s = s + '}\n\n'
@@ -359,7 +373,7 @@ def createCrPsDataPoolBody():
     s = s + '   DpMetaInfoEntry_t* entry;\n'
     s = s + '   entry = getMetaInfoVar(id);\n'
     s = s + '   if (entry == NULL) {\n'
-    s = s + '       reurn 0;\n'
+    s = s + '       return 0;\n'
     s = s + '   }\n'
     s = s + '   return entry->length;\n'
     s = s + '}\n\n'

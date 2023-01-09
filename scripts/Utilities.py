@@ -141,30 +141,39 @@ def getDiscVal(derPacket):
   
     
 #===============================================================================
-# Return the multiplicity of a data item as a tuple (s, i) where 's' is the 
-# symbolic value of the multiplicty and 'i' is its integer value.
+# Return the multiplicity of a data item as a tuple (s, i, kind) where 's' is the 
+# symbolic value of the multiplicity, 'i' is its integer value and 'kind'
+# is either 'scalar' or 'array'.
 # If no symbolic value for the multiplicity is defined, 's' is set to the 
 # empty string.
+# The return value is determined by analyzing the content of the 'multiplicity'
+# field of the data item.
 # The following cases are handled:
-# - No multiplicity is defined (empty string): a value of ('', 1) 1 is returned
-# - The multiplicity field contains a reference to another data item: (s,i) is
-#   returned with 's' being the name of the referenced data item and 'i' its
+# - The multiplicity field is empty: value of ('', 1, 'scalar') is returned
+# - The multiplicity field contains a reference to another data item: (s,i, 'array') 
+#   is returned with 's' being the name of the referenced data item and 'i' its
 #   value as an integer
-# - The multiplicity is assumed to be a string representing an integer: ('',i)
-#   is returned value with 'i' being the integer representation of the string
-def getMultiplicity(dataItem):
+# - The multiplicity field contains the string representation of an integer 
+#   and that integer is '1': ('',1, 'scalar') is returned 
+# - The multiplicity field contains the string representation of an integer 
+#   and that integer is different from '1': ('',i, 'array') is returned 
+#   with 'i' being the integer representation of the string.
+def getMultiplicity(dataItem): 
     assert dataItem['cat'] == 'DataItem'
     try:
         mult = dataItem['t1']
         if mult == '':          # No multiplicity is defined, 1 is assumed
-            return ('', 1)
+            return ('', 1, 'scalar')
             
         match = pattern_edit.search(dataItem['t1'])
         if match != None:
             refName = match.group(2)+':'+match.group(3)
-            return (match.group(3), int(domNameToSpecItem[refName]['value']))
+            return (match.group(3), int(domNameToSpecItem[refName]['value']), 'array')
         
-        return ('', int(mult))
+        if int(mult) == 1:
+            return ('', 1, 'scalar')
+        else:
+            return ('', int(mult), 'array')
     except:
         print('ERROR: multiplicity of '+getSpecItemName(dataItem)+' could not '+\
               ' be established. A value of 1 is returned')
@@ -512,7 +521,6 @@ def createBodyFile(dirName, fileName, content, shortDesc):
         fd.write(' */                                          \n')
         fd.write('\n')
         fd.write(content)
-
 
 #===============================================================================
 # Create a header file with the given name and the given content.
