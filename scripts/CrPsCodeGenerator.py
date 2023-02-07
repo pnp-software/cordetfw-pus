@@ -123,7 +123,7 @@ def createCrPsDataPoolServHeaders():
                 if par['domain'] == service['name']:
                     s + writeDoxy([par['title']])
                     mult = getMultiplicity(par)
-                    if mult[1] == 1:
+                    if mult[2] == 'scalar':
                         s = s + '    ' + getDataItemNativeType(par) + ' ' + par['name'] + ';\n'
                     else:
                         if mult[0] != '':
@@ -147,7 +147,7 @@ def createCrPsDataPoolServHeaders():
                 if var['domain'] == service['name']:
                     s + writeDoxy([var['title']])
                     mult = getMultiplicity(var)
-                    if mult[1] == 1:
+                    if mult[2] == 'scalar':
                         s = s + '    ' + getDataItemNativeType(var) + ' ' + var['name'] + ';\n'
                     else:
                         if mult[0] != '':
@@ -167,7 +167,7 @@ def createCrPsDataPoolServHeaders():
             mult = getMultiplicity(dataItem)
             kind = 'Vars' if dataItem['p_kind']=='VAR' else 'Params'    
             nameFirstCap = dataItem['name'][0:1].upper() + dataItem['name'][1:]
-            if mult[1] == 1:
+            if mult[2] == 'scalar':
                 s = s + writeDoxy(['Get the value of data pool item '+dataItem['name']+' ('+dataItem['desc']+')',
                                    '@return the value of data pool item '+dataItem['name']])
                 s = s + 'static inline ' + getDataItemNativeType(dataItem) + ' getDp' + service['name'] +\
@@ -245,7 +245,7 @@ def createCrPsDataPoolBody():
         structName = 'dp'+par['domain']+'Params'
         assert getMultiplicity(par)[2] in ('scalar', 'array')
         if getMultiplicity(par)[2] == 'scalar':
-            s = s + '{(void*)&' + structName + '.' + par['name'] + ', ' + \
+            s = s + '  {(void*)&' + structName + '.' + par['name'] + ', ' + \
                 'sizeof(' + structName + '.' + par['name'] + ')' + ', ' + \
                 '1' + ', ' + \
                 'sizeof(' + structName + '.' + par['name'] + ')},\n'
@@ -254,18 +254,18 @@ def createCrPsDataPoolBody():
                 mult = getMultiplicity(par)[0]
             else:
                 mult = str(getMultiplicity(par)[1])
-            s = s + '{(void*)&' + structName + '.' + par['name'] + ', ' + \
+            s = s + '  {(void*)&' + structName + '.' + par['name'] + ', ' + \
                 'sizeof(' + structName + '.' + par['name'] + ')' + ', ' + \
                 mult + ', ' + \
                 'sizeof(' + structName + '.' + par['name'] + '[0])},\n'
-    s = s[:-2] + '\n}\n\n'
+    s = s[:-2] + '\n};\n\n'
 
     s = s + 'static DpMetaInfoEntry_t dpMetaInfoVars[] = {\n'
     for var in dataItemVars:
-        strucName = 'dp'+var['domain']+'Params'
-        assert getMultiplicity(par)[2] in ('scalar', 'array')
+        structName = 'dp'+var['domain']+'Vars'
+        assert getMultiplicity(var)[2] in ('scalar', 'array')
         if getMultiplicity(var)[2] == 'scalar':
-            s = s + '{(void*)&' + strucName + '.' + var['name'] + ', ' + \
+            s = s + '  {(void*)&' + structName + '.' + var['name'] + ', ' + \
                 'sizeof(' + structName + '.' + var['name'] + ')' + ', ' + \
                 '1' + ', ' + \
                 'sizeof(' + structName + '.' + var['name'] + ')},\n'
@@ -274,11 +274,11 @@ def createCrPsDataPoolBody():
                 mult = getMultiplicity(var)[0]
             else:
                 mult = str(getMultiplicity(var)[1])
-            s = s + '{(void*)&' + strucName + '.' + var['name'] + ', ' + \
+            s = s + '  {(void*)&' + structName + '.' + var['name'] + ', ' + \
                 'sizeof(' + structName + '.' + var['name'] + ')' + ', ' + \
                 mult + ', ' + \
                 'sizeof(' + structName + '.' + var['name'] + '[0])},\n'
-    s = s[:-2] + '\n}\n\n'
+    s = s[:-2] + '\n};\n\n'
 
     s = s + 'static DpMetaInfoEntry_t* getMetaInfoParam(CrPsParId_t id) {\n'
     s = s + '   DpMetaInfoEntry_t* p;\n'
@@ -379,7 +379,7 @@ def createCrPsDataPoolBody():
     s = s + '}\n\n'
 
     shortDesc = 'Implementation of interface for accessing data pool items.'
-    createHeaderFile(dataPoolDir, 'CrPsDp.c', s, shortDesc)
+    createBodyFile(dataPoolDir, 'CrPsDp.c', s, shortDesc)
 
 
 #===============================================================================
