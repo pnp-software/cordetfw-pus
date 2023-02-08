@@ -22,7 +22,7 @@ enumTypesToEnumValues = {}
 enumValToDerPckts = {}
 
 # Dictionary linking a packet to its parameters.
-# The key is the name of a spec_item of Packet type value type and the value
+# The key is the name of a spec_item of Packet type and the value
 # is a list of specItems holding the parameters in that packet.
 pcktToPcktPars = {}
 
