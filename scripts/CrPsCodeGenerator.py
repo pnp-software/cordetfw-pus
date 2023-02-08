@@ -488,6 +488,11 @@ def createCrPsDataPoolHeader():
 # - Packet parameters of kind 'VAR' or 'PAR' may have non-unary multiplicity but
 #   can only appear in a derived packet and cannot appear in a group
 # .
+# In the special case of HK packets, the following constants are generated for
+# pre-defined HK packet:
+# - Constant holding the number of items in the pre-defined HK packet
+# - List of data pool identifiers of items in the pre-defined HK Packet
+# .
 def createCrPsPcktHeader():
     s = ''
     if not os.path.isdir(pcktDir):
@@ -534,6 +539,19 @@ def createCrPsPcktHeader():
                 s = s + getDiscVal(derPacket)[1] + ', '
             s = s[:-2] + '}\n\n'
             
+        if service['name'] == 'Hk':
+            s = s +  writeDoxy(['Constants defining the SIDs of pre-defined HK packets and',
+                                'the list of data item identifiers in each pre-defined packet'])
+            for packet in servToPckts[getSpecItemName(service)]:
+                for derPacket in pcktToDerPckts[getSpecItemName(packet)]:
+                    pars = derPcktToPcktPars[getSpecItemName(derPacket)]
+                    disc = getDiscVal(derPacket)[1]
+                    s = s + writeDoxy(['Number of items in pre-defined HK Packet '+derPacket['name']])
+                    s = s + '#define HK_NOFITEMS_' + disc + ' ' + str(len(pars)) + '\n'
+                    s = s + writeDoxy(['List of data item identifiers in pre-defined HK Packet '+derPacket['name']])
+                    s = s + '#define HK_DEF_' + disc + ' {' + 'TBD' + '}\n'
+            s = s + '\n'
+                    
         for packet in servToPckts[getSpecItemName(service)]:
             s = s +  writeDoxy(['Structure for packet '+getSpecItemName(packet)])
             s = s + 'typedef struct __attribute__((packed)) _'+packet['name']+'_t {\n'
