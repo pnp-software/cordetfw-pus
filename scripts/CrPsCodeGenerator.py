@@ -72,7 +72,7 @@ def createCrPsDataPoolServBodies():
                 else:
                     s = s + '    {0}, /* ' + par['name'] + ' */ \\\n'
         if len(s) == s2:    # There are no parameters in this service 
-            s = s[:(s2-s1)] # Remove definition of data structure
+            s = s[:s1] # Remove definition of data structure
         else:
             s = s + '};\n\n'
 
@@ -87,7 +87,7 @@ def createCrPsDataPoolServBodies():
                 else:
                     s = s + '    {0}, /* ' + var['name'] + ' */ \\\n'
         if len(s) == s2:    # There are no variables in this service 
-            s = s[:(s2-s1)] # Remove definition of data structure
+            s = s[:s1] # Remove definition of data structure
         else:
             s = s + '};\n\n'
         
