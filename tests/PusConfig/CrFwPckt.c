@@ -315,14 +315,14 @@ CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt) {
           break;
 		case EVT_TYPE:
 		    switch (servSubType) {
-		      case EVTREP1_STYPE:
-		         return getEvtRep1EventId(pckt);
-              case EVTREP2_STYPE:
-                 return getEvtRep2EventId(pckt);
-              case EVTREP3_STYPE:
-                 return getEvtRep3EventId(pckt);
-              case EVTREP4_STYPE:
-                 return getEvtRep4EventId(pckt);
+		      case EVTINFOREP_STYPE:
+		         return getEvtInfoRepEventId(pckt);
+              case EVTLOWSEVREP_STYPE:
+                 return getEvtLowSevEventId(pckt);
+              case EVTMEDSEVREP_STYPE:
+                 return getEvtMedSevRepEventId(pckt);
+              case EVTHIGHSEVREP_STYPE:
+                 return getEvtHighSevEventId(pckt);
               default:
                  break;
 		    }

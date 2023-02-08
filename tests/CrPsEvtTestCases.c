@@ -368,8 +368,8 @@ CrFwBool_t CrPsEvtTestCase6() {
       return 0;
 
   /* Check initial enable status of two dummy events */
-  evt1Index = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, EVTREP1_STYPE);
-  evt4Index = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, EVTREP4_STYPE);
+  evt1Index = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, EVTINFOREP_STYPE);
+  evt4Index = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, EVTHIGHSEVREP_STYPE);
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_1) != 1)
     return 0;
   if (CrFwOutRegistryIsDiscriminantEnabled(evt4Index, EVT_DUMMY_4) != 1)
@@ -534,7 +534,7 @@ CrFwBool_t CrPsEvtTestCase7() {
     return 0;
 
   /* Check initial enable status of two dummy events */
-  evt1Index = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, EVTREP1_STYPE);
+  evt1Index = CrFwOutRegistryGetCmdRepIndex(EVT_TYPE, EVTINFOREP_STYPE);
   if (CrFwOutRegistryIsDiscriminantEnabled(evt1Index, EVT_DUMMY_2) != 1)
     return 0;
 

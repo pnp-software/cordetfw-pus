@@ -25,22 +25,22 @@
 #include <assert.h>
 
 /** Array holding list of level 1 event identifiers in increasing order */
-static CrPsEvtId_t listOfEid_1[N_OF_DER_PCKT_EVT_REP1] = LIST_OF_DER_PCKT_EVT_REP1;
+static CrPsEvtId_t listOfEid_1[N_OF_DER_PCKT_EVT_INFOREP] = LIST_OF_DER_PCKT_EVT_INFOREP;
 /** Array holding list of level 2 event identifiers in increasing order */
-static CrPsEvtId_t listOfEid_2[N_OF_DER_PCKT_EVT_REP2] = LIST_OF_DER_PCKT_EVT_REP2;
+static CrPsEvtId_t listOfEid_2[N_OF_DER_PCKT_EVT_LOWSEVREP] = LIST_OF_DER_PCKT_EVT_LOWSEVREP;
 /** Array holding list of level 3 event identifiers in increasing order */
-static CrPsEvtId_t listOfEid_3[N_OF_DER_PCKT_EVT_REP3] = LIST_OF_DER_PCKT_EVT_REP3;
+static CrPsEvtId_t listOfEid_3[N_OF_DER_PCKT_EVT_MEDSEVREP] = LIST_OF_DER_PCKT_EVT_MEDSEVREP;
 /** Array holding list of level 4 event identifiers in increasing order */
-static CrPsEvtId_t listOfEid_4[N_OF_DER_PCKT_EVT_REP4] = LIST_OF_DER_PCKT_EVT_REP4;
+static CrPsEvtId_t listOfEid_4[N_OF_DER_PCKT_EVT_HIGHSEVREP] = LIST_OF_DER_PCKT_EVT_HIGHSEVREP;
 
 /** The i-th element of this array holds the enable status of the i-th level 1 event identifier */
-static CrFwBool_t isEidDisabled_1[N_OF_DER_PCKT_EVT_REP1];
+static CrFwBool_t isEidDisabled_1[N_OF_DER_PCKT_EVT_INFOREP];
 /** The i-th element of this array holds the enable status of the i-th level 2 event identifier */
-static CrFwBool_t isEidDisabled_2[N_OF_DER_PCKT_EVT_REP2];
+static CrFwBool_t isEidDisabled_2[N_OF_DER_PCKT_EVT_LOWSEVREP];
 /** The i-th element of this array holds the enable status of the i-th level 3 event identifier */
-static CrFwBool_t isEidDisabled_3[N_OF_DER_PCKT_EVT_REP3];
+static CrFwBool_t isEidDisabled_3[N_OF_DER_PCKT_EVT_MEDSEVREP];
 /** The i-th element of this array holds the enable status of the i-th level 4 event identifier */
-static CrFwBool_t isEidDisabled_4[N_OF_DER_PCKT_EVT_REP4];
+static CrFwBool_t isEidDisabled_4[N_OF_DER_PCKT_EVT_HIGHSEVREP];
 
 /** Event Position Buffer */
 static unsigned int sevLevel;
@@ -60,19 +60,19 @@ int CrPsEvtConfigGetEidPos(CrPsEvtId_t evtId, unsigned int severityLevel) {
   lower = 0;
   switch (severityLevel) {
     case 1:
-      upper = N_OF_DER_PCKT_EVT_REP1-1;
+      upper = N_OF_DER_PCKT_EVT_INFOREP-1;
       listOfEid = listOfEid_1;
       break;
     case 2:
-      upper = N_OF_DER_PCKT_EVT_REP2-1;
+      upper = N_OF_DER_PCKT_EVT_LOWSEVREP-1;
       listOfEid = listOfEid_2;
       break;
     case 3:
-      upper = N_OF_DER_PCKT_EVT_REP3-1;
+      upper = N_OF_DER_PCKT_EVT_MEDSEVREP-1;
       listOfEid = listOfEid_3;
       break;
     case 4:
-      upper = N_OF_DER_PCKT_EVT_REP4-1;
+      upper = N_OF_DER_PCKT_EVT_HIGHSEVREP-1;
       listOfEid = listOfEid_4;
       break;
     default:            /* Illegal severity level */
@@ -240,25 +240,25 @@ void CrPsEvtConfigIter(CrPsEvtId_t* eid) {
        /* Handle case where we are at the end of a List of Event Identifiers */
        switch (sevLevel) {
            case 1:
-               if (pos >= N_OF_DER_PCKT_EVT_REP1) {
+               if (pos >= N_OF_DER_PCKT_EVT_INFOREP) {
                    sevLevel = sevLevel + 1;
                    pos = 0;
                }
                break;
            case 2:
-               if (pos >= N_OF_DER_PCKT_EVT_REP2) {
+               if (pos >= N_OF_DER_PCKT_EVT_LOWSEVREP) {
                    sevLevel = sevLevel + 1;
                    pos = 0;
                }
                break;
            case 3:
-               if (pos >= N_OF_DER_PCKT_EVT_REP3) {
+               if (pos >= N_OF_DER_PCKT_EVT_MEDSEVREP) {
                    sevLevel = sevLevel + 1;
                    pos = 0;
                }
                break;
            case 4:
-               if (pos >= N_OF_DER_PCKT_EVT_REP4) {
+               if (pos >= N_OF_DER_PCKT_EVT_HIGHSEVREP) {
                    sevLevel = 0;
                    pos = 0;
                    *eid = 0;

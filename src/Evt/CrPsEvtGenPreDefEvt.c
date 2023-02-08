@@ -41,10 +41,10 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
   /* - retrieves an OutComponent to encapsulate the event report from the OutFactory */
   switch (sevLevel) {
     case 2:
-      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP2_STYPE,0,LEN_EVT_REP1);
+      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTLOWSEVREP_STYPE,0,LEN_EVT_LOWSEVREP);
       break;
     case 4:
-      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP4_STYPE,0,LEN_EVT_REP1);
+      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTHIGHSEVREP_STYPE,0,LEN_EVT_HIGHSEVREP);
       break;
     default:
       CrFwSetAppErrCode(crPsEvtIllEvtId);
@@ -81,10 +81,10 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
   /* Retrieves an OutComponent to encapsulate the event report from the OutFactory */
   switch (sevLevel) {
     case 1:
-      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP1_STYPE,0,LEN_EVT_REP1);
+      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTINFOREP_STYPE,0,LEN_EVT_INFOREP);
       break;
     case 3:
-      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTREP3_STYPE,0,LEN_EVT_REP1);
+      evtRep = CrFwOutFactoryMakeOutCmp(EVT_TYPE,EVTINFOREP_STYPE,0,LEN_EVT_MEDSEVREP);
       break;
     default:
       CrFwSetAppErrCode(crPsEvtIllEvtId);
