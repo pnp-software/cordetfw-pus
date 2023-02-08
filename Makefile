@@ -26,8 +26,8 @@ SRCS_FW = $(shell find ./lib/cordetfw/lib/fwprofile/src -name *.c)
 SRCS_CR = $(shell find ./lib/cordetfw/src -name *.c)       
 # Test Suite source files
 SRCS_TE = $(shell find ./tests -name *.c)
-# C source files of PUS Extension
-SRCS_TSC = $(shell find ./src -name *.c)                    
+# C source files of PUS Extension excluding those in dir Mon which is still under development
+SRCS_TSC = $(shell find ./src -name *.c -not -path './src/Mon/*')                    
 
 # gcov files
 GCOV = $(patsubst %,$(ODIR)/%,$(SRCS_TSC:.c=.gcov))
