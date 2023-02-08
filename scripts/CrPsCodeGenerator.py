@@ -39,7 +39,7 @@ from Config import specItems, enumTypesToEnumValues, enumValToDerPckts, \
                    services, packets, cmdRepSrcDir, pcktDir, servToPckts, \
                    CR_FW_OUTFACTORY_MAX_NOF_OUTCMP, CR_FW_INFACTORY_MAX_NOF_INCMD, \
                    CR_FW_OUTREGISTRY_N, CR_FW_INFACTORY_MAX_NOF_INREP, \
-                   isEndianitySwapNeeded, pcktDir, \
+                   isEndianitySwapNeeded, pcktDir, hkParToDataPoolId, \
                    dataItemPars, dataItemVars, constToSpecItem, dataItems
 from Format import convertEditToLatex
 from Utilities import createHeaderFile, getSpecItemName, getTypeAndSubType, \
@@ -384,6 +384,7 @@ def createCrPsDataPoolBody():
 
 #===============================================================================
 # Create the header of the generic data pool component.
+# This function also populates the dictionary hkParToDataPoolId
 def createCrPsDataPoolHeader():
     s = ''
     dataPoolDir = cmdRepSrcDir + '/DataPool'
@@ -401,22 +402,26 @@ def createCrPsDataPoolHeader():
     i = 1
     for dataItemPar in dataItemPars:
         s = s + '    DpId' + dataItemPar['name'] + ' = ' + str(i) + ',\n'
+        hkParToDataPoolId[dataItemPar['name']] = i
         i = i + 1
         mult = getMultiplicity(dataItemPar)[1]
         if mult > 1:
             for index in range(1,mult+1):
                 s = s + '    DpId' + dataItemPar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
+                hkParToDataPoolId[dataItemPar['name']+'_'+str(index)] = i
                 i = i +1
     s = s + '    DpIdParamsHighest = ' + str(i-1) + ',\n'
     s = s + '    /* Variables */\n'
     s = s + '    DpIdVarsLowest = ' + str(i)+ ',\n'
     for dataItemVar in dataItemVars:
         s = s + '    DpId' + dataItemVar['name'] + ' = ' + str(i) + ',\n'
+        hkParToDataPoolId[dataItemVar['name']] = i
         i = i + 1
         mult = getMultiplicity(dataItemVar)[1]
         if mult > 1:
             for index in range(1,mult+1):
                 s = s + '    DpId' + dataItemVar['name'] + '_' + str(index) + ' = ' + str(i) + ',\n'
+                hkParToDataPoolId[dataItemVar['name']+'_'+str(index)] = i
                 i = i +1
     s = s + '    DpIdVarsHighest = ' + str(i-1) + ',\n'
     s = s[:-2] + '\n};\n\n'
@@ -549,7 +554,10 @@ def createCrPsPcktHeader():
                     s = s + writeDoxy(['Number of items in pre-defined HK Packet '+derPacket['name']])
                     s = s + '#define HK_NOFITEMS_' + disc + ' ' + str(len(pars)) + '\n'
                     s = s + writeDoxy(['List of data item identifiers in pre-defined HK Packet '+derPacket['name']])
-                    s = s + '#define HK_DEF_' + disc + ' {' + 'TBD' + '}\n'
+                    s = s + '#define HK_DEF_' + disc + ' {' 
+                    for par in pars:
+                        s = s + str(hkParToDataPoolId[par['name']]) + ','
+                    s = s[:-1] + '}\n'
             s = s + '\n'
                     
         for packet in servToPckts[getSpecItemName(service)]:
@@ -1307,11 +1315,11 @@ def procCordetFw(cordetFwPrFile):
     createCrPsOutRegistryHeader()
     createCrPsOutCmpHeaders()
     createCrPsInCmdHeaders()
-    createCrPsPcktHeader()
     createCrPsDataPoolHeader()
     createCrPsDataPoolBody()
     createCrPsDataPoolServHeaders()
     createCrPsDataPoolServBodies()
+    createCrPsPcktHeader()
     
 #===============================================================================
 ## Dummy main to be used to test the functions defined in this module.

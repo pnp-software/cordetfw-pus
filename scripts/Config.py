@@ -26,6 +26,11 @@ enumValToDerPckts = {}
 # is a list of specItems holding the parameters in that packet.
 pcktToPcktPars = {}
 
+# Dictionary linking a HK parameter to its data pool identifier.
+# The key is the name of the HK parameter and the value is its 
+# data pool identifier as an integer.
+hkParToDataPoolId = {}
+
 # Dictionary linking a derived packet to its parameters.
 # The key is the name of a spec_item of DerPacket type value type and the value
 # is a list of specItems holding the parameters in that packet.
