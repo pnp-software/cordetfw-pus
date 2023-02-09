@@ -24,8 +24,9 @@ HEADERS = $(shell find . -name *.h)
 SRCS_FW = $(shell find ./lib/cordetfw/lib/fwprofile/src -name *.c)       
 # Source files in CORDET FW library
 SRCS_CR = $(shell find ./lib/cordetfw/src -name *.c)       
-# Test Suite source files
-SRCS_TE = $(shell find ./tests -name *.c)
+# Test Suite source files (excluding Mon Service test cases which are still under development)
+# SRCS_TE = $(shell find ./tests -name *.c)
+SRCS_TE = $(shell find ./tests f \( -iname '*.c' ! -iname 'CrPsMonTestCases*.c' \)  )
 # C source files of PUS Extension excluding those in dir Mon which is still under development
 SRCS_TSC = $(shell find ./src -name *.c -not -path './src/Mon/*')                    
 
