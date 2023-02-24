@@ -525,7 +525,7 @@ def createCrPsPcktHeader():
             for derPacket in pcktToDerPckts[getSpecItemName(packet)]:
                 s = s + writeDoxy(['Length constant for derived packet '+derPacket['name']])
                 disc = getDiscVal(derPacket)[1]
-                s = s + '#define LEN_' + service['name'].upper() + '_'+derPacket['name'].upper() + \
+                s = s + '#define LEN_' + service['name'].upper() + '_'+packet['name'].upper() + \
                     '_' + disc.upper() + ' ' + str(getPcktLen(derPacket)) + '\n\n'
          
         for packet in servToPckts[getSpecItemName(service)]:
