@@ -734,7 +734,7 @@ def createCrPsOutCmpHeaders():
                                ',' + typeAndSubType[1] + ') ' + outComponent['name'] + \
                                ' (' + outComponent['title'] + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
-            s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
+            s = s + writeDoxy([commentFirstLine] + actionOrCheckSpec.split('\n'))
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
                 actionOrCheck[3] + ' ' + actionOrCheck[4] + ');\n\n'
         
@@ -784,7 +784,7 @@ def createCrPsInCmdHeaders():
                                ',' + typeAndSubType[1] + ') ' + inCommand['name'] + \
                                ' (' + inCommand['title'] + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
-            s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
+            s = s + writeDoxy([commentFirstLine] + actionOrCheckSpec.split('\n'))
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
                 actionOrCheck[3] + ' ' + actionOrCheck[4] + ');\n\n'
                 
