@@ -41,7 +41,7 @@ void CrPsOutCmpEvtInfoSevRepUpdateAction(FwSmDesc_t smDesc) {
   setDpEvtNOfGenEvtRepItem(sevLevelIndex, nOfGenEvt++);
 
   /* Update observable recording EID of last generated event */
-  CrPsEvtId_t lastEvtEid = getEvtRep1EventId(pckt);
+  CrPsEvtId_t lastEvtEid = getEvtInfoRepEventId(pckt);
   setDpEvtLastEvtEidItem(sevLevelIndex,lastEvtEid);
 
   /* Update observable recording time-stamp of last generated event */
