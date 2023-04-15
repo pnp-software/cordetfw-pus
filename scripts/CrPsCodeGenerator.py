@@ -730,9 +730,11 @@ def createCrPsOutCmpHeaders():
             if isDefault(actionOrCheckSpec) or \
                (getSameAs(actionOrCheckSpec, outComponent, actionOrCheck[0]) != ''):
                 continue
+            outComponentPckt = specItems[outComponent['p_link']]
+            title = outComponentPckt['title']
             commentFirstLine = actionOrCheck[0] + ' of TM(' + typeAndSubType[0] + \
                                ',' + typeAndSubType[1] + ') ' + outComponent['name'] + \
-                               ' (' + outComponent['title'] + ').'
+                               ' (' + title + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
             s = s + writeDoxy([commentFirstLine] + actionOrCheckSpec.split('\n'))
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
@@ -780,9 +782,11 @@ def createCrPsInCmdHeaders():
             if isDefault(actionOrCheckSpec) or \
                (getSameAs(actionOrCheckSpec, inCommand, actionOrCheck[0]) != ''):
                 continue
+            inCmdPckt = specItems[inCommand['p_link']]
+            title = inCmdPckt['title']
             commentFirstLine = actionOrCheck[0] + ' of TC(' + typeAndSubType[0] + \
                                ',' + typeAndSubType[1] + ') ' + inCommand['name'] + \
-                               ' (' + inCommand['title'] + ').'
+                               ' (' + title + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
             s = s + writeDoxy([commentFirstLine] + actionOrCheckSpec.split('\n'))
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
