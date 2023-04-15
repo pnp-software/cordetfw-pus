@@ -69,6 +69,17 @@ def emphasis_to_latex(match):
         return '\\texttt{'+match.group(11)+'}'
 
 # ----------------------------------------------------------------------
+def emphasis_to_html(match):
+    if match.group(1) != None:
+        return '<b>'+match.group(2)+'</b>'
+    elif match.group(4) != None:
+        return '<u>'+match.group(5)+'</u>'
+    elif match.group(7) != None:
+        return '<i>'+match.group(8)+'</i>'
+    elif match.group(10) != None:
+        return '<code>'+match.group(11)+'</code>'
+
+# ----------------------------------------------------------------------
 def bulleted_list_to_latex(match):
     s1 = match.group(1).replace('\n','')
     s2 = s1.replace('\r','')
@@ -84,8 +95,12 @@ def markdown_to_latex(s):
     s_emph = pattern_emphasis.sub(emphasis_to_latex, s)
     s_bullets = pattern_bullets.sub(bulleted_list_to_latex, s_emph)
     return s_bullets
-    
 
+# ----------------------------------------------------------------------
+def markdown_to_doxygen(s):
+    s_emph = pattern_emphasis.sub(emphasis_to_html, s)
+    return s_emph
+    
 # ----------------------------------------------------------------------
 #  The argument string is a text field read from a database export which 
 #  contains markdown text and internal references.
