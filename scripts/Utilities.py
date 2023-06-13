@@ -20,7 +20,7 @@ import datetime;
 from Config import tmPcktHeaderLen, tcPcktHeaderLen, pcktCrcLen, pcktToPcktPars, \
                    derPcktToPcktPars, specItems, domNameToSpecItem, \
                    MAX_LINE_LENGTH, isEndianitySwapNeeded,constToSpecItem
-from Format import pattern_edit
+from Format import pattern_edit, markdown_to_doxygen
 
 
 #===============================================================================
@@ -31,6 +31,7 @@ def writeDoxy(lines):
     f = ''
     newLines = []
     for line in lines:
+        line = markdown_to_doxygen(line)
         if line == '':
             continue
         if len(line)<=MAX_LINE_LENGTH:

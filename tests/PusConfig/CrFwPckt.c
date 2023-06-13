@@ -318,11 +318,11 @@ CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt) {
 		      case EVTINFOREP_STYPE:
 		         return getEvtInfoRepEventId(pckt);
               case EVTLOWSEVREP_STYPE:
-                 return getEvtLowSevEventId(pckt);
+                 return getEvtLowSevRepEventId(pckt);
               case EVTMEDSEVREP_STYPE:
                  return getEvtMedSevRepEventId(pckt);
               case EVTHIGHSEVREP_STYPE:
-                 return getEvtHighSevEventId(pckt);
+                 return getEvtHighSevRepEventId(pckt);
               default:
                  break;
 		    }

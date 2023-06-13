@@ -21,7 +21,7 @@
 #include "Pckt/CrPsPcktEvt.h"
 #include "CrPsConstants.h"
 
-CrFwBool_t CrPsOutCmpEvtInfoRepEnableCheck(FwSmDesc_t smDesc) {
+CrFwBool_t CrPsOutCmpEvtInfoSevRepEnableCheck(FwSmDesc_t smDesc) {
   CrFwServSubType_t sevLevelIndex = CrFwOutCmpGetServSubType(smDesc)-1;
   CrPsNEvtRep_t nOfEvt = getDpEvtNOfDetectedEvtsItem(sevLevelIndex);
   nOfEvt++;
@@ -31,7 +31,7 @@ CrFwBool_t CrPsOutCmpEvtInfoRepEnableCheck(FwSmDesc_t smDesc) {
   return enableStatus;
 }
 
-void CrPsOutCmpEvtInfoRepUpdateAction(FwSmDesc_t smDesc) {
+void CrPsOutCmpEvtInfoSevRepUpdateAction(FwSmDesc_t smDesc) {
   CrPsEightBit_t Time[6];
   CrFwServSubType_t sevLevelIndex = CrFwOutCmpGetServSubType(smDesc)-1;
   CrFwPckt_t pckt = CrFwOutCmpGetPckt(smDesc);

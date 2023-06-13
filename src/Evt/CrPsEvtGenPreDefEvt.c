@@ -60,9 +60,9 @@ void CrPsEvtGenPreDefEvtNoPar(CrPsEvtId_t evtId) {
   /* Set the event identifier */
   evtPckt = CrFwOutCmpGetPckt(evtRep);
   if (sevLevel == 2) {
-    setEvtRep2EventId(evtPckt, evtId);
+    setEvtLowSevRepEventId(evtPckt, evtId);
   } else {
-    setEvtRep4EventId(evtPckt, evtId);;
+    setEvtHighSevRepEventId(evtPckt, evtId);;
   }
 
   /* Load event report in th2 OutLoader */
@@ -100,11 +100,11 @@ void CrPsEvtGenPreDefEvtDummyPar(CrPsEvtId_t evtId, CrPsEightBit_t dummyPar) {
   /* Configure and load event report in the OutLoader */
   evtPckt = CrFwOutCmpGetPckt(evtRep);
   if (sevLevel == 1) {
-    setEvtRep1EventId(evtPckt, evtId);
-    setEvtRep1_EVT_DUMMY_1Par(evtPckt, dummyPar);
+    setEvtInfoRepEventId(evtPckt, evtId);
+    setEvtInfoRep_EVT_DUMMY_1Par(evtPckt, dummyPar);
   } else {
-    setEvtRep3EventId(evtPckt, evtId);
-    setEvtRep3_EVT_DUMMY_3Par(evtPckt, dummyPar);
+    setEvtMedSevRepEventId(evtPckt, evtId);
+    setEvtMedSevRep_EVT_DUMMY_3Par(evtPckt, dummyPar);
   }
 
   CrFwOutLoaderLoad(evtRep);

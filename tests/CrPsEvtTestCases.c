@@ -153,13 +153,13 @@ CrFwBool_t CrPsEvtTestCase2() {
   /* Check the parameter of the event */
   rep = CrPsTestUtilitiesGetItemFromOutManager(outManager,0);
   pckt = CrFwOutCmpGetPckt(rep);
-  if (getEvtRep1_EVT_DUMMY_1Par(pckt) != 11)
+  if (getEvtInfoRep_EVT_DUMMY_1Par(pckt) != 11)
       return 0;
 
   /* Verify the discriminant of the event report */
   if (CrFwOutCmpGetDiscriminant(rep) != EVT_DUMMY_1)
       return 0;
-  if (getEvtRep1EventId(pckt) != EVT_DUMMY_1)
+  if (getEvtInfoRepEventId(pckt) != EVT_DUMMY_1)
       return 0;
 
   /* Execute the OutManager so that the event will be executed, too */
@@ -214,7 +214,7 @@ CrFwBool_t CrPsEvtTestCase3() {
   /* Verify the discriminant of the event report */
   if (CrFwOutCmpGetDiscriminant(rep) != EVT_DUMMY_2)
       return 0;
-  if (getEvtRep1EventId(pckt) != EVT_DUMMY_2)
+  if (getEvtInfoRepEventId(pckt) != EVT_DUMMY_2)
       return 0;
 
   /* Execute the OutManager so that the event will be executed, too */
@@ -267,13 +267,13 @@ CrFwBool_t CrPsEvtTestCase4() {
   /* Check the parameter of the event */
   rep = CrPsTestUtilitiesGetItemFromOutManager(outManager,0);
   pckt = CrFwOutCmpGetPckt(rep);
-  if (getEvtRep1_EVT_DUMMY_1Par(pckt) != 127)
+  if (getEvtInfoRep_EVT_DUMMY_1Par(pckt) != 127)
       return 0;
 
   /* Verify the discriminant of the event report */
   if (CrFwOutCmpGetDiscriminant(rep) != EVT_DUMMY_3)
       return 0;
-  if (getEvtRep1EventId(pckt) != EVT_DUMMY_3)
+  if (getEvtInfoRepEventId(pckt) != EVT_DUMMY_3)
       return 0;
 
   /* Execute the OutManager so that the event will be executed, too */
@@ -328,7 +328,7 @@ CrFwBool_t CrPsEvtTestCase5() {
   /* Verify the discriminant of the event report */
   if (CrFwOutCmpGetDiscriminant(rep) != EVT_DUMMY_4)
       return 0;
-  if (getEvtRep1EventId(pckt) != EVT_DUMMY_4)
+  if (getEvtInfoRepEventId(pckt) != EVT_DUMMY_4)
       return 0;
 
   /* Execute the OutManager so that the event will be executed, too */

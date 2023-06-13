@@ -525,7 +525,7 @@ def createCrPsPcktHeader():
             for derPacket in pcktToDerPckts[getSpecItemName(packet)]:
                 s = s + writeDoxy(['Length constant for derived packet '+derPacket['name']])
                 disc = getDiscVal(derPacket)[1]
-                s = s + '#define LEN_' + service['name'].upper() + '_'+derPacket['name'].upper() + \
+                s = s + '#define LEN_' + service['name'].upper() + '_'+packet['name'].upper() + \
                     '_' + disc.upper() + ' ' + str(getPcktLen(derPacket)) + '\n\n'
          
         for packet in servToPckts[getSpecItemName(service)]:
@@ -730,11 +730,13 @@ def createCrPsOutCmpHeaders():
             if isDefault(actionOrCheckSpec) or \
                (getSameAs(actionOrCheckSpec, outComponent, actionOrCheck[0]) != ''):
                 continue
+            outComponentPckt = specItems[outComponent['p_link']]
+            title = outComponentPckt['title']
             commentFirstLine = actionOrCheck[0] + ' of TM(' + typeAndSubType[0] + \
                                ',' + typeAndSubType[1] + ') ' + outComponent['name'] + \
-                               ' (' + outComponent['title'] + ').'
+                               ' (' + title + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
-            s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
+            s = s + writeDoxy([commentFirstLine] + actionOrCheckSpec.split('\n'))
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
                 actionOrCheck[3] + ' ' + actionOrCheck[4] + ');\n\n'
         
@@ -780,11 +782,13 @@ def createCrPsInCmdHeaders():
             if isDefault(actionOrCheckSpec) or \
                (getSameAs(actionOrCheckSpec, inCommand, actionOrCheck[0]) != ''):
                 continue
+            inCmdPckt = specItems[inCommand['p_link']]
+            title = inCmdPckt['title']
             commentFirstLine = actionOrCheck[0] + ' of TC(' + typeAndSubType[0] + \
                                ',' + typeAndSubType[1] + ') ' + inCommand['name'] + \
-                               ' (' + inCommand['title'] + ').'
+                               ' (' + title + ').'
             functionName = headerFileName + actionOrCheck[0].replace(' ','')
-            s = s + writeDoxy([commentFirstLine, actionOrCheckSpec])
+            s = s + writeDoxy([commentFirstLine] + actionOrCheckSpec.split('\n'))
             s = s + actionOrCheck[2] + ' ' + functionName + '(' + \
                 actionOrCheck[3] + ' ' + actionOrCheck[4] + ');\n\n'
                 
